@@ -1,0 +1,230 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{cmll}
+\title{SuperPower Lorenzen Games}
+\author{Valeria de Paiva and Harley Eades III}
+\date{May 2014}
+
+%\usepackage{natbib}
+%\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This note discusses game semantics, in the style of Lorenzen, for Full Intuitionistic Linear Logic, following Blass and Rahman.
+
+%% Text of abstract
+
+\end{abstract}
+
+%\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+%\end{keyword}
+
+\end{frontmatter}
+
+%%
+%% Start line numbering here if you want
+%%
+% \linenumbers
+
+%% main text
+
+%\section*{Introduction}
+\label{}
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+ \section*{Blass  on Linear Logic Games}
+ Blass is responsible, to a large extent, for the introduction of game-theoretic ideas related to Linear Logic\cite{blass92}. The project was enthusiastically embraced by Hyland, Abramsky and many others and there are now several conferences dedicated to the theme, especially to the application of game-theoretical ideas to programming language semantics.
+ 
+ The essence of the idea of a game theoretic semantics of a logic is that a game (or an argument, dialogue or protocol) consists of two players, one (the Proponent or Player) seeking to establish the truth of a formula under consideration (trying to prove it) while the other (the Opponent) disputing it, trying to prove it false. The two players alternate, attacking and defending their positions. As Blass puts it, the heart of the semantics consists of rules of the debate between the players. 
+ 
+ The idea of using these dialogues goes back  to, at least,  Lorenzen in the late 50s.
+ Lorenzen wanted to show that his dialogues were an alternative semantics for {\em Intuitionistic} Logic, but somehow the games looked much more like Classical Logic. Felscher came up with conditions that guaranteed that only constructive formulas were provable, but the conditions are not very transparent. Similarly Blass first introduced games for Linear Logic, but the composition of strategies in his games was not associative, a problem fixed by Abramsky and Jaghadeesan. But their semantics has problems of its own, as described in \cite{blasssll}.
+ 
+ We recall that Blass presented two slightly different semantics for Linear Logic using games in\cite{blass94, blass92}. The semantics in \cite{blass92} is for affine logic, that is the rule of weakening is validated. Both semantics say that
+to play the game $A\&B $, the opponent has to choose one of $A$ or $B$ and then the chosen game is played. And to play the game $A\oplus B$ the proponent chooses one of $A$ or $B$ and then the chosen game is played.
+ A play of $A\otimes B$ consists of interleaved runs of the two games $A$ and $B$, whenever it is the proponent's turn to play in either or both constituents, he must play there. When it's the opponent's turn to move in both components, he must choose one and move in it. Blass also provided an interpretation of the modality ``of course" , denoted by ``!", similar to a repeated tensor product. Since  linear negation is interpreted simply as exchange of players,  ``par", the multiplicative disjunction, and linear implication were {\em not} described, as in Classical Linear Logic they can be defined in terms of tensor and linear negation.
+  
+ \section*{Lorenzen Games}
+Lorenzen games were developed by Lorenz, Felscher and  Rahman, who together with co-workers, established a collection of games for specific (non-classical) logics, including Linear Logic. This general framework was named Dialogic. We recap the basics of Lorenzen games, as expounded by the Rahman school (\cite{rahmankeiff04}). %kreiffSEP}).
+
+
+
+The language $L$ is composed of the standard components of first-order logic, with four connectives 
+$\land, \lor, \to, \neg$, with small letters $(a, b, c,\ldots)$ for prime formulas
+and  capital italic letters $(A, B, C, \ldots)$ for complex formulas. We need two labels, $\bf O$ and $\bf P$ (standing for the players, Opponent and Proponent, respectively).
+We also need some special force symbols: ?... and !... , where ? stands for attack (or question) and ! stands for defense. 
+The set of rules in dialogic is divided into {\em particle} rules and {\em structural} rules. Particle rules describe the way a formula can be attacked and defended, according to its main connective. Structural rules, on the other hand, specify the general organization of the game. We restrict ourselves to propositional logic. 
+In the following we describe three systems, intuitionistic logic, classical logic and classical linear logic, before we embark on the novelty of this note, {\em full intuitionistic} linear logic. 
+
+\section*{Games for Intuitionistic and Classical Logic}
+The table with particle rules for intuitionistic and classical logic is as follows:
+
+\begin{center}
+  \begin{tabular}{| l | c || r | }
+    \hline
+  Assertion & Attack  & Response \\ \hline
+  $ A\land B$ & $\land_{L}$ & $A$ \\ \hline
+   $ A\land B$ & $\land_{R}$ & $B$ \\ \hline
+    $ A\lor B$ & $?$ & $A$ or $B$ \\ \hline
+    $ A\to B$ & $A$ & $B$ \\ \hline
+     $ \neg A$ & $A$ & $-$ \\ \hline
+    \hline
+  \end{tabular}
+ % \caption{Table 1: Particle rules for dialogue games}
+\end{center}
+Disjunction and conjunction differ only by the player who has the choice of the immediate subformula with which the game will proceed: in a conjunction, the challenger may choose, confident that either conjunct can be refuted; in a disjunction the choice lies with the defender. Thus, to defend a conjunction, a player must be able to defend any of the conjuncts, while in the case of a disjunction, it is sufficient to be able to defend one of the disjuncts.  Most importantly to challenge an implication essentially amounts to providing a proof of the antecedent and claiming that the other player will fail to build a proof of the consequent from it. The defence against such an attack then consists of a proof of the consequent. And for negation, the only way to attack the assertion $\neg A$ is to assert $A$, and be prepared to defend this assertion. Thus there is no proper defence against such an attack, but it may be possible to counterattack the assertion of $A$. Lorenzen games were born in the context of constructivism, so this is not a surprise, the constructive negation of $A$ is $A\to \bot$.
+
+The difference between classical and intuitionistic logic resides on the  structural rules.
+For classical logic the rules are:
+\begin{itemize}
+\item[S1] $\bf P$ may assert an atomic formula only after it has been asserted by $\bf O$.
+\iffalse
+\item[S2] If p is an $\bf P$-position, and if at round $n - 1$ there are several open attacks made by $\bf O$, then only the latest of them may be answered at $n$ (and the same with $\bf P$ and $\bf O$ reversed). 
+\item[S3] An attack may be answered at most once.
+\fi
+\item[S4] A $\bf P$-assertion may be attacked at most once.
+\item[S5] $\bf O$ can react only upon the immediately preceding $\bf P$-statement. 
+\end{itemize}
+while for intuitionistic logic the structural rules are the ones above plus:
+ \begin{itemize}
+%\item[D1] $\bf P$ may assert an atomic formula only after it has been asserted by $\bf O$ before.
+\item[S2] If p is an {\bf P}-position, and if at round $n - 1$ there are several open attacks made by {\bf O}, then only the 
+latest of them may be answered at $n$ (and the same with {\bf P} and {\bf O} reversed). 
+\item[S3] An attack may be answered at most once.
+%\item[D4] A P-assertion may be attacked at most once.
+%\item[E] O can react only upon the immediately preceding P-statement. 
+\end{itemize}
+
+
+A {\em dialogue} can be thought of as a set of dialogical games, structured as a tree, the root of which is the thesis of the dialogue. Splits in the dialogue tree are generated by the propositional choices of the Opponent. Any possible attack by the Opponent against a conjunction, any possible defence of a disjunction, and either possible reaction in the case of an attack by the Proponent against an implication he defends (counterattack or defence) will generate a new branch in the dialogue tree. No move of the Proponent will open a new branch. A completed dialogue tree will thus contain all the Opponent's possible choices.
+
+Starting with the thesis produced by the Proponent, the dialogue unravels connectives, until we get to atomic propositions. A dialogical game  is said to be closed iff there is some atomic formula which has been played by both players. A dialogical game is finished iff it is closed or the rules do not allow any further move by the player who has to move.
+
+For a set $S$ of dialogue rules governing how the game is 
+to proceed, a formula $A$ is $S$-valid iff Proponent  $\bf P$ has a {\em winning strategy} for $A$.
+A strategy for a player   in a dialogical game is a function telling  him what to do, according to what has previously happened in the game, to win it.
+
+The problem with the structural rules is that it is not clear which modifications can be made to them without changing the set of provable formulas. 
+
+\section*{Lorenzen Games for Linear Logic}
+
+We  now recall Rahman's\cite{rahman02}  definitions of Lorenzen games for Linear logic, see  \cite{keiff09}. In Linear Logic each occurrence of one formula in a proof must be taken as a distinct resource for the inference process. In the dialogical framework, each move is an action. It is therefore  natural to consider that two distinct moves are different actions, consuming different resources, even when the two moves have the same propositional content. But we have to introduce some book-keeping to deal with usage of resources.
+
+To keep linearity and show validity of a formula we must use all and each formula that has been  asserted throughout the dialogue. And we cannot use one round more than once.
+ 
+To adapt the Lorenzen games  to Linear Logic, we have to provide a new table of particle rules (for the new linear connectives) and we have to adopt some new principles, like:
+\begin{enumerate}
+\item An atomic $\bf O$-formula has been used iff this formula is the propositional content of a $\bf P$-move. Atomic $\bf P$-formulas are used by the very move in which they appear.
+\item A complex formula $A$ has been used iff all the possible aggressive and defensive moves related to $A$ have been stated.
+\end{enumerate}
+
+Linear dialogues are contextual, the flow of information within the proof is constrained by an explicit structure of {\em contexts}, ordered by a relation of subordination. The introduction of a new context (which corresponds to a splitting of contexts in the sequent calculus) will always be a consequence of the Opponent's choices. The Proponent will stay in the same context as long as he can.
+
+A sequent $\Gamma \vdash A$ is the statement that from assumptions $\Gamma$  one can infer conclusion $A$. From the dialogical point of view, assumptions are the Opponent's conc1essions, while conclusions are the Proponent's claims. Splitting contexts for tensor occurs when it is asserted by the Proponent, so the dialogical particle rule will let the challenger choose the context where the dialogue will proceed. Dually, the multiplicative disjunction par will generate a splitting of contexts when asserted by the Opponent, thus the particle rule will let the defender choose the context. The interpretation of linear implication $\multimap$ remains constant, to attack it, we one must assert the antecedent, hoping that the opponent cannot use it to prove the consequent. Also the interpretation of linear negation stays the same.
+
+\begin{center}
+  \begin{tabular}{| l | c || r |}
+    \hline
+  Assertion & Attack  & Response \\ \hline
+  $ A\otimes B$& $\otimes_{L}$& $A$   \\ 
+   in context $\mu$ & in subcontext $\nu$ of $\mu$ &in $\nu$ \\  \hline
+   $A\otimes B$  & $\otimes_{R}$ & $B$ \\ 
+      in context $\mu$ & in subcontext $\nu'$ of $\mu$ &in $\nu'$ \\  \hline
+    $ A\parr B$ & $?$ & $A$  \\ 
+       in context $\mu$ &in $\mu$  &in subcontext $\nu$ of $\mu$ \\  \hline
+     $ A\parr B$ & $?$ & $B$ \\ 
+           in context $\mu$ &in $\mu$  &in subcontext $\nu'$ of $\mu$ \\\hline
+    $ A\multimap B$ & $A$ & $B$ \\ 
+          in context $\mu$ & in subcontext $\nu$ of $\mu$ & in subcontext $\nu$ of $\mu$\\ \hline
+     $ \neg A$ & $A$ & $-$ \\ 
+       in context $\mu$ & in subcontext $\nu$ of $\mu$ & in subcontext $\nu$ of $\mu$\\ \hline
+    $ A\with B$& $?\with_{L}$& $A$   \\   
+      $ A\with B$& $?\with_{R}$& $B$   \\ \hline
+        $ A\oplus B$& $?$& $A$   \\   
+          $ A\oplus B$& $?$& $B$   \\    
+    \hline
+  \end{tabular}
+ % \caption{Table 1: Particle rules for dialogue games}
+\end{center}
+
+%More about linear contexts.Only  $\bf O$ can open a new context. $\bf P$ can only play on contexts opened by $\bf O$. if during a dialogue $\bf O$ opens a new context, we say that the new context is a sub-context of the initial one.
+ 
+ Rahman also introduces an interpretation for the linear logic exponentials  in terms of games, but says that the proof that the games are sound and complete for the exponentials is future work.
+ 
+  It is worth noticing that while Rahman deals exclusively with classical linear logic, he does mention that the intuitionistic structural rule could be used instead. Using the intuitionistic structural rule we  should arrive at a semantics for 
+ Full Intuitionistic Linear Logic.
+ 
+ \section*{Full Intuitionistic Linear Logic}
+Full Intuitionistic Linear Logic(FILL) is a variant of Linear Logic introduced by de Paiva and Hyland in \cite{hyland-depaiva93}. FILL is an interesting system, as it has independent multiplicative and additive connectives, just like Intuitionistic Logic has three independent connectives, conjunction, disjunction and implication.  
+
+FILL came into existence from work on Dialectica categories, which can be considered a different kind of game, a superpower game where players, instead of playing a proper game, simply face-off their collections of strategies. In one round the superpower game is decided, either Proponent has a winning strategy or   Opponent has one or neither has one.
+
+
+ \section*{Conclusions}
+ We recalled games for Linear Logic in two traditions, Blass-style games (as discussed by  Hyland, Abramsky and Jagadhesan and many others) and Lorenzen-style games (as introduced by Rahman, Keiff and others). It seems clear that Lorenzen games have the ability to model full intuitionistic linear logic easily. Emphasis is given to the interpretation of linear implication, instead of negation. 
+ 
+ This note is just a first step in the programme to develop {\em compositional} versions of Lorenzen Linear logic games. We need still to prove our soundness and completeness result and more importantly we need to make sure that strategies are compositional, to make sure we can produce categories of Lorenzen games.
+%% \label{}
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \cite{key}         ==>>  [#]
+%%   \cite[chap. 2]{key} ==>> [#, chap. 2]
+%%
+
+%% References with bibTeX database:
+
+%\bibliographystyle{elsarticle-num}
+%\bibliography{<your-bib-database>}
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use elsarticle-num.bst.
+
+%% References without bibTeX database:
+
+ \begin{thebibliography}{000}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+\bibitem{blass92} Blass, A. {\it A Game Semantics for Linear Logic}, Annals of Pure and 
+Applied Logic 56, 183�220, 1992. 
+
+\bibitem{blass94} {\it Is game semantics necessary?} In B\"orger, Gurevich and Meinke, eds. Computer Science Logic, 7th Workshop, 1993, springer-Verlag, 1994.
+
+\bibitem{blasssll} Blass A. {\it Some Semantical Aspects of Linear Logic}, Journal of the 
+Interest Group in Pure and Applied Logic 5, 487�503, 1997.
+
+\bibitem{blassqa}  Blass A. {\it Questions and Answers -- a category arising in Linear Logic, Complexity Theory and Set Theory} In Girard, Lafont and Regnier,  eds. ``Advances in Linear Logic", vol. 222 of London Mathematical Society Lecture Notes, Cambridge University Press, 1995.
+
+\bibitem{rahmankeiff04} Rahman, S. and Keiff, L. {\it On how to be a dialogician}. In D. Vanderveken (ed.): Logic, Thought and Action, Dordrecht: Springer, pp. 359�408, 2004.
+
+\bibitem{keiff09} Keiff, L. {\it Dialogical Logic}. In Stanford Encyclopedia of Philosophy, 2009.
+
+\bibitem{rahman02} Rahman, S. {\it Un desafio para las  teorias cognitivas de la competencia logica: los fundamentos pragmaticos de la semantica de la logica linear}, Manuscrito, volume XXV(2), pp. 381-432, October 2002. 
+
+\bibitem{hyland-depaiva93} Hyland, J. M. E. and de Paiva, V. C.V. {\it Full Intuitionistic Linear Logic} (extended abstract). Annals of Pure and Applied Logic, 64(3), pp.273-291, 1993.
+
+\bibitem{felscher85}Felscher, W. {\it Dialogues as a Foundation for Intuitionistic 
+Logic}. In: Gabbay, D. and  Guenthner, F. (eds.), Handbook of 
+Philosophical Logic, Bd. III, Dordrecht, 1985, pp. 341-372. 
+
+ \end{thebibliography}
+
+
+\end{document}
+
