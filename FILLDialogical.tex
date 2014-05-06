@@ -1,7 +1,9 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage{amssymb}
+\usepackage{amssymb,amsmath,amsthm}
 \usepackage{cmll}
+\usepackage{stmaryrd}
+
 \title{SuperPower Lorenzen Games}
 \author{Valeria de Paiva and Harley Eades III}
 \date{May 2014}
@@ -9,15 +11,18 @@
 %\usepackage{natbib}
 %\usepackage{graphicx}
 
+% Ott includes.
+\usepackage{color}
+\usepackage{supertabular}
+\input{FILL-ott}
+
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-This note discusses game semantics, in the style of Lorenzen, for Full Intuitionistic Linear Logic, following Blass and Rahman.
-
-%% Text of abstract
-
+  This note discusses game semantics, in the style of Lorenzen, for
+  Full Intuitionistic Linear Logic, following Blass and Rahman.
 \end{abstract}
 
 %\begin{keyword}
@@ -27,8 +32,6 @@ This note discusses game semantics, in the style of Lorenzen, for Full Intuition
 %% or \MSC[2008] code \sep code (2000 is the default)
 
 %\end{keyword}
-
-\end{frontmatter}
 
 %%
 %% Start line numbering here if you want
@@ -202,16 +205,16 @@ FILL came into existence from work on Dialectica categories, which can be consid
 %%
 
 \bibitem{blass92} Blass, A. {\it A Game Semantics for Linear Logic}, Annals of Pure and 
-Applied Logic 56, 183�220, 1992. 
+Applied Logic 56, 183-220, 1992. 
 
 \bibitem{blass94} {\it Is game semantics necessary?} In B\"orger, Gurevich and Meinke, eds. Computer Science Logic, 7th Workshop, 1993, springer-Verlag, 1994.
 
 \bibitem{blasssll} Blass A. {\it Some Semantical Aspects of Linear Logic}, Journal of the 
-Interest Group in Pure and Applied Logic 5, 487�503, 1997.
+Interest Group in Pure and Applied Logic 5, 487-503, 1997.
 
 \bibitem{blassqa}  Blass A. {\it Questions and Answers -- a category arising in Linear Logic, Complexity Theory and Set Theory} In Girard, Lafont and Regnier,  eds. ``Advances in Linear Logic", vol. 222 of London Mathematical Society Lecture Notes, Cambridge University Press, 1995.
 
-\bibitem{rahmankeiff04} Rahman, S. and Keiff, L. {\it On how to be a dialogician}. In D. Vanderveken (ed.): Logic, Thought and Action, Dordrecht: Springer, pp. 359�408, 2004.
+\bibitem{rahmankeiff04} Rahman, S. and Keiff, L. {\it On how to be a dialogician}. In D. Vanderveken (ed.): Logic, Thought and Action, Dordrecht: Springer, pp. 359-408, 2004.
 
 \bibitem{keiff09} Keiff, L. {\it Dialogical Logic}. In Stanford Encyclopedia of Philosophy, 2009.
 
@@ -223,7 +226,14 @@ Interest Group in Pure and Applied Logic 5, 487�503, 1997.
 Logic}. In: Gabbay, D. and  Guenthner, F. (eds.), Handbook of 
 Philosophical Logic, Bd. III, Dordrecht, 1985, pp. 341-372. 
 
- \end{thebibliography}
+\end{thebibliography}
+
+\appendix
+
+\section{The full specification of FILL}
+\label{sec:fill_specification}
+\FILLall{}
+% section the_full_fill_specification (end)
 
 
 \end{document}

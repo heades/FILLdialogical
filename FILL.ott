@@ -1,0 +1,44 @@
+metavar term_var, x, y, z ::=
+indexvar index_var, i,j,k ::= 
+
+grammar
+
+% Object-level Formulas.
+form, A, B, C, D, E :: 'Type_' ::=
+  | I       ::    :: TUnit
+  {{tex I }}
+  | Fals    ::    :: True
+  {{tex \perp }}
+  | A -o B  ::    :: Imp
+    {{ tex [[A]] \multimap  [[B]] }}
+  | A (x) B ::    :: Tensor
+  {{tex [[A]] \otimes [[B]] }}
+  | A [] B  ::    :: Par
+  {{tex [[A]] \boxempty [[B]] }}
+  | ( A )   :: S :: Parens
+
+term, t, e, f, g :: 'Term_' ::= 
+  | x               ::   :: Variables
+  | o               ::   :: Counit
+  {{tex \circ }}
+  | e1 (x) e2       ::   :: Tensor
+  {{tex [[e1]] \otimes [[e2]] }}
+  | e1 [] e2        ::   :: Par
+  {{tex [[e1]] \boxempty [[e2]] }}
+  | \ x . t         ::   :: Lam 
+    {{ tex \lambda [[x]] . [[t]] }}
+  | let x be t in e ::   :: Let
+  {{tex \mathsf{let}\,[[x]]\,\mathsf{be}\,[[t]]\,\mathsf{in}\,[[e]] }}
+  | [ t / x ] t'    :: M :: Substitution
+  | ( t )           :: S :: Parens
+
+G {{ tex \Gamma }} :: 'Context_' ::=
+  | x : A  :: :: Element
+  | .      :: :: Empty
+    {{tex \cdot }}
+  | G , G' :: :: Extension
+
+% Meta-logical formulas.
+formula :: 'formula_' ::=
+  | judgement   ::    :: judgement
+  | ( formula ) ::    :: parens
