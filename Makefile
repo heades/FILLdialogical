@@ -24,3 +24,6 @@ FILLDialogical.pdf : FILLDialogical-output.tex Makefile
 ifeq ($(SKIM), skim_revert.sh)
 	$(SKIM) $(CURDIR)/FILLDialogical.pdf
 endif
+
+clean :
+	rm -f *.aux *.dvi *.ps *.pdf *.log *-ott.tex *-output.tex
