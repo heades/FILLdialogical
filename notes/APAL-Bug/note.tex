@@ -1,0 +1,302 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{cmll}
+\usepackage{stmaryrd}
+\usepackage{todonotes}
+\usepackage{mathpartir}
+\usepackage{fullpage}
+
+\title{A short note explaining the bug in the APAL term assignment formulation of FILL}
+\author{Harley Eades III}
+\date{August 2014}
+
+%\usepackage{natbib}
+%\usepackage{graphicx}
+
+% Ott includes.
+\usepackage{color}
+\usepackage{supertabular}
+\input{FILL-ott}
+
+\begin{document}
+
+\maketitle
+
+In this short note I give the details of Bierman's counterexample
+\cite{Bierman:1996} to cut elimination of the term assignment
+formulation of FILL first given in \cite{Hyland:1993}.  I first
+reformulate his counterexample into our definition of FILL, and then
+comment on the reason for the counterexample.  Following this I
+reformulate the counterexample in the dependency tracking system
+proposed by Bra\"uner and de Paiva in \cite{Brauner:1996} and revised
+by the same authors in \cite{Brauner:1998}.  In this reformulation we
+\todo{Conjecture: Revise if incorrect} will see that the rule proposed
+by Bellin but communicated by Bierman in \cite{Bierman:1996} is the
+proper left rule for par.
+
+\section{The $\FILLdrulename{Parl}$ Inference Rule}
+\label{sec:the_parl_inference_rule}
+The existing $\FILLdrulename{Parl}$ inference rule is as follows:
+\[
+  \FILLdruleParl{}
+\]
+In the terms $[[let t1 be x (+) stp in t2]]$ and $[[let t1 be stp (+) y
+in t2]]$ the variables $[[x]]$ and $[[y]]$ in the patterns are bound
+in $[[t2]]$. So when applying the $\FILLdrulename{Parl}$ rule we bind
+both the free variable $[[x]]$ in $[[di]]$, and the free variable
+$[[y]]$ in each $[[fi]]$.  Now notice that we do this binding even
+when the variables are not free in the respective terms.  Furthermore,
+as a result of binding these pattern variables we carry along the
+newly introduced free variable $[[z]]$.  It is this global binding
+across the entire righthand size context along with introducing the
+free variable $[[z]]$ in each term that results in the counterexample
+of Bierman.
+% section the_$\filldrulename{parl}$_inference_rule (end)
+
+
+\section{Bierman's Counterexample}
+\label{sec:gavin's_counterexample}
+First lets recall the cut-elimination commuting conversion that is the
+locus of the counterexample.  The following cut:
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right= Cut] {
+      [[G |- d : C | gk : D]]
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right= Parl] {
+        [[x : C, w : A, G' |- ei : D']]
+        \\
+        [[z : B, G'' |- ti : D'']]
+      }{[[x : C, y : A (+) B, G', G'' |- let y be w (+) stp in ei : D' | let y be stp (+) z in ti : D'']]}
+    }{[[G, y:A (+) B, G',G'' |- h( [d/x]{let y be w (+) stp in ei}:D' | [d/x]{let y be stp (+) z in tj} : D'') | gk : D]]}
+  \end{math}
+\end{center}
+Converts into the following:
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Parl] {
+      $$\mprset{flushleft}
+      \inferrule* [right= Cut] {
+        [[G |- d : C | gk : D]]
+        \\
+        [[x : C, w : A, G' |- ei : D']]
+      }{[[w : A, G' |- [d/x]ei : D']]}
+      \\
+      [[z : B, G'' |- ti : D'']]
+    }{[[G, y:A (+) B, G',G'' |- h( let y be w (+) stp in [d/x]ei:D' | let y be stp (+) z in tj : D'') | let y be w (+) stp in gk : D]]}
+  \end{math}
+\end{center}
+Notice that in the above cut, the \FILLdrulename{Parl} rule commutes
+with \FILLdrulename{Cut}.  So again, we bind $[[w]]$ as a pattern
+variable in each $[[ei]]$, and $[[z]]$ in each $[[ti]]$ regardless of
+whether or not these are actually free in any of the terms.  In
+addition, we introduce $[[z]]$ into each of these terms.
+
+Next we give Bierman's counterexample.  The following uses the first rule given above.
+\begin{center}
+      \footnotesize
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Impr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=\tiny Parr] {
+        $$\mprset{flushleft}
+        \inferrule* [right=\tiny Cut] {
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Pr] {
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Ax] {
+              \,
+            }{[[v : A |- v : A]]}
+          }{[[v : A |- v : A | o : _|_]]}
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Parl] {
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Tr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[x : A |- x : A]]}
+              \\
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[y : B |- y : B]]}
+            }{[[x : A, y : B |- x (x) y : A (x) B]]}
+            \\
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Ax] {
+              \,
+            }{[[w : C |- w : C]]}
+          }{[[x : A, z : B (+) C |- let z be y (+) stp in h{v (x) y} : A (x) B | let z be stp (+) w in w : C]]}
+        }{[[v:A,z:B(+)C |- h(let z be y (+) stp in h{v (x) y} : A (x) B | let z be stp (+) w in w : C) | o : _|_]]}
+      }{[[v:A,z:B(+)C |- {let z be y (+) stp in h{v (x) y}}(+){let z be stp (+) w in w} : ((A(x)B)(+)C) | o : _|_]]}
+    }{[[v : A |- \z.{{let z be y (+) stp in h{v (x) y}}(+){let z be stp (+) w in w}}:(B(+)C) -o ((A(x)B)(+)C) | o : _|_]]}
+  \end{math}
+\end{center}
+Next we use the second derived rule above to commute the cut in the previous
+derivation past the $\FILLdrulename{Parl}$ rule:
+\begin{center}
+  \footnotesize
+  \begin{math}    
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Impr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=\tiny Parr] {
+        $$\mprset{flushleft}
+        \inferrule* [right=\tiny Parl] {
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Cut] {      
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Pr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[v : A |- v : A]]}
+            }{[[v : A |- v : A | o : _|_]]}
+            \\
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Tr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[x : A |- x : A]]}
+              \\
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[y : B |- y : B]]}
+            }{[[x : A, y : B |- x (x) y : A (x) B]]}
+          }{[[y:B, v : A |- v (x) y: A (x) B | o : _|_]]}          
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Ax] {
+            \,
+          }{[[w : C |- w : C]]}
+        }{[[v:A,cb{z}:B(+)C |- h(let cb{z} be y (+) stp in h{v (x) y} : A (x) B | let cb{z} be stp (+) w in w : C) | let cb{z} be y (+) stp in o : _|_]]}                   
+      }{[[v:A,cb{z}:B(+)C |- {{let cb{z} be y (+) stp in h{v (x) y}} (+) {let cb{z} be stp (+) w in w}} : (A (x) B) (+) C | let cb{z} be y (+) stp in o : _|_]]}      
+    }{[[v:A |- \z.{{let z be y (+) stp in h{v (x) y}} (+) {let z be stp (+) w in w}} : (B(+)C) -o ((A (x) B) (+) C) | let cb{z} be y (+) stp in o : _|_]]}
+  \end{math}
+\end{center}
+Now notice that as a result of the rule $\FILLdrulename{Parl}$ rule a
+fresh free variable $[[z]]$ -- colored blue when it is considered free
+-- is introduced, and then let-bound in every term in the righthand
+side context.  Furthermore, we bind $[[y]]$ and $[[w]]$ in terms which
+do not depend on them, for example, we bind $[[y]]$ in $[[o]]$.
+Furthermore, we introduce $[[z]]$ into each of these terms,
+especially, the rightmost term.  Thus, the application of the
+$\FILLdrulename{Impr}$ rule is in error, because $[[z]]$ occurs in the
+right most term.
+% section gavin's_counterexample (end)
+
+\section{Bierman's Counterexample in the Dependency-Relation Formalization}
+\label{sec:bierman's_counterexample_in_the_dependency-relation_formalization}
+Next we give Bierman's counterexample in the dependency-relation
+formalization.  To obtain the derivations we simply erase all the
+terms:
+\begin{center}
+      \footnotesize
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Impr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=\tiny Parr] {
+        $$\mprset{flushleft}
+        \inferrule* [right=\tiny Cut] {
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Pr] {
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Ax] {
+              \,
+            }{[[v : A |- v : A]]}
+          }{[[v : A |- v : A | o : _|_]]}
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Parl] {
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Tr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[x : A |- x : A]]}
+              \\
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[y : B |- y : B]]}
+            }{[[x : A, y : B |- x (x) y : A (x) B]]}
+            \\
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Ax] {
+              \,
+            }{[[w : C |- w : C]]}
+          }{[[x : A, z : B (+) C |- let z be y (+) stp in h{v (x) y} : A (x) B | let z be stp (+) w in w : C]]}
+        }{[[v:A,z:B(+)C |- h(let z be y (+) stp in h{v (x) y} : A (x) B | let z be stp (+) w in w : C) | o : _|_]]}
+      }{[[v:A,z:B(+)C |- {let z be y (+) stp in h{v (x) y}}(+){let z be stp (+) w in w} : ((A(x)B)(+)C) | o : _|_]]}
+    }{[[v : A |- \z.{{let z be y (+) stp in h{v (x) y}}(+){let z be stp (+) w in w}}:(B(+)C) -o ((A(x)B)(+)C) | o : _|_]]}
+  \end{math}
+\end{center}
+Next is the derivation after the commute:
+\begin{center}
+  \footnotesize
+  \begin{math}    
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Impr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=\tiny Parr] {
+        $$\mprset{flushleft}
+        \inferrule* [right=\tiny Parl] {
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Cut] {      
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Pr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[v : A |- v : A]]}
+            }{[[v : A |- v : A | o : _|_]]}
+            \\
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Tr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[x : A |- x : A]]}
+              \\
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[y : B |- y : B]]}
+            }{[[x : A, y : B |- x (x) y : A (x) B]]}
+          }{[[y:B, v : A |- v (x) y: A (x) B | o : _|_]]}          
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Ax] {
+            \,
+          }{[[w : C |- w : C]]}
+        }{[[v:A,cb{z}:B(+)C |- h(let cb{z} be y (+) stp in h{v (x) y} : A (x) B | let cb{z} be stp (+) w in w : C) | let cb{z} be y (+) stp in o : _|_]]}                   
+      }{[[v:A,cb{z}:B(+)C |- {{let cb{z} be y (+) stp in h{v (x) y}} (+) {let cb{z} be stp (+) w in w}} : (A (x) B) (+) C | let cb{z} be y (+) stp in o : _|_]]}      
+    }{[[v:A |- \z.{{let z be y (+) stp in h{v (x) y}} (+) {let z be stp (+) w in w}} : (B(+)C) -o ((A (x) B) (+) C) | let cb{z} be y (+) stp in o : _|_]]}
+  \end{math}
+\end{center}
+% section bierman's_counterexample_in_the_dependency-relation_formalization (end)
+
+
+\bibliographystyle{plain}
+\bibliography{ref}
+
+\appendix
+
+\section{The full specification of FILL}
+\label{sec:fill_specification}
+\FILLall{}
+% section the_full_fill_specification (end)
+
+
+\end{document}
+

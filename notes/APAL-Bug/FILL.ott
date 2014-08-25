@@ -1,0 +1,228 @@
+metavar term_var, w,x, y, z, v ::=
+indexvar index_var, i,j,k ::= 
+
+grammar
+
+% Object-level Formulas.
+form, A, B, C, D, E :: 'Type_' ::=
+  | I       ::    :: TUnit
+  {{tex I }}
+  | _|_     ::    :: PUnit
+  {{tex \perp }}
+  | A -o B  ::    :: Imp
+    {{ tex [[A]] \multimap  [[B]] }}
+  | A (x) B ::    :: Tensor
+  {{tex [[A]] \otimes [[B]] }}
+  | A (+) B  ::    :: Par
+  {{tex [[A]] \parr [[B]] }}
+  | ( A )   :: S :: Parens
+
+% Patterns used in the let-expressions.
+patterns, p :: 'Pat_' ::=
+  % This is the pattern *, I made it distinct from the term * to
+  % prevent ambigous parsing.
+  | stp       ::  :: UPat 
+  {{tex * }}
+  | x         ::  :: VarPat
+  | p1 (x) p2 ::  :: TPat2
+  {{tex [[p1]] \otimes [[p2]] }}
+  | p1 (+) p2  ::  :: PPat2
+  {{tex [[p1]] \parr [[p2]] }}
+  | -       ::  :: Joker
+  {{tex - }}
+
+% Proofs or partial functions.
+term, t, e, d, f, g, u :: 'Term_' ::= 
+  | x                    ::   :: Variables
+  | *                    ::   :: Unit
+  | o                    ::   :: Counit
+  {{tex \circ }}
+  | e1 (x) e2            ::   :: Tensor
+  {{tex [[e1]] \otimes [[e2]] }}
+  | e1 (+) e2             ::   :: Par
+  {{tex [[e1]] \parr [[e2]] }}
+  | \ x . t              ::   :: Lam 
+    {{ tex \lambda [[x]] . [[t]] }}
+  | let t be p in e      ::   :: Let
+  {{tex \mathsf{let}\,[[t]]\,\mathsf{be}\,[[p]]\,\mathsf{in}\,[[e]] }}
+  | f e                  ::   :: App
+  | [ t / x ] t'         :: M :: Substitution
+  | [ t / x , e / y ] t' :: M :: Substitution2
+  | { t }   :: S  :: Parens
+  {{tex ([[t]]) }}
+  | h{ t }   :: M :: HParens
+  {{tex [[t]] }}
+  | cb{ t }  :: M :: ColorTermBlue
+  {{tex {\color{blue}{[[t]]} } }}
+
+% Left contexts (hypotheses).
+G {{ tex \Gamma }} :: 'LContext_' ::=
+  | x : A  :: :: Element
+  | .      :: :: Empty
+  {{tex \cdot }}
+  | G , G' :: :: Extension
+  | cb{ x } : A :: :: ColorElBlue
+  {{tex {\color{blue}{[[x]]} } : [[A]] }}
+  | A      ::  :: Formula
+
+% Right contexts (proofs or partial functions).
+L {{tex \Delta }} :: 'RContext_' ::=
+  | t : A  :: :: Element
+  | .      :: :: Empty
+  {{tex \cdot }}
+  | L | L' :: :: Extension
+  {{tex [[L]] \mid [[L']] }}
+  % % Hidden parentheses can be used to chain multiple rcontexts in a
+  % % row, e.g. L1 | L2 | L3 should be written h( L1 | L2 ) | L3.  If
+  % % the latter is not used, then Ott will trigger an ambigous parse
+  % % error.  See the inference rule Tr for an example.
+  | h( L ) :: :: HiddenParens
+  {{tex [[L]] }}
+  | A      ::  :: Formula
+  | L , L' ::   :: FormulaExt
+
+% Meta-logical formulas.
+formula :: 'formula_' ::=
+  | judgement                ::    :: judgement
+  % This puts spacing between judgments horizontally.  So that not all
+  % rules have to have their premises stacked vertically.  See the Cut
+  % inference rule for an example.
+  | formula1 && formula2 ::    :: Quad
+  {{tex [[formula1]] \quad [[formula2]] }}
+  | ( formula )              ::    :: parens
+  | x nin FV ( L )           ::    :: NFV
+  {{tex [[x]] \not\in \mathsf{FV}( [[L]] ) }}
+
+defns
+  InferRules :: '' ::=
+  defn
+  G |- L :: :: typing :: '' 
+    {{ tex [[G]] \vdash [[L]] }}
+  by
+
+  -------------- :: Ax
+  x : A |- x : A
+
+  G |- t : A | L && y : A, G' |- fi : Bi
+  -------------------------------------- :: Cut
+  G, G' |- L | [t/y]fi : Bi
+
+  G |- ei : Ai
+  ----------------------------------- :: Il
+  G, x : I |- let x be stp in ei : Ai
+
+  ---------- :: Ir
+  . |- * : I
+
+  G, x : A, y : B |- fi : Ci
+  --------------------------------------------- :: Tl
+  G, z : A (x) B |- let x be x (x) y in fi : Ci
+
+  G |- e : A | L && G' |- f : B | L'
+  --------------------------------------- :: Tr
+  G,G' |- h( e (x) f : A (x) B | L)  | L'
+
+  ------------ :: Pl
+  x : _|_ |- .
+
+  G |- L
+  ---------------- :: Pr
+  G |- o : _|_ | L
+
+  G, x : A |- di : Ci && G', y : B |- fj : Dj
+  -------------------------------------------------------------------------- :: Parl
+  G,G',z : A (+) B |- let z be x (+) - in di : Ci | let z be - (+) y in fj : Dj
+
+  G |- h( h( L | e : A ) | f : B ) | L'
+  ------------------------------------- :: Parr
+  G |- h( L | e (+) f : A (+) B) | L'
+
+  G |- e : A | L && G', x : B |- fi : Ci
+  ------------------------------------------ :: Impl
+  G, y : A -o B, G' |- [ y e / x]fi : Ci | L
+
+  G, x : A |- e : B | L && x nin FV( L )
+  -------------------------------------- :: Impr
+  G |- \x.e : A -o B | L
+
+  % The dep-relation inference rules.
+
+  --------- :: dax
+  A' |- A''
+
+  G1 |- B', L1
+  G2, B'' |- L2
+  -------------- :: dcut
+  G1,G2 |- L1,L2
+
+  G,A,B |- D
+  --------------- :: Dtl
+  G, A (x) B |- D
+
+  G1 |- A,D1
+  G2 |- B,D2
+  ---------------------- :: Dtr
+  G1,G2 |- A (x) B,D1,D2
+
+  G |- D
+  --------- :: Dil
+  G, I |- D
+
+  ------ :: Dir
+  . |- I
+
+  G1, A |- D1 
+  G3, B |- D2
+  ---------------------- :: Dparl
+  G1,G3,A (+) B |- D1,D2
+
+  G |- A,B,D
+  -------------- :: Dparr
+  G |- A (+) B,D
+
+  -------- :: Dpl
+  _|_ |- .
+
+  G |- D
+  ----------- :: Dpr
+  G |- _|_, D
+
+  G1 |- A, D1
+  G2, B |- D2
+  ---------------------- :: Dimpl
+  G1,G2, A -o B |- D1,D2
+
+  G, A |- B, D
+  ------------- :: Dimpr
+  G |- A -o B,D
+
+  defn
+  f = e :: :: catEq :: 'Eq_'
+  by
+
+  ------------------- :: Beta
+  {\x.e} e' = [e'/x]e
+
+  ------------- :: Eta
+  \x.h{f x} = f
+
+  --------------------- :: I
+  let * be stp in e = e
+
+  ------------------------------- :: Stp
+  let u be stp in [*/z]f = [u/z]f
+
+  ----------------------------------------- :: T1
+  let e (x) t be x (x) y in u = [e/x, t/y]u
+
+  ----------------------------------------- :: T2
+  let u be x (x) y in [x (x) y/z]f = [u/z]f
+
+  ---------------------------------- :: P1
+  let u (+) t be x (+) - in e = [u/x]e
+
+  ---------------------------------- :: P2
+  let u (+) t be - (+) y in e = [t/y]e
+
+  -------------------------------------------------------- :: P3
+  { let x be x (+) - in x } (+) { let u be - (+) y in y } = u
