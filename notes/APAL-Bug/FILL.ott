@@ -30,6 +30,7 @@ patterns, p :: 'Pat_' ::=
   {{tex [[p1]] \parr [[p2]] }}
   | -       ::  :: Joker
   {{tex - }}
+  | ( p ) :: S :: Parens
 
 % Proofs or partial functions.
 term, t, e, d, f, g, u :: 'Term_' ::= 
@@ -46,6 +47,8 @@ term, t, e, d, f, g, u :: 'Term_' ::=
   | let t be p in e      ::   :: Let
   {{tex \mathsf{let}\,[[t]]\,\mathsf{be}\,[[p]]\,\mathsf{in}\,[[e]] }}
   | f e                  ::   :: App
+  | let-pat z p e        :: M :: LetPat
+  {{tex \mathsf{\operatorname{let-pat} }\,[[z]]\,[[p]]\,[[e]] }}
   | [ t / x ] t'         :: M :: Substitution
   | [ t / x , e / y ] t' :: M :: Substitution2
   | { t }   :: S  :: Parens
@@ -133,6 +136,10 @@ defns
   -------------------------------------------------------------------------- :: Parl
   G,G',z : A (+) B |- let z be x (+) - in di : Ci | let z be - (+) y in fj : Dj
 
+  G, x : A |- di : Ci && G', y : B |- fj : Dj
+  ----------------------------------------------------------------------------- :: NParl
+  G,G',z : A (+) B |- let-pat z (x (+) -) di : Ci | let-pat z (- (+) y) fj : Dj
+
   G |- h( h( L | e : A ) | f : B ) | L'
   ------------------------------------- :: Parr
   G |- h( L | e (+) f : A (+) B) | L'
@@ -153,48 +160,48 @@ defns
   G1 |- B', L1
   G2, B'' |- L2
   -------------- :: dcut
-  G1,G2 |- L1,L2
+  G1,G2 |- L2,L1
 
-  G,A,B |- D
+  G,A,B |- L
   --------------- :: Dtl
-  G, A (x) B |- D
+  G, A (x) B |- L
 
-  G1 |- A,D1
-  G2 |- B,D2
+  G1 |- A,L1
+  G2 |- B,L2
   ---------------------- :: Dtr
-  G1,G2 |- A (x) B,D1,D2
+  G1,G2 |- A (x) B,L1,L2
 
-  G |- D
+  G |- L
   --------- :: Dil
-  G, I |- D
+  G, I |- L
 
   ------ :: Dir
   . |- I
 
-  G1, A |- D1 
-  G3, B |- D2
+  G1, A |- L1 
+  G3, B |- L2
   ---------------------- :: Dparl
-  G1,G3,A (+) B |- D1,D2
+  G1,G3,A (+) B |- L1,L2
 
-  G |- A,B,D
+  G |- A,B,L
   -------------- :: Dparr
-  G |- A (+) B,D
+  G |- A (+) B,L
 
   -------- :: Dpl
   _|_ |- .
 
-  G |- D
+  G |- L
   ----------- :: Dpr
-  G |- _|_, D
+  G |- _|_, L
 
-  G1 |- A, D1
-  G2, B |- D2
+  G1 |- A, L1
+  G2, B |- L2
   ---------------------- :: Dimpl
-  G1,G2, A -o B |- D1,D2
+  G1,G2, A -o B |- L1,L2
 
-  G, A |- B, D
+  G, A |- B, L
   ------------- :: Dimpr
-  G |- A -o B,D
+  G |- A -o B,L
 
   defn
   f = e :: :: catEq :: 'Eq_'

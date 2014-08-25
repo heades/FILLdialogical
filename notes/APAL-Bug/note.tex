@@ -31,9 +31,8 @@ comment on the reason for the counterexample.  Following this I
 reformulate the counterexample in the dependency tracking system
 proposed by Bra\"uner and de Paiva in \cite{Brauner:1996} and revised
 by the same authors in \cite{Brauner:1998}.  In this reformulation we
-\todo{Conjecture: Revise if incorrect} will see that the rule proposed
-by Bellin but communicated by Bierman in \cite{Bierman:1996} is the
-proper left rule for par.
+will see that the rule proposed by Bellin but communicated by Bierman
+in \cite{Bierman:1996} is the proper left rule for par.
 
 \section{The $\FILLdrulename{Parl}$ Inference Rule}
 \label{sec:the_parl_inference_rule}
@@ -133,10 +132,10 @@ Next we give Bierman's counterexample.  The following uses the first rule given 
             \inferrule* [right=\tiny Ax] {
               \,
             }{[[w : C |- w : C]]}
-          }{[[x : A, z : B (+) C |- let z be y (+) stp in h{v (x) y} : A (x) B | let z be stp (+) w in w : C]]}
-        }{[[v:A,z:B(+)C |- h(let z be y (+) stp in h{v (x) y} : A (x) B | let z be stp (+) w in w : C) | o : _|_]]}
-      }{[[v:A,z:B(+)C |- {let z be y (+) stp in h{v (x) y}}(+){let z be stp (+) w in w} : ((A(x)B)(+)C) | o : _|_]]}
-    }{[[v : A |- \z.{{let z be y (+) stp in h{v (x) y}}(+){let z be stp (+) w in w}}:(B(+)C) -o ((A(x)B)(+)C) | o : _|_]]}
+          }{[[x : A, z : B (+) C |- let z be y (+) - in h{v (x) y} : A (x) B | let z be - (+) w in w : C]]}
+        }{[[v:A,z:B(+)C |- h(let z be y (+) - in h{v (x) y} : A (x) B | let z be - (+) w in w : C) | o : _|_]]}
+      }{[[v:A,z:B(+)C |- {let z be y (+) - in h{v (x) y}}(+){let z be - (+) w in w} : ((A(x)B)(+)C) | o : _|_]]}
+    }{[[v : A |- \z.{{let z be y (+) - in h{v (x) y}}(+){let z be - (+) w in w}}:(B(+)C) -o ((A(x)B)(+)C) | o : _|_]]}
   \end{math}
 \end{center}
 Next we use the second derived rule above to commute the cut in the previous
@@ -178,9 +177,9 @@ derivation past the $\FILLdrulename{Parl}$ rule:
           \inferrule* [right=\tiny Ax] {
             \,
           }{[[w : C |- w : C]]}
-        }{[[v:A,cb{z}:B(+)C |- h(let cb{z} be y (+) stp in h{v (x) y} : A (x) B | let cb{z} be stp (+) w in w : C) | let cb{z} be y (+) stp in o : _|_]]}                   
-      }{[[v:A,cb{z}:B(+)C |- {{let cb{z} be y (+) stp in h{v (x) y}} (+) {let cb{z} be stp (+) w in w}} : (A (x) B) (+) C | let cb{z} be y (+) stp in o : _|_]]}      
-    }{[[v:A |- \z.{{let z be y (+) stp in h{v (x) y}} (+) {let z be stp (+) w in w}} : (B(+)C) -o ((A (x) B) (+) C) | let cb{z} be y (+) stp in o : _|_]]}
+        }{[[v:A,cb{z}:B(+)C |- h(let cb{z} be y (+) - in h{v (x) y} : A (x) B | let cb{z} be - (+) w in w : C) | let cb{z} be y (+) - in o : _|_]]}                   
+      }{[[v:A,cb{z}:B(+)C |- {{let cb{z} be y (+) - in h{v (x) y}} (+) {let cb{z} be - (+) w in w}} : (A (x) B) (+) C | let cb{z} be y (+) - in o : _|_]]}      
+    }{[[v:A |- \z.{{let z be y (+) - in h{v (x) y}} (+) {let z be - (+) w in w}} : (B(+)C) -o ((A (x) B) (+) C) | let cb{z} be y (+) - in o : _|_]]}
   \end{math}
 \end{center}
 Now notice that as a result of the rule $\FILLdrulename{Parl}$ rule a
@@ -200,48 +199,160 @@ Next we give Bierman's counterexample in the dependency-relation
 formalization.  To obtain the derivations we simply erase all the
 terms:
 \begin{center}
-      \footnotesize
+  \footnotesize
   \begin{math}
     $$\mprset{flushleft}
-    \inferrule* [right=\tiny Impr] {
+    \inferrule* [right=\tiny Dimpr] {
       $$\mprset{flushleft}
-      \inferrule* [right=\tiny Parr] {
+      \inferrule* [right=\tiny Dparr] {
         $$\mprset{flushleft}
-        \inferrule* [right=\tiny Cut] {
+        \inferrule* [right=\tiny Dcut] {
           $$\mprset{flushleft}
-          \inferrule* [right=\tiny Pr] {
+          \inferrule* [right=\tiny Dpr] {
             $$\mprset{flushleft}
-            \inferrule* [right=\tiny Ax] {
+            \inferrule* [right=\tiny Dax] {
               \,
-            }{[[v : A |- v : A]]}
-          }{[[v : A |- v : A | o : _|_]]}
+            }{[[A |- A]]}
+          }{[[A |- A | _|_]]}
           \\
           $$\mprset{flushleft}
-          \inferrule* [right=\tiny Parl] {
+          \inferrule* [right=\tiny Dparl] {
             $$\mprset{flushleft}
-            \inferrule* [right=\tiny Tr] {
+            \inferrule* [right=\tiny Dtr] {
               $$\mprset{flushleft}
-              \inferrule* [right=\tiny Ax] {
+              \inferrule* [right=\tiny Dax] {
                 \,
-              }{[[x : A |- x : A]]}
+              }{[[A |- A]]}
               \\
               $$\mprset{flushleft}
-              \inferrule* [right=\tiny Ax] {
+              \inferrule* [right=\tiny Dax] {
                 \,
-              }{[[y : B |- y : B]]}
-            }{[[x : A, y : B |- x (x) y : A (x) B]]}
+              }{[[B |- B]]}
+            }{[[A, B |- A (x) B]]}
             \\
             $$\mprset{flushleft}
-            \inferrule* [right=\tiny Ax] {
+            \inferrule* [right=\tiny Dax] {
               \,
-            }{[[w : C |- w : C]]}
-          }{[[x : A, z : B (+) C |- let z be y (+) stp in h{v (x) y} : A (x) B | let z be stp (+) w in w : C]]}
-        }{[[v:A,z:B(+)C |- h(let z be y (+) stp in h{v (x) y} : A (x) B | let z be stp (+) w in w : C) | o : _|_]]}
-      }{[[v:A,z:B(+)C |- {let z be y (+) stp in h{v (x) y}}(+){let z be stp (+) w in w} : ((A(x)B)(+)C) | o : _|_]]}
-    }{[[v : A |- \z.{{let z be y (+) stp in h{v (x) y}}(+){let z be stp (+) w in w}}:(B(+)C) -o ((A(x)B)(+)C) | o : _|_]]}
+            }{[[C |- C]]}
+          }{[[A, (B (+) C) |- (A (x) B) | C]]}
+        }{[[A,B(+)C |- h( A (x) B | C ) | _|_]]}
+      }{[[A,B(+)C |- ((A(x)B)(+)C) | _|_]]}
+    }{[[A |- (B(+)C) -o ((A(x)B)(+)C) | _|_]]}
   \end{math}
 \end{center}
-Next is the derivation after the commute:
+Now if we compute the dependencies of the previous derivation up to
+the application of the $\FILLdrulename{Dimpr}$ rule we will see that
+the only formula on the righthand side of the premise of the
+$\FILLdrulename{Dimpr}$ rule with dependencies is
+$[[((A(x)B)(+)C)]]$.  The set of dependencies is as follows:
+\[ \{ ([[B (+) C]] , [[(A (x) B) (+) C]]), 
+      ([[A]] , [[(A (x) B) (+) C]]),
+      ([[A]]' , [[A]]''), 
+      ([[B']] , [[B'']]), 
+      ([[C']] , [[C'']]) \} \]
+
+We can easily see that $[[_|_]]$ has no dependencies and
+rightfully so.  If we commute the cut just as before we obtain the
+following derivation:
+\begin{center}
+  \footnotesize
+  \begin{math}    
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Dimpr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=\tiny Dparr] {
+        $$\mprset{flushleft}
+        \inferrule* [right=\tiny Dparl] {
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Dcut] {      
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Dpr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Dax] {
+                \,
+              }{[[A |- A]]}
+            }{[[A |- A | _|_]]}
+            \\
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Dtr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Dax] {
+                \,
+              }{[[A |- A]]}
+              \\
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Dax] {
+                \,
+              }{[[B |- B]]}
+            }{[[A, B |- A (x) B]]}
+          }{[[B, A |- A (x) B | _|_]]}          
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Dax] {
+            \,
+          }{[[C |- C]]}
+        }{[[A,B(+)C |- h(A (x) B | C) | _|_]]}                   
+      }{[[A,B(+)C |- (A (x) B) (+) C | _|_]]}      
+    }{[[A |- (B(+)C) -o ((A (x) B) (+) C) | _|_]]}
+  \end{math}
+\end{center}
+As we can see without the terms, this derivation is nearly identical
+to the previous, and hence, we obtain the exact same dependency set.  
+However, we can use the dependency-relation formalization as a guiding
+principle in fixing the term formalization.
+% section bierman's_counterexample_in_the_dependency-relation_formalization (end)
+
+\section{The Fix}
+\label{sec:the_fix}
+Consider the $\FILLdrulename{Dparl}$ rule in the dependency-relation
+formalization:
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}
+      \FILLdruleDparl{}
+      && Dep(\tau) = \{([[A (+) B]], [[A]]), ([[A (+) B]], [[B]])\}
+      \star (Dep(\tau_1) \cup Dep(\tau_2))
+    \end{array}
+  \end{math}
+\end{center}
+If anything in $[[L1]]$ and $[[L2]]$ depend on $[[A]]$ or $[[B]]$ then
+this will be accounted for in $Dep(\tau_1)$ and $Dep(\tau_2)$.  Thus,
+in the term formalization when binding pattern variables across the
+righthand side of the sequent we should do so if and only if there is
+a dependency.  In fact, if a formula on the righthand side depends on
+a formula in the lefthand side, then the variable associated with
+that hypnosis must be free in the term associated with the formula on
+the right.  This evidence suggests that to fix the term formalization
+we must modify the $\FILLdrulename{Parl}$ rule.
+
+The new $\FILLdrulename{Parl}$ rule as follows:
+\[
+\FILLdruleNParl{}
+\]
+The previous rule depends on a function which we define as follows:
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}      
+      [[let-pat z (x (+) -) e]] = [[e]]\\
+      \,\,\,\,\,\,\text{where } [[x]] \not\in \mathsf{FV}([[e]])\\
+      & \\
+      [[let-pat z (- (+) y) e]] = [[e]]\\
+      \,\,\,\,\,\,\text{where } [[y]] \not\in \mathsf{FV}([[e]])\\
+      & \\
+      [[let-pat z p e]] = [[let z be p in e]]\\
+    \end{array}
+  \end{math}
+\end{center}
+Note that in the definition of $[[let-pat z p e]]$ the final case is a
+catchall case.  Now the new $\FILLdrulename{Parl}$ rule only pattern
+matches on $[[z]]$ in the righthand side if there is a dependency
+between the variables in the pattern and the term in the pattern
+match.  A similar rule to the above was proposed by Bellin in the
+conclusion of \cite{Bierman:1996}.
+
+This rule recovers from the counterexample.  The first derivation
+given in the counter example above is unchanged, so we only give the
+second:
 \begin{center}
   \footnotesize
   \begin{math}    
@@ -279,13 +390,14 @@ Next is the derivation after the commute:
           \inferrule* [right=\tiny Ax] {
             \,
           }{[[w : C |- w : C]]}
-        }{[[v:A,cb{z}:B(+)C |- h(let cb{z} be y (+) stp in h{v (x) y} : A (x) B | let cb{z} be stp (+) w in w : C) | let cb{z} be y (+) stp in o : _|_]]}                   
-      }{[[v:A,cb{z}:B(+)C |- {{let cb{z} be y (+) stp in h{v (x) y}} (+) {let cb{z} be stp (+) w in w}} : (A (x) B) (+) C | let cb{z} be y (+) stp in o : _|_]]}      
-    }{[[v:A |- \z.{{let z be y (+) stp in h{v (x) y}} (+) {let z be stp (+) w in w}} : (B(+)C) -o ((A (x) B) (+) C) | let cb{z} be y (+) stp in o : _|_]]}
+        }{[[v:A,cb{z}:B(+)C |- h(let cb{z} be y (+) - in h{v (x) y} : A (x) B | let cb{z} be - (+) w in w : C) | o : _|_]]}                   
+      }{[[v:A,cb{z}:B(+)C |- {{let cb{z} be y (+) - in h{v (x) y}} (+) {let cb{z} be - (+) w in w}} : (A (x) B) (+) C | o : _|_]]}      
+    }{[[v:A |- \z.{{let z be y (+) - in h{v (x) y}} (+) {let z be - (+) w in w}} : (B(+)C) -o ((A (x) B) (+) C) | o : _|_]]}
   \end{math}
 \end{center}
-% section bierman's_counterexample_in_the_dependency-relation_formalization (end)
-
+This new derivation is now correct, and mirrors that of the
+dependency-relation formalization.
+% section the_fix (end)
 
 \bibliographystyle{plain}
 \bibliography{ref}

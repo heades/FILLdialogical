@@ -155,7 +155,7 @@ data Derivation : Ctx → Ctx → Set where
   Cut : ∀{Γ₁ Γ₂ Δ₁ Δ₂ : Ctx}{a : Form} 
     → Derivation Γ₁ (a ∷ Δ₁) 
     → Derivation (a ∷ Γ₂) Δ₂ 
-    → Derivation (Γ₁ ++ Γ₂) (Δ₁ ++ Δ₂)
+    → Derivation (Γ₁ ++ Γ₂) (Δ₂ ++ Δ₁)
   TL : ∀{Γ₁ Γ₂ Δ : Ctx}{a b : Form} 
     → Derivation (Γ₁ ++ (a ∷ b ∷ Γ₂)) Δ
     → Derivation (Γ₁ ++ ((a ⊗ b) ∷ Γ₂)) Δ
@@ -167,10 +167,10 @@ data Derivation : Ctx → Ctx → Set where
     → Derivation (Γ₁ ++ Γ₂) Δ
     → Derivation (Γ₁ ++ (I ∷ Γ₂)) Δ
   IR : Derivation [] [ I ]
-  ParL : ∀{Γ₁ Δ₁ Γ₂ Δ₂ : Ctx}{a b : Form} 
-    → Derivation (a ∷ Γ₁) Δ₁
-    → Derivation (b ∷ Γ₂) Δ₂
-    → Derivation (a ⊕ b ∷ (Γ₁ ++ Γ₂)) (Δ₁ ++ Δ₂)
+  ParL : ∀{Γ'₁ Γ'₂ Γ₁ Δ₁ Γ₂ Δ₂ : Ctx}{a b : Form} 
+    → Derivation (Γ'₁ ++ (a ∷ Γ₁)) Δ₁
+    → Derivation (Γ'₂ ++ (b ∷ Γ₂)) Δ₂
+    → Derivation (Γ'₁ ++ Γ'₂ ++ (a ⊕ b ∷ (Γ₁ ++ Γ₂))) (Δ₁ ++ Δ₂)
   ParR : ∀{Γ Δ₁ Δ₂ : Ctx}{a b : Form} 
     → Derivation Γ (Δ₁ ++ (a ∷ b ∷ Δ₂))
     → Derivation Γ (Δ₁ ++ (a ⊕ b ∷ Δ₂))
@@ -201,10 +201,10 @@ dep (ImpL {a = a}{b = b} σ₁ σ₂) = (dep σ₂) ⋆ (((a , b) ∷ ((a ⊸ b)
 dep (ImpR {a = a}{b = b} σ) = ((dep σ) ⋆ [ (b , a ⊸ b) ])
 
 
-test-derv1 : ∀{A B C D : Form} → Derivation ((A ⊗ B) ⊸ (C ⊕ D) ∷ A ∷ []) (C ∷ B ⊸ D ∷ [])
-test-derv1 {A}{B}{C}{D} = ImpR {(A ⊗ B) ⊸ (C ⊕ D) ∷ A ∷ []}{[ C ]}{[]} (ImpL {[]} {A ∷ B ∷ []} {C ∷ D ∷ []} {[]} {A ⊗ B} {C ⊕ D} 
-                          (ParL {[]} {[ C ]} {[]} {[ D ]} {C} {D} (Ax {C}) (Ax {D})) 
-                          (TR {[ A ]} {[ B ]} {[]} {[]} {A} {B} (Ax {A}) (Ax {B})))
+-- test-derv1 : ∀{A B C D : Form} → Derivation ((A ⊗ B) ⊸ (C ⊕ D) ∷ A ∷ []) (C ∷ B ⊸ D ∷ [])
+-- test-derv1 {A}{B}{C}{D} = ImpR {(A ⊗ B) ⊸ (C ⊕ D) ∷ A ∷ []}{[ C ]}{[]} (ImpL {[]} {A ∷ B ∷ []} {C ∷ D ∷ []} {[]} {A ⊗ B} {C ⊕ D} 
+--                           (ParL {[]} {[ C ]} {[]} {[ D ]} {C} {D} (Ax {C}) (Ax {D})) 
+--                           (TR {[ A ]} {[ B ]} {[]} {[]} {A} {B} (Ax {A}) (Ax {B})))
 
 -- The result:
 -- A = At 1
@@ -220,12 +220,12 @@ test-derv1 {A}{B}{C}{D} = ImpR {(A ⊗ B) ⊸ (C ⊕ D) ∷ A ∷ []}{[ C ]}{[]}
 -- (pr B , pr (pr B)) ∷
 -- ((A ⊗ B) ⊸ (C ⊕ D) , C) ∷
 -- (pr C , pr (pr C)) ∷ (pr D , pr (pr D)) ∷ []
-dep-test-derv1 : EndoRel Form
-dep-test-derv1 = dep (test-derv1 {At 1}{At 2}{At 3}{At 4})
+-- dep-test-derv1 : EndoRel Form
+-- dep-test-derv1 = dep (test-derv1 {At 1}{At 2}{At 3}{At 4})
 
 test-derv2 : ∀{A B C D : Form} → Derivation ((A ⊗ B) ⊸ (C ⊕ D) ∷ A ∷ B ∷ []) (C ∷ D ∷ [])
 test-derv2 {A}{B}{C}{D} = ImpL {[]} {A ∷ B ∷ []} {C ∷ D ∷ []} {[]} {A ⊗ B} {C ⊕ D} 
-                          (ParL {[]} {[ C ]} {[]} {[ D ]} {C} {D} (Ax {C}) (Ax {D})) 
+                          (ParL {[]}{[]}{[]} {[ C ]} {[]} {[ D ]} {C} {D} (Ax {C}) (Ax {D})) 
                           (TR {[ A ]} {[ B ]} {[]} {[]} {A} {B} (Ax {A}) (Ax {B}))
 -- The result:
 -- A = At 1
@@ -243,3 +243,26 @@ test-derv2 {A}{B}{C}{D} = ImpL {[]} {A ∷ B ∷ []} {C ∷ D ∷ []} {[]} {A �
 -- (pr C , pr (pr C)) ∷ (pr D , pr (pr D)) ∷ []
 dep-test-derv2 : EndoRel Form
 dep-test-derv2 = dep (test-derv2 {At 1}{At 2}{At 3}{At 4})
+
+bctrex-derv : ∀{A B C} → Derivation (A ∷ B ⊕ C ∷ []) (((A ⊗ B) ⊕ C) ∷ ⊥ ∷ []) 
+bctrex-derv {A}{B}{C} = ParR {A ∷ B ⊕ C ∷ []} {[]} {[ ⊥ ]} {A ⊗ B} {C} 
+                             (Cut {Γ₁ = [ A ]} {[ B ⊕ C ]} {[ ⊥ ]} {A ⊗ B ∷ C ∷ []} {A} 
+                               (PR {[ A ]} {[ A ]} {[]} (Ax {A})) 
+                               (ParL {[ A ]} {[]} {[]} {[ A ⊗ B ]} {[]} {[ C ]} {B} {C} 
+                                 (TR {[ A ]} {[ B ]} {[]} {[]} {A} {B} (Ax {A}) (Ax {B})) 
+                                 (Ax {C})))
+
+-- The result:
+-- A = At 1
+-- B = At 2
+-- C = At 3
+-- D = At 4
+-- (B ⊕ C , (A ⊗ B) ⊕ C) ∷
+-- (B ⊕ C , (A ⊗ B) ⊕ C) ∷
+-- (A , (A ⊗ B) ⊕ C) ∷
+-- (pr (A) , pr (pr (A))) ∷
+-- (pr (A) , pr (pr (A))) ∷
+-- (pr (A) , pr (pr (A))) ∷
+-- (pr (B) , pr (pr (B))) ∷ (pr (C) , pr (pr (C))) ∷ []
+dep-bctrex : EndoRel Form
+dep-bctrex = dep (bctrex-derv {At 1}{At 2}{At 3})
