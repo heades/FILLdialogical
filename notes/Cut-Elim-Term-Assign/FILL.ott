@@ -127,7 +127,7 @@ defns
 
   G, x : A, y : B |- fi : Ci
   --------------------------------------------- :: Tl
-  G, z : A (x) B |- let x be x (x) y in fi : Ci
+  G, z : A (x) B |- let z be x (x) y in fi : Ci
 
   G |- e : A | L && G' |- f : B | L'
   --------------------------------------- :: Tr
@@ -219,7 +219,7 @@ defns
   {\x.e} e' = [e'/x]e
 
   ------------- :: Eta
-  \x.h{f x} = f
+  {\x.h{f x}} = f
 
   --------------------- :: I
   let * be stp in e = e

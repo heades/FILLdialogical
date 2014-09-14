@@ -302,6 +302,142 @@ right in both derivations.  Therefore, both of the previous derivations
 are equivalent.
 % subsection commuting_conversion_cut_vs._cut_(second_case) (end)
 
+\subsection{The $\eta$-expansion cases}
+\label{subsec:eta-expansion_cases}
+
+\subsubsection{Tensor}
+\label{subsec:tensor}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Ax] {
+      \,
+    }{[[x : A (x) B |- x : A (x) B]]}
+  \end{math}
+\end{center}
+is transformed into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Tl] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Tr] {
+        $$\mprset{flushleft}
+        \inferrule* [right=Ax] {
+          \,
+        }{[[y : A |- y : A]]}
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=Ax] {
+          \,
+        }{[[z : B |- z : B]]}
+      }{[[y : A, z : B |- y (x) z : A (x) B]]}
+    }{[[x : A (x) B |- let x be y (x) z in {y (x) z} : A (x) B]]}
+  \end{math}
+\end{center}
+Now by the rule $\FILLdrulename{EQ\_T2}$ we know $[[let x be y (x) z
+in {y (x) z} = x]]$.
+% subsubsection tensor (end)
+
+\subsubsection{Par}
+\label{subsec:par}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Ax] {
+      \,
+    }{[[x : A (+) B |- x : A (+) B]]}
+  \end{math}
+\end{center}
+is transformed into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Parr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Parl] {
+        $$\mprset{flushleft}
+        \inferrule* [right=Ax] {
+          \,
+        }{[[y : A |- y : A]]}
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=Ax] {
+          \,
+        }{[[z : B |- z : B]]}
+      }{[[x : A (+) B |- let x be (y (+) -) in y : A | let x be (- (+) z) in z : B]]}
+    }{[[x : A (+) B |- {let x be (y (+) -) in y} (+) {let x be (- (+) z) in z} : A (+) B]]}
+  \end{math}
+\end{center}
+Just as we saw in the previous case by rule $\FILLdrulename{Eq\_P3}$
+we know $[[{{let x be (y (+) -) in y} (+) {let x be (- (+) z) in z}} =
+x]]$.
+% subsubsection par (end)
+
+\subsubsection{Implication}
+\label{subsec:implication}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Ax] {
+      \,
+    }{[[x : A -o B |- A -o B]]}
+  \end{math}
+\end{center}
+transforms into the proof 
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=ImpR] {
+      $$\mprset{flushleft}
+      \inferrule* [right=ImpL] {
+        $$\mprset{flushleft}
+        \inferrule* [right=Ax] {
+          \,
+        }{[[y : A |- y : A]]}
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=Ax] {
+          \,
+        }{z : B |- z : B}
+      }{[[y : A, x : A -o B |- x y : B]]}
+    }{[[x : A -o B |- \y.h{x y} : A -o B]]}
+  \end{math}  
+\end{center}
+Finally, the two derivations are equivalent, because $[[{\y.h{x y}} =
+x]]$ by the $\FILLdrulename{Eq\_Eta}$ rule.
+% subsubsection implication (end)
+
+\subsubsection{Tensor unit}
+\label{subsec:tensor_unit}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Ax] {
+      \,
+    }{[[x : I |- x : I]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Il] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Ir] {
+        \,
+      }{[[. |- * : I]]}
+    }{[[x : I |- let x be stp in * : I]]}
+  \end{math}
+\end{center}
+Lastly, we know $[[x = let x be stp in *]]$ by $\FILLdrulename{Eq\_I}$.
+% subsubsection tensor_unit (end)
+
+% subsection eta-expansion_cases (end)
 
 % section cut-elimination (end)
 
