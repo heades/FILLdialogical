@@ -1,0 +1,325 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{cmll}
+\usepackage{stmaryrd}
+\usepackage{todonotes}
+\usepackage{mathpartir}
+\usepackage{fullpage}
+
+\include{type-theory_inc}
+
+\title{Cut-elimination of the APAL term assignment formulation of FILL}
+\author{Harley Eades III}
+\date{September 2014}
+
+%\usepackage{natbib}
+%\usepackage{graphicx}
+
+% Ott includes.
+\usepackage{color}
+\usepackage{supertabular}
+\input{FILL-ott}
+
+\begin{document}
+
+\maketitle
+
+In this short note I give the proof of the term assignment formulation
+of FILL first given in \cite{Hyland:1993}.
+
+\section{The Fix}
+\label{sec:the_fix}
+Consider the $\FILLdrulename{Dparl}$ rule in the dependency-relation
+formalization:
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}
+      \FILLdruleDparl{}
+      && Dep(\tau) = \{([[A (+) B]], [[A]]), ([[A (+) B]], [[B]])\}
+      \star (Dep(\tau_1) \cup Dep(\tau_2))
+    \end{array}
+  \end{math}
+\end{center}
+If anything in $[[L1]]$ and $[[L2]]$ depend on $[[A]]$ or $[[B]]$ then
+this will be accounted for in $Dep(\tau_1)$ and $Dep(\tau_2)$.  Thus,
+in the term formalization when binding pattern variables across the
+righthand side of the sequent we should do so if and only if there is
+a dependency.  In fact, if a formula on the righthand side depends on
+a formula in the lefthand side, then the variable associated with
+that hypnosis must be free in the term associated with the formula on
+the right.  This evidence suggests that to fix the term formalization
+we must modify the $\FILLdrulename{Parl}$ rule.
+
+The new $\FILLdrulename{Parl}$ rule as follows:
+\[
+\FILLdruleNParl{}
+\]
+The previous rule depends on a function which we define as follows:
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}      
+      [[let-pat z (x (+) -) e]] = [[e]]\\
+      \,\,\,\,\,\,\text{where } [[x]] \not\in \mathsf{FV}([[e]])\\
+      & \\
+      [[let-pat z (- (+) y) e]] = [[e]]\\
+      \,\,\,\,\,\,\text{where } [[y]] \not\in \mathsf{FV}([[e]])\\
+      & \\
+      [[let-pat z p e]] = [[let z be p in e]]\\
+    \end{array}
+  \end{math}
+\end{center}
+Note that in the definition of $[[let-pat z p e]]$ the final case is a
+catchall case.  Now the new $\FILLdrulename{Parl}$ rule only pattern
+matches on $[[z]]$ in the righthand side if there is a dependency
+between the variables in the pattern and the term in the pattern
+match.  A similar rule to the above was proposed by Bellin in the
+conclusion of \cite{Bierman:1996}.
+
+This rule recovers from the counterexample.  The first derivation
+given in the counter example above is unchanged, so we only give the
+second:
+\begin{center}
+  \footnotesize
+  \begin{math}    
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Impr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=\tiny Parr] {
+        $$\mprset{flushleft}
+        \inferrule* [right=\tiny Parl] {
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Cut] {      
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Pr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[v : A |- v : A]]}
+            }{[[v : A |- v : A | o : _|_]]}
+            \\
+            $$\mprset{flushleft}
+            \inferrule* [right=\tiny Tr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[x : A |- x : A]]}
+              \\
+              $$\mprset{flushleft}
+              \inferrule* [right=\tiny Ax] {
+                \,
+              }{[[y : B |- y : B]]}
+            }{[[x : A, y : B |- x (x) y : A (x) B]]}
+          }{[[y:B, v : A |- v (x) y: A (x) B | o : _|_]]}          
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=\tiny Ax] {
+            \,
+          }{[[w : C |- w : C]]}
+        }{[[v:A,cb{z}:B(+)C |- h(let cb{z} be y (+) - in h{v (x) y} : A (x) B | let cb{z} be - (+) w in w : C) | o : _|_]]}                   
+      }{[[v:A,cb{z}:B(+)C |- {{let cb{z} be y (+) - in h{v (x) y}} (+) {let cb{z} be - (+) w in w}} : (A (x) B) (+) C | o : _|_]]}      
+    }{[[v:A |- \z.{{let z be y (+) - in h{v (x) y}} (+) {let z be - (+) w in w}} : (B(+)C) -o ((A (x) B) (+) C) | o : _|_]]}
+  \end{math}
+\end{center}
+This new derivation is now correct, and mirrors that of the
+dependency-relation formalization.
+% section the_fix (end)
+
+\section{Basic Results}
+\label{sec:basic_results}
+\begin{lemma}[Substitution Distribution]
+  \label{lemma:substitution_distribution}
+  For any terms $[[t]]$, $[[t1]]$, and $[[t2]]$, $[[ [t1/x][t2/y]t]] = [[ [ [t1/x]t2/y][t2/x]t]]$.
+\end{lemma}
+\begin{proof}
+  This proof holds by straightforward induction on the form of $t$.
+\end{proof}
+
+\begin{lemma}[Left and Right Exchange]
+  \label{lemma:right_exchange}
+  If $[[G,G' |- D,D']]$, then $[[G',G |- D',D]]$.
+\end{lemma}
+\begin{proof}
+  This proof holds by straightforward induction on the assumed
+  derivation.
+\end{proof}
+
+% section basic_results (end)
+
+
+\section{Cut-elimination}
+\label{sec:cut-elimination}
+
+\subsection{Commuting conversion cut vs cut (first case)}
+\label{subsec:commuting_conversion_cut_vs_cut_(first_case)}
+The following proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}
+      }{[[G |- t : A | L]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}
+        }{[[G2,x : A,G3 |- t1 : B | L1]]}
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}
+        }{[[G1,y : B,G4 |- t2 : C | L2]]}
+      }{[[G1,G2,x : A,G3,G4 |- h(L1 | [t1/y]t2 : C) | [t1/y]L2]]}
+    }{[[G1,G2,G,G3,G4 |- h(h(L | [t/x]L1) | h{[t/x][t1/y]t2} : C) | [t/x]h([t1/y]L2)]]}
+  \end{math}
+\end{center}
+is transformed into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=] {
+        $$\mprset{flushleft}
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}               
+      }{[[G |- t : A | L]]}
+      \\
+      $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}
+        }{[[G2,x : A,G3 |- t1 : B | L1]]}
+      }{[[G2,G,G3 |- h{[t/x]t1} : B | [t/x]L1]]}
+      \\
+      $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}
+        }{[[G1,y : B,G4 |- t2 : C | L2]]}
+    }{[[G1,G2,G,G3,G4 |- h(h(L | [t/x]L1) | {[ [t/x]t1/y]t2} : C) | [ [t/x]t1/y]L2]]}
+  \end{math}
+\end{center}
+In order for the previous two proofs to be considered equal, we have
+to show that the final terms in the conclusion of the above
+derivations are equivalent. First, we know that the term $[[
+[t/x][t1/y]t2]]$ in the first derivation above is equivalent to $[[ [
+[t/x] t1/y][t/x] t2]]$ by Lemma~\ref{lemma:substitution_distribution}.
+Furthermore, by inspecting the first derivation we can see that $[[x
+nin FV(t2)]]$, and thus, $[[ [ [t/x] t1/y][t/x] t2 = [ [t/x] t1/y]
+t2]]$.  This argument may be repeated for any term in $[[L2]]$, and
+thus, we know $[[ [t/x][t1/y]L2 = [ [t/x]t1/y]L2]]$.
+% subsection commuting_conversion_cut_vs_cut_(first_case) (end)
+
+\subsection{Commuting conversion cut vs. cut (second case)}
+\label{subsec:commuting_conversion_cut_vs._cut_(second_case)}
+The second commuting conversion on cut begins with the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}
+      }{[[G |- t : A | L]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}
+        }{[[G' |- t' : B | L']]}
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}
+        }{[[G1,x : A,G2,y:B,G3 |- t1 : C | L1]]}
+      }{[[G1,x : A,G2,G',G3 |- h(L' | [t'/y]t1 : C) | [t'/y]L1]]}
+    }{[[G1,G,G2,G',G3 |- h(h(L | [t/x]L') | h{[t/x][t'/y]t1} : C) | [t/x]h([t'/y]L1)]]}
+  \end{math}
+\end{center}
+is transformed into the following proof:
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}
+      }{[[G' |- t' : B | L']]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}
+        }{[[G |- t : A | L]]}      
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}
+        }{[[G1,x : A,G2,y:B,G3 |- t1 : C | L1]]}
+      }{[[G1,G,G2,y:B,G3 |- h(L | [t/x]t1 : C) | [t/x]L1]]}
+    }{[[G1,G,G2,G',G3 |- h(h(L' | [t'/y]L) | h{[t'/y][t/x]t1} : C) | [t'/y]h([t/x]L1)]]}
+  \end{math}
+\end{center}
+Now, because we know $[[x,y nin FV(L)]]$ by inspection of the first
+derivation, we know that $[[L = [t'/y]L]]$ and $[[L' = [t/x]L']]$.
+Similarly, we know that $[[x,y nin FV(t)]]$ and $[[x,y nin FV(t')]]$.
+Thus, by this fact and Lemma~\ref{lemma:substitution_distribution}, we
+know that $[[ [t/x][t'/y]t1 = [ [t/x]t'/y][t/x]t1]] = [[ [t'/y][t/x]t1
+]]$.  This argument can be repeated for any term in $[[L1]]$, hence,
+$[[ [t/x][t'/y]L1 = [t'/y][t/x]L1]]$.  Finally, by
+Lemma~\ref{lemma:right_exchange} we can exchange $[[L']]$ and $[[
+[t'/y]L]]$ in the last proof to obtain the same order of terms on the
+right in both derivations.  Therefore, both of the previous derivations
+are equivalent.
+% subsection commuting_conversion_cut_vs._cut_(second_case) (end)
+
+
+% section cut-elimination (end)
+
+
+\bibliographystyle{plain}
+\bibliography{ref}
+
+\appendix
+
+\section{The full specification of FILL}
+\label{sec:fill_specification}
+\FILLall{}
+% section the_full_fill_specification (end)
+
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

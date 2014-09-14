@@ -1,0 +1,25 @@
+% Theorems
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{notn}[theorem]{Notation}
+\newtheorem{observation}[theorem]{Observation}
+
+% Commands that are useful for writing about type theory and programming language design.
+%% \newcommand{\case}[4]{\text{case}\ #1\ \text{of}\ #2\text{.}#3\text{,}#2\text{.}#4}
+\newcommand{\interp}[1]{\llbracket #1 \rrbracket}
+\newcommand{\normto}[0]{\rightsquigarrow^{!}}
+\newcommand{\join}[0]{\downarrow}
+\newcommand{\redto}[0]{\rightsquigarrow}
+\newcommand{\nat}[0]{\mathbb{N}}
+\newcommand{\fun}[2]{\lambda #1.#2}
+\newcommand{\CRI}[0]{\text{CR-Norm}}
+\newcommand{\CRII}[0]{\text{CR-Pres}}
+\newcommand{\CRIII}[0]{\text{CR-Prog}}
+\newcommand{\subexp}[0]{\sqsubseteq}
+%% Must include \usepackage{mathrsfs} for this to work.
+\newcommand{\powerset}[0]{\mathscr{P}}
