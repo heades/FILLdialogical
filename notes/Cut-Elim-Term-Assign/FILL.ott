@@ -160,6 +160,14 @@ defns
   -------------------------------------- :: Impr
   G |- \x.e : A -o B | L
 
+  G, x : A, y : B |- L
+  -------------------- :: Exl
+  G, y : B, x : A |- L
+
+  G |- h(h(L1 | t1 : A) | t2 : B) | L2
+  ------------------------------------ :: Exr
+  G |- h(h(L1 | t2 : B) | t1 : A) | L2
+
   % The dep-relation inference rules.
 
   --------- :: dax
@@ -214,6 +222,10 @@ defns
   defn
   f = e :: :: catEq :: 'Eq_'
   by
+
+  y nin FV(t) 
+  ----------- :: Alpha
+  t = [y/x]t
 
   ------------------- :: Beta
   {\x.e} e' = [e'/x]e

@@ -262,6 +262,8 @@ is transformed into the following proof:
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
+    \inferrule* [right=\text{\scriptsize Series of Exchanges}] {
+      $$\mprset{flushleft}
     \inferrule* [right=Cut] {
       $$\mprset{flushleft}
       \inferrule* [right=] {
@@ -287,6 +289,7 @@ is transformed into the following proof:
         }{[[G1,x : A,G2,y:B,G3 |- t1 : C | L1]]}
       }{[[G1,G,G2,y:B,G3 |- h(L | [t/x]t1 : C) | [t/x]L1]]}
     }{[[G1,G,G2,G',G3 |- h(h(L' | [t'/y]L) | h{[t'/y][t/x]t1} : C) | [t'/y]h([t/x]L1)]]}
+    }{[[G1,G,G2,G',G3 |- h(h(h([t'/y]L) | L') | h{[t'/y][t/x]t1} : C) | [t'/y]h([t/x]L1)]]}
   \end{math}
 \end{center}
 Now, because we know $[[x,y nin FV(L)]]$ by inspection of the first
@@ -295,11 +298,8 @@ Similarly, we know that $[[x,y nin FV(t)]]$ and $[[x,y nin FV(t')]]$.
 Thus, by this fact and Lemma~\ref{lemma:substitution_distribution}, we
 know that $[[ [t/x][t'/y]t1 = [ [t/x]t'/y][t/x]t1]] = [[ [t'/y][t/x]t1
 ]]$.  This argument can be repeated for any term in $[[L1]]$, hence,
-$[[ [t/x][t'/y]L1 = [t'/y][t/x]L1]]$.  Finally, by
-Lemma~\ref{lemma:right_exchange} we can exchange $[[L']]$ and $[[
-[t'/y]L]]$ in the last proof to obtain the same order of terms on the
-right in both derivations.  Therefore, both of the previous derivations
-are equivalent.
+$[[ [t/x][t'/y]L1 = [t'/y][t/x]L1]]$.  Therefore, both of the previous
+derivations are equivalent.
 % subsection commuting_conversion_cut_vs._cut_(second_case) (end)
 
 \subsection{The $\eta$-expansion cases}
@@ -434,10 +434,139 @@ transforms into the proof
     }{[[x : I |- let x be stp in * : I]]}
   \end{math}
 \end{center}
-Lastly, we know $[[x = let x be stp in *]]$ by $\FILLdrulename{Eq\_I}$.
+Lastly, we know $[[x = let x be stp in *]]$ by
+$\FILLdrulename{Eq\_I}$, therefore, the previous two proofs are
+equivalent.
 % subsubsection tensor_unit (end)
-
 % subsection eta-expansion_cases (end)
+
+\section{The axiom steps}
+\label{sec:the_axiom_steps}
+\subsection{The axiom step}
+\label{subsec:the_axiom_step}
+The proof 
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Ax] {
+        \,
+      }{[[x : A |- x : A]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi}          
+      }{[[G1,y : A, G2 |- t : B | L]]}
+    }{[[G1,x : A, G2 |- h{[x/y]t} : B | [x/y]L]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi}          
+      }{[[G1,y : A, G2 |- t : B | L]]}
+  \end{math}
+\end{center}
+By $\FILLdrulename{Eq\_Alpha}$ we know $[[t = [x/y]t]]$ and $[[L = [x/y]L]]$, therefore the
+previous two proofs are equivalent.
+% subsection the_axiom_step (end)
+
+\subsection{Conclusion vs. axom}
+\label{subsec:conclusion_vs._axom}
+The proof 
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi}          
+      }{[[G |- t : A | L]]}
+      \,
+      $$\mprset{flushleft}
+      \inferrule* [right=Ax] {
+        \,
+      }{[[x : A |- x : A]]}
+    }{[[G |- L | h{[t/x]x} : A]]}
+  \end{math}
+\end{center}
+transforms into 
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\text{\tiny Series of Exchanges}] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi}          
+      }{[[G |- t : A | L]]}
+    }{[[G |- L | t : A ]]}
+  \end{math}
+\end{center}
+By the definition of the substitution function we know $[[t =
+[t/x]x]]$. Therefore, the previous two proofs are equivalent.
+% subsection conclusion_vs._axom (end)
+% section the_axiom_steps (end)
+
+\section{The exchange steps}
+\label{sec:the_exchange_steps}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+      }{[[G |- t : A | L]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Ex] {        
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A, y : B, G2 |- t' : C | L']]}        
+      }{[[G1,y : B,x : A, G2 |- t' : C | L']]}
+    }{[[G1,y : B,G, G2 |- h(L | h{[t/x]t'} : C) | [t/x]L']]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\text{Series of Exchanges}] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+      }{[[G |- t : A | L]]}
+      \\
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A, y : B, G2 |- t' : C | L']]}        
+      }{[[G1,G,y : B, G2 |- h(L | h{[t/x]t'} : C) | [t/x]L']]}
+    }{[[G1,y : B,G, G2 |- h(L | h{[t/x]t'} : C) | [t/x]L']]}
+  \end{math}
+\end{center}
+% section the_exchange_steps (end)
+
 
 % section cut-elimination (end)
 
