@@ -636,7 +636,7 @@ The proof
           }{\pi_2}          
         }{[[G1,x : A, G2 |- h(h(L1 | t1 : B) | t2 : C) | L']]}        
       }{[[G1,x : A, G2 |- h(h(L1 | t2 : C) | t1 : B) | L']]}
-    }{[[G1,G,G2 |- h(h(h([t/x]L1) | h{[t/x]t2} : C) | h{[t/x]t1} : B) | [t/x]L']]}
+    }{[[G1,G,G2 |- L | h(h(h(h([t/x]L1) | h{[t/x]t2} : C) | h{[t/x]t1} : B) | [t/x]L')]]}
   \end{math}
 \end{center}
 transforms into this proof
@@ -658,17 +658,19 @@ transforms into this proof
             \,
           }{\pi_2}          
         }{[[G1,x : A, G2 |- h(h(L1 | t1 : B) | t2 : C) | L']]}        
-      }{[[G1,G, G2 |- h(h(h([t/x]L1) | h{[t/x]t1} : B) | h{[t/x]t2} : C) | [t/x]L']]}
+      }{[[G1,G, G2 |- L | h(h(h(h([t/x]L1) | h{[t/x]t1} : B) | h{[t/x]t2} : C) | [t/x]L')]]}
     }{[[G1,G, G2 |- h(h(h([t/x]L1) | h{[t/x]t2} : C) | h{[t/x]t1} : B) | [t/x]L']]}
   \end{math}
 \end{center}
 % subsubsection conclusion_vs._right-exchange_(the_first_case) (end)
+% subsection the_exchange_steps (end)
 
 \subsection{Principle formula vs. principle formula}
 \label{subsec:principle_formula_vs._principle_formula}
 
 \subsubsection{Tensor}
 \label{subsec:tensor}
+The proof 
 \begin{center}
   \footnotesize
   \begin{math}
@@ -697,7 +699,7 @@ transforms into this proof
           }{\pi_3}          
         }{[[G3,x : A, y : B,G4 |- t3 : C | L3]]}
       }{[[G3,z : A (x) B,G4 |- h{let z be x (x) y in t3} : C | h(let z be x (x) y in L3)]]}
-    }{[[G3,G1,G2,G4 |- h{[t1 (x) t2/z]{let z be x (x) y in t3}} : C | [t1 (x) t2/z](h(let z be x (x) y in L3))]]}
+    }{[[G3,G1,G2,G4 |- h(L1 | L2) | h(h{[t1 (x) t2/z]{let z be x (x) y in t3}} : C | [t1 (x) t2/z](h(let z be x (x) y in L3)))]]}
   \end{math}
 \end{center}
 is transformed into the proof
@@ -724,8 +726,8 @@ is transformed into the proof
             \,
           }{\pi_3}          
         }{[[G3,x : A, y : B,G4 |- t3 : C | L3]]}
-      }{[[G3,x : A, G2,G4 |- h{[t2/y]t3} : C | [t2/y]L3]]}
-    }{[[G3,G1, G2,G4 |- h{[t1/x][t2/y]t3} : C | [t1/x][t2/y]L3]]}
+      }{[[G3,x : A, G2,G4 |- L2 | h(h{[t2/y]t3} : C | [t2/y]L3)]]}
+    }{[[G3,G1, G2,G4 |- h(L1 | L2) | h(h{[t1/x][t2/y]t3} : C | [t1/x][t2/y]L3)]]}
   \end{math}
 \end{center}
 Now we can see that 
@@ -745,12 +747,88 @@ Lemma~\ref{lemma:substitution_distribution}.
 
 \subsubsection{Par}
 \label{subsec:par}
+The proof
+\begin{center}
+  \scriptsize
+  \begin{math}
+    $$\mprset{flushleft}
+\inferrule* [right=\scriptsize Cut] {
+  $$\mprset{flushleft}
+  \inferrule* [right=\scriptsize Parr] {
+    \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+      }{[[G1 |- h(L1 | t1 : A) | h(t2 : B | L2)]]}
+    }{[[G1 |- h(L1 | t1 (+) t2 : A (+) B) | L2]]}
+  \\
+  $$\mprset{flushleft}
+  \inferrule* [right=\scriptsize Parl] {
+    \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+      }{[[G2,x : A |- t3 : C1 | L3]]}
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+      }{[[G3, y : B |- t4 : C2 | L4]]}
+  }{[[G2,G3,z : A (+) B |- h(h{let-pat z (x (+) -) t3} : C1 | h{let-pat z (- (+) y) t4} : C2) | L5]]}
+}{[[G2,G3,G1 |- h(L1 | L2) | h(h(h{[t1 (+) t2/z]{let-pat z (x (+) -) t3}} : C1 | h{[t1 (+) t2/z]{let-pat z (- (+) y) t4}} : C2) | h([t1 (+) t2/z]L5))]]}
+  \end{math}
+\end{center}
+where $[[L4]] = [[h(h(let-pat z (x (+) -) L3), h(let-pat z (- (+) y) L4))]]$ is transformed into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Series of Exr] {
+      $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G1 |- h(L1 | t1 : A) | h(t2 : B | L2)]]}
+        \\
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G3, y : B |- t4 : C2 | L4]]}
+      }{[[G3, G1 |- h(h(L1 | t1 : A) | L2) | h(h{[t2/y]t4} : C2 | [t2/y]L4)]]}
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G2,x : A |- t3 : C1 | L3]]}
+    }{[[G2,G3,G1 |- h(h(L1 | L2) | h(h{[t2/y]t4} : C2 | [t2/y]L4)) | h(h{[t1/x]t3} : C1 | [t1/x]L3)]]}
+    }{[[G2,G3,G1 |- h(h(L1 | L2) | h{[t1/x]t3} : C1) | h(h{[t2/y]t4} : C2 | h(h([t1/x]L3) | [t2/y]L4))]]}
+  \end{math}
+\end{center}
+First, $[[ [t1 (+) t2/z]{let-pat z (x (+) -) t3} = let-pat {t1 (+) t2}
+(x (+) -) t3]]$, and $[[let-pat {t1 (+) t2} (x (+) -) t3 = [t1/x]t3]]$
+if $[[x in FV(t3)]]$ or $[[let-pat {t1 (+) t2} (x (+) -) t3 = t3]]$ otherwise.
+In the latter case we can see that $[[t3 = [t1/x]t3]]$, thus, in both cases
+$[[let-pat {t1 (+) t2} (x (+) -) t3 = [t1/x]t3]]$.  This argument can be repeated for any terms in $[[L3]]$,
+and hence, $[[ [t1 (+) t2/z](let-pat z (x (+) -) L3)]] = [[let-pat {t1 (+) t2} (x (+) -) L3 = [t1/x]L3]]$.
+We can apply a similar argument for $[[ [t1 (+) t2/z]{let-pat z (- (+) y) t4}]]$ and 
+$[[ [t1 (+) t2/x](let-pat z (- (+) y) L4)]]$.  Thus, all terms in the previous derivations are equivalent, 
+and therefore, the previous proofs are equivalent.
 
+Note that just as we mentioned about tensor we could have first cut on
+$[[A]]$, and then on $[[B]]$ in the second derivation, but we would
+have arrived as the same result just with potentially more exchanges
+on the right.
 % subsubsection par (end)
 
-% subsection principle_formula_vs._principle_formula (end)
 
-% subsection the_exchange_steps (end)
+
+% subsection principle_formula_vs._principle_formula (end)
 
 
 

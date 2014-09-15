@@ -47,8 +47,8 @@ term, t, e, d, f, g, u :: 'Term_' ::=
   | let t be p in e      ::   :: Let
   {{tex \mathsf{let}\,[[t]]\,\mathsf{be}\,[[p]]\,\mathsf{in}\,[[e]] }}
   | f e                  ::   :: App
-  | let-pat z p e        :: M :: LetPat
-  {{tex \mathsf{\operatorname{let-pat} }\,[[z]]\,[[p]]\,[[e]] }}
+  | let-pat t p e        :: M :: LetPat
+  {{tex \mathsf{\operatorname{let-pat} }\,[[t]]\,[[p]]\,[[e]] }}
   | [ t / x ] t'         :: M :: Substitution
   | [ t / x , e / y ] t' :: M :: Substitution2
   | { t }   :: S  :: Parens
@@ -87,6 +87,8 @@ L {{tex \Delta }} :: 'RContext_' ::=
   | let t be p in L ::   :: Let
   {{tex \mathsf{let}\,[[t]]\,\mathsf{be}\,[[p]]\,\mathsf{in}\,[[L]] }}
   | ( L ) :: :: Parens
+  | let-pat t p L  :: M :: LetPat
+  {{tex \mathsf{\operatorname{let-pat} }\,[[t]]\,[[p]]\,[[L]] }}
 
 % Meta-logical formulas.
 formula :: 'formula_' ::=
@@ -99,6 +101,8 @@ formula :: 'formula_' ::=
   | ( formula )              ::    :: parens
   | x nin FV ( L )           ::    :: NFV
   {{tex [[x]] \not\in \mathsf{FV}( [[L]] ) }}
+  | x in FV ( t )           ::    :: FV
+  {{tex [[x]] \in \mathsf{FV}( [[t]] ) }}
   | x , y nin FV ( L )           ::    :: NFV4
   {{tex [[x]],[[y]] \not\in \mathsf{FV}( [[L]] ) }}
   | x nin FV ( t )           ::    :: NFV2
