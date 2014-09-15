@@ -135,15 +135,6 @@ dependency-relation formalization.
   This proof holds by straightforward induction on the form of $t$.
 \end{proof}
 
-\begin{lemma}[Left and Right Exchange]
-  \label{lemma:right_exchange}
-  If $[[G,G' |- D,D']]$, then $[[G',G |- D',D]]$.
-\end{lemma}
-\begin{proof}
-  This proof holds by straightforward induction on the assumed
-  derivation.
-\end{proof}
-
 % section basic_results (end)
 
 
@@ -517,8 +508,10 @@ By the definition of the substitution function we know $[[t =
 % subsection conclusion_vs._axom (end)
 % section the_axiom_steps (end)
 
-\section{The exchange steps}
-\label{sec:the_exchange_steps}
+\subsection{The exchange steps}
+\label{subsec:the_exchange_steps}
+\subsubsection{Conclusion vs. exchange (the first case)}
+\label{subsec:conclusion_vs._exchange_(the_first_case)}
 The proof
 \begin{center}
   \begin{math}
@@ -531,7 +524,7 @@ The proof
       }{[[G |- t : A | L]]}
       \\
       $$\mprset{flushleft}
-      \inferrule* [right=Ex] {        
+      \inferrule* [right=Exl] {        
         $$\mprset{flushleft}
         \inferrule* [right=] {
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
@@ -565,7 +558,63 @@ transforms into the proof
     }{[[G1,y : B,G, G2 |- h(L | h{[t/x]t'} : C) | [t/x]L']]}
   \end{math}
 \end{center}
-% section the_exchange_steps (end)
+Clearly, all terms are equivalent, and so the previous two proofs are
+equivalent.
+% subsubsection conclusion_vs._exchange_(the_first_case) (end)
+
+\subsubsection{Conclusion vs. exchange (the second case)}
+\label{subsec:conclusion_vs._exchange_(the_second_case)}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+      }{[[G |- t : B | L]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Exl] {        
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A, y : B, G2 |- t' : C | L']]}        
+      }{[[G1,y : B,x : A, G2 |- t' : C | L']]}
+    }{[[G1,G, x : A,G2 |- h(L | h{[t/y]t'} : C) | [t/y]L']]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\text{Series of Exchanges}] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+      }{[[G |- t : B | L]]}
+      \\
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A, y : B, G2 |- t' : C | L']]}        
+      }{[[G1,x : A,G,G2 |- h(L | h{[t/y]t'} : C) | [t/y]L']]}
+    }{[[G1,G,x : A,G2 |- h(L | h{[t/y]t'} : C) | [t/y]L']]}
+  \end{math}
+\end{center}
+Clearly, all terms are equivalent, and so the previous two proofs are
+equivalent.
+% subsubsection conclusion_vs._exchange_(the_second_case) (end)
+% subsection the_exchange_steps (end)
+
 
 
 % section cut-elimination (end)
