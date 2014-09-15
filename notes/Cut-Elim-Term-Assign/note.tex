@@ -700,7 +700,53 @@ transforms into this proof
     }{[[G3,G1,G2,G4 |- h{[t1 (x) t2/z]{let z be x (x) y in t3}} : C | [t1 (x) t2/z](h(let z be x (x) y in L3))]]}
   \end{math}
 \end{center}
+is transformed into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+      }{[[G1 |- t1 : A | L1]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+      }{[[G2 |- t2 : B | L2]]}
+      \\
+      \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G3,x : A, y : B,G4 |- t3 : C | L3]]}
+      }{[[G3,x : A, G2,G4 |- h{[t2/y]t3} : C | [t2/y]L3]]}
+    }{[[G3,G1, G2,G4 |- h{[t1/x][t2/y]t3} : C | [t1/x][t2/y]L3]]}
+  \end{math}
+\end{center}
+Now we can see that 
+$[[h{[t1 (x) t2/z]{let z be x (x) y in t3}} = let t1 (x) t2 be x (x) y in t3]]$ 
+by the definition of substitution, and by using the $\FILLdrulename{Eq\_T1}$ rule 
+we obtain $[[let t1 (x) t2 be x (x) y in t3 = [t1/x][t2/y]t3]]$.  This argument
+can be repeated for any term in $[[ [t1 (x) t2/z](h(let z be x (x) y in L3))]]$, and
+thus, $[[ [t1 (x) t2/z](h(let z be x (x) y in L3)) = [t1/x][t2/y]L3]]$. Therefore, the
+previous two proofs are equivalent.
+
+Note that in the second derivation of the above transformation we
+first cut on $[[B]]$, and then $[[A]]$, but we could have cut on
+$[[A]]$ first, and then $[[B]]$, but this would yeild equivalent
+derivations as above by using
+Lemma~\ref{lemma:substitution_distribution}.
 % subsubsection tensor (end)
+
+\subsubsection{Par}
+\label{subsec:par}
+
+% subsubsection par (end)
 
 % subsection principle_formula_vs._principle_formula (end)
 
