@@ -510,7 +510,7 @@ By the definition of the substitution function we know $[[t =
 
 \subsection{The exchange steps}
 \label{subsec:the_exchange_steps}
-\subsubsection{Conclusion vs. exchange (the first case)}
+\subsubsection{Conclusion vs. left-exchange (the first case)}
 \label{subsec:conclusion_vs._exchange_(the_first_case)}
 The proof
 \begin{center}
@@ -562,7 +562,7 @@ Clearly, all terms are equivalent, and so the previous two proofs are
 equivalent.
 % subsubsection conclusion_vs._exchange_(the_first_case) (end)
 
-\subsubsection{Conclusion vs. exchange (the second case)}
+\subsubsection{Conclusion vs. left-exchange (the second case)}
 \label{subsec:conclusion_vs._exchange_(the_second_case)}
 The proof
 \begin{center}
@@ -613,6 +613,56 @@ transforms into the proof
 Clearly, all terms are equivalent, and so the previous two proofs are
 equivalent.
 % subsubsection conclusion_vs._exchange_(the_second_case) (end)
+
+\subsubsection{Conclusion vs. right-exchange}
+\label{subsec:conclusion_vs._right-exchange}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+      }{[[G |- t : A | L]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Exr] {
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A, G2 |- h(h(L1 | t1 : B) | t2 : C) | L']]}        
+      }{[[G1,x : A, G2 |- h(h(L1 | t2 : C) | t1 : B) | L']]}
+    }{[[G1,G,G2 |- h(h(h([t/x]L1) | h{[t/x]t2} : C) | h{[t/x]t1} : B) | [t/x]L']]}
+  \end{math}
+\end{center}
+transforms into this proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Exr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+      }{[[G |- t : A | L]]}
+      \\
+      $$\mprset{flushleft}
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A, G2 |- h(h(L1 | t1 : B) | t2 : C) | L']]}        
+      }{[[G1,G, G2 |- h(h(h([t/x]L1) | h{[t/x]t1} : B) | h{[t/x]t2} : C) | [t/x]L']]}
+    }{[[G1,G, G2 |- h(h(h([t/x]L1) | h{[t/x]t2} : C) | h{[t/x]t1} : B) | [t/x]L']]}
+  \end{math}
+\end{center}
+% subsubsection conclusion_vs._right-exchange_(the_first_case) (end)
 % subsection the_exchange_steps (end)
 
 
