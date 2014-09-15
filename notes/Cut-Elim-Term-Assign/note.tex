@@ -116,7 +116,7 @@ second:
           \inferrule* [right=\tiny Ax] {
             \,
           }{[[w : C |- w : C]]}
-        }{[[v:A,cb{z}:B(+)C |- h(let cb{z} be y (+) - in h{v (x) y} : A (x) B | let cb{z} be - (+) w in w : C) | o : _|_]]}                   
+        }{[[v:A,cb{z}:B(+)C |- h(h{let cb{z} be y (+) - in h{v (x) y}} : A (x) B | h{let cb{z} be - (+) w in w} : C) | o : _|_]]}                   
       }{[[v:A,cb{z}:B(+)C |- {{let cb{z} be y (+) - in h{v (x) y}} (+) {let cb{z} be - (+) w in w}} : (A (x) B) (+) C | o : _|_]]}      
     }{[[v:A |- \z.{{let z be y (+) - in h{v (x) y}} (+) {let z be - (+) w in w}} : (B(+)C) -o ((A (x) B) (+) C) | o : _|_]]}
   \end{math}
@@ -324,7 +324,7 @@ is transformed into the proof
           \,
         }{[[z : B |- z : B]]}
       }{[[y : A, z : B |- y (x) z : A (x) B]]}
-    }{[[x : A (x) B |- let x be y (x) z in {y (x) z} : A (x) B]]}
+    }{[[x : A (x) B |- h{let x be y (x) z in {y (x) z}} : A (x) B]]}
   \end{math}
 \end{center}
 Now by the rule $\FILLdrulename{EQ\_T2}$ we know $[[let x be y (x) z
@@ -358,7 +358,7 @@ is transformed into the proof
         \inferrule* [right=Ax] {
           \,
         }{[[z : B |- z : B]]}
-      }{[[x : A (+) B |- let x be (y (+) -) in y : A | let x be (- (+) z) in z : B]]}
+      }{[[x : A (+) B |- h{let x be (y (+) -) in y} : A | h{let x be (- (+) z) in z} : B]]}
     }{[[x : A (+) B |- {let x be (y (+) -) in y} (+) {let x be (- (+) z) in z} : A (+) B]]}
   \end{math}
 \end{center}
@@ -422,7 +422,7 @@ transforms into the proof
       \inferrule* [right=Ir] {
         \,
       }{[[. |- * : I]]}
-    }{[[x : I |- let x be stp in * : I]]}
+    }{[[x : I |- h{let x be stp in *} : I]]}
   \end{math}
 \end{center}
 Lastly, we know $[[x = let x be stp in *]]$ by
@@ -663,6 +663,47 @@ transforms into this proof
   \end{math}
 \end{center}
 % subsubsection conclusion_vs._right-exchange_(the_first_case) (end)
+
+\subsection{Principle formula vs. principle formula}
+\label{subsec:principle_formula_vs._principle_formula}
+
+\subsubsection{Tensor}
+\label{subsec:tensor}
+\begin{center}
+  \footnotesize
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\footnotesize Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=\footnotesize Tr] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+      }{[[G1 |- t1 : A | L1]]}
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+      }{[[G2 |- t2 : B | L2]]}
+      }{[[G1,G2 |- t1 (x) t2 : A (x) B | h(L1 | L2)]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=\footnotesize Tl] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G3,x : A, y : B,G4 |- t3 : C | L3]]}
+      }{[[G3,z : A (x) B,G4 |- h{let z be x (x) y in t3} : C | h(let z be x (x) y in L3)]]}
+    }{[[G3,G1,G2,G4 |- h{[t1 (x) t2/z]{let z be x (x) y in t3}} : C | [t1 (x) t2/z](h(let z be x (x) y in L3))]]}
+  \end{math}
+\end{center}
+% subsubsection tensor (end)
+
+% subsection principle_formula_vs._principle_formula (end)
+
 % subsection the_exchange_steps (end)
 
 

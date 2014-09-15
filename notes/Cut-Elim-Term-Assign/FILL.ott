@@ -84,6 +84,9 @@ L {{tex \Delta }} :: 'RContext_' ::=
   | A      ::  :: Formula
   | L , L' ::   :: FormulaExt
   | [ t / x ] L :: :: Subst
+  | let t be p in L ::   :: Let
+  {{tex \mathsf{let}\,[[t]]\,\mathsf{be}\,[[p]]\,\mathsf{in}\,[[L]] }}
+  | ( L ) :: :: Parens
 
 % Meta-logical formulas.
 formula :: 'formula_' ::=
@@ -119,15 +122,15 @@ defns
   G, G' |- L | [t/y]fi : Bi
 
   G |- ei : Ai
-  ----------------------------------- :: Il
-  G, x : I |- let x be stp in ei : Ai
+  -------------------------------------- :: Il
+  G, x : I |- h{let x be stp in ei} : Ai
 
   ---------- :: Ir
   . |- * : I
 
   G, x : A, y : B |- fi : Ci
-  --------------------------------------------- :: Tl
-  G, z : A (x) B |- let z be x (x) y in fi : Ci
+  ------------------------------------------------ :: Tl
+  G, z : A (x) B |- h{let z be x (x) y in fi} : Ci
 
   G |- e : A | L && G' |- f : B | L'
   --------------------------------------- :: Tr
@@ -141,8 +144,8 @@ defns
   G |- o : _|_ | L
 
   G, x : A |- di : Ci && G', y : B |- fj : Dj
-  -------------------------------------------------------------------------- :: Parl
-  G,G',z : A (+) B |- let z be x (+) - in di : Ci | let z be - (+) y in fj : Dj
+  ----------------------------------------------------------------------------------- :: Parl
+  G,G',z : A (+) B |- h{let z be x (+) - in di} : Ci | h{let z be - (+) y in fj} : Dj
 
   G, x : A |- di : Ci && G', y : B |- fj : Dj
   ----------------------------------------------------------------------------- :: NParl
