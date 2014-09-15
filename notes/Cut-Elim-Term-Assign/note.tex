@@ -822,11 +822,162 @@ and therefore, the previous proofs are equivalent.
 
 Note that just as we mentioned about tensor we could have first cut on
 $[[A]]$, and then on $[[B]]$ in the second derivation, but we would
-have arrived as the same result just with potentially more exchanges
+have arrived at the same result just with potentially more exchanges
 on the right.
 % subsubsection par (end)
 
+\subsubsection{Implication}
+\label{subsubsec:implication}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Impr] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G, x : A |- t : B | L]]}
+        \\
+        [[x nin FV(L)]]
+      }{[[G |- \x.t : A -o B | L]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Impl] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1 |- t1 : A | L1]]}
+        \\
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G2, y : B |- t2 : C | L2]]}
+      }{[[G1, z : A -o B,G2 |- h(h{[z t1/y]t2} : C | [z t1/y]L2) | L1]]}
+    }{[[G1,G,G2 |- L | h(h(h{[\x.t/z][z t1/y]t2} : C | [\x.t/z][z t1/y]L2) | [\x.t/z]L1)]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \scriptsize
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Series of Exchanges] {
+      $$\mprset{flushleft}
+    \inferrule* [right=\scriptsize Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=\scriptsize Cut] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1 |- t1 : A | L1]]}
+        \\
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G, x : A |- t : B | L]]}
+        \\
+        [[x nin FV(L)]]
+      }{[[G, G1 |- L1 | h(h{[t1/x]t} : B | [t1/x]L)]]}
+      \\
+      \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G2, y : B |- t2 : C | L2]]}
+      }{[[G2, G,G1 |- h(L1 | [t1/x]L) | h(h{[ [t1/x]t/y]t2} : C | [ [t1/x]t/y]L2)]]}
+    }{[[G1, G,G2 |- h(h([t1/x]L) | h{[ [t1/x]t/y]t2} : C) | h(h([ [t1/x]t/y]L2) | L1)]]}
+  \end{math}
+\end{center}
+First, by hypothesis we know $[[x nin FV(L)]]$, and so we know $[[L = [t1/x]L]]$.  Now we can see
+that $[[ [\x.t/z][z t1/y]t2 = [{\x.t} t1/y]t2]] = [[ [ [t1/x]t/y]t2]]$ by using the congruence rules
+of equality and the rule $\FILLdrulename{Eq\_Beta}$.  This argument can be repeated for any term
+in $[[ [\x.t/z][z t1/y]L2]]$, and so $[[ [\x.t/z][z t1/y]L2 = [ [t1/x]t/y]L2]]$.  Finally, by inspecting the previous
+derivations we can see that $[[z nin FV(L1)]]$, and thus, $[[L1 = [\x.t/x]L1]]$.  Therefore, all terms are equivalent between the previous two derivations, and 
+hence, the two proofs are equivalent.
+% subsubsection implication (end)
 
+\subsubsection{Tensors Unit}
+\label{subsubsec:ten-unit}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Ir] {
+        \,
+      }{[[. |- * : I]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Il] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi}          
+        }{[[G |- t : A | L]]}
+      }{[[G, x : I |- h{let x be stp in t} : A | let x be stp in L]]}
+    }{[[G |- h{[*/x]{let x be stp in t}} : A | [*/x](let x be stp in L)]]}
+  \end{math}
+\end{center}
+is transformed into the proof
+\begin{center}
+  \begin{math}
+    \inferrule* [right=] {
+      \inferrule* [right=,vdots=1.5em,fraction=\,] {
+        \,
+      }{\pi}          
+    }{[[G |- t : A | L]]}
+  \end{math}
+\end{center}
+
+We can see that $[[ [*/x]{let x be stp in t} = let * be stp in t]] =
+[[t]]$ by the definition of substitution and the
+$\FILLdrulename{Eq\_I}$ rule.  This argument can be repeated for any term in 
+$[[ [*/x](let x be stp in L)]]$, and hence, $[[ [*/x](let x be stp in L) = L]]$.
+% subsubsection ten-unit (end)
+
+\subsubsection{Pars Unit}
+\label{subsec:pars_unit}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Pr] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi}          
+        }{[[G |- L]]}
+      }{[[G |- o : _|_ | L]]}
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Pl] {
+        \,
+      }{[[x : _|_ |- .]]}
+    }{[[G |- L | [o/x].]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    \inferrule* [right=] {
+      \inferrule* [right=,vdots=1.5em,fraction=\,] {
+        \,
+      }{\pi}          
+    }{[[G |- L]]}
+  \end{math}
+\end{center}
+Clearly, $[[ [o/x]. = .]]$, hence, the two proofs above are equivalent.
+% subsubsection pars_unit (end)
 
 % subsection principle_formula_vs._principle_formula (end)
 
