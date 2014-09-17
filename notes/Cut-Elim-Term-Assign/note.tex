@@ -9,7 +9,7 @@
 
 \include{type-theory_inc}
 
-\title{Cut-elimination of the APAL term assignment formulation of FILL}
+\title{Cut-elimination of the term assignment formulation of FILL}
 \author{Harley Eades III}
 \date{September 2014}
 
@@ -25,108 +25,174 @@
 
 \maketitle
 
-In this short note I give the proof of the term assignment formulation
-of FILL first given in \cite{Hyland:1993}.
+In \cite{Hyland:1993} Martin Hyland and Veleria de Paiva give a term
+formalization of Full Intuitionistic Linear Logic (FILL), but later
+Bierman was able to give a counterexample to cut-elimination
+\cite{Bierman:1996}.  As Bierman explains the problem was that the
+left rule for par introduced a fresh variable into to many terms on
+the right-side of the conclusion.  This resulted in a counterexample
+where this fresh variable became bound in one term, but is left free
+in another. This resulted from first doing a commuting conversion on
+cut, and then $\lambda$-binding the fresh variable.  Thus,
+cut-elmination failed.  In the conclusion of Bierman's paper he gives
+an alternate left-par rule which he attributes to Bellin, and states
+that this alternate rule should fix the problem with cut-elimination
+\cite{Bierman:1996}.  In this note we adopt Bellin's rule, and then
+show cut-elimination in Section~\ref{sec:cut-elimination}.
 
-\section{The Fix}
-\label{sec:the_fix}
-Consider the $\FILLdrulename{Dparl}$ rule in the dependency-relation
-formalization:
-\begin{center}
-  \begin{math}
-    \begin{array}{lll}
-      \FILLdruleDparl{}
-      && Dep(\tau) = \{([[A (+) B]], [[A]]), ([[A (+) B]], [[B]])\}
-      \star (Dep(\tau_1) \cup Dep(\tau_2))
-    \end{array}
-  \end{math}
-\end{center}
-If anything in $[[L1]]$ and $[[L2]]$ depend on $[[A]]$ or $[[B]]$ then
-this will be accounted for in $Dep(\tau_1)$ and $Dep(\tau_2)$.  Thus,
-in the term formalization when binding pattern variables across the
-righthand side of the sequent we should do so if and only if there is
-a dependency.  In fact, if a formula on the righthand side depends on
-a formula in the lefthand side, then the variable associated with
-that hypnosis must be free in the term associated with the formula on
-the right.  This evidence suggests that to fix the term formalization
-we must modify the $\FILLdrulename{Parl}$ rule.
+\section{Full Intuitionistic Linear Logic (FILL)}
+\label{sec:full_intuitionistic_linear_logic_(fill)}
 
-The new $\FILLdrulename{Parl}$ rule as follows:
-\[
-\FILLdruleNParl{}
-\]
-The previous rule depends on a function which we define as follows:
-\begin{center}
-  \begin{math}
-    \begin{array}{lll}      
-      [[let-pat z (x (+) -) e]] = [[e]]\\
-      \,\,\,\,\,\,\text{where } [[x]] \not\in \mathsf{FV}([[e]])\\
-      & \\
-      [[let-pat z (- (+) y) e]] = [[e]]\\
-      \,\,\,\,\,\,\text{where } [[y]] \not\in \mathsf{FV}([[e]])\\
-      & \\
-      [[let-pat z p e]] = [[let z be p in e]]\\
-    \end{array}
-  \end{math}
-\end{center}
-Note that in the definition of $[[let-pat z p e]]$ the final case is a
-catchall case.  Now the new $\FILLdrulename{Parl}$ rule only pattern
-matches on $[[z]]$ in the righthand side if there is a dependency
-between the variables in the pattern and the term in the pattern
-match.  A similar rule to the above was proposed by Bellin in the
-conclusion of \cite{Bierman:1996}.
+In this section we give a brief description of Full Intuitionistic
+Linear Logic (FILL) in the style found in \cite{Hyland:1993}.
+However, we use a slightly different presentation that we feel
+provides a more elegant description of the logic.  We first give the
+syntax of formulas, patterns, terms, and contexts.  Following the syntax we
+define several meta-functions that will be used when defining the
+inference rules of the logic.
 
-This rule recovers from the counterexample.  The first derivation
-given in the counter example above is unchanged, so we only give the
-second:
-\begin{center}
-  \footnotesize
-  \begin{math}    
-    $$\mprset{flushleft}
-    \inferrule* [right=\tiny Impr] {
-      $$\mprset{flushleft}
-      \inferrule* [right=\tiny Parr] {
-        $$\mprset{flushleft}
-        \inferrule* [right=\tiny Parl] {
-          $$\mprset{flushleft}
-          \inferrule* [right=\tiny Cut] {      
-            $$\mprset{flushleft}
-            \inferrule* [right=\tiny Pr] {
-              $$\mprset{flushleft}
-              \inferrule* [right=\tiny Ax] {
-                \,
-              }{[[v : A |- v : A]]}
-            }{[[v : A |- v : A | o : _|_]]}
-            \\
-            $$\mprset{flushleft}
-            \inferrule* [right=\tiny Tr] {
-              $$\mprset{flushleft}
-              \inferrule* [right=\tiny Ax] {
-                \,
-              }{[[x : A |- x : A]]}
-              \\
-              $$\mprset{flushleft}
-              \inferrule* [right=\tiny Ax] {
-                \,
-              }{[[y : B |- y : B]]}
-            }{[[x : A, y : B |- x (x) y : A (x) B]]}
-          }{[[y:B, v : A |- v (x) y: A (x) B | o : _|_]]}          
-          \\
-          $$\mprset{flushleft}
-          \inferrule* [right=\tiny Ax] {
-            \,
-          }{[[w : C |- w : C]]}
-        }{[[v:A,cb{z}:B(+)C |- h(h{let cb{z} be y (+) - in h{v (x) y}} : A (x) B | h{let cb{z} be - (+) w in w} : C) | o : _|_]]}                   
-      }{[[v:A,cb{z}:B(+)C |- {{let cb{z} be y (+) - in h{v (x) y}} (+) {let cb{z} be - (+) w in w}} : (A (x) B) (+) C | o : _|_]]}      
-    }{[[v:A |- \z.{{let z be y (+) - in h{v (x) y}} (+) {let z be - (+) w in w}} : (B(+)C) -o ((A (x) B) (+) C) | o : _|_]]}
-  \end{math}
-\end{center}
-This new derivation is now correct, and mirrors that of the
-dependency-relation formalization.
-% section the_fix (end)
+\begin{definition}
+  \label{def:syntax}
+  The syntax for FILL is as follows:
+  \begin{center}
+    \begin{math}
+      \begin{array}{cll}
+        \text{(Formulas)}       & [[A]], [[B]], [[C]], [[D]], [[E]] ::= [[I]] \mid [[_|_]]
+        \mid [[A -o B]] \mid [[A (x) B]] \mid [[A (+) B]] \\
+        \text{(Patterns)} & [[p]] ::= [[stp]] \mid [[-]] \mid [[x]] \mid [[p1 (x)
+        p2]] \mid [[p1 (+) p2]]\\
+        \text{(Terms)}          & [[t]], [[e]] ::= [[x]] \mid [[*]] \mid [[o]] \mid
+        [[t1 (x) t2]] \mid [[t1 (+) t2]] \mid [[\x.t]] \mid [[let t be p in e]] \mid [[t1 t2]]\\
+        \text{(Left Contexts)}  & [[G]] ::= [[.]] \mid [[x : A]] \mid [[G1,G2]]\\
+        \text{(Right Contexts)} & [[L]] ::= [[.]] \mid [[t : A]] \mid [[L1,L2]]\\
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+
+At this point we introduce some basic syntax and definitions to
+facilitate readability, and presentation of the inference rules.
+First, we will often write $[[L1 | L2]]$ as syntactic sugar for
+$[[L1,L2]]$.  The former syntax should be read as ``$[[L1]]$ or
+$[[L2]]$.'' This will help readability of the sequent we will
+introduce below.  We denote the usual capture-avoiding substitution by
+$[[ [t/x]t']]$.
+
+\begin{definition}
+  \label{def:delta-sub}
+  We extend the capture-avoiding substitution function to right
+  contexts as follows:
+  \begin{center}
+    \begin{math}
+      \begin{array}{lll}
+        [[ [t/x] .]] = [[.]]\\
+        [[ [t/x] (t' : A)]] = [[{[t/x]t'} : A]]\\
+        [[ [t/x] (L1 | L2)]] = [[([t/x]L1) | ([t/x]L2)]]\\
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+The previous extension will make conducting substitutions across a
+sequence of terms in an inference rule easier.  Similarly, we find
+it convenient to be able to do this style of extension for the
+let-binding as well.
+\begin{definition}
+  \label{def:delta-let}
+  We extend let-binding terms to right contexts as follows:
+  \begin{center}
+    \begin{math}
+      \begin{array}{lll}
+        [[ let t be p in .]] = [[.]]\\
+        [[ let t be p in (t' : A)]] = [[{let t be p in t'} : A]]\\
+        [[ let t be p in (L1 | L2)]] = [[(let t be p in L1) | (let t be p in L2)]]\\
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+We denote the usual function that computes the set of free variables
+in a term by $\mathsf{FV}([[t]])$.
+\begin{definition}
+  \label{def:delta-FV}
+  We extend the free-variable function on terms to right contexts as
+  follows:
+  \begin{center}
+    \begin{math}
+      \begin{array}{lll}
+        [[FV(.)]] = \emptyset\\
+        [[FV(t : A)]] = [[FV(t)]]\\
+        [[FV(L1 | L2)]] = [[FV(L1)]] \cup [[FV(L2)]]\\
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+
+Finally, we arrive at the inference rules of FILL.
+\begin{definition}
+  \label{def:infr}
+  The inference rules for derivability in FILL are as follows:
+  \begin{center}
+      \begin{mathpar}
+        \FILLdruleAx{}    \and 
+        \FILLdruleCut{}     \and 
+        \FILLdruleIl{}            \and 
+        \FILLdruleIr{}    \and 
+        \FILLdruleTl{}    \and 
+        \FILLdruleTr{}    \and 
+        \FILLdrulePl{}    \and 
+        \FILLdrulePr{}    \and 
+        \FILLdruleParl{}    \and 
+        \FILLdruleParr{}    \and 
+        \FILLdruleImpl{}    \and 
+        \FILLdruleImpr{}    \and 
+        \FILLdruleExl{}    \and 
+        \FILLdruleExr{}    
+    \end{mathpar}
+  \end{center}
+\end{definition}
+
+The $\FILLdrulename{Parl}$ rule depends on a function $[[let-pat z p
+L]]$.  We define this function next.
+\begin{definition}
+  \label{def:let-pat-term}
+  The function $[[let-pat z p t]]$ is defined as follows:
+  \begin{center}
+    \begin{math}
+      \begin{array}{lll}      
+        [[let-pat z (x (+) -) t]] = [[t]]\\
+        \,\,\,\,\,\,\text{where } [[x]] \not\in \mathsf{FV}([[t]])\\
+        & \\
+        [[let-pat z (- (+) y) t]] = [[t]]\\
+        \,\,\,\,\,\,\text{where } [[y]] \not\in \mathsf{FV}([[t]])\\
+        & \\
+        [[let-pat z p t]] = [[let z be p in t]]\\
+      \end{array}
+    \end{math}
+  \end{center}
+  We can then extend the previous definition to right-contexts as
+  follows:
+  \begin{center}
+    \begin{math}
+      \begin{array}{lll}      
+        [[let-pat z p .]] = [[.]]\\                
+        [[let-pat z p (t : A)]] = [[{let-pat z p t} : A]]\\
+        [[let-pat z p (L1 | L2)]] = [[(let-pat z p L1) | (let-pat z p L2)]]\\
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+The motivation behind this function is that it only binds the pattern
+variables in $[[p]]$ in a term if and only if those pattern variables
+are free in the term.  This over comes the counterexample given by
+Bierman in \cite{Bierman:1996}.  Throughout the sequel we will denote
+derivations of the previous rules by $\pi$.
+% section full_intuitionistic_linear_logic_(fill) (end)
 
 \section{Basic Results}
 \label{sec:basic_results}
+
+In this section we simply list several basic results needed throughout
+the sequel:
+
 \begin{lemma}[Substitution Distribution]
   \label{lemma:substitution_distribution}
   For any terms $[[t]]$, $[[t1]]$, and $[[t2]]$, $[[ [t1/x][t2/y]t]] = [[ [ [t1/x]t2/y][t2/x]t]]$.
@@ -134,13 +200,54 @@ dependency-relation formalization.
 \begin{proof}
   This proof holds by straightforward induction on the form of $t$.
 \end{proof}
-
 % section basic_results (end)
 
 
 \section{Cut-elimination}
 \label{sec:cut-elimination}
+The usual proof of cut-elimination for intuitionistic and classical
+linear logic should suffice for FILL.  Thus, in this section we simply
+give the cut-elimination procedure for FILL following the development
+in \cite{Mellies:2009}.  However, there is one invariant that must be
+verified across each derivation transformation.  The invariant is that
+if a derivation $\pi$ is transformed into a derivation $\pi'$, then
+the terms in $\pi$ must be equivalent to the terms in $\pi'$, but
+using what notion of equivalence?
 
+\begin{definition}
+  \label{def:FILL-eq}
+  Equivalence on terms is defined as follows:
+  \begin{center}
+    \begin{mathpar}
+      \FILLdruleEqXXAlpha{} \and
+      \FILLdruleEqXXBeta{} \and
+      \FILLdruleEqXXEta{} \and
+      \FILLdruleEqXXI{} \and
+      \FILLdruleEqXXStp{} \and
+      \FILLdruleEqXXTOne{} \and
+      \FILLdruleEqXXTTwo{} \and
+      \FILLdruleEqXXPOne{} \and
+      \FILLdruleEqXXPTwo{} \and
+      \FILLdruleEqXXPThree{} \and
+      \FILLdruleEqXXLam{} \and
+      \FILLdruleEqXXAppOne{} \and
+      \FILLdruleEqXXAppTwo{} \and
+      \FILLdruleEqXXTenOne{} \and
+      \FILLdruleEqXXTenTwo{} \and
+      \FILLdruleEqXXParOne{} \and
+      \FILLdruleEqXXParTwo{} \and
+      \FILLdruleEqXXLetOne{} \and
+      \FILLdruleEqXXLetTwo{} \and
+      \FILLdruleEqXXRefl{} \and
+      \FILLdruleEqXXSym{} \and
+      \FILLdruleEqXXTrans{}
+    \end{mathpar}
+  \end{center}
+\end{definition}
+
+Throughout the remainder of this section we give each transformation
+of derivations, and then prove that the terms maintain equivalence
+across each transformation.
 \subsection{Commuting conversion cut vs cut (first case)}
 \label{subsec:commuting_conversion_cut_vs_cut_(first_case)}
 The following proof
@@ -289,8 +396,7 @@ Similarly, we know that $[[x,y nin FV(t)]]$ and $[[x,y nin FV(t')]]$.
 Thus, by this fact and Lemma~\ref{lemma:substitution_distribution}, we
 know that $[[ [t/x][t'/y]t1 = [ [t/x]t'/y][t/x]t1]] = [[ [t'/y][t/x]t1
 ]]$.  This argument can be repeated for any term in $[[L1]]$, hence,
-$[[ [t/x][t'/y]L1 = [t'/y][t/x]L1]]$.  Therefore, both of the previous
-derivations are equivalent.
+$[[ [t/x][t'/y]L1 = [t'/y][t/x]L1]]$.
 % subsection commuting_conversion_cut_vs._cut_(second_case) (end)
 
 \subsection{The $\eta$-expansion cases}
@@ -375,7 +481,7 @@ The proof
     $$\mprset{flushleft}
     \inferrule* [right=Ax] {
       \,
-    }{[[x : A -o B |- A -o B]]}
+    }{[[x : A -o B |- x : A -o B]]}
   \end{math}
 \end{center}
 transforms into the proof 
@@ -398,8 +504,8 @@ transforms into the proof
     }{[[x : A -o B |- \y.h{x y} : A -o B]]}
   \end{math}  
 \end{center}
-Finally, the two derivations are equivalent, because $[[{\y.h{x y}} =
-x]]$ by the $\FILLdrulename{Eq\_Eta}$ rule.
+Finally, all terms in the two derivations are equivalent, because
+$[[{\y.h{x y}} = x]]$ by the $\FILLdrulename{Eq\_Eta}$ rule.
 % subsubsection implication (end)
 
 \subsubsection{Tensor unit}
@@ -426,8 +532,7 @@ transforms into the proof
   \end{math}
 \end{center}
 Lastly, we know $[[x = let x be stp in *]]$ by
-$\FILLdrulename{Eq\_I}$, therefore, the previous two proofs are
-equivalent.
+$\FILLdrulename{Eq\_I}$.
 % subsubsection tensor_unit (end)
 % subsection eta-expansion_cases (end)
 
@@ -465,8 +570,7 @@ transforms into the proof
       }{[[G1,y : A, G2 |- t : B | L]]}
   \end{math}
 \end{center}
-By $\FILLdrulename{Eq\_Alpha}$ we know $[[t = [x/y]t]]$ and $[[L = [x/y]L]]$, therefore the
-previous two proofs are equivalent.
+By $\FILLdrulename{Eq\_Alpha}$ we know $[[t = [x/y]t]]$ and $[[L = [x/y]L]]$.
 % subsection the_axiom_step (end)
 
 \subsection{Conclusion vs. axom}
@@ -504,7 +608,7 @@ transforms into
   \end{math}
 \end{center}
 By the definition of the substitution function we know $[[t =
-[t/x]x]]$. Therefore, the previous two proofs are equivalent.
+[t/x]x]]$.
 % subsection conclusion_vs._axom (end)
 % section the_axiom_steps (end)
 
@@ -558,8 +662,7 @@ transforms into the proof
     }{[[G1,y : B,G, G2 |- h(L | h{[t/x]t'} : C) | [t/x]L']]}
   \end{math}
 \end{center}
-Clearly, all terms are equivalent, and so the previous two proofs are
-equivalent.
+Clearly, all terms are equivalent.
 % subsubsection conclusion_vs._exchange_(the_first_case) (end)
 
 \subsubsection{Conclusion vs. left-exchange (the second case)}
@@ -610,8 +713,7 @@ transforms into the proof
     }{[[G1,G,x : A,G2 |- h(L | h{[t/y]t'} : C) | [t/y]L']]}
   \end{math}
 \end{center}
-Clearly, all terms are equivalent, and so the previous two proofs are
-equivalent.
+Clearly, all terms are equivalent.
 % subsubsection conclusion_vs._exchange_(the_second_case) (end)
 
 \subsubsection{Conclusion vs. right-exchange}
@@ -735,8 +837,7 @@ $[[h{[t1 (x) t2/z]{let z be x (x) y in t3}} = let t1 (x) t2 be x (x) y in t3]]$
 by the definition of substitution, and by using the $\FILLdrulename{Eq\_T1}$ rule 
 we obtain $[[let t1 (x) t2 be x (x) y in t3 = [t1/x][t2/y]t3]]$.  This argument
 can be repeated for any term in $[[ [t1 (x) t2/z](h(let z be x (x) y in L3))]]$, and
-thus, $[[ [t1 (x) t2/z](h(let z be x (x) y in L3)) = [t1/x][t2/y]L3]]$. Therefore, the
-previous two proofs are equivalent.
+thus, $[[ [t1 (x) t2/z](h(let z be x (x) y in L3)) = [t1/x][t2/y]L3]]$. 
 
 Note that in the second derivation of the above transformation we
 first cut on $[[B]]$, and then $[[A]]$, but we could have cut on
@@ -817,8 +918,7 @@ In the latter case we can see that $[[t3 = [t1/x]t3]]$, thus, in both cases
 $[[let-pat {t1 (+) t2} (x (+) -) t3 = [t1/x]t3]]$.  This argument can be repeated for any terms in $[[L3]]$,
 and hence, $[[ [t1 (+) t2/z](let-pat z (x (+) -) L3)]] = [[let-pat {t1 (+) t2} (x (+) -) L3 = [t1/x]L3]]$.
 We can apply a similar argument for $[[ [t1 (+) t2/z]{let-pat z (- (+) y) t4}]]$ and 
-$[[ [t1 (+) t2/x](let-pat z (- (+) y) L4)]]$.  Thus, all terms in the previous derivations are equivalent, 
-and therefore, the previous proofs are equivalent.
+$[[ [t1 (+) t2/x](let-pat z (- (+) y) L4)]]$.  
 
 Note that just as we mentioned about tensor we could have first cut on
 $[[A]]$, and then on $[[B]]$ in the second derivation, but we would
@@ -899,8 +999,7 @@ First, by hypothesis we know $[[x nin FV(L)]]$, and so we know $[[L = [t1/x]L]]$
 that $[[ [\x.t/z][z t1/y]t2 = [{\x.t} t1/y]t2]] = [[ [ [t1/x]t/y]t2]]$ by using the congruence rules
 of equality and the rule $\FILLdrulename{Eq\_Beta}$.  This argument can be repeated for any term
 in $[[ [\x.t/z][z t1/y]L2]]$, and so $[[ [\x.t/z][z t1/y]L2 = [ [t1/x]t/y]L2]]$.  Finally, by inspecting the previous
-derivations we can see that $[[z nin FV(L1)]]$, and thus, $[[L1 = [\x.t/x]L1]]$.  Therefore, all terms are equivalent between the previous two derivations, and 
-hence, the two proofs are equivalent.
+derivations we can see that $[[z nin FV(L1)]]$, and thus, $[[L1 = [\x.t/x]L1]]$.  
 % subsubsection implication (end)
 
 \subsubsection{Tensors Unit}
@@ -976,12 +1075,9 @@ transforms into the proof
     }{[[G |- L]]}
   \end{math}
 \end{center}
-Clearly, $[[ [o/x]. = .]]$, hence, the two proofs above are equivalent.
+Clearly, $[[ [o/x]. = .]]$.
 % subsubsection pars_unit (end)
-
 % subsection principle_formula_vs._principle_formula (end)
-
-
 
 % section cut-elimination (end)
 

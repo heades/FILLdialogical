@@ -66,7 +66,6 @@ G {{ tex \Gamma }} :: 'LContext_' ::=
   | G , G' :: :: Extension
   | cb{ x } : A :: :: ColorElBlue
   {{tex {\color{blue}{[[x]]} } : [[A]] }}
-  | A      ::  :: Formula
 
 % Right contexts (proofs or partial functions).
 L {{tex \Delta }} :: 'RContext_' ::=
@@ -81,7 +80,6 @@ L {{tex \Delta }} :: 'RContext_' ::=
   % % error.  See the inference rule Tr for an example.
   | h( L ) :: :: HiddenParens
   {{tex [[L]] }}
-  | A      ::  :: Formula
   | L , L' ::   :: FormulaExt
   | [ t / x ] L :: :: Subst
   | let t be p in L ::   :: Let
@@ -110,6 +108,10 @@ formula :: 'formula_' ::=
   | x , y nin FV ( t )       ::    :: NFV3
   {{tex [[x]],[[y]] \not\in \mathsf{FV}( [[t]] ) }}
   | L1 = L2 :: :: LEq
+  | FV ( t ) :: :: FV2
+  {{tex \mathsf{FV}([[t]]) }}
+  | FV ( L ) :: :: FV4
+  {{tex \mathsf{FV}([[L]]) }}
 
 defns
   InferRules :: '' ::=
@@ -121,20 +123,20 @@ defns
   -------------- :: Ax
   x : A |- x : A
 
-  G |- t : A | L && y : A, G' |- fi : Bi
-  -------------------------------------- :: Cut
-  G, G' |- L | [t/y]fi : Bi
+  G |- t : A | L && y : A, G' |- L'
+  ------------------------------------------ :: Cut
+  G, G' |- L | [t/y]L'
 
-  G |- ei : Ai
-  -------------------------------------- :: Il
-  G, x : I |- h{let x be stp in ei} : Ai
+  G |- L
+  ----------------------------- :: Il
+  G, x : I |- let x be stp in L
 
   ---------- :: Ir
   . |- * : I
 
-  G, x : A, y : B |- fi : Ci
-  ------------------------------------------------ :: Tl
-  G, z : A (x) B |- h{let z be x (x) y in fi} : Ci
+  G, x : A, y : B |- L
+  --------------------------------------- :: Tl
+  G, z : A (x) B |- let z be x (x) y in L
 
   G |- e : A | L && G' |- f : B | L'
   --------------------------------------- :: Tr
@@ -147,21 +149,17 @@ defns
   ---------------- :: Pr
   G |- o : _|_ | L
 
-  G, x : A |- di : Ci && G', y : B |- fj : Dj
-  ----------------------------------------------------------------------------------- :: Parl
-  G,G',z : A (+) B |- h{let z be x (+) - in di} : Ci | h{let z be - (+) y in fj} : Dj
-
-  G, x : A |- di : Ci && G', y : B |- fj : Dj
-  ----------------------------------------------------------------------------------- :: NParl
-  G,G',z : A (+) B |- h{let-pat z (x (+) -) di} : Ci | h{let-pat z (- (+) y) fj} : Dj
+  G, x : A |- L && G', y : B |- L'
+  ------------------------------------------------------------------------ :: Parl
+  G,G',z : A (+) B |- h(let-pat z (x (+) -) L) | h(let-pat z (- (+) y) L')
 
   G |- h( h( L | e : A ) | f : B ) | L'
   ------------------------------------- :: Parr
   G |- h( L | e (+) f : A (+) B) | L'
 
-  G |- e : A | L && G', x : B |- fi : Ci
-  --------------------------------------------- :: Impl
-  G, y : A -o B, G' |- h{[ y e / x]fi} : Ci | L
+  G |- e : A | L && G', x : B |- L'  
+  ------------------------------------- :: Impl
+  G, y : A -o B, G' |- L | [ y e / x]L'
 
   G, x : A |- e : B | L && x nin FV( L )
   -------------------------------------- :: Impr
@@ -174,57 +172,6 @@ defns
   G |- h(h(L1 | t1 : A) | t2 : B) | L2
   ------------------------------------ :: Exr
   G |- h(h(L1 | t2 : B) | t1 : A) | L2
-
-  % The dep-relation inference rules.
-
-  --------- :: dax
-  A' |- A''
-
-  G1 |- B', L1
-  G2, B'' |- L2
-  -------------- :: dcut
-  G1,G2 |- L2,L1
-
-  G,A,B |- L
-  --------------- :: Dtl
-  G, A (x) B |- L
-
-  G1 |- A,L1
-  G2 |- B,L2
-  ---------------------- :: Dtr
-  G1,G2 |- A (x) B,L1,L2
-
-  G |- L
-  --------- :: Dil
-  G, I |- L
-
-  ------ :: Dir
-  . |- I
-
-  G1, A |- L1 
-  G3, B |- L2
-  ---------------------- :: Dparl
-  G1,G3,A (+) B |- L1,L2
-
-  G |- A,B,L
-  -------------- :: Dparr
-  G |- A (+) B,L
-
-  -------- :: Dpl
-  _|_ |- .
-
-  G |- L
-  ----------- :: Dpr
-  G |- _|_, L
-
-  G1 |- A, L1
-  G2, B |- L2
-  ---------------------- :: Dimpl
-  G1,G2, A -o B |- L1,L2
-
-  G, A |- B, L
-  ------------- :: Dimpr
-  G |- A -o B,L
 
   defn
   f = e :: :: catEq :: 'Eq_'
@@ -260,3 +207,50 @@ defns
 
   -------------------------------------------------------- :: P3
   { let x be x (+) - in x } (+) { let u be - (+) y in y } = u
+
+  t = t'
+  ------------- :: Lam
+  \x.t = \x.t''
+
+  t1 = t'1
+  -------------- :: App1
+  t1 t2 = t'1 t2
+
+  t2 = t'2
+  -------------- :: App2
+  t1 t2 = t1 t'2
+
+    t1 = t'1
+  ---------------------- :: Ten1
+  t1 (x) t2 = t'1 (x) t2
+
+    t2 = t'2
+  ---------------------- :: Ten2
+  t1 (x) t2 = t1 (x) t'2
+
+    t1 = t'1
+  ---------------------- :: Par1
+  t1 (+) t2 = t'1 (+) t2
+
+    t2 = t'2
+  ---------------------- :: Par2
+  t1 (+) t2 = t1 (+) t'2
+
+  t = t'
+  ---------------------------------- :: Let1
+  let t be p in e = let t' be p in e
+
+  e = e'
+  ---------------------------------- :: Let2
+  let t be p in e = let t be p in e'
+
+  ----- :: Refl
+  t = t
+
+  t = t'
+  ------ :: Sym
+  t' = t
+
+  t1 = t2 && t2 = t3
+  ------------------ :: Trans
+  t1 = t3
