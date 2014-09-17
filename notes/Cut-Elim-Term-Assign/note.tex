@@ -211,8 +211,9 @@ give the cut-elimination procedure for FILL following the development
 in \cite{Mellies:2009}.  However, there is one invariant that must be
 verified across each derivation transformation.  The invariant is that
 if a derivation $\pi$ is transformed into a derivation $\pi'$, then
-the terms in $\pi$ must be equivalent to the terms in $\pi'$, but
-using what notion of equivalence?
+the terms in the conclusion of the final rule applied in $\pi$ must be
+equivalent to the terms in the conclusion of the final rule applied in
+$\pi'$, but using what notion of equivalence?
 
 \begin{definition}
   \label{def:FILL-eq}
@@ -276,9 +277,9 @@ The following proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_3}
-        }{[[G1,y : B,G4 |- t2 : C | L2]]}
-      }{[[G1,G2,x : A,G3,G4 |- h(L1 | [t1/y]t2 : C) | [t1/y]L2]]}
-    }{[[G1,G2,G,G3,G4 |- h(h(L | [t/x]L1) | h{[t/x][t1/y]t2} : C) | [t/x]h([t1/y]L2)]]}
+        }{[[G1,y : B,G4 |- L2]]}
+      }{[[G1,G2,x : A,G3,G4 |- h(L1 | [t1/y]L2)]]}
+    }{[[G1,G2,G,G3,G4 |- h(L | [t/x]L1) | [t/x]h([t1/y]L2)]]}
   \end{math}
 \end{center}
 is transformed into the proof
@@ -308,19 +309,20 @@ is transformed into the proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_3}
-        }{[[G1,y : B,G4 |- t2 : C | L2]]}
-    }{[[G1,G2,G,G3,G4 |- h(h(L | [t/x]L1) | {[ [t/x]t1/y]t2} : C) | [ [t/x]t1/y]L2]]}
+        }{[[G1,y : B,G4 |- L2]]}
+    }{[[G1,G2,G,G3,G4 |- h(L | [t/x]L1) | [ [t/x]t1/y]L2]]}
   \end{math}
 \end{center}
-In order for the previous two proofs to be considered equal, we have
-to show that the final terms in the conclusion of the above
-derivations are equivalent. First, we know that the term $[[
-[t/x][t1/y]t2]]$ in the first derivation above is equivalent to $[[ [
-[t/x] t1/y][t/x] t2]]$ by Lemma~\ref{lemma:substitution_distribution}.
-Furthermore, by inspecting the first derivation we can see that $[[x
-nin FV(t2)]]$, and thus, $[[ [ [t/x] t1/y][t/x] t2 = [ [t/x] t1/y]
-t2]]$.  This argument may be repeated for any term in $[[L2]]$, and
-thus, we know $[[ [t/x][t1/y]L2 = [ [t/x]t1/y]L2]]$.
+First, if $[[L2]]$ is empty, then all the terms in the conclusion of
+the previous two derivations are equivalent.  
+So suppose $[[L2]] = [[t2 : C | L2']]$.  Then we know that the term
+$[[ [t/x][t1/y]t2]]$ in the first derivation above is equivalent to
+$[[ [ [t/x] t1/y][t/x] t2]]$ by
+Lemma~\ref{lemma:substitution_distribution}.  Furthermore, by
+inspecting the first derivation we can see that $[[x nin FV(t2)]]$,
+and thus, $[[ [ [t/x] t1/y][t/x] t2 = [ [t/x] t1/y] t2]]$.  This
+argument may be repeated for any term in $[[L2']]$, and thus, we know
+$[[ [t/x][t1/y]L2 = [ [t/x]t1/y]L2]]$.
 % subsection commuting_conversion_cut_vs_cut_(first_case) (end)
 
 \subsection{Commuting conversion cut vs. cut (second case)}
@@ -351,9 +353,9 @@ The second commuting conversion on cut begins with the proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_3}
-        }{[[G1,x : A,G2,y:B,G3 |- t1 : C | L1]]}
-      }{[[G1,x : A,G2,G',G3 |- h(L' | [t'/y]t1 : C) | [t'/y]L1]]}
-    }{[[G1,G,G2,G',G3 |- h(h(L | [t/x]L') | h{[t/x][t'/y]t1} : C) | [t/x]h([t'/y]L1)]]}
+        }{[[G1,x : A,G2,y:B,G3 |- L1]]}
+      }{[[G1,x : A,G2,G',G3 |- L' | [t'/y]L1]]}
+    }{[[G1,G,G2,G',G3 |- h(L | [t/x]L') | [t/x]h([t'/y]L1)]]}
   \end{math}
 \end{center}
 is transformed into the following proof:
@@ -384,19 +386,21 @@ is transformed into the following proof:
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_3}
-        }{[[G1,x : A,G2,y:B,G3 |- t1 : C | L1]]}
-      }{[[G1,G,G2,y:B,G3 |- h(L | [t/x]t1 : C) | [t/x]L1]]}
-    }{[[G1,G,G2,G',G3 |- h(h(L' | [t'/y]L) | h{[t'/y][t/x]t1} : C) | [t'/y]h([t/x]L1)]]}
-    }{[[G1,G,G2,G',G3 |- h(h(h([t'/y]L) | L') | h{[t'/y][t/x]t1} : C) | [t'/y]h([t/x]L1)]]}
+        }{[[G1,x : A,G2,y:B,G3 |- L1]]}
+      }{[[G1,G,G2,y:B,G3 |- L | [t/x]L1]]}
+    }{[[G1,G,G2,G',G3 |- h(L' | [t'/y]L) | [t'/y]h([t/x]L1)]]}
+    }{[[G1,G,G2,G',G3 |- h(h([t'/y]L) | L') | [t'/y]h([t/x]L1)]]}
   \end{math}
 \end{center}
 Now, because we know $[[x,y nin FV(L)]]$ by inspection of the first
-derivation, we know that $[[L = [t'/y]L]]$ and $[[L' = [t/x]L']]$.
-Similarly, we know that $[[x,y nin FV(t)]]$ and $[[x,y nin FV(t')]]$.
-Thus, by this fact and Lemma~\ref{lemma:substitution_distribution}, we
-know that $[[ [t/x][t'/y]t1 = [ [t/x]t'/y][t/x]t1]] = [[ [t'/y][t/x]t1
-]]$.  This argument can be repeated for any term in $[[L1]]$, hence,
-$[[ [t/x][t'/y]L1 = [t'/y][t/x]L1]]$.
+derivation, we know that $[[L = [t'/y]L]]$ and $[[L' = [t/x]L']]$.  If
+$[[L1]]$ is empty, then we obtain our result, so suppose $[[L1]] =
+[[t1 : C | L'1]]$. Then we know that $[[x,y nin FV(t)]]$ and $[[x,y
+nin FV(t')]]$.  Thus, by this fact and
+Lemma~\ref{lemma:substitution_distribution}, we know that $[[
+[t/x][t'/y]t1 = [ [t/x]t'/y][t/x]t1]] = [[ [t'/y][t/x]t1 ]]$.  This
+argument can be repeated for any term in $[[L'1]]$, hence, $[[
+[t/x][t'/y]L1 = [t'/y][t/x]L1]]$.
 % subsection commuting_conversion_cut_vs._cut_(second_case) (end)
 
 \subsection{The $\eta$-expansion cases}
@@ -555,8 +559,8 @@ The proof
         \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi}          
-      }{[[G1,y : A, G2 |- t : B | L]]}
-    }{[[G1,x : A, G2 |- h{[x/y]t} : B | [x/y]L]]}
+      }{[[G1,y : A, G2 |- L]]}
+    }{[[G1,x : A, G2 |- [x/y]L]]}
   \end{math}
 \end{center}
 transforms into the proof
@@ -567,10 +571,11 @@ transforms into the proof
         \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi}          
-      }{[[G1,y : A, G2 |- t : B | L]]}
+      }{[[G1,y : A, G2 |- L]]}
   \end{math}
 \end{center}
-By $\FILLdrulename{Eq\_Alpha}$ we know $[[t = [x/y]t]]$ and $[[L = [x/y]L]]$.
+By $\FILLdrulename{Eq\_Alpha}$, we know, for any $[[t]]$ in
+$[[L]]$, $[[t = [x/y]t]]$, and hence $[[L = [x/y]L]]$.
 % subsection the_axiom_step (end)
 
 \subsection{Conclusion vs. axom}
@@ -634,9 +639,9 @@ The proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_2}          
-        }{[[G1,x : A, y : B, G2 |- t' : C | L']]}        
-      }{[[G1,y : B,x : A, G2 |- t' : C | L']]}
-    }{[[G1,y : B,G, G2 |- h(L | h{[t/x]t'} : C) | [t/x]L']]}
+        }{[[G1,x : A, y : B, G2 |- L']]}        
+      }{[[G1,y : B,x : A, G2 |- L']]}
+    }{[[G1,y : B,G, G2 |- L | [t/x]L']]}
   \end{math}
 \end{center}
 transforms into the proof
@@ -657,9 +662,9 @@ transforms into the proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_2}          
-        }{[[G1,x : A, y : B, G2 |- t' : C | L']]}        
-      }{[[G1,G,y : B, G2 |- h(L | h{[t/x]t'} : C) | [t/x]L']]}
-    }{[[G1,y : B,G, G2 |- h(L | h{[t/x]t'} : C) | [t/x]L']]}
+        }{[[G1,x : A, y : B, G2 |- L']]}        
+      }{[[G1,G,y : B, G2 |- L | [t/x]L']]}
+    }{[[G1,y : B,G, G2 |- L | [t/x]L']]}
   \end{math}
 \end{center}
 Clearly, all terms are equivalent.
@@ -685,9 +690,9 @@ The proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_2}          
-        }{[[G1,x : A, y : B, G2 |- t' : C | L']]}        
-      }{[[G1,y : B,x : A, G2 |- t' : C | L']]}
-    }{[[G1,G, x : A,G2 |- h(L | h{[t/y]t'} : C) | [t/y]L']]}
+        }{[[G1,x : A, y : B, G2 |- L']]}        
+      }{[[G1,y : B,x : A, G2 |- L']]}
+    }{[[G1,G, x : A,G2 |- L | [t/y]L']]}
   \end{math}
 \end{center}
 transforms into the proof
@@ -708,9 +713,9 @@ transforms into the proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_2}          
-        }{[[G1,x : A, y : B, G2 |- t' : C | L']]}        
-      }{[[G1,x : A,G,G2 |- h(L | h{[t/y]t'} : C) | [t/y]L']]}
-    }{[[G1,G,x : A,G2 |- h(L | h{[t/y]t'} : C) | [t/y]L']]}
+        }{[[G1,x : A, y : B, G2 |- L']]}        
+      }{[[G1,x : A,G,G2 |- L | [t/y]L']]}
+    }{[[G1,G,x : A,G2 |- L | [t/y]L']]}
   \end{math}
 \end{center}
 Clearly, all terms are equivalent.
@@ -774,7 +779,7 @@ transforms into this proof
 \label{subsec:tensor}
 The proof 
 \begin{center}
-  \footnotesize
+
   \begin{math}
     $$\mprset{flushleft}
     \inferrule* [right=\footnotesize Cut] {
@@ -799,9 +804,9 @@ The proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_3}          
-        }{[[G3,x : A, y : B,G4 |- t3 : C | L3]]}
-      }{[[G3,z : A (x) B,G4 |- h{let z be x (x) y in t3} : C | h(let z be x (x) y in L3)]]}
-    }{[[G3,G1,G2,G4 |- h(L1 | L2) | h(h{[t1 (x) t2/z]{let z be x (x) y in t3}} : C | [t1 (x) t2/z](h(let z be x (x) y in L3)))]]}
+        }{[[G3,x : A, y : B,G4 |- L3]]}
+      }{[[G3,z : A (x) B,G4 |- h(let z be x (x) y in L3)]]}
+    }{[[G3,G1,G2,G4 |- h(L1 | L2) | [t1 (x) t2/z](h(let z be x (x) y in L3))]]}
   \end{math}
 \end{center}
 is transformed into the proof
@@ -827,17 +832,19 @@ is transformed into the proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_3}          
-        }{[[G3,x : A, y : B,G4 |- t3 : C | L3]]}
-      }{[[G3,x : A, G2,G4 |- L2 | h(h{[t2/y]t3} : C | [t2/y]L3)]]}
-    }{[[G3,G1, G2,G4 |- h(L1 | L2) | h(h{[t1/x][t2/y]t3} : C | [t1/x][t2/y]L3)]]}
+        }{[[G3,x : A, y : B,G4 |- L3]]}
+      }{[[G3,x : A, G2,G4 |- L2 | [t2/y]L3]]}
+    }{[[G3,G1, G2,G4 |- h(L1 | L2) | [t1/x][t2/y]L3]]}
   \end{math}
 \end{center}
-Now we can see that 
-$[[h{[t1 (x) t2/z]{let z be x (x) y in t3}} = let t1 (x) t2 be x (x) y in t3]]$ 
-by the definition of substitution, and by using the $\FILLdrulename{Eq\_T1}$ rule 
-we obtain $[[let t1 (x) t2 be x (x) y in t3 = [t1/x][t2/y]t3]]$.  This argument
-can be repeated for any term in $[[ [t1 (x) t2/z](h(let z be x (x) y in L3))]]$, and
-thus, $[[ [t1 (x) t2/z](h(let z be x (x) y in L3)) = [t1/x][t2/y]L3]]$. 
+If $[[L3]]$ is empty, then our result follows.  So suppose $[[L3 = t3
+: C, L'3]]$.  We can see that $[[h{[t1 (x) t2/z]{let z be x (x) y in
+    t3}} = let t1 (x) t2 be x (x) y in t3]]$ by the definition of
+substitution, and by using the $\FILLdrulename{Eq\_T1}$ rule we obtain
+$[[let t1 (x) t2 be x (x) y in t3 = [t1/x][t2/y]t3]]$.  This argument
+can be repeated for any term in $[[ [t1 (x) t2/z](h(let z be x (x) y
+in L'3))]]$, and thus, $[[ [t1 (x) t2/z](h(let z be x (x) y in L3)) =
+[t1/x][t2/y]L3]]$.
 
 Note that in the second derivation of the above transformation we
 first cut on $[[B]]$, and then $[[A]]$, but we could have cut on
@@ -869,22 +876,22 @@ The proof
         \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_2}          
-      }{[[G2,x : A |- t3 : C1 | L3]]}
+      }{[[G2,x : A |- L3]]}
       \\
       \inferrule* [right=] {
         \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_3}          
-      }{[[G3, y : B |- t4 : C2 | L4]]}
-  }{[[G2,G3,z : A (+) B |- h(h{let-pat z (x (+) -) t3} : C1 | h{let-pat z (- (+) y) t4} : C2) | L5]]}
-}{[[G2,G3,G1 |- h(L1 | L2) | h(h(h{[t1 (+) t2/z]{let-pat z (x (+) -) t3}} : C1 | h{[t1 (+) t2/z]{let-pat z (- (+) y) t4}} : C2) | h([t1 (+) t2/z]L5))]]}
+      }{[[G3, y : B |- L4]]}
+  }{[[G2,G3,z : A (+) B |- h(let-pat z (x (+) -) L3) | h(let-pat z (- (+) y) L4)]]}
+}{[[G2,G3,G1 |- h(h(L1 | L2) | h([t1 (+) t2/z](let-pat z (x (+) -) L3))) | h([t1 (+) t2/z](let-pat z (x (+) -) L4))]]}
   \end{math}
 \end{center}
-where $[[L4]] = [[h(h(let-pat z (x (+) -) L3), h(let-pat z (- (+) y) L4))]]$ is transformed into the proof
+is transformed into the proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
-    \inferrule* [right=\tiny Series of Exr] {
+    \inferrule* [right=\tiny Series of Exchanges] {
       $$\mprset{flushleft}
     \inferrule* [right=Cut] {
       $$\mprset{flushleft}
@@ -899,26 +906,30 @@ where $[[L4]] = [[h(h(let-pat z (x (+) -) L3), h(let-pat z (- (+) y) L4))]]$ is 
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_3}          
-        }{[[G3, y : B |- t4 : C2 | L4]]}
-      }{[[G3, G1 |- h(h(L1 | t1 : A) | L2) | h(h{[t2/y]t4} : C2 | [t2/y]L4)]]}
+        }{[[G3, y : B |- L4]]}
+      }{[[G3, G1 |- h(h(L1 | t1 : A) | L2) | [t2/y]L4]]}
       \\
       \inferrule* [right=] {
         \inferrule* [right=,vdots=1.5em,fraction=\,] {
           \,
         }{\pi_2}          
-      }{[[G2,x : A |- t3 : C1 | L3]]}
-    }{[[G2,G3,G1 |- h(h(L1 | L2) | h(h{[t2/y]t4} : C2 | [t2/y]L4)) | h(h{[t1/x]t3} : C1 | [t1/x]L3)]]}
-    }{[[G2,G3,G1 |- h(h(L1 | L2) | h{[t1/x]t3} : C1) | h(h{[t2/y]t4} : C2 | h(h([t1/x]L3) | [t2/y]L4))]]}
+      }{[[G2,x : A |- L3]]}
+    }{[[G2,G3,G1 |- h(h(L1 | L2) | [t2/y]L4) | [t1/x]L3]]}
+    }{[[G2,G3,G1 |- h(L1 | L2) | h(h([t1/x]L3) | [t2/y]L4)]]}
   \end{math}
 \end{center}
-First, $[[ [t1 (+) t2/z]{let-pat z (x (+) -) t3} = let-pat {t1 (+) t2}
-(x (+) -) t3]]$, and $[[let-pat {t1 (+) t2} (x (+) -) t3 = [t1/x]t3]]$
-if $[[x in FV(t3)]]$ or $[[let-pat {t1 (+) t2} (x (+) -) t3 = t3]]$ otherwise.
-In the latter case we can see that $[[t3 = [t1/x]t3]]$, thus, in both cases
-$[[let-pat {t1 (+) t2} (x (+) -) t3 = [t1/x]t3]]$.  This argument can be repeated for any terms in $[[L3]]$,
-and hence, $[[ [t1 (+) t2/z](let-pat z (x (+) -) L3)]] = [[let-pat {t1 (+) t2} (x (+) -) L3 = [t1/x]L3]]$.
-We can apply a similar argument for $[[ [t1 (+) t2/z]{let-pat z (- (+) y) t4}]]$ and 
-$[[ [t1 (+) t2/x](let-pat z (- (+) y) L4)]]$.  
+Consider the case when $[[L3]] = [[t3 : C_1 | L'3]]$ and $[[L4]] =
+[[t4 : C_2 | L'4]]$.  All other cases are either trivial or similar. 
+First, $[[ [t1 (+) t2/z]{let-pat z (x (+) -) t3}
+= let-pat {t1 (+) t2} (x (+) -) t3]]$, and $[[let-pat {t1 (+) t2} (x
+(+) -) t3 = [t1/x]t3]]$ if $[[x in FV(t3)]]$ or $[[let-pat {t1 (+) t2}
+(x (+) -) t3 = t3]]$ otherwise.  In the latter case we can see that
+$[[t3 = [t1/x]t3]]$, thus, in both cases $[[let-pat {t1 (+) t2} (x (+)
+-) t3 = [t1/x]t3]]$.  This argument can be repeated for any terms in
+$[[L'3]]$, and hence $[[ [t1 (+) t2/z](let-pat z (x (+) -) L3)]] =
+[[let-pat {t1 (+) t2} (x (+) -) L3 = [t1/x]L3]]$.  We can apply a
+similar argument for $[[ [t1 (+) t2/z]{let-pat z (- (+) y) t4}]]$ and
+$[[ [t1 (+) t2/x](let-pat z (- (+) y) L4)]]$.
 
 Note that just as we mentioned about tensor we could have first cut on
 $[[A]]$, and then on $[[B]]$ in the second derivation, but we would
@@ -956,9 +967,9 @@ The proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_3}          
-        }{[[G2, y : B |- t2 : C | L2]]}
-      }{[[G1, z : A -o B,G2 |- h(h{[z t1/y]t2} : C | [z t1/y]L2) | L1]]}
-    }{[[G1,G,G2 |- L | h(h(h{[\x.t/z][z t1/y]t2} : C | [\x.t/z][z t1/y]L2) | [\x.t/z]L1)]]}
+        }{[[G2, y : B |- L2]]}
+      }{[[G1, z : A -o B,G2 |- L1 | [z t1/y]L2]]}
+    }{[[G1,G,G2 |- L | h(h([\x.t/z]L1) | h([\x.t/z][z t1/y]L2))]]}
   \end{math}
 \end{center}
 transforms into the proof
@@ -990,16 +1001,17 @@ transforms into the proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_3}          
-        }{[[G2, y : B |- t2 : C | L2]]}
-      }{[[G2, G,G1 |- h(L1 | [t1/x]L) | h(h{[ [t1/x]t/y]t2} : C | [ [t1/x]t/y]L2)]]}
-    }{[[G1, G,G2 |- h(h([t1/x]L) | h{[ [t1/x]t/y]t2} : C) | h(h([ [t1/x]t/y]L2) | L1)]]}
+        }{[[G2, y : B |- L2]]}
+      }{[[G2, G,G1 |- h(L1 | [t1/x]L) | [ [t1/x]t/y]L2]]}
+    }{[[G1, G,G2 |- h([t1/x]L) | h(L1 | h([ [t1/x]t/y]L2))]]}
   \end{math}
 \end{center}
+Consider the case when $[[L2]] = [[t2 : C | L'2]]$. All other cases are either trivial or similar.
 First, by hypothesis we know $[[x nin FV(L)]]$, and so we know $[[L = [t1/x]L]]$.  Now we can see
 that $[[ [\x.t/z][z t1/y]t2 = [{\x.t} t1/y]t2]] = [[ [ [t1/x]t/y]t2]]$ by using the congruence rules
 of equality and the rule $\FILLdrulename{Eq\_Beta}$.  This argument can be repeated for any term
-in $[[ [\x.t/z][z t1/y]L2]]$, and so $[[ [\x.t/z][z t1/y]L2 = [ [t1/x]t/y]L2]]$.  Finally, by inspecting the previous
-derivations we can see that $[[z nin FV(L1)]]$, and thus, $[[L1 = [\x.t/x]L1]]$.  
+in $[[ [\x.t/z][z t1/y]L'2]]$, and so $[[ [\x.t/z][z t1/y]L2 = [ [t1/x]t/y]L2]]$.  Finally, by inspecting the previous
+derivations we can see that $[[z nin FV(L1)]]$, and thus, $[[L1 = [\x.t/z]L1]]$.  
 % subsubsection implication (end)
 
 \subsubsection{Tensors Unit}
@@ -1020,9 +1032,9 @@ The proof
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi}          
-        }{[[G |- t : A | L]]}
-      }{[[G, x : I |- h{let x be stp in t} : A | let x be stp in L]]}
-    }{[[G |- h{[*/x]{let x be stp in t}} : A | [*/x](let x be stp in L)]]}
+        }{[[G |- L]]}
+      }{[[G, x : I |- let x be stp in L]]}
+    }{[[G |- [*/x](let x be stp in L)]]}
   \end{math}
 \end{center}
 is transformed into the proof
@@ -1032,14 +1044,16 @@ is transformed into the proof
       \inferrule* [right=,vdots=1.5em,fraction=\,] {
         \,
       }{\pi}          
-    }{[[G |- t : A | L]]}
+    }{[[G |- L]]}
   \end{math}
 \end{center}
 
-We can see that $[[ [*/x]{let x be stp in t} = let * be stp in t]] =
-[[t]]$ by the definition of substitution and the
-$\FILLdrulename{Eq\_I}$ rule.  This argument can be repeated for any term in 
-$[[ [*/x](let x be stp in L)]]$, and hence, $[[ [*/x](let x be stp in L) = L]]$.
+Suppose $[[L]] = [[t : A | L']]$.  All other cases are either similar
+or trivial.  We can see that $[[ [*/x]{let x be stp in t} = let * be
+stp in t]] = [[t]]$ by the definition of substitution and the
+$\FILLdrulename{Eq\_I}$ rule.  This argument can be repeated for any
+term in $[[ [*/x](let x be stp in L')]]$, and hence, $[[ [*/x](let x be
+stp in L) = L]]$.
 % subsubsection ten-unit (end)
 
 \subsubsection{Pars Unit}
