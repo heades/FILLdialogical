@@ -5,6 +5,11 @@ OTT_FLAGS := -tex_wrap false -tex_show_meta true -picky_multiple_parses false
 SKIM = skim_revert.sh
 
 all: pdf
+  # This is for my private machine.  It forces my PDF reader to reload.
+  # It should not run unless "skim_revert.sh" is in your PATH.
+  ifeq ($(SKIM), skim_revert.sh)
+	$(SKIM) $(CURDIR)/note.pdf
+  endif
 
 pdf : note.pdf
 

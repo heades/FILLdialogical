@@ -130,15 +130,13 @@ defns
   G |- L
   ----------------------------- :: Il
   G, x : I |- let x be stp in L
-
+ 
   ---------- :: Ir
   . |- * : I
 
-%%%%%%
   G, x : A, y : B |- L
   --------------------------------------- :: Tl
   G, z : A (x) B |- let z be x (x) y in L
-%%%%%%
 
   G |- e : A | L && G' |- f : B | L'
   --------------------------------------- :: Tr
@@ -188,6 +186,13 @@ defns
 
   ------------- :: Eta
   {\x.h{f x}} = f
+
+  % I had to add the EtaLet rule to get the cut-elimination proof to
+  % go through for the case of when tensor-left is commuted with cut
+  % in the secondary hypothesis section of the proof.
+  x,y nin FV(t)
+  -------------------------- :: EtaLet
+  let t' be x (x) y in t = t
 
   --------------------- :: I
   let * be stp in e = e

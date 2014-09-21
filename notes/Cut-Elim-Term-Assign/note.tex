@@ -210,7 +210,7 @@ the sequel:
 \end{proof}
 
 \begin{lemma}[Let-pat Distribution]
-  \label{lemma:let_distribution}
+  \label{lemma:let-pat_distribution}
   For any terms $[[t]]$, $[[t1]]$, and $[[t2]]$, and pattern p, $[[ let-pat t p [t1/y]t2]] = [[ [ let-pat t p t1/y]{let-pat t p t2}]]$.
 \end{lemma}
 \begin{proof}
@@ -239,6 +239,7 @@ $\pi'$, but using what notion of equivalence?
       \FILLdruleEqXXAlpha{} \and
       \FILLdruleEqXXBeta{} \and
       \FILLdruleEqXXEta{} \and
+      \FILLdruleEqXXEtaLet{} \and
       \FILLdruleEqXXI{} \and
       \FILLdruleEqXXStp{} \and
       \FILLdruleEqXXTOne{} \and
@@ -1324,35 +1325,916 @@ is transformed into the proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
+    \inferrule* [right=\tiny Series of Exchanges] {
+      $$\mprset{flushleft}
+    \inferrule* [right=Parl] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G, x : A |- L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G', y : B |- t' : C | L']]}      
+        \\
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G1,w : C, G2 |- L2]]}
+      }{[[G1,G', y : B, G2 |- L' | [t'/w]L2]]}
+    }{[[G,G1,G', G2, z : A (+) B |- h(h(let-pat z (x (+) -) L) | h(let-pat z (- (+) y) L')) | h(let-pat z (- (+) y) [t'/w]L2)]]}
+  }{[[G1,G,G',z : A (+) B,G2 |- h(h(let-pat z (x (+) -) L) | h(let-pat z (- (+) y) L')) | h(let-pat z (- (+) y) [t'/w]L2)]]}
+  \end{math}
+\end{center}
+It suffices to show that $[[let-pat z (- (+) y) [t'/w]L2]] = [[
+[h{let-pat z (- (+) y) t'}/w]L2]]$.  This follows by a similar
+argument as the previous cases using let-pat distribution
+(Lemma~\ref{lemma:let-pat_distribution}).
+% subsubsection left_introduction_of_par (end)
+
+\subsubsection{Left introduction of tensor unit}
+\label{subsec:left_introduction_of_tensor_unit}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Il] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : C | L]]}      
+      }{[[G, x : I |- t : C | L]]}
+      \\
+      \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,w : C, G2 |- L1]]}
+      }{[[G1,G,x : I,G2 |- L | [t/w]L1]]}
+  \end{math}
+\end{center}
+is transformed into the following:
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Series of Exchanges] {
+      $$\mprset{flushleft}
+    \inferrule* [right=Il] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G |- t : C | L]]}      
+        \\
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,w : C, G2 |- L1]]}  
+      }{[[G1,G, G2 |- L | [t/w]L1]]}
+    }{[[G1,G, G2, x : I |- L | [t/w]L1]]}
+  }{[[G1,G, x : I,G2 |- L | [t/w]L1]]}
+  \end{math}
+\end{center}
+Clearly, all terms are equivalent.  Note that we do not give a case
+for secondary conclusion of the left introduction of par's unit,
+because it can only be introduced given an empty right context, and
+thus there is no cut formula.
+% subsubsection left_introduction_of_tensor_unit (end)
+% subsection secondary_conclusion (end)
+
+\subsection{Secondary hypothesis}
+\label{subsec:secondary_hypothesis}
+
+\subsubsection{Left introduction of tensor}
+\label{subsec:left_introduction_of_tensor}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Tl] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A,G2,y : B,z : C,G3 |- t1 : D | L1]]}                  
+    }{[[G1,x : A,G2,w : B (x) C,G3 |- h{let w be y (x) z in t1} : D | let w be y (x) z in L1]]}
+  }{[[G1,G,G2,w : B (x) C,G3 |- L | h(h{[t/x]{let w be y (x) z in t1}} : D | [t/x](let w be y (x) z in L1))]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Tl] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A,G2,y : B,z : C,G3 |- t1 : D | L1]]}                  
+    }{[[G1,G,G2,y : B,z : C,G3 |- h(L | h{[t/x]t1} : D) | [t/x]L1]]}
+  }{[[G1,G,G2,w : B (x) C,G3 |- h(h(let w be x (x) y in L) | h{let w be x (x) y in [t/x]t1} : D) | let w be x (x) y in [t/x]L1]]}
+  \end{math}
+\end{center}
+First, we can see by inspection of the previous derivations that
+$[[x,y nin FV(L)]]$, thus, by using similar reasoning as above we can
+use the $\FILLdrulename{EtaLet}$ rule to obtain $[[let w be x (x) y in
+L = L]]$.  Similarly, we know $[[let w be x (x) y in [t/x]t1 = [let w
+be x (x) y in t/x]{let w be x (x) y in t1}]]$ by let-distribution
+(Lemma~\ref{lemma:let_distribution}), and then by using
+$\FILLdrulename{EtaLet}$ and the fact that $[[x,y nin FV(t)]]$ we know
+$[[ [let w be x (x) y in t/x]{let w be x (x) y in t1} = [t/x]{let w be
+  x (x) y in t1}]]$.  This argument can be repeated for any term in
+$[[let w be x (x) y in [t/x]L1]]$, thus, $[[ [t/x](let w be y (x) z in
+L1) = let w be x (x) y in [t/x]L1]]$.
+% subsubsection left_introduction_of_tensor (end)
+
+\subsubsection{Right introduction of tensor (first case)}
+\label{subsec:right_introduction_of_the_tensor_(first_case)}
+
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Tr] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A, G2 |- t1 : B | L1]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_3}          
+      }{[[G3 |- t2 : C | L2]]}      
+      }{[[G1,x :A,G2,G3 |- t1 (x) t2 : B (x) C | h(L1 | L2)]]}
+    }{[[G1,G,G2,G3 |- L | h(h{[t/x]{t1 (x) t2}} : B (x) C | h(h([t/x]L1) | [t/x]L2))]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Series of Exchanges] {
+      $$\mprset{flushleft}
+    \inferrule* [right=Tr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A, G2 |- t1 : B | L1]]}      
+    }{[[G1,G, G2 |- L | h(h{[t/x]t1} : B | [t/x]L1)]]}
+    \\
+    \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_3}          
+      }{[[G3 |- t2 : C | L2]]}      
+    }{[[G1,G, G2,G3 |- h(h{[t/x]t1} (x) t2 : B (x) C) | h(L | h(h([t/x]L1) | L2))]]}
+  }{[[G1,G, G2,G3 |- L | h(h({[t/x]t1} (x) t2 : B (x) C) | h(h([t/x]L1) | L2))]]}
+  \end{math}
+\end{center}
+By inspection of the previous derivations we can see that $[[x nin
+FV(t2)]]$ and $[[x nin FV(L2)]]$.  Thus, $[[ [t/x]L2 = L2]]$ and
+$[[ [t/x]{t1 (x) t2} = {[t/x]t1} (x) {[t/x]t2}]] = [[{[t/x]t1} (x) t2]]$.
+% subsubsection right_introduction_of_the_tensor_(first_case) (end)
+
+\subsubsection{Right introduction of tensor (second case)}
+\label{subsec:right_introduction_of_tensor_(second_case)}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Tr] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1 |- t1 : B | L1]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_3}          
+      }{[[G2,x : A, G3  |- t2 : C | L2]]}      
+      }{[[G1,G2,x :A,G3 |- t1 (x) t2 : B (x) C | h(L1 | L2)]]}
+    }{[[G1,G,G2,G3 |- L | h(h{[t/x]{t1 (x) t2}} : B (x) C | h(h([t/x]L1) | [t/x]L2))]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Series of Exchanges] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Tr] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1 |- t1 : B | L1]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_3}          
+      }{[[G2,x : A, G3 |- t2 : C | L2]]}      
+    }{[[G2,G, G3 |- L | h(h{[t/x]t2} : C | [t/x]L2)]]}       
+    }{[[G1,G2,G,G3 |- h(t1 (x) {[t/x]t2} : B (x) C) | h(L1 | h(L | [t/x]L2))]]}
+  }{[[G1,G, G2,G3 |- L | h(h(t1 (x) {[t/x]t2} : B (x) C) | h(L1 | h([t/x]L2)))]]}
+  \end{math}
+\end{center}
+This case is similar to the previous case.  
+% subsubsection right_introduction_of_tensor_(second_case) (end)
+
+\subsubsection{Right introduction of par}
+\label{subsec:right_introduction_of_par_(first_case)}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Parr] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A,G2 |- h(L1 | h(t1 : B | t2 : C)) | L2]]}                  
+    }{[[G1,x : A,G2 |- h(L1 | h(t1 (+) t2 : B (+) C)) | L2]]}
+  }{[[G1,G,G2 |- L | h(h(h([t/x]L1) | h([t/x]{t1 (+) t2} : B (+) C)) | [t/x]L2)]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
 \inferrule* [right=Parl] {
-  \inferrule* [right=] {
-    \inferrule* [right=,vdots=1.5em,fraction=\,] {
-      \,
-    }{\pi_1}          
-  }{[[G, x : A |- L]]}      
-  \\
   $$\mprset{flushleft}
   \inferrule* [right=Cut] {
     \inferrule* [right=] {
-      \inferrule* [right=,vdots=1.5em,fraction=\,] {
-        \,
-      }{\pi_2}          
-    }{[[G', y : B |- t' : C | L']]}      
-    \\
-    \inferrule* [right=] {
-      \inferrule* [right=,vdots=1.5em,fraction=\,] {
-        \,
-      }{\pi_3}          
-    }{[[G1,w : C, G2 |- L2]]}
-  }{[[G1,G', y : B, G2 |- L' | [t'/w]L2]]}
-}{C}
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A,G2 |- h(L1 | h(t1 : B | t2 : C)) | L2]]}                  
+    }{[[G1,G,G2 |- L | h(h(h([t/x]L1) | h(h{[t/x]t1} : B | h{[t/x]t2} : C)) | [t/x]L2)]]}
+  }{[[G1,G,G2 |- L | h(h(h([t/x]L1) | h{[t/x]t1} (+) h{[t/x]t2} : B (+) C) | [t/x]L2)]]}
+  \end{math}
+\end{center}
+Clearly, $[[ [t/x]{t1 (+) t2} = {[t/x]t1} (+) [t/x]t2]]$.
+% subsubsection right_introduction_of_par_(first_case) (end)
+
+\subsubsection{Left introduction of par (first case)}
+\label{subsec:left_introduction_of_par_(first_case)}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Parl] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A,G2,y : B |- L1]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_3}          
+      }{[[G3,z : C |- L2]]}      
+      }{[[G1,x : A,G2,G3,w : B (+) C |- h(let-pat w (y (+) -) L1) | h(let-pat w (- (+) z) L2)]]}
+    }{[[G1,G,G2,G3,w : B (+) C |- L | h(h([t/x](let-pat w (y (+) -) L1)) | h([t/x](let-pat w (- (+) z) L2)))]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=ParL] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A,G2,y : B |- L1]]}      
+      }{[[G1,G,G2,y : B |- L | [t/x]L1]]}
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_3}          
+      }{[[G3,z : C |- L2]]}      
+    }{[[G1,G,G2,G3,w : B (+) C |- h(h(let-pat w (y (+) -) L) | h(let-pat w (y (+) -) [t/x]L1)) | let-pat w (- (+) z) L2]]}
+  \end{math}
+\end{center}
+First, by inspection of the previous proofs we can see that $[[x nin
+FV(L)]]$ and $[[x nin FV(L2)]]$.  Thus, $[[let-pat w (y (+) -) L =
+L]]$, and $[[ [t/x](let-pat w (- (+) z) L2) = let-pat w (- (+) z)
+L2]]$. It suffices to show that $[[ [t/x](let-pat w (y (+) -) L1) =
+let-pat w (y (+) -) [t/x]L1]]$ but this easily follows from a simple
+case analysis on whether or not $[[L1]]$ is empty, let-pat
+distribution (Lemma~\ref{lemma:let-pat_distribution}), and the fact
+that $[[y nin FV(t)]]$.
+% subsubsection left_introduction_of_par_(first_case) (end)
+
+\subsubsection{Left introduction of par (second case)}
+\label{subsec:left_introduction_of_par_(second_case)}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Parl] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,y : B |- L1]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_3}          
+      }{[[G2,x : A,G3,z : C |- L2]]}      
+      }{[[G1,G2,x : A,G3,w : B (+) C |- h(let-pat w (y (+) -) L1) | h(let-pat w (- (+) z) L2)]]}
+    }{[[G1,G2,G,G3,w : B (+) C |- L | h(h([t/x](let-pat w (y (+) -) L1)) | h([t/x](let-pat w (- (+) z) L2)))]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Parl] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,y : B |- L1]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_3}          
+      }{[[G2,x : A,G3,z : C |- L2]]}      
+    }{[[G2,G,G3,z : C |- L | [t/x]L2]]}
+    }{[[G1,G2,G,G3,w : B (+) C |- h(let-pat w (y (+) -) L1) | h(h(let-pat w (- (+) z) L) | h(let-pat w (- (+) z) [t/x]L2))]]}
   \end{math}
 \end{center}
 
-It suffices to show that 
-% subsubsection left_introduction_of_par (end)
+Similar to the previous case.
+% subsubsection left_introduction_of_par_(second_case) (end)
 
-% subsection secondary_conclusion (end)
+\subsubsection{Left introduction of implication (first case)}
+\label{subsec:left_introduction_of_implication_(first_case)}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Impl] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A,G2 |- t1 : B | L1]]}      
+        \\
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G3,y : C |- L2]]}      
+      }{[[G1,x:A,G2,G3,z : B -o C |- L1 | [z t1/y]L2]]}
+    }{[[G1,G,G2,G3,z : B -o C |- L | h(h([t/x]L1) | [t/x]h([z t1/y]L2))]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Impl] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A,G2 |- t1 : B | L1]]}      
+      }{[[G1,G,G2 |- h(L | h{[t/x]t1} : B) | [t/x]L1]]}
+      \\
+      \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G3,y : C |- L2]]}      
+    }{[[G1,G,G2,G3, z : B -o C |- h(L | h([t/x]L1)) | [z {[t/x]t1}/y]L2]]}
+  \end{math}
+\end{center}
+By inspection of the above derivations we can see that $[[x nin
+FV(L2)]]$, and hence, by this fact and substitution distribution
+(Lemma~\ref{lemma:substitution_distribution}) we know 
+$[[ [t/x]h([z t1/y]L2) = h([{[t/x]z} {[t/x]t1}/y][t/x]L2)]] = [[h([z {[t/x]t1}/y]L2)]]$.
+% subsubsection left_introduction_of_implication_(first_case) (end)
+
+\subsubsection{Left introduction of implication (second case)}
+\label{subsec:left_introduction_of_implication_(second_case)}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Impl] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1 |- t1 : B | L1]]}      
+        \\
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G2,x : A,G3,y : C |- L2]]}      
+      }{[[G1,G2,x:A,G3,z : B -o C |- L1 | [z t1/y]L2]]}
+    }{[[G1,G2,G,G3,z : B -o C |- L | h(h([t/x]L1) | [t/x]h([z t1/y]L2))]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Series of Exchanges] {
+      $$\mprset{flushleft}
+    \inferrule* [right=Impl] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1 |- t1 : B | L1]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G2,x : A,G3,y : C |- L2]]}      
+      }{[[G2,G,G3,y : C |- L | [t/x]L2]]}
+    }{[[G1,G2,G,G3,z : B -o C |- L1 | h(h([z t1/y]L) | h([z t1/y][t/x]L2))]]}
+  }{[[G1,G2,G,G3,z : B -o C |- h(h([z t1/y]L) | h(L1 | h([z t1/y][t/x]L2)))]]}
+  \end{math}
+\end{center}
+By inspection of the above proofs we can see that $[[y nin
+FV(L)]]$. Thus, $[[ [z t1/y]L = L]]$.  The same can be said for the
+variable $[[x]]$ and context $[[L1]]$, and hence, $[[ [t/x]L1 = L1]]$.
+Finally, by inspection of the above proofs $[[x nin FV(t1)]]$ and so
+by substitution distribution
+(Lemma~\ref{lemma:substitution_distribution}) we know $[[ [t/x]h([z
+t1/y]L2) = [z t1/y][t/x]L2]]$.
+% subsubsection left_introduction_of_implication_(second_case) (end)
+
+\subsubsection{Left introduction of implication (second case)}
+\label{subsec:left_introduction_of_implication_(third_case)}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Impl] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1 |- t1 : B | L1]]}      
+        \\
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G2,y : C,G3,x : A |- L2]]}      
+      }{[[G1,G2,z : B -o C,G3,x:A |- L1 | [z t1/y]L2]]}
+    }{[[G1,G2,z : B -o C,G3,G |- L | h(h([t/x]L1) | [t/x]h([z t1/y]L2))]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Series of Exchanges] {
+      $$\mprset{flushleft}
+    \inferrule* [right=Impl] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1 |- t1 : B | L1]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_3}          
+        }{[[G2,y : C,G3,x : A |- L2]]}      
+      }{[[G2,y : C,G3,G |- L | [t/x]L2]]}
+    }{[[G1,G2,z : B -o C,G3,G |- L1 | h(h([z t1/y]L) | h([z t1/y][t/x]L2))]]}
+  }{[[G1,G2,z : B -o C,G3,G |- h(h([z t1/y]L) | h(L1 | h([z t1/y][t/x]L2)))]]}
+  \end{math}
+\end{center}
+Similar to the previous case.
+% subsubsection left_introduction_of_implication_(third_case) (end)
+
+\subsubsection{Right introduction of implication}
+\label{subsec:right_introduction_of_implication}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=Impr] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A,G2,y : B |- t1 : C | L1]]}      
+      \\
+      [[y nin FV(L1)]]
+      }{[[G1,x : A,G2 |- \y.t1 : B -o C | L1]]}
+    }{[[G1,G,G2 |- L | h(h{[t/x]{\y.t1}} : B -o C | [t/x]L1)]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Impr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G |- t : A | L]]}      
+        \\        
+          \inferrule* [right=] {
+            \inferrule* [right=,vdots=1.5em,fraction=\,] {
+              \,
+            }{\pi_2}          
+          }{[[G1,x : A,G2,y : B |- t1 : C | L1]]}      
+        }{[[G1,G,G2,y : B |- L | h(h{[t/x]t1} : C | [t/x]L1)]]}
+      }{[[G1,G,G2 |- L | h(h{\y.[t/x]t1} : B -o C | [t/x]L1)]]}
+    \end{math}
+  \end{center}
+Clearly, $[[ [t/x]{\y.t1} = \y.[t/x]t1]]$.
+% subsubsection right_introduction_of_implication (end)
+
+\subsubsection{Left introduction of tensor unit}
+\label{subsec:left_introduction_of_tensor_unit}
+The proof 
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G |- t : A | L]]}      
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=Il] {
+          \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1, x : A, G2 |- L1]]}      
+      }{[[G1,x:A,G2,y : I |- let y be stp in L1]]}
+    }{[[G1,G,G2,y : I |- L | [t/x](let y be stp in L1)]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Il] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G |- t : A | L]]}      
+        \\
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1, x : A, G2 |- L1]]}      
+      }{[[G1, G, G2 |- L | [t/x]L1]]}
+    }{[[G1, G, G2, y : I |- h(let y be stp in L) | let y be stp in [t/x]L1]]}
+  \end{math}
+\end{center}
+{\color{red}{There is a problem here.}}
+% subsubsection left_introduction_of_tensor_unit (end)
+
+\subsubsection{Right introduction of par unit}
+\label{subsec:right_introduction_of_par_unit}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G |- t : A | L]]}      
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=Pr] {
+          \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A, G2 |- L1]]}      
+        }{[[G1,x : A, G2 |- o : _|_ | L1]]}
+      }{[[G1,G, G2 |- L | h(h{[t/x]o} : _|_ | [t/x]L1)]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Series of Exchanges] {
+      $$\mprset{flushleft}
+    \inferrule* [right=Pr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G |- t : A | L]]}      
+        \\
+        \inferrule* [right=] {
+          \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A, G2 |- L1]]}      
+      }{[[G1,G, G2 |- L | [t/x]L1]]}
+    }{[[G1,G, G2 |- o : _|_ | h(L | [t/x]L1)]]}
+  }{[[G1,G, G2 |- L | h(o : _|_ | [t/x]L1)]]}
+  \end{math}
+\end{center}
+Clearly, $[[ [t/x]o = o]]$.
+% subsubsection right_introduction_of_par_unit (end)
+
+\subsubsection{Left introduction of exchange}
+\label{subsec:left_introduction_of_exchange}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G |- t : A | L]]}      
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=Exl] {
+          \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A,G2, w : B, y : C, G3 |- L1]]}      
+      }{[[G1,x : A,G2, y : C, w : B, G3 |- L1]]}
+    }{[[G1,G,G2, y : C, w : B, G3 |- L | [t/x]L1]]}
+  \end{math}
+\end{center}
+tranforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Exl] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G |- t : A | L]]}      
+        \\
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1,x : A,G2, w : B, y : C, G3 |- L1]]}      
+      }{[[G1,G,G2, w : B, y : C, G3 |- L | [t/x]L1]]}
+    }{[[G1,G,G2, y : C, w : B,G3 |- L | [t/x]L1]]}
+  \end{math}
+\end{center}
+Clearly, all terms are equivalent.
+% subsubsection left_introduction_of_exchange (end)
+
+\subsubsection{Right introduction of exchange}
+\label{subsec:right_introduction_of_exchange}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G |- t : A | L]]}      
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=Exr] {
+          \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1, x : A, G2 |- L1 | h(h(t1 : B | t2 : C) | L2)]]}      
+      }{[[G1, x : A, G2 |- L1 | h(h(t2 : C | t1 : B) | L2)]]}
+    }{[[G1, G, G2 |- L | h(h([t/x]L1) | h(h(h{[t/x]t2} : C | h{[t/x]t1} : B) | [t/x]L2))]]}
+  \end{math}
+\end{center}
+is transformed into 
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Exr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Cut] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_1}          
+        }{[[G |- t : A | L]]}      
+        \\
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+            \,
+          }{\pi_2}          
+        }{[[G1, x : A, G2 |- L1 | h(h(t1 : B | t2 : C) | L2)]]}      
+      }{[[G1, G, G2 |- L | h(h([t/x]L1) | h(h(h{[t/x]t1} : B | h{[t/x]t2} : C) | [t/x]L2))]]}
+    }{[[G1, G, G2 |- L | h(h([t/x]L1) | h(h(h{[t/x]t2} : C | h{[t/x]t1} : B) | [t/x]L2))]]}
+  \end{math}
+\end{center}
+Clearly, all terms are equivalent.
+% subsubsection right_introduction_of_exchange (end)
+% subsection secondary_hypothesis (end)
+
 % section cut-elimination (end)
 
 
