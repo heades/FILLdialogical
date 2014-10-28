@@ -1,4 +1,4 @@
-metavar term_var, x, y, z ::=
+metavar term_var, w,x, y, z, v ::=
 indexvar index_var, i,j,k ::= 
 
 grammar
@@ -13,7 +13,7 @@ form, A, B, C, D, E :: 'Type_' ::=
     {{ tex [[A]] \multimap  [[B]] }}
   | A (x) B ::    :: Tensor
   {{tex [[A]] \otimes [[B]] }}
-  | A [] B  ::    :: Par
+  | A (+) B  ::    :: Par
   {{tex [[A]] \parr [[B]] }}
   | ( A )   :: S :: Parens
 
@@ -26,10 +26,11 @@ patterns, p :: 'Pat_' ::=
   | x         ::  :: VarPat
   | p1 (x) p2 ::  :: TPat2
   {{tex [[p1]] \otimes [[p2]] }}
-  | p1 [] p2  ::  :: PPat2
+  | p1 (+) p2  ::  :: PPat2
   {{tex [[p1]] \parr [[p2]] }}
   | -       ::  :: Joker
   {{tex - }}
+  | ( p ) :: S :: Parens
 
 % Proofs or partial functions.
 term, t, e, d, f, g, u :: 'Term_' ::= 
@@ -39,19 +40,23 @@ term, t, e, d, f, g, u :: 'Term_' ::=
   {{tex \circ }}
   | e1 (x) e2            ::   :: Tensor
   {{tex [[e1]] \otimes [[e2]] }}
-  | e1 [] e2             ::   :: Par
+  | e1 (+) e2             ::   :: Par
   {{tex [[e1]] \parr [[e2]] }}
   | \ x . t              ::   :: Lam 
     {{ tex \lambda [[x]] . [[t]] }}
   | let t be p in e      ::   :: Let
   {{tex \mathsf{let}\,[[t]]\,\mathsf{be}\,[[p]]\,\mathsf{in}\,[[e]] }}
   | f e                  ::   :: App
+  | let-pat z p e        :: M :: LetPat
+  {{tex \mathsf{\operatorname{let-pat} }\,[[z]]\,[[p]]\,[[e]] }}
   | [ t / x ] t'         :: M :: Substitution
   | [ t / x , e / y ] t' :: M :: Substitution2
-  | { t }   :: :: Parens
+  | { t }   :: S  :: Parens
   {{tex ([[t]]) }}
-  | h{ t }   :: :: HParens
+  | h{ t }   :: M :: HParens
   {{tex [[t]] }}
+  | cb{ t }  :: M :: ColorTermBlue
+  {{tex {\color{blue}{[[t]]} } }}
 
 % Left contexts (hypotheses).
 G {{ tex \Gamma }} :: 'LContext_' ::=
@@ -59,6 +64,9 @@ G {{ tex \Gamma }} :: 'LContext_' ::=
   | .      :: :: Empty
   {{tex \cdot }}
   | G , G' :: :: Extension
+  | cb{ x } : A :: :: ColorElBlue
+  {{tex {\color{blue}{[[x]]} } : [[A]] }}
+  | A      ::  :: Formula
 
 % Right contexts (proofs or partial functions).
 L {{tex \Delta }} :: 'RContext_' ::=
@@ -73,6 +81,8 @@ L {{tex \Delta }} :: 'RContext_' ::=
   % % error.  See the inference rule Tr for an example.
   | h( L ) :: :: HiddenParens
   {{tex [[L]] }}
+  | A      ::  :: Formula
+  | L , L' ::   :: FormulaExt
 
 % Meta-logical formulas.
 formula :: 'formula_' ::=
@@ -93,7 +103,7 @@ defns
     {{ tex [[G]] \vdash [[L]] }}
   by
 
-  -------------- :: Identity
+  -------------- :: Ax
   x : A |- x : A
 
   G |- t : A | L && y : A, G' |- fi : Bi
@@ -124,11 +134,15 @@ defns
 
   G, x : A |- di : Ci && G', y : B |- fj : Dj
   -------------------------------------------------------------------------- :: Parl
-  G,G',z : A [] B |- let z be x [] - in di : Ci | let z be - [] y in fj : Dj
+  G,G',z : A (+) B |- let z be x (+) - in di : Ci | let z be - (+) y in fj : Dj
+
+  G, x : A |- di : Ci && G', y : B |- fj : Dj
+  ----------------------------------------------------------------------------- :: NParl
+  G,G',z : A (+) B |- let-pat z (x (+) -) di : Ci | let-pat z (- (+) y) fj : Dj
 
   G |- h( h( L | e : A ) | f : B ) | L'
   ------------------------------------- :: Parr
-  G |- h( L | e [] f : A [] B) | L'
+  G |- h( L | e (+) f : A (+) B) | L'
 
   G |- e : A | L && G', x : B |- fi : Ci
   ------------------------------------------ :: Impl
@@ -137,6 +151,57 @@ defns
   G, x : A |- e : B | L && x nin FV( L )
   -------------------------------------- :: Impr
   G |- \x.e : A -o B | L
+
+  % The dep-relation inference rules.
+
+  --------- :: dax
+  A' |- A''
+
+  G1 |- B', L1
+  G2, B'' |- L2
+  -------------- :: dcut
+  G1,G2 |- L2,L1
+
+  G,A,B |- L
+  --------------- :: Dtl
+  G, A (x) B |- L
+
+  G1 |- A,L1
+  G2 |- B,L2
+  ---------------------- :: Dtr
+  G1,G2 |- A (x) B,L1,L2
+
+  G |- L
+  --------- :: Dil
+  G, I |- L
+
+  ------ :: Dir
+  . |- I
+
+  G1, A |- L1 
+  G3, B |- L2
+  ---------------------- :: Dparl
+  G1,G3,A (+) B |- L1,L2
+
+  G |- A,B,L
+  -------------- :: Dparr
+  G |- A (+) B,L
+
+  -------- :: Dpl
+  _|_ |- .
+
+  G |- L
+  ----------- :: Dpr
+  G |- _|_, L
+
+  G1 |- A, L1
+  G2, B |- L2
+  ---------------------- :: Dimpl
+  G1,G2, A -o B |- L1,L2
+
+  G, A |- B, L
+  ------------- :: Dimpr
+  G |- A -o B,L
 
   defn
   f = e :: :: catEq :: 'Eq_'
@@ -161,10 +226,10 @@ defns
   let u be x (x) y in [x (x) y/z]f = [u/z]f
 
   ---------------------------------- :: P1
-  let u [] t be x [] - in e = [u/x]e
+  let u (+) t be x (+) - in e = [u/x]e
 
   ---------------------------------- :: P2
-  let u [] t be - [] y in e = [t/y]e
+  let u (+) t be - (+) y in e = [t/y]e
 
   -------------------------------------------------------- :: P3
-  { let x be x [] - in x } [] { let u be - [] y in y } = u
+  { let x be x (+) - in x } (+) { let u be - (+) y in y } = u
