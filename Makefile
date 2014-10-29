@@ -19,6 +19,10 @@ FILLDialogical-output.tex : FILLDialogical.tex FILL.ott
 # pdflatex.
 FILLDialogical.pdf : FILLDialogical-output.tex Makefile
 	$(PDFLATEX) -jobname=FILLDialogical FILLDialogical-output.tex
+	$(BIBTEX) FILLDialogical
+	$(PDFLATEX) -jobname=FILLDialogical FILLDialogical-output.tex
+	$(PDFLATEX) -jobname=FILLDialogical FILLDialogical-output.tex
+
 # This is for my private machine.  It forces my PDF reader to reload.
 # It should not run unless "skim_revert.sh" is in your PATH.
 ifeq ($(SKIM), skim_revert.sh)
