@@ -3,10 +3,39 @@
 \usepackage{amssymb,amsmath,amsthm}
 \usepackage{cmll}
 \usepackage{stmaryrd}
+\usepackage{mathpartir}
+\usepackage{hyperref}
 
 \title{SuperPower Lorenzen Games}
 \author{Valeria de Paiva and Harley Eades III}
 \date{May 2014}
+
+% Theorems
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{notn}[theorem]{Notation}
+\newtheorem{observation}[theorem]{Observation}
+
+% Commands that are useful for writing about type theory and programming language design.
+%% \newcommand{\case}[4]{\text{case}\ #1\ \text{of}\ #2\text{.}#3\text{,}#2\text{.}#4}
+\newcommand{\interp}[1]{\llbracket #1 \rrbracket}
+\newcommand{\normto}[0]{\rightsquigarrow^{!}}
+\newcommand{\join}[0]{\downarrow}
+\newcommand{\redto}[0]{\rightsquigarrow}
+\newcommand{\nat}[0]{\mathbb{N}}
+\newcommand{\fun}[2]{\lambda #1.#2}
+\newcommand{\CRI}[0]{\text{CR-Norm}}
+\newcommand{\CRII}[0]{\text{CR-Pres}}
+\newcommand{\CRIII}[0]{\text{CR-Prog}}
+\newcommand{\subexp}[0]{\sqsubseteq}
+%% Must include \usepackage{mathrsfs} for this to work.
+\newcommand{\powerset}[0]{\mathscr{P}}
+
 
 %\usepackage{natbib}
 %\usepackage{graphicx}
@@ -167,14 +196,15 @@ the structural rules.  For classical logic the rules are:
 while for intuitionistic logic the structural rules are the ones above
 plus:
  \begin{itemize}
-%\item[D1] $\bf P$ may assert an atomic formula only after it has been asserted by $\bf O$ before.
+   % \item[D1] $\bf P$ may assert an atomic formula only after it has
+   %   been asserted by $\bf O$ before.
  \item[S2] If p is an {\bf P}-position, and if at round $n - 1$ there
    are several open attacks made by {\bf O}, then only the latest of
    them may be answered at $n$ (and the same with {\bf P} and {\bf O}
    reversed).
  \item[S3] An attack may be answered at most once.
 %\item[D4] A P-assertion may be attacked at most once.
-%\item[E] O can react only upon the immediately preceding P-statement. 
+%\item[E] O can react only upon the immediately preceding P-statement.
 \end{itemize}
 
 
@@ -278,7 +308,10 @@ the same.
  % \caption{Table 1: Particle rules for dialogue games}
 \end{center}
 
-%More about linear contexts.Only  $\bf O$ can open a new context. $\bf P$ can only play on contexts opened by $\bf O$. if during a dialogue $\bf O$ opens a new context, we say that the new context is a sub-context of the initial one.
+% More about linear contexts.Only $\bf O$ can open a new context. $\bf
+% P$ can only play on contexts opened by $\bf O$. if during a dialogue
+% $\bf O$ opens a new context, we say that the new context is a
+% sub-context of the initial one.
  
 Rahman also introduces an interpretation for the linear logic
 exponentials in terms of games, but says that the proof that the games
@@ -312,8 +345,182 @@ formalizations.
 \subsection*{FILL Using Dependency Relations}
 \label{subsec:fill_using_dependency_relations}
 One of the major obstacles of defining a formalization of FILL is
-obtaining cut-elimination.  An initial formalization of FILL used a
-term-assignment to constrain classical linear logic to FILL 
+obtaining cut-elimination.  An initial formalization of FILL
+constrained the implication right rule to at most one formula on the
+right, but it was pointed out by Schellinx that this breaks
+cut-elimination \cite{Schellinx:1991}.  A second formalization of FILL
+used a term-assignment to constrain Classical Linear Logic to FILL
+\cite{Hyland:1993}, but this formalization did not enjoy
+cut-elimination either as pointed out by \cite{Bierman:1996a}.  Later,
+Bra\"ner and de Paiva gave an alternate formalization of FILL based on
+dependency-relations that starts with Classical Linear Logic, and the
+constrains derivations using a dependency tracking system based on a
+dependency relation \cite{Brauner:1998}.  Then a FILL derivation is
+defined as a Classical Linear Logic derivation where only a single
+conclusion can depend on the hypothesis begin discharged.
+
+\begin{definition}
+  \label{def:syntax-dep-rel}
+  The syntax of formulas and contexts of Classical Linear Logic are
+  defined as follows:
+  \begin{center}
+    \begin{math}
+      \begin{array}{lll}
+        \text{(Formulas)} & A,B,C ::= [[A (x) B]] \mid [[I]] \mid [[A
+        (+) B]] \mid [[_|_]] \mid [[A -o B]]\\
+        \text{(Contexts)} & [[G]],[[L]] ::= [[.]] \mid A \mid [[G1,G2]]\\
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+We will consider contexts to be lists of formulas where $[[.]]$ is the
+empty list, and $[[G1,G2]]$ denotes appending the list $[[G1]]$ with
+the list $[[G2]]$.
+
+\begin{definition}
+  \label{def:infr-dep-rel}
+  The inference rules for Classical Linear Logic as defined as
+  follows:
+  \begin{center}
+    \begin{mathpar}
+      \FILLdruleDax{} \and
+      \FILLdruleDcut{} \and
+      \FILLdruleDtl{} \and
+      \FILLdruleDtr{} \and
+      \FILLdruleDil{} \and
+      \FILLdruleDir{} \and
+      \FILLdruleDparl{} \and
+      \FILLdruleDparr{} \and
+      \FILLdruleDpl{} \and
+      \FILLdruleDpr{} \and
+      \FILLdruleDimpl{} \and
+      \FILLdruleDimpr{}
+    \end{mathpar}
+  \end{center}
+\end{definition}
+So far we have defined Classical Linear Logic next we must define when
+a classical derivation is a FILL derivation, but this requires the
+notion of a dependency relation.  To define the latter we will need a
+generalization of the usual notion of composition of relations.  
+
+\newcommand{\grc}[0]{\mathop{\star}}
+
+\begin{definition}
+  \label{def:gen-rel-comp}
+  Suppose $A_1$, $A_2$, $B_1$, and $B_2$ are sets, and $r_1 \subseteq
+  A_1 \times B_1$ and $r_2 \subseteq A_2 \times B_2$ are relations.
+  Then we define the relation $r_1 \grc r_2 \subseteq (A_1
+  \cup (A_2 - B_1)) \times (B_2 \cup (B_1 - A_2))$ as 
+  \begin{center}
+    \begin{math}
+      \begin{array}{lll}
+        \lbrack (r_1 \cap (A_1 \times (B_1 \cap A_2))) * (r_2 \cap
+        ((A_2 \cap B_1) \times B_2))\rbrack \cup \\
+        \lbrack r_1 \cap (A_1 \times (B_1 - A_2))\rbrack \cup \\
+        \lbrack r_2 \cap ((A_2 - B_1) \times B_2) \rbrack
+      \end{array}
+    \end{math}
+  \end{center}
+  where $*$ is the usual composition of relations.
+\end{definition}
+The previous definition is due to Bra\"uner and de Paiva in
+\cite{Brauner:1998}.  In that paper they give further explanations of
+the definition that the reader might find helpful.  At this point we
+define a relation that calculates the set of dependencies of a
+classical derivation.  
+\begin{definition}
+  \label{def:dep-dep-rel}
+  Suppose $\tau$ is a classical derivation whose end sequent is $[[G
+  |- L]]$.  Now we define the relation $Dep(\tau) \subseteq [[G]]
+  \times [[L]]$ where $[[G]]$ and $[[L]]$ are considered as sets of
+  formula occurrences by induction on the structure of $\tau$:
+  \begin{itemize}
+  \item[Case.] If $\tau$ consists solely of an application of a either of the rules
+    $\FILLdrulename{Dir}$ or $\FILLdrulename{Dpl}$, then $Dep(\tau) =
+    \emptyset$.  
+
+  \item[Case.] If $\tau$ consists of only an application of the axiom
+    rule where $[[G |- L]] \equiv [[A |- A]]$, then $Dep(\tau) =
+    \{(A,A)\}$.
+
+    
+  \item[Case.] If the last rule applied in $\tau$ was
+    $\FILLdrulename{Dcut}$ whose two immediate subderivations are
+    $\tau_1$ and $\tau_2$ with final sequents $[[G1 |- B', L1]]$ and
+    $[[G2, B'' |- L2]]$, then $Dep(\tau) = Dep(\tau_1) \grc \{B'\}
+    \grc \{B''\} \grc Dep(\tau_2)$.
+
+  \item[Case.] If the last rule applied in $\tau$ was
+    $\FILLdrulename{Dtl}$ whose immediate subderivation is
+    $\tau_1$ with final sequent $[[G1,A,B |- L1]]$, 
+    then 
+    $Dep(\tau) = \{[[A (x) B]]\} \grc \{A,B\} \grc Dep(\tau_1)$.
+
+  \item[Case.] If the last rule applied in $\tau$ was
+    $\FILLdrulename{Dtr}$ whose two immediate subderivations are
+    $\tau_1$ and $\tau_2$ with final sequents $[[G1 |- A,L1]]$ and
+    $[[G2 |- B,L2]]$ respectively, then 
+    $Dep(\tau) = (Dep(\tau_1) \cup Dep(\tau_2)) \grc \{A,B\} \times
+    \{[[A (x) B]]\}$.
+
+  \item[Case.] If the last rule applied in $\tau$ was
+    $\FILLdrulename{Dil}$ whose immediate subderivation is
+    $\tau_1$ with final sequent $[[G1 |- L1]]$, and $[[G |- L]] \equiv
+    [[G1,I |- L1]]$, 
+    then 
+    $Dep(\tau) = \{[[I]]\} \grc \emptyset \grc Dep(\tau_1)$.
+
+  \item[Case.] If the last rule applied in $\tau$ was
+    $\FILLdrulename{Dparl}$ whose two immediate subderivations are
+    $\tau_1$ and $\tau_2$ with final sequents $[[G1, A |- L1]]$ and
+    $[[G3, B |- L2]]$ respectively, then 
+    $Dep(\tau) = \{[[A (+) B]]\} \times \{A,B\} \grc (Dep(\tau_1) \cup
+    Dep(\tau_2))$.
+
+  \item[Case.] If the last rule applied in $\tau$ was
+    $\FILLdrulename{Dparr}$ whose immediate subderivation is
+    $\tau_1$ with final sequent $[[G1 |- A,B,L1]]$, 
+    then 
+    $Dep(\tau) = Dep(\tau_1) \grc \{A,B\} \times \{[[A (+) B]]\}$.
+
+  \item[Case.] If the last rule applied in $\tau$ was
+    $\FILLdrulename{Dpr}$ whose immediate subderivation is
+    $\tau_1$ with final sequent $[[G1 |- A,B,L1]]$, and $[[G |- L]]
+    \equiv [[G1 |- _|_, L1]]$, 
+    then 
+    $Dep(\tau) = Dep(\tau_1) \grc \emptyset \times \{[[_|_]]\}$.
+
+  \item[Case.] If the last rule applied in $\tau$ was
+    $\FILLdrulename{Dimpl}$ whose two immediate subderivations are
+    $\tau_1$ and $\tau_2$ with final sequents $[[G1 |- A, L1]]$ and
+    $[[G2, B |- L2]]$ respectively, then 
+    $Dep(\tau) = Dep(\tau_1) \grc \{A,[[A -o B]]\} \times \{B\} \grc
+    Dep(\tau_2)$.
+
+  \item[Case.] If the last rule applied in $\tau$ was
+    $\FILLdrulename{Dimpr}$ whose immediate subderivation is
+    $\tau_1$ with final sequent $[[G1, A |- B, L1]]$,
+    then 
+    $Dep(\tau) = \emptyset \times \{A\} \grc Dep(\tau_1) \grc \{B\}
+    \times \{[[A -o B]]\}$.
+  \end{itemize}   
+  If $\tau$ is a derivation of $[[G |- L]]$ where $[[A]]$ and $[[B]]$
+  are formulas in $[[G]]$ and $[[L]]$ respectively, then we say that
+  $[[B]]$ depends on $[[A]]$ if and only if $(A,B) \in Dep(\tau)$.
+\end{definition}
+Finally, we arrive at this sections main definition.
+\begin{definition}
+  \label{def:dep-rel-FILL-deriv}
+  A FILL derivation is a classical derivation where whenever the
+  implication right rule ($\FILLdrulename{Dimpr}$) is applied to a
+  derivation $\tau$ of the sequent $[[G,A |- B,L]]$ to obtain $[[G |-
+  A -o B,L]]$ none of the formulas in $[[L]]$ depend on $[[A]]$ in
+  $\tau$.  That is, for all $[[C]] \in [[L]]$, $(A,C) \not\in
+  Dep(\tau)$.
+\end{definition}
+For a more detailed explanation of this logic see \cite{Brauner:1998}.
+We will freely use the cut-elimination theorem for FILL whose proof
+can also be found in \cite{Brauner:1998}.
 % subsection fill_using_dependency_relations (end)
 
 \subsection*{FILL Using a Term Assignment}
