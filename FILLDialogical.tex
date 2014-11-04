@@ -69,12 +69,12 @@
 
 %% main text
 
-%\section*{Introduction}
+%\section{Introduction}
 \label{}
 %% The Appendices part is started with the command \appendix;
 %% appendix sections are then done as normal sections
 %% \appendix
-\section*{Blass  on Linear Logic Games}
+\section{Blass  on Linear Logic Games}
 Blass is responsible, to a large extent, for the introduction of
 game-theoretic ideas related to Linear Logic\cite{Blass:1992}. The
 project was enthusiastically embraced by Hyland, Abramsky and many
@@ -120,7 +120,7 @@ disjunction, and linear implication were {\em not} described, as in
 Classical Linear Logic they can be defined in terms of tensor and
 linear negation.
   
- \section*{Lorenzen Games}
+ \section{Lorenzen Games}
  Lorenzen games were developed by Lorenz, Felscher and Rahman, who
  together with co-workers, established a collection of games for
  specific (non-classical) logics, including Linear Logic. This general
@@ -143,7 +143,7 @@ linear negation.
  logic, classical logic and classical linear logic, before we embark
  on the novelty of this note, {\em full intuitionistic} linear logic.
 
-\section*{Games for Intuitionistic and Classical Logic}
+\section{Games for Intuitionistic and Classical Logic}
 The table with particle rules for intuitionistic and classical logic
 is as follows:
 
@@ -236,7 +236,7 @@ The problem with the structural rules is that it is not clear which
 modifications can be made to them without changing the set of provable
 formulas.
 
-\section*{Lorenzen Games for Linear Logic}
+\section{Lorenzen Games for Linear Logic}
 
 We now recall Rahman's\cite{Rahman:2002} definitions of Lorenzen games
 for Linear logic, see \cite{Keiff:2011}. In Linear Logic each
@@ -323,7 +323,7 @@ structural rule could be used instead. Using the intuitionistic
 structural rule we should arrive at a semantics for Full
 Intuitionistic Linear Logic.
  
-\section*{Full Intuitionistic Linear Logic}
+\section{Full Intuitionistic Linear Logic}
 
 Full Intuitionistic Linear Logic (FILL) is a variant of Linear Logic
 introduced by de Paiva and Hyland in \cite{Hyland:1993}. FILL is an
@@ -342,7 +342,7 @@ There are two main formalizations of FILL that enjoy cut-elimination.
 In the next two sections we give detailed definitions of both of these
 formalizations.
 
-\subsection*{FILL Using Dependency Relations}
+\subsection{FILL Using Dependency Relations}
 \label{subsec:fill_using_dependency_relations}
 One of the major obstacles of defining a formalization of FILL is
 obtaining cut-elimination.  An initial formalization of FILL
@@ -524,17 +524,46 @@ We will freely use the cut-elimination theorem for FILL whose proof
 can also be found in \cite{Brauner:1998}.
 % subsection fill_using_dependency_relations (end)
 
-\subsection*{FILL Using a Term Assignment}
+\subsection{FILL Using a Term Assignment}
 \label{subsec:fill_using_a_term_assignment}
 TODO
 % subsection fill_using_a_term_assignment (end)
 
-\section*{Lorenzen Games for FILL}
+\section{Lorenzen Games for FILL}
 \label{sec:lorenzen_games_for_fill}
 
+In this section we fully define Lorenzen games for FILL.  Then using
+this interpretation we prove soundness with respect to the dependency
+relation formalization of FILL
+(Section~\ref{subsec:fill_using_dependency_relations}) and the term
+assignment formalization of FILL
+(Section~\ref{subsec:fill_using_a_term_assignment}).
+
+We first enrich the language of FILL
+(Definition~\ref{def:syntax-dep-rel}) to obtain the language of the
+games:
+\newcommand{\player}[1]{\textbf{#1}}
+
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}
+      \text{(Force)}   & f ::= [[?]] \mid [[!]]\\
+      \text{(Players)} & \player{X},\player{Y} ::= [[O]] \mid [[P]]\\
+      \text{(Expressions)} & e ::= [[(x)l]] \mid [[(x)r]] \mid [[(+)]] \mid [[A]]\\
+    \end{array}
+  \end{math}
+\end{center}
+So the language of Lorenzen games contains two force symbols attack
+($[[?]]$) and defend ($[[!]]$), two players the opponent ($[[O]]$) and
+the proponent ($[[P]]$), and finally a number of expressions
+representing moves.  Note that the expressions contain every
+well-defined FILL formula. We denote a player making a move by
+$\player{X} \langle f \rangle e$ which should read as the player
+$\player{X}$ played move $e$ and it should be considered either an
+attack or a defend depending on $f$.
 % section lorenzen_games_for_fill (end)
 
- \section*{Conclusions}
+ \section{Conclusions}
  We recalled games for Linear Logic in two traditions, Blass-style
  games (as discussed by Hyland, Abramsky and Jagadhesan and many
  others) and Lorenzen-style games (as introduced by Rahman, Keiff and

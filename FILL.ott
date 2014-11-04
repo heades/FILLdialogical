@@ -84,6 +84,20 @@ L {{tex \Delta }} :: 'RContext_' ::=
   | A      ::  :: Formula
   | L , L' ::   :: FormulaExt
 
+games :: 'games_' ::=
+  | (x)l :: :: TenL
+  {{tex \otimes_{L} }}
+  | (x)r :: :: TenR
+  {{tex \otimes_{R} }}
+  | (+) :: :: Par
+  {{tex \parr }}
+  | O :: :: Opp
+  | P :: :: Pro
+  | ? :: :: Attack
+  {{tex \mathop{?} }}
+  | ! :: :: Defend
+  {{tex \mathop{!} }}
+  
 % Meta-logical formulas.
 formula :: 'formula_' ::=
   | judgement                ::    :: judgement
