@@ -351,13 +351,14 @@ right, but it was pointed out by Schellinx that this breaks
 cut-elimination \cite{Schellinx:1991}.  A second formalization of FILL
 used a term-assignment to constrain Classical Linear Logic to FILL
 \cite{Hyland:1993}, but this formalization did not enjoy
-cut-elimination either as pointed out by \cite{Bierman:1996a}.  Later,
-Bra\"ner and de Paiva gave an alternate formalization of FILL based on
-dependency-relations that starts with Classical Linear Logic, and the
-constrains derivations using a dependency tracking system based on a
-dependency relation \cite{Brauner:1998}.  Then a FILL derivation is
-defined as a Classical Linear Logic derivation where only a single
-conclusion can depend on the hypothesis begin discharged.
+cut-elimination either as pointed out Biereman \cite{Bierman:1996a}.
+Later, Bra\"ner and de Paiva gave an alternate formalization of FILL
+based on dependency-relations that starts with Classical Linear Logic,
+and then constrains derivations using a dependency tracking system
+based on a dependency relation \cite{Brauner:1998}.  Then a FILL
+derivation is defined as a Classical Linear Logic derivation where
+only a single conclusion can depend on the hypothesis begin
+discharged.
 
 \begin{definition}
   \label{def:syntax-dep-rel}
@@ -379,7 +380,7 @@ the list $[[G2]]$.
 
 \begin{definition}
   \label{def:infr-dep-rel}
-  The inference rules for Classical Linear Logic as defined as
+  The inference rules for Classical Linear Logic are defined as
   follows:
   \begin{center}
     \begin{mathpar}
@@ -398,10 +399,10 @@ the list $[[G2]]$.
     \end{mathpar}
   \end{center}
 \end{definition}
-So far we have defined Classical Linear Logic next we must define when
-a classical derivation is a FILL derivation, but this requires the
-notion of a dependency relation.  To define the latter we will need a
-generalization of the usual notion of composition of relations.  
+Now we must define when a classical derivation is a FILL derivation,
+but this requires the notion of a dependency relation.  To define the
+latter we will need a generalization of the usual notion of
+composition of relations.
 
 \newcommand{\grc}[0]{\mathop{\star}}
 
@@ -435,7 +436,7 @@ classical derivation.
   \times [[L]]$ where $[[G]]$ and $[[L]]$ are considered as sets of
   formula occurrences by induction on the structure of $\tau$:
   \begin{itemize}
-  \item[Case.] If $\tau$ consists solely of an application of a either of the rules
+  \item[Case.] If $\tau$ consists solely of an application of either of the rules
     $\FILLdrulename{Dir}$ or $\FILLdrulename{Dpl}$, then $Dep(\tau) =
     \emptyset$.  
 
