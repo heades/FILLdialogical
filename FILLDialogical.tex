@@ -532,9 +532,9 @@ TODO
 \section{Lorenzen Games for FILL}
 \label{sec:lorenzen_games_for_fill}
 
-In this section we fully define Lorenzen games for FILL.  Then using
-this interpretation we prove soundness with respect to the dependency
-relation formalization of FILL
+In this section we formally define Lorenzen games for FILL.  Then
+using this interpretation we prove soundness with respect to the
+dependency relation formalization of FILL
 (Section~\ref{subsec:fill_using_dependency_relations}) and the term
 assignment formalization of FILL
 (Section~\ref{subsec:fill_using_a_term_assignment}).
@@ -553,14 +553,39 @@ games:
     \end{array}
   \end{math}
 \end{center}
-So the language of Lorenzen games contains two force symbols attack
-($[[?]]$) and defend ($[[!]]$), two players the opponent ($[[O]]$) and
-the proponent ($[[P]]$), and finally a number of expressions
-representing moves.  Note that the expressions contain every
-well-defined FILL formula. We denote a player making a move by
-$\player{X} \langle f \rangle e$ which should read as the player
-$\player{X}$ played move $e$ and it should be considered either an
-attack or a defend depending on $f$.
+So the language of Lorenzen games contains force symbols for attack
+($[[?]]$) and defend ($[[!]]$), two players called the opponent
+($[[O]]$) and the proponent ($[[P]]$), and finally a number of
+expressions representing moves.  Note that the expressions contain
+every well-defined FILL formula. 
+
+\begin{definition}
+  \label{def:dialogical-context}
+  A \emph{dialogical context} is a sequence of integers (called
+  labels) denoted $\nu = x_0.x_1.\,\ldots\,.x_n$ where each part of
+  the sequence is separated by dots.  There is one distinguished
+  context called the original context denoted by $1$.  Finally, the
+  set of labels is semi-ordered by a relation of succession, forming a
+  tree.  That is, if $\nu$ denoted a dialogical context, then $\nu.i$
+  (for $1 \leq i \leq n$) denotes the $n$ successors of $\nu$.
+\end{definition}
+We call the depth of a context its rank where the original context has
+rank $1$. We denote a player making a move by $\nu \vdash_\player{X} f\,e$ which should read as the player
+$\player{X}$ played move $e$ in the dialogical context $\nu$, and it
+should be considered either an attack or a defend depending on $f$.
+\begin{definition}
+  \label{def:propositional-content}
+  A move $\nu \vdash_\player{X} f\,e$ is said to have
+  \emph{propositional content} iff $e$ is a FILL formula.
+\end{definition}
+
+\noindent
+The particle rules:
+
+\ \\
+\noindent
+The structural rules:
+
 % section lorenzen_games_for_fill (end)
 
  \section{Conclusions}
