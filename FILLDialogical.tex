@@ -570,7 +570,8 @@ every well-defined FILL formula.
   (for $1 \leq i \leq n$) denotes the $n$ successors of $\nu$.
 \end{definition}
 We call the depth of a context its rank where the original context has
-rank $1$. We denote a player making a move by $\nu \vdash_\player{X} f\,e$ which should read as the player
+rank $1$. We denote a player making a move by
+$\nu \vdash_\player{X} f\,e$ which should read as the player
 $\player{X}$ played move $e$ in the dialogical context $\nu$, and it
 should be considered either an attack or a defend depending on $f$.
 \begin{definition}
@@ -579,8 +580,122 @@ should be considered either an attack or a defend depending on $f$.
   \emph{propositional content} iff $e$ is a FILL formula.
 \end{definition}
 
-\noindent
-The particle rules:
+At this point we begin to specify how the evolution of the game is
+formalized.  This requires the definition of two sets of rules: the
+particle rules, and the structural rules.  The former describe the
+state of the dialogue with respect to the current formula under
+debate. This state is mainly composed of an assignment of players to
+roles, and players to subformulas of the formula under debate.  Thus,
+the particle rules describe a local meaning of the formula under
+debate.  The structural rules, however, determine the global meaning
+of the formula under debate.  These rules describe the general
+organization of the dialogue, and can be thought of as orchestrating
+the particle rules as the dialogue progresses.  It is up to the
+structural rules to guide the dialogue from start to finish.
+
+We begin by defining the particle rules.  The particle rules can be
+viewed as a state transition system. 
+\begin{definition}
+  \label{def:particle-rules-state}
+  Suppose $[[A]]$ is a FILL formula, and let $C = \{c_1,\ldots \}$ be
+  a set of constants.  Then a \emph{state} of the dialogue for $[[A]]$
+  is a triple $\langle \psi,\phi,\gamma \rangle$ where:
+  \begin{center}
+    \begin{itemize}
+    \item $\psi : \{[[O]],[[P]]\} \to \{[[?]],[[!]]\}$ is a
+      one-to-one correspondence of roles to players.  We will write
+      $\psi_{\mathsf{rev}}$ for the assignment that reverses the roles
+      of the players.  Note that $(\psi_{\mathsf{rev}})_{\mathsf{rev}}
+      = \psi$.
+    \item $\phi$ is a player-signed formula denoted $X\text{-}B$ for some
+      FILL formula $B$ where $B \in \mathsf{Sub}(A)$.
+    \item $\gamma$ is an assignment of dialogical contexts to
+      player-signed formulas.
+    \end{itemize}
+  \end{center}
+\end{definition}
+The particle rules now describe how to move from one state to the next
+based on the main connective of the player-signed formula.  
+\newcommand{\psii}[0]{\psi^{-1}}
+\begin{definition}
+  \label{def:particle-rules}
+  Suppose $S_1 = \langle \psi, \phi = \psii(!)\text{-}[[B]],\gamma \rangle$.
+  Then we define which states are reachable from $S_1$ based on the
+  main connective of $[[B]]$:
+  \begin{center}
+    \begin{itemize}
+    \item[] \textbf{Particle Rule for Tensor}. Suppose
+      $B = [[A1 (x) A2]]$ and $\gamma = \gamma_{\phi/\nu}$, where the
+      latter denotes $\gamma$ assigning the player-signed formula
+      $\phi$ to the context $\nu$.  Then the following characterizes
+      the reachable states from $S_1$ after an attack $\alpha$.
+      \begin{center}
+        \begin{itemize}
+        \item If $\alpha =  \psii(?)\text{-}\otimes_R$ in the
+          dialogical subcontext $\mu$ of $\nu$ chosen by $\psii(?)$, then
+          $S_2 = \langle \psi, \psii(!)\text{-}[[A1]],\gamma_{[[A1]]/\mu} \rangle$ is
+          reachable from $S_1$. \\
+        \item If $\alpha =  \psii(?)\text{-}\otimes_L$ in the
+          dialogical subcontext $\mu$ of $\nu$ chosen by $\psii(?)$, then
+          $S_3 = \langle \psi, \psii(!)\text{-}[[A2]],\gamma_{[[A1]]/\mu} \rangle$ is
+          reachable from $S_1$.\\
+        \end{itemize}                
+      \end{center}
+      The formula $[[A1 (x) A2]]$ is called used and is bracketed if
+      and only if the states $S_2$ and $S_3$ have been reached.
+      
+    \item[] \textbf{Particle Rule for Par}. Suppose
+      $B = [[A1 (+) A2]]$ and $\gamma = \gamma_{\phi/\nu}$. Then
+      $\psii(!)$ can choose one of the following possible transitions
+      from $S_1$.
+      \begin{center}
+        \begin{itemize}
+        \item If $\alpha =  \psii(?)\text{-}[[(+)]]$ in the
+          dialogical subcontext $\mu$ of $\nu$ chosen by $\psii(!)$, then
+          $S_2 = \langle \psi, \psii(!)\text{-}[[A1]],\gamma_{[[A1]]/\mu} \rangle$ is
+          reachable from $S_1$. \\
+        \item If $\alpha = \psii(?)\text{-}[[(+)]]$ in the dialogical
+          subcontext $\mu$ of $\nu$ chosen by $\psii(!)$, then
+          $S_3 = \langle \psi,
+          \psii(!)\text{-}[[A2]],\gamma_{[[A1]]/\mu} \rangle$ is
+          reachable from $S_1$.\\
+        \end{itemize}                
+      \end{center}
+      The formula $[[A1 (+) A2]]$ is called used and is bracketed if
+      and only if the states $S_2$ and $S_3$ have been reached.
+
+    \item[] \textbf{Particle Rule for Implication}. Suppose
+      $B = [[A1 -o A2]]$ and $\gamma = \gamma_{\phi/\nu}$. The
+      following is reachable from $S_1$:
+      \begin{center}
+        \begin{itemize}
+        \item $S_2 = \langle \psi_{\mathsf{rev}}, 
+                              \psii_{\mathsf{rev}}(!)\text{-}[[A1]],
+                              \gamma_{[[A1]]/\mu}
+                     \rangle$ 
+          where $\mu$ is a dialogical subcontext of $\nu$ choose by
+          $\psii(!)$.\\        
+        \end{itemize}                
+      \end{center}
+      The state following $S_2$ is now chosen by $\psii(!)$ and can
+      proceed by applying the appropriate particle rule to $S_2$, or
+      can proceed to the state:
+      \begin{center}
+        \begin{itemize}
+        \item $S_3 = \langle \psi, 
+                              \psii(!)\text{-}[[A2]],
+                              \gamma_{[[A1]]/\mu'}
+                     \rangle$ 
+              where $\mu'$ is a dialogical subcontext of $\nu$ choose by
+              $\psii(!)$.\\        
+        \end{itemize}                
+      \end{center}
+      The formula $[[A1 -o A2]]$ is called used and is bracketed if
+      and only if the states $S_2$ and $S_3$ have been reached.
+    \end{itemize}
+  \end{center}
+\end{definition}
+
 
 \ \\
 \noindent
