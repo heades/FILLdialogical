@@ -181,39 +181,56 @@ defns
   ----------- :: Alpha
   t = [y/x]t
 
-  ------------------- :: Beta
+  x nin FV(f)
+  ------------- :: EtaFun
+  {\x.h{f x}} = f
+  
+  ------------------- :: BetaFun
   {\x.e} e' = [e'/x]e
 
-  ------------- :: Eta
-  {\x.h{f x}} = f
-
-  % I had to add the EtaLet rule to get the cut-elimination proof to
-  % go through for the case of when tensor-left is commuted with cut
-  % in the secondary hypothesis section of the proof.
-  x,y nin FV(t)
-  -------------------------- :: EtaLet
-  let t' be x (x) y in t = t
-
-  --------------------- :: I
+  --------------------- :: Eta1I
   let * be stp in e = e
 
-  ------------------------------- :: Stp
+  y nin FV(f)
+  ---------------------- :: Eta2I
+  f = let y be stp in f 
+  
+  ------------------------------- :: BetaI
   let u be stp in [*/z]f = [u/z]f
 
-  ----------------------------------------- :: T1
+  ----------------------------------------------- :: NatI
+  [let u be stp in e/y]f = let u be stp in [e/y]f
+
+  x,y nin FV(t)
+  -------------------------- :: EtaTensor
+  let t' be x (x) y in t = t
+  
+  ----------------------------------------- :: Beta1Tensor
   let e (x) t be x (x) y in u = [e/x, t/y]u
 
-  ----------------------------------------- :: T2
+  ----------------------------------------- :: Beta2Tensor
   let u be x (x) y in [x (x) y/z]f = [u/z]f
 
-  ---------------------------------- :: P1
+  ------------------------------------------------------- :: NatTensor
+  [let u be x (x) y in g/w]f = let u be x (x) y in [g/w]f
+
+  ----- :: EtaParU
+  u = o
+
+  ----------------------------------------------------------- :: EtaPar
+  { let u be x (+) - in x } (+) { let u be - (+) y in y } = u
+
+  ------------------------------------ :: Beta1Par
   let u (+) t be x (+) - in e = [u/x]e
 
-  ---------------------------------- :: P2
+  ------------------------------------ :: Beta2Par
   let u (+) t be - (+) y in e = [t/y]e
 
-  -------------------------------------------------------- :: P3
-  { let x be x (+) - in x } (+) { let u be - (+) y in y } = u
+  ------------------------------------------------------- :: Nat1Par
+  let t be x (+) - in [u/x]f = [let t be x (+) - in u/x]f
+
+  ------------------------------------------------------- :: Nat2Par
+  let t be - (+) y in [v/y]f = [let t be - (+) y in v/y]f
 
   t = t'
   ------------- :: Lam

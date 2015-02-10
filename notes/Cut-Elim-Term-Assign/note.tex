@@ -11,7 +11,6 @@
 
 \title{Cut-elimination of the term assignment formulation of FILL}
 \author{Harley Eades III}
-\date{September 2014}
 
 %\usepackage{natbib}
 %\usepackage{graphicx}
@@ -201,20 +200,14 @@ the sequel:
   This proof holds by straightforward induction on the form of $t$.
 \end{proof}
 
-\begin{lemma}[Let Distribution]
-  \label{lemma:let_distribution}
-  For any terms $[[t]]$, $[[t1]]$, and $[[t2]]$, and pattern p, $[[ let t be p in [t1/y]t2]] = [[ [ let t be p in t1/y]{let t be p in t2}]]$.
-\end{lemma}
-\begin{proof}
-  This proof holds by straightforward induction on the form of $t''$.
-\end{proof}
-
 \begin{lemma}[Let-pat Distribution]
   \label{lemma:let-pat_distribution}
-  For any terms $[[t]]$, $[[t1]]$, and $[[t2]]$, and pattern p, $[[ let-pat t p [t1/y]t2]] = [[ [ let-pat t p t1/y]{let-pat t p t2}]]$.
+  For any terms $[[t]]$, $[[t1]]$, and $[[t2]]$, and pattern p, \\
+  $[[ let-pat t p [t1/y]t2]] = [[ [ let-pat t p t1/y]t2]]$.
 \end{lemma}
 \begin{proof}
-  This proof holds by straightforward induction on the form of $t''$.
+  This proof holds by case splitting over $p$, and then using the
+  naturality equations for the respective pattern.
 \end{proof}
 % section basic_results (end)
 
@@ -235,18 +228,25 @@ $\pi'$, but using what notion of equivalence?
   \label{def:FILL-eq}
   Equivalence on terms is defined as follows:
   \begin{center}
+    \footnotesize
     \begin{mathpar}
       \FILLdruleEqXXAlpha{} \and
-      \FILLdruleEqXXBeta{} \and
-      \FILLdruleEqXXEta{} \and
-      \FILLdruleEqXXEtaLet{} \and
-      \FILLdruleEqXXI{} \and
-      \FILLdruleEqXXStp{} \and
-      \FILLdruleEqXXTOne{} \and
-      \FILLdruleEqXXTTwo{} \and
-      \FILLdruleEqXXPOne{} \and
-      \FILLdruleEqXXPTwo{} \and
-      \FILLdruleEqXXPThree{} \and
+      \FILLdruleEqXXEtaFun{} \and
+      \FILLdruleEqXXBetaFun{} \and
+      \FILLdruleEqXXEtaOneI{} \and
+      \FILLdruleEqXXEtaTwoI{} \and
+      \FILLdruleEqXXBetaI{} \and
+      \FILLdruleEqXXNatI{} \and
+      \FILLdruleEqXXEtaTensor{} \and
+      \FILLdruleEqXXBetaOneTensor{} \and
+      \FILLdruleEqXXBetaTwoTensor{} \and
+      \FILLdruleEqXXNatTensor{} \and
+      \FILLdruleEqXXEtaParU{} \and
+      \FILLdruleEqXXEtaPar{} \and
+      \FILLdruleEqXXBetaOnePar{} \and
+      \FILLdruleEqXXBetaTwoPar{} \and
+      \FILLdruleEqXXNatOnePar{} \and
+      \FILLdruleEqXXNatTwoPar{} \and
       \FILLdruleEqXXLam{} \and
       \FILLdruleEqXXAppOne{} \and
       \FILLdruleEqXXAppTwo{} \and
@@ -409,15 +409,18 @@ is transformed into the following proof:
     }{[[G1,G,G2,G',G3 |- h(h([t'/y]L) | L') | [t'/y]h([t/x]L1)]]}
   \end{math}
 \end{center}
-Now, because we know $[[x,y nin FV(L)]]$ by inspection of the first
-derivation, we know that $[[L = [t'/y]L]]$ and $[[L' = [t/x]L']]$.  If
-$[[L1]]$ is empty, then we obtain our result, so suppose $[[L1]] =
-[[t1 : C | L'1]]$. Then we know that $[[x,y nin FV(t)]]$ and $[[x,y
-nin FV(t')]]$.  Thus, by this fact and
+We know $[[x,y
+nin
+FV(L)]]$ by inspection of the first derivation, and so we know that
+$[[L
+= [t'/y]L]]$ and $[[L' =
+[t/x]L']]$.  Without loss of generality suppose $[[L1]] = [[t1 : C |
+L'1]]$. Then we know that $[[x,y nin FV(t)]]$ and $[[x,y nin
+FV(t')]]$.  Thus, by this fact and
 Lemma~\ref{lemma:substitution_distribution}, we know that $[[
-[t/x][t'/y]t1 = [ [t/x]t'/y][t/x]t1]] = [[ [t'/y][t/x]t1 ]]$.  This
-argument can be repeated for any term in $[[L'1]]$, hence, $[[
-[t/x][t'/y]L1 = [t'/y][t/x]L1]]$.
+[t/x][t'/y]t1 = [ [t/x]t'/y][t/x]t1]] = [[ [t'/y][t/x]t1
+]]$.  This argument can be repeated for any term in
+$[[L'1]]$, hence, $[[ [t/x][t'/y]L1 = [t'/y][t/x]L1]]$.
 % subsection commuting_conversion_cut_vs._cut_(second_case) (end)
 
 \subsection{The $\eta$-expansion cases}
@@ -454,8 +457,8 @@ is transformed into the proof
     }{[[x : A (x) B |- h{let x be y (x) z in {y (x) z}} : A (x) B]]}
   \end{math}
 \end{center}
-Now by the rule $\FILLdrulename{EQ\_T2}$ we know $[[let x be y (x) z
-in {y (x) z} = x]]$.
+By the rule $\FILLdrulename{EQ\_EtaTensor}$
+we know $[[let x be y (x) z in {y (x) z} = x]]$.
 % subsubsection tensor (end)
 
 \subsubsection{Par}
@@ -489,9 +492,8 @@ is transformed into the proof
     }{[[x : A (+) B |- {let x be (y (+) -) in y} (+) {let x be (- (+) z) in z} : A (+) B]]}
   \end{math}
 \end{center}
-Just as we saw in the previous case by rule $\FILLdrulename{Eq\_P3}$
-we know $[[{{let x be (y (+) -) in y} (+) {let x be (- (+) z) in z}} =
-x]]$.
+By rule $\FILLdrulename{Eq\_EtaPar}$ we know
+$[[{{let x be (y (+) -) in y} (+) {let x be (- (+) z) in z}} = x]]$.
 % subsubsection par (end)
 
 \subsubsection{Implication}
@@ -520,13 +522,13 @@ transforms into the proof
         $$\mprset{flushleft}
         \inferrule* [right=Ax] {
           \,
-        }{z : B |- z : B}
+        }{[[z : B |- z : B]]}
       }{[[y : A, x : A -o B |- x y : B]]}
     }{[[x : A -o B |- \y.h{x y} : A -o B]]}
   \end{math}  
 \end{center}
-Finally, all terms in the two derivations are equivalent, because
-$[[{\y.h{x y}} = x]]$ by the $\FILLdrulename{Eq\_Eta}$ rule.
+All terms in the two derivations are equivalent, because
+$[[{\y.h{x y}} = x]]$ by the $\FILLdrulename{Eq\_EtaFun}$ rule.
 % subsubsection implication (end)
 
 \subsubsection{Tensor unit}
@@ -552,8 +554,34 @@ transforms into the proof
     }{[[x : I |- h{let x be stp in *} : I]]}
   \end{math}
 \end{center}
-Lastly, we know $[[x = let x be stp in *]]$ by
-$\FILLdrulename{Eq\_I}$.
+We know $[[x = let x be stp in *]]$ by
+$\FILLdrulename{Eq\_EtaI}$.
+% subsubsection tensor_unit (end)
+
+\subsubsection{Par unit}
+\label{subsec:tensor_unit}
+The proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Ax] {
+      \,
+    }{[[x : _|_ |- x : _|_]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=Pr] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Pl] {
+        \,
+      }{[[x : _|_ |- .]]}
+    }{[[x : _|_ |- o : _|_]]}
+  \end{math}
+\end{center}
+We know $[[x = o]]$ by $\FILLdrulename{Eq\_EtaParU}$.
 % subsubsection tensor_unit (end)
 % subsection eta-expansion_cases (end)
 
@@ -786,6 +814,7 @@ transforms into this proof
     }{[[G1,G, G2 |- h(h(h([t/x]L1) | h{[t/x]t2} : C) | h{[t/x]t1} : B) | [t/x]L']]}
   \end{math}
 \end{center}
+Clearly, all terms are equivalent.
 % subsubsection conclusion_vs._right-exchange_(the_first_case) (end)
 % subsection the_exchange_steps (end)
 
@@ -854,10 +883,10 @@ is transformed into the proof
     }{[[G3,G1, G2,G4 |- h(L1 | L2) | [t1/x][t2/y]L3]]}
   \end{math}
 \end{center}
-If $[[L3]]$ is empty, then our result follows.  So suppose $[[L3 = t3
+Without loss of generality suppose $[[L3 = t3
 : C, L'3]]$.  We can see that $[[h{[t1 (x) t2/z]{let z be x (x) y in
     t3}} = let t1 (x) t2 be x (x) y in t3]]$ by the definition of
-substitution, and by using the $\FILLdrulename{Eq\_T1}$ rule we obtain
+substitution, and by using the $\FILLdrulename{Eq\_Beta1Tensor}$ rule we obtain
 $[[let t1 (x) t2 be x (x) y in t3 = [t1/x][t2/y]t3]]$.  This argument
 can be repeated for any term in $[[ [t1 (x) t2/z](h(let z be x (x) y
 in L'3))]]$, and thus, $[[ [t1 (x) t2/z](h(let z be x (x) y in L3)) =
@@ -901,7 +930,7 @@ The proof
           }{\pi_3}          
       }{[[G3, y : B |- L4]]}
   }{[[G2,G3,z : A (+) B |- h(let-pat z (x (+) -) L3) | h(let-pat z (- (+) y) L4)]]}
-}{[[G2,G3,G1 |- h(h(L1 | L2) | h([t1 (+) t2/z](let-pat z (x (+) -) L3))) | h([t1 (+) t2/z](let-pat z (x (+) -) L4))]]}
+}{[[G2,G3,G1 |- h(h(L1 | L2) | h([t1 (+) t2/z](let-pat z (x (+) -) L3))) | h([t1 (+) t2/z](let-pat z (- (+) y) L4))]]}
   \end{math}
 \end{center}
 is transformed into the proof
@@ -935,17 +964,20 @@ is transformed into the proof
     }{[[G2,G3,G1 |- h(L1 | L2) | h(h([t1/x]L3) | [t2/y]L4)]]}
   \end{math}
 \end{center}
-Consider the case when $[[L3]] = [[t3 : C_1 | L'3]]$ and $[[L4]] =
-[[t4 : C_2 | L'4]]$.  All other cases are either trivial or similar. 
-First, $[[ [t1 (+) t2/z]{let-pat z (x (+) -) t3}
-= let-pat {t1 (+) t2} (x (+) -) t3]]$, and $[[let-pat {t1 (+) t2} (x
-(+) -) t3 = [t1/x]t3]]$ if $[[x in FV(t3)]]$ or $[[let-pat {t1 (+) t2}
-(x (+) -) t3 = t3]]$ otherwise.  In the latter case we can see that
-$[[t3 = [t1/x]t3]]$, thus, in both cases $[[let-pat {t1 (+) t2} (x (+)
--) t3 = [t1/x]t3]]$.  This argument can be repeated for any terms in
-$[[L'3]]$, and hence $[[ [t1 (+) t2/z](let-pat z (x (+) -) L3)]] =
-[[let-pat {t1 (+) t2} (x (+) -) L3 = [t1/x]L3]]$.  We can apply a
-similar argument for $[[ [t1 (+) t2/z]{let-pat z (- (+) y) t4}]]$ and
+Without loss of generality consider the case when
+$[[L3]] = [[t3 : C_1 | L'3]]$ and $[[L4]] = [[t4 : C_2 | L'4]]$.  First,
+$[[ [t1 (+) t2/z]{let-pat z (x (+) -) t3} = let-pat {t1 (+) t2} (x (+)
+-) t3]]$,
+and by $\FILLdrulename{Eq\_Beta1Par}$ we know
+$[[let-pat {t1 (+) t2} (x (+) -) t3 = [t1/x]t3]]$ if $[[x in FV(t3)]]$
+or $[[let-pat {t1 (+) t2} (x (+) -) t3 = t3]]$ otherwise.  In the
+latter case we can see that $[[t3 = [t1/x]t3]]$, thus, in both cases
+$[[let-pat {t1 (+) t2} (x (+) -) t3 = [t1/x]t3]]$.  This argument can
+be repeated for any terms in $[[L'3]]$, and hence
+$[[ [t1 (+) t2/z](let-pat z (x (+) -) L3)]] = [[let-pat {t1 (+) t2} (x
+(+) -) L3 = [t1/x]L3]]$.
+We can apply a similar argument for
+$[[ [t1 (+) t2/z]{let-pat z (- (+) y) t4}]]$ and
 $[[ [t1 (+) t2/x](let-pat z (- (+) y) L4)]]$.
 
 Note that just as we mentioned about tensor we could have first cut on
@@ -1023,10 +1055,10 @@ transforms into the proof
     }{[[G1, G,G2 |- h([t1/x]L) | h(L1 | h([ [t1/x]t/y]L2))]]}
   \end{math}
 \end{center}
-Consider the case when $[[L2]] = [[t2 : C | L'2]]$. All other cases are either trivial or similar.
-First, by hypothesis we know $[[x nin FV(L)]]$, and so we know $[[L = [t1/x]L]]$.  Now we can see
+Without loss of generality consider the case when $[[L2]] = [[t2 : C | L'2]]$. 
+First, by hypothesis we know $[[x nin FV(L)]]$, and so we know $[[L = [t1/x]L]]$.  We can see
 that $[[ [\x.t/z][z t1/y]t2 = [{\x.t} t1/y]t2]] = [[ [ [t1/x]t/y]t2]]$ by using the congruence rules
-of equality and the rule $\FILLdrulename{Eq\_Beta}$.  This argument can be repeated for any term
+of equality and the rule $\FILLdrulename{Eq\_BetaFun}$.  This argument can be repeated for any term
 in $[[ [\x.t/z][z t1/y]L'2]]$, and so $[[ [\x.t/z][z t1/y]L2 = [ [t1/x]t/y]L2]]$.  Finally, by inspecting the previous
 derivations we can see that $[[z nin FV(L1)]]$, and thus, $[[L1 = [\x.t/z]L1]]$.  
 % subsubsection implication (end)
@@ -1065,10 +1097,9 @@ is transformed into the proof
   \end{math}
 \end{center}
 
-Suppose $[[L]] = [[t : A | L']]$.  All other cases are either similar
-or trivial.  We can see that $[[ [*/x]{let x be stp in t} = let * be
-stp in t]] = [[t]]$ by the definition of substitution and the
-$\FILLdrulename{Eq\_I}$ rule.  This argument can be repeated for any
+Without loss of generality suppose $[[L]] = [[t : A | L']]$. We can see that 
+$[[ [*/x]{let x be stp in t} = let * be stp in t]] = [[t]]$ by the definition of 
+substitution and the $\FILLdrulename{Eq\_EtaI}$ rule.  This argument can be repeated for any
 term in $[[ [*/x](let x be stp in L')]]$, and hence, $[[ [*/x](let x be
 stp in L) = L]]$.
 % subsubsection ten-unit (end)
@@ -1277,17 +1308,7 @@ transforms into the proof
   \end{math}
 \end{center}
 It suffices to show that $[[let z be x (x) y in ([t/w]L2) = [h{let z
-  be x (x) y in t}/w]L2]]$.  First, note that $[[x,y nin FV(L2)]]$, and this implies that 
-$[[let z be x (x) y in L2 = L2]]$, and thus, by Lemma~\ref{lemma:let_distribution} we obtain
-\begin{center}
-  \begin{math}
-    \begin{array}{rll}
-      [[let z be x (x) y in ([t/w]L2)]] & = [[ [h{let z be x (x) y in t}/w](let z be x (x) y in L2)]]\\ 
-      & = [[ [h{let z
-  be x (x) y in t}/w]L2]].
-    \end{array}
-  \end{math}
-\end{center}
+  be x (x) y in t}/w]L2]]$.  This is a simple consequence of the rule \FILLdrulename{Eq\_NatTensor}.
 % subsubsection tensor (end)
 
 \subsubsection{Left introduction of Par}
@@ -1353,9 +1374,7 @@ is transformed into the proof
   \end{math}
 \end{center}
 It suffices to show that $[[let-pat z (- (+) y) [t'/w]L2]] = [[
-[h{let-pat z (- (+) y) t'}/w]L2]]$.  This follows by a similar
-argument as the previous cases using let-pat distribution
-(Lemma~\ref{lemma:let-pat_distribution}).
+[h{let-pat z (- (+) y) t'}/w]L2]]$.  This follows from the rule $\FILLdrulename{Eq\_Nat2Par}$.
 % subsubsection left_introduction_of_par (end)
 
 \subsubsection{Left introduction of tensor unit}
@@ -1465,15 +1484,9 @@ transforms into the proof
 \end{center}
 First, we can see by inspection of the previous derivations that
 $[[x,y nin FV(L)]]$, thus, by using similar reasoning as above we can
-use the $\FILLdrulename{EtaLet}$ rule to obtain $[[let w be x (x) y in
-L = L]]$.  Similarly, we know $[[let w be x (x) y in [t/x]t1 = [let w
-be x (x) y in t/x]{let w be x (x) y in t1}]]$ by let-distribution
-(Lemma~\ref{lemma:let_distribution}), and then by using
-$\FILLdrulename{EtaLet}$ and the fact that $[[x,y nin FV(t)]]$ we know
-$[[ [let w be x (x) y in t/x]{let w be x (x) y in t1} = [t/x]{let w be
-  x (x) y in t1}]]$.  This argument can be repeated for any term in
-$[[let w be x (x) y in [t/x]L1]]$, thus, $[[ [t/x](let w be y (x) z in
-L1) = let w be x (x) y in [t/x]L1]]$.
+use the $\FILLdrulename{EtaTensor}$ rule to obtain $[[let w be x (x) y in
+L = L]]$.  It is a well-known property of substitution that 
+$[[ [t/x]{let w be x (x) y in t1}]] = [[let [t/x]w be x (x) y in [t/x]t1]] = [[let w be x (x) y in [t/x]t1]]$.
 % subsubsection left_introduction_of_tensor (end)
 
 \subsubsection{Right introduction of tensor (first case)}
@@ -1719,9 +1732,8 @@ FV(L)]]$ and $[[x nin FV(L2)]]$.  Thus, $[[let-pat w (y (+) -) L =
 L]]$, and $[[ [t/x](let-pat w (- (+) z) L2) = let-pat w (- (+) z)
 L2]]$. It suffices to show that $[[ [t/x](let-pat w (y (+) -) L1) =
 let-pat w (y (+) -) [t/x]L1]]$ but this easily follows from a simple
-case analysis on whether or not $[[L1]]$ is empty, let-pat
-distribution (Lemma~\ref{lemma:let-pat_distribution}), and the fact
-that $[[y nin FV(t)]]$.
+distributing the substitution into the let-pat, and then
+simplifying using the fact that $w \neq x$.
 % subsubsection left_introduction_of_par_(first_case) (end)
 
 \subsubsection{Left introduction of par (second case)}
@@ -2081,7 +2093,16 @@ transforms into the proof
     }{[[G1, G, G2, y : I |- h(let y be stp in L) | let y be stp in [t/x]L1]]}
   \end{math}
 \end{center}
-{\color{red}{There is a problem here.}}
+It suffices to show that $[[L]] = [[let y be stp in L]]$ and
+$[[ [t/x](let y be stp in L1)]] = [[let y be stp in [t/x]L1]]$.
+Without loss of generality suppose $[[L]] = [[t : B, L']]$.  We know
+that it must be the case that $[[y nin FV(t)]]$, and we know that
+$[[ [y/z]t]] = [[t]]$ when $[[z nin FV(t)]]$.  Then by
+$\FILLdrulename{Eq\_Eta2I}$ we have $[[t]] = [[let y be stp in t]]$.  This
+argument can be repeated for any other term in $[[L']]$.  Thus,
+$[[L]] = [[let y be stp in L]]$.  It is easy to see that
+$[[ [t/x](let y be stp in L1)]] = [[let y be stp in [t/x]L1]]$ using
+the rule $\FILLdrulename{Eq\_NatI}$.
 % subsubsection left_introduction_of_tensor_unit (end)
 
 \subsubsection{Right introduction of par unit}
