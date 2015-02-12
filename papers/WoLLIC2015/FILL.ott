@@ -1,0 +1,280 @@
+metavar term_var, w,x, y, z, v ::=
+indexvar index_var, i,j,k ::= 
+
+grammar
+
+% Object-level Formulas.
+form, A, B, C, D, E :: 'Type_' ::=
+  | I       ::    :: TUnit
+  {{tex I }}
+  | _|_     ::    :: PUnit
+  {{tex \perp }}
+  | A -o B  ::    :: Imp
+    {{ tex [[A]] \multimap  [[B]] }}
+  | A (x) B ::    :: Tensor
+  {{tex [[A]] \otimes [[B]] }}
+  | A (+) B  ::    :: Par
+  {{tex [[A]] \parr [[B]] }}
+  | ( A )   :: S :: Parens
+
+% Patterns used in the let-expressions.
+patterns, p :: 'Pat_' ::=
+  % This is the pattern *, I made it distinct from the term * to
+  % prevent ambigous parsing.
+  | stp       ::  :: UPat 
+  {{tex * }}
+  | x         ::  :: VarPat
+  | p1 (x) p2 ::  :: TPat2
+  {{tex [[p1]] \otimes [[p2]] }}
+  | p1 (+) p2  ::  :: PPat2
+  {{tex [[p1]] \parr [[p2]] }}
+  | -       ::  :: Joker
+  {{tex - }}
+  | ( p ) :: S :: Parens
+
+% Proofs or partial functions.
+term, t, e, d, f, g, u :: 'Term_' ::= 
+  | x                    ::   :: Variables
+  | *                    ::   :: Unit
+  | o                    ::   :: Counit
+  {{tex \circ }}
+  | e1 (x) e2            ::   :: Tensor
+  {{tex [[e1]] \otimes [[e2]] }}
+  | e1 (+) e2             ::   :: Par
+  {{tex [[e1]] \parr [[e2]] }}
+  | \ x . t              ::   :: Lam 
+    {{ tex \lambda [[x]] . [[t]] }}
+  | let t be p in e      ::   :: Let
+  {{tex \mathsf{let}\,[[t]]\,\mathsf{be}\,[[p]]\,\mathsf{in}\,[[e]] }}
+  | f e                  ::   :: App
+  | let-pat t p e        :: M :: LetPat
+  {{tex \mathsf{\operatorname{let-pat} }\,[[t]]\,[[p]]\,[[e]] }}
+  | [ t / x ] t'         :: M :: Substitution
+  | [ t / x , e / y ] t' :: M :: Substitution2
+  | { t }   :: S  :: Parens
+  {{tex ([[t]]) }}
+  | h{ t }   :: M :: HParens
+  {{tex [[t]] }}
+  | cb{ t }  :: M :: ColorTermBlue
+  {{tex {\color{blue}{[[t]]} } }}
+
+% Left contexts (hypotheses).
+G {{ tex \Gamma }} :: 'LContext_' ::=
+  | x : A  :: :: Element
+  | .      :: :: Empty
+  {{tex \cdot }}
+  | G , G' :: :: Extension
+  | cb{ x } : A :: :: ColorElBlue
+  {{tex {\color{blue}{[[x]]} } : [[A]] }}
+
+% Right contexts (proofs or partial functions).
+L {{tex \Delta }} :: 'RContext_' ::=
+  | t : A  :: :: Element
+  | .      :: :: Empty
+  {{tex \cdot }}
+  | L | L' :: :: Extension
+  {{tex [[L]] \mid [[L']] }}
+  % % Hidden parentheses can be used to chain multiple rcontexts in a
+  % % row, e.g. L1 | L2 | L3 should be written h( L1 | L2 ) | L3.  If
+  % % the latter is not used, then Ott will trigger an ambigous parse
+  % % error.  See the inference rule Tr for an example.
+  | h( L ) :: :: HiddenParens
+  {{tex [[L]] }}
+  | L , L' ::   :: FormulaExt
+  | [ t / x ] L :: :: Subst
+  | let t be p in L ::   :: Let
+  {{tex \mathsf{let}\,[[t]]\,\mathsf{be}\,[[p]]\,\mathsf{in}\,[[L]] }}
+  | ( L ) :: :: Parens
+  | let-pat t p L  :: M :: LetPat
+  {{tex \mathsf{\operatorname{let-pat} }\,[[t]]\,[[p]]\,[[L]] }}
+
+% Meta-logical formulas.
+formula :: 'formula_' ::=
+  | judgement                ::    :: judgement
+  % This puts spacing between judgments horizontally.  So that not all
+  % rules have to have their premises stacked vertically.  See the Cut
+  % inference rule for an example.
+  | formula1 && formula2 ::    :: Quad
+  {{tex [[formula1]] \quad [[formula2]] }}
+  | ( formula )              ::    :: parens
+  | x nin FV ( L )           ::    :: NFV
+  {{tex [[x]] \not\in \mathsf{FV}( [[L]] ) }}
+  | x in FV ( t )           ::    :: FV
+  {{tex [[x]] \in \mathsf{FV}( [[t]] ) }}
+  | x , y nin FV ( L )           ::    :: NFV4
+  {{tex [[x]],[[y]] \not\in \mathsf{FV}( [[L]] ) }}
+  | x nin FV ( t )           ::    :: NFV2
+  {{tex [[x]] \not\in \mathsf{FV}( [[t]] ) }}
+  | x , y nin FV ( t )       ::    :: NFV3
+  {{tex [[x]],[[y]] \not\in \mathsf{FV}( [[t]] ) }}
+  | L1 = L2 :: :: LEq
+  | FV ( t ) :: :: FV2
+  {{tex \mathsf{FV}([[t]]) }}
+  | FV ( L ) :: :: FV4
+  {{tex \mathsf{FV}([[L]]) }}
+
+defns
+  InferRules :: '' ::=
+  defn
+  G |- L :: :: typing :: '' 
+    {{ tex [[G]] \vdash [[L]] }}
+  by
+
+  -------------- :: Ax
+  x : A |- x : A
+
+  G |- t : A | L && y : A, G' |- L'
+  ------------------------------------------ :: Cut
+  G, G' |- L | [t/y]L'
+
+  G |- L
+  ----------------------------- :: Il
+  G, x : I |- let x be stp in L
+ 
+  ---------- :: Ir
+  . |- * : I
+
+  G, x : A, y : B |- L
+  --------------------------------------- :: Tl
+  G, z : A (x) B |- let z be x (x) y in L
+
+  G |- e : A | L && G' |- f : B | L'
+  --------------------------------------- :: Tr
+  G,G' |- h( e (x) f : A (x) B | L)  | L'
+
+  ------------ :: Pl
+  x : _|_ |- .
+
+  G |- L
+  ---------------- :: Pr
+  G |- o : _|_ | L
+
+  G, x : A |- L && G', y : B |- L'
+  ------------------------------------------------------------------------ :: Parl
+  G,G',z : A (+) B |- h(let-pat z (x (+) -) L) | h(let-pat z (- (+) y) L')
+
+  G |- h( h( L | e : A ) | f : B ) | L'
+  ------------------------------------- :: Parr
+  G |- h( L | e (+) f : A (+) B) | L'
+
+  G |- e : A | L && G', x : B |- L'  
+  ------------------------------------- :: Impl
+  G, y : A -o B, G' |- L | [ y e / x]L'
+
+  G, x : A |- e : B | L && x nin FV( L )
+  -------------------------------------- :: Impr
+  G |- \x.e : A -o B | L
+
+  G, x : A, y : B |- L
+  -------------------- :: Exl
+  G, y : B, x : A |- L
+
+  G |- h(h(L1 | t1 : A) | t2 : B) | L2
+  ------------------------------------ :: Exr
+  G |- h(h(L1 | t2 : B) | t1 : A) | L2
+
+  defn
+  f = e :: :: catEq :: ''
+  by
+
+  y nin FV(t) 
+  ----------- :: Alpha
+  t = [y/x]t
+
+  x nin FV(f)
+  ------------- :: EtaFun
+  {\x.h{f x}} = f
+  
+  ------------------- :: BetaFun
+  {\x.e} e' = [e'/x]e
+
+  --------------------- :: Eta1I
+  let * be stp in e = e
+
+  y nin FV(f)
+  ---------------------- :: Eta2I
+  f = let y be stp in f 
+  
+  ------------------------------- :: BetaI
+  let u be stp in [*/z]f = [u/z]f
+
+  ----------------------------------------------- :: NatI
+  [let u be stp in e/y]f = let u be stp in [e/y]f
+
+  x,y nin FV(t)
+  -------------------------- :: EtaTen
+  let t' be x (x) y in t = t
+  
+  ----------------------------------------- :: Beta1Ten
+  let e (x) t be x (x) y in u = [e/x, t/y]u
+
+  ----------------------------------------- :: Beta2Ten
+  let u be x (x) y in [x (x) y/z]f = [u/z]f
+
+  ------------------------------------------------------- :: NatTen
+  [let u be x (x) y in g/w]f = let u be x (x) y in [g/w]f
+
+  ----- :: EtaParU
+  u = o
+
+  ----------------------------------------------------------- :: EtaPar
+  { let u be x (+) - in x } (+) { let u be - (+) y in y } = u
+
+  ------------------------------------ :: Beta1Par
+  let u (+) t be x (+) - in e = [u/x]e
+
+  ------------------------------------ :: Beta2Par
+  let u (+) t be - (+) y in e = [t/y]e
+
+  ------------------------------------------------------- :: Nat1Par
+  let t be x (+) - in [u/x]f = [let t be x (+) - in u/x]f
+
+  ------------------------------------------------------- :: Nat2Par
+  let t be - (+) y in [v/y]f = [let t be - (+) y in v/y]f
+
+  t = t'
+  ------------- :: Lam
+  \x.t = \x.t''
+
+  t1 = t'1
+  -------------- :: App1
+  t1 t2 = t'1 t2
+
+  t2 = t'2
+  -------------- :: App2
+  t1 t2 = t1 t'2
+
+    t1 = t'1
+  ---------------------- :: Ten1
+  t1 (x) t2 = t'1 (x) t2
+
+    t2 = t'2
+  ---------------------- :: Ten2
+  t1 (x) t2 = t1 (x) t'2
+
+    t1 = t'1
+  ---------------------- :: Par1
+  t1 (+) t2 = t'1 (+) t2
+
+    t2 = t'2
+  ---------------------- :: Par2
+  t1 (+) t2 = t1 (+) t'2
+
+  t = t'
+  ---------------------------------- :: Let1
+  let t be p in e = let t' be p in e
+
+  e = e'
+  ---------------------------------- :: Let2
+  let t be p in e = let t be p in e'
+
+  ----- :: Refl
+  t = t
+
+  t = t'
+  ------ :: Sym
+  t' = t
+
+  t1 = t2 && t2 = t3
+  ------------------ :: Trans
+  t1 = t3
