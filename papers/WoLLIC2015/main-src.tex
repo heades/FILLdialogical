@@ -9,7 +9,7 @@
 
 \include{type-theory_inc}
 
-\title{Confirming Cut-Elimination for Full Intuitionistic Linear Logic}
+\title{Yet Another Short Note on Full Intuitionistic Linear Logic}
 \author{Valeria de Paiva and Harley Eades III}
 
 % Ott includes.
@@ -25,7 +25,35 @@
 \maketitle
 
 \begin{abstract}
-  ...
+  Full Intuitionistic Linear Logic (FILL) was first introduced by
+  Hyland and de Paiva as one of the results of their investigation
+  into a categorical understanding of G\"odel's Dialectica
+  interpretation. FILL went against current beliefs that it was not
+  possible to incorporate all of the linear connectives, e.g. tensor,
+  par, and implication, into an intuitionistic linear logic.  However,
+  they showed that it is natural to support all of the connectives
+  given that sequents have multiple hypothesis and multiple
+  conclusions.  To enforce intuitionism de Paiva's original
+  formalization of FILL used the well-known Dragalin restriction
+  forcing the implication right rule to have only a single conclusion
+  in its premise, but Schellinx later showed that this results in a
+  failure of cut-elimination.  To overcome this failure Hyland and de
+  Paiva introduced a term assignment to FILL that eliminated the need
+  for the restriction.  The main idea was to lift the restriction,
+  assign variables to each hypothesis and terms to each conclusion,
+  and then add the property that the variable annotating the
+  hypothesis being discharged when applying the implication right rule
+  can only be free in the term annotating the conclusion of the
+  implication being introduced.  Unfortunately, Bierman was able to
+  show in his short note that this formalization of FILL still did not
+  enjoy cut-elimination, because of a flaw in the left rule for par.
+  However, Bellin proposed an alternate left rule for par and
+  conjectured that by adopting his rule cut-elimination is restored.
+  In this note we show that by adopting Bellin's proposed rule one
+  obtains cut-elimination for FILL.  Additionally, we show that this
+  new formalization can be modeled by a new form of dialectica
+  category called order-enriched dialectica categories of de Paiva,
+  and discuss future work giving FILL a semantics in Lorenzen games.
 \end{abstract}
 
 \section{Introduction}
