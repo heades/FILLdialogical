@@ -4,21 +4,23 @@
 \usepackage{stmaryrd}
 \usepackage{todonotes}
 \usepackage{mathpartir}
-\usepackage{fullpage}
+% \usepackage{fullpage}
 \usepackage{hyperref}
 
 \include{type-theory_inc}
 
-\title{Yet Another Short Note on Full Intuitionistic Linear Logic}
-\author{Valeria de Paiva and Harley Eades III}
+\title{Multiple Conclusion Intuitionistic Linear Logic and Cut Elimination}
+\author{Harley Eades III and Valeria de Paiva}
 
 % Ott includes.
 \usepackage{color}
 \usepackage{supertabular}
+
 \input{FILL-ott}
 
 % Renewing some Ott commands to shrink some of the labels.
 \renewcommand{\FILLdrulename}[1]{\scriptsize \textsc{#1}}
+
 
 \begin{document}
 
@@ -27,37 +29,40 @@
 \begin{abstract}
   Full Intuitionistic Linear Logic (FILL) was first introduced by
   Hyland and de Paiva as one of the results of their investigation
-  into a categorical understanding of G\"odel's Dialectica
+  into a categorical understanding of G\"odel’s Dialectica
   interpretation. FILL went against current beliefs that it was not
   possible to incorporate all of the linear connectives, e.g. tensor,
-  par, and implication, into an intuitionistic linear logic.  However,
-  they showed that it is natural to support all of the connectives
-  given that sequents have multiple hypothesis and multiple
-  conclusions.  To enforce intuitionism de Paiva's original
-  formalization of FILL used the well-known Dragalin restriction
-  forcing the implication right rule to have only a single conclusion
-  in its premise, but Schellinx later showed that this results in a
-  failure of cut-elimination.  To overcome this failure Hyland and de
-  Paiva introduced a term assignment to FILL that eliminated the need
-  for the restriction.  The main idea was to lift the restriction,
-  assign variables to each hypothesis and terms to each conclusion,
-  and then add the property that the variable annotating the
-  hypothesis being discharged when applying the implication right rule
-  can only be free in the term annotating the conclusion of the
-  implication being introduced.  Unfortunately, Bierman was able to
-  show in his short note that this formalization of FILL still did not
-  enjoy cut-elimination, because of a flaw in the left rule for par.
-  However, Bellin proposed an alternate left rule for par and
-  conjectured that by adopting his rule cut-elimination is restored.
-  In this note we show that by adopting Bellin's proposed rule one
-  obtains cut-elimination for FILL.  Additionally, we show that this
-  new formalization can be modeled by a new form of dialectica
-  category called order-enriched dialectica categories of de Paiva,
-  and discuss future work giving FILL a semantics in Lorenzen games.
+  par, and implication, into an intuitionistic linear logic. They
+  showed that it is natural to support all of the connectives given
+  sequents that have multiple hypotheses and multiple conclusions. To
+  enforce intuitionism de Paiva’s original formalization of FILL used
+  the well-known Dragalin restriction, forcing the implication right
+  rule to have only a single conclusion in its premise, but Schellinx
+  showed that this results in a failure of cut-elimination. To
+  overcome this failure Hyland and de Paiva introduced a term
+  assignment for FILL that eliminated the need for the strong
+  restriction. The main idea was to first relax the restriction by
+  assigning variables to each hypothesis and terms to each conclusion.
+  Then when introducing an implication on the right enforcing that the
+  variable annotating the hypothesis being discharged is only free in
+  the term annotating the conclusion of the implication. Bierman
+  showed in a short note that this formalization of FILL still did not
+  enjoy cut-elimination, because of a flaw in the left rule for
+  par. However, Bellin proposed an alternate left rule for par and
+  conjectured that by adopting his rule cut-elimination is
+  restored. In this note we show that adopting Bellin’s proposed rule
+  one does obtain cut-elimination for FILL, as
+  suggested. Additionally, we show that this new formalization can be
+  modeled by a new form of dialectica category called order-enriched
+  dialectica category, and discuss future work giving FILL a semantics
+  in terms of Lorenzen games.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:introduction}
+
+
+
 \cite{dePaiva:2005}
 In \cite{Hyland:1993} Martin Hyland and Veleria de Paiva give a term
 formalization of Full Intuitionistic Linear Logic (FILL), but later
@@ -887,9 +892,8 @@ Clearly, all terms are equivalent.
 \subsubsection{Tensor}
 \label{subsec:tensor}
 The proof 
-\begin{center}
-
-  \begin{math}
+\begin{center} 
+    \begin{math}
     $$\mprset{flushleft}
     \inferrule* [right=\footnotesize Cut] {
       $$\mprset{flushleft}
@@ -967,12 +971,12 @@ Lemma~\ref{lemma:substitution_distribution}.
 The proof
 \begin{center}
   \scriptsize
-  \begin{math}
+    \begin{math}    
     $$\mprset{flushleft}
-\inferrule* [right=\scriptsize Cut] {
+\inferrule* [right=\tiny Cut] {
   $$\mprset{flushleft}
-  \inferrule* [right=\tiny Parr] {
-    \inferrule* [right=] {
+  \inferrule* [leftskip=15px,left=\tiny Parr,rightskip=10px] {
+    \inferrule* [] {
         \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_1}          
@@ -980,7 +984,7 @@ The proof
     }{[[G1 |- h(L1 | t1 (+) t2 : A (+) B) | L2]]}
   \\
   $$\mprset{flushleft}
-  \inferrule* [right=\tiny Parl] {
+  \inferrule* [leftskip=5px,right=\tiny Parl,rightskip=30px] {
     \inferrule* [right=] {
         \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
@@ -994,7 +998,7 @@ The proof
       }{[[G3, y : B |- L4]]}
   }{[[G2,G3,z : A (+) B |- h(let-pat z (x (+) -) L3) | h(let-pat z (- (+) y) L4)]]}
 }{[[G2,G3,G1 |- h(h(L1 | L2) | h([t1 (+) t2/z](let-pat z (x (+) -) L3))) | h([t1 (+) t2/z](let-pat z (- (+) y) L4))]]}
-  \end{math}
+  \end{math}    
 \end{center}
 is transformed into the proof
 \begin{center}
@@ -1103,13 +1107,13 @@ transforms into the proof
     \inferrule* [right=\scriptsize Cut] {
       $$\mprset{flushleft}
       \inferrule* [right=\scriptsize Cut] {
-        \inferrule* [right=] {
+        \inferrule* [right=,rightskip=17px] {
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_2}          
         }{[[G1 |- t1 : A | L1]]}
         \\
-        \inferrule* [right=] {
+        \inferrule* [right=,rightskip=13px] {
           \inferrule* [right=,vdots=1.5em,fraction=\,] {
             \,
           }{\pi_1}          
