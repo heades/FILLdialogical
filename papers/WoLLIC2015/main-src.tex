@@ -61,24 +61,119 @@
 \section{Introduction}
 \label{sec:introduction}
 
+A commonly held belief during the early history of linear logic was
+that the linear-connective par could not be incorporated into an
+intuitionistic linear logic.  This belief was challenged when de Paiva
+gave a categorical understanding of G\"odel's Dialectica
+interpretation in terms of dialectica categories \cite{dePaiva:1987}.
+Upon setting out on her investigation she initially believed that
+dialectica categories would end up being a model of intuitionistic
+logic, but to her surprise they are actually models of intuitionistic
+linear logic, containing the linear connectives: tensor, par,
+implication, and their units.  Furthermore, unlike other models at
+that time the units did not collapse into a single object.
 
+Armed with this semantic insight de Paiva gave the first formalization
+of Full Intuitionistic Linear Logic (FILL) \cite{??}.  FILL is a
+sequent calculus with multiple conclusion in addition to multiple
+hypotheses.  Intuitionism was enforced by using the well-known
+Dragalin restriction.  The classical implication right rule has the
+form:
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=impR] {
+      [[G]], [[A]] \vdash [[B]], [[L]]
+    }{[[G]] \vdash [[A -o B]], [[L]]}
+  \end{math}
+\end{center}
+The Dragalin restriction is placed on the premise of the
+implication right rule enforcing that there is only a single
+conclusion in the premise resulting in the rule:
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=impR] {
+      [[G]], [[A]] \vdash [[B]]
+    }{[[G]] \vdash [[A -o B]]}
+  \end{math}
+\end{center}
+All the other rules are left unrestricted.  The unfortunate
+consequence of this restriction is that it breaks cut-elimination
+\cite{Schellinx:1991}.  
+
+Later, Hyland and de Paiva gave an alternate formalization of FILL in
+the hopes to regain cut-elimination \cite{Hyland:1993}.  This new
+formalization lifted the Dragalin restriction by decorating sequents
+with a term assignment.  Hypotheses were assigned variables, and the
+conclusions were assigned terms.  Then using these terms one can track
+the use of hypotheses throughout a derivation.  They proposed a new
+implication right rule:
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=impR] {
+      [[G, x : A |- t : B,L]]
+      \\
+      [[x nin FV(L)]]
+    }{[[G |- \x.t : A -o B, L]]}
+  \end{math}
+\end{center}
+Intuitionism is enforced in this rule by requiring that the variable
+begin dischanged, $x$,
+is potentially free in only one term annotating a conclusion.
+Unfortunately, this formalization did not enjoy cut-elimination
+either.
+
+Bierman was able to give a counterexample to cut-elimination
+\cite{Bierman:1996}.  As Bierman explains the problem was with the
+left rule for par.  The original rule was as follows:
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=parL] {
+      [[G, x : A |- L]] 
+      \\
+      [[G', y : B |- L']]
+    }{[[G,G',z : A (+) B |- h(let z be (x (+) -) in L) | h(let z be (- (+) y) in L')]]}
+  \end{math}
+\end{center}
+In this rule the pattern variables $x$ and $y$ are bound in each term
+of $L$ and $L'$ respectively. Notice that the variable $z$ becomes
+free in every term in $L$ and $L'$. Bierman showed that this rule
+mixed with the restriction on implication right prevents the usual
+cut-elimination step that commutes cut with the left rule for par.
+The main idea behind the counterexample is that in the derivation
+before commuting the cut it is possible to discharge $z$ using
+implication right, but after the cut is commuted past the left rule
+for par the variable $z$ becomes free in more than one conclusion, and
+thus, can no longer be discharged.
+
+In the conclusion of Bierman's note he gives an alternate left rule
+for par that he attributes to Bellin.  This new left-rule is as
+follows:
+\begin{center}
+  \begin{math}
+    \FILLdruleParl{}
+  \end{math}
+\end{center}
+In this rule $[[let-pat z (x (+) -) t]]$ and $[[let-pat z (- (+) y) t']]$ only let-bind
+$z$ in $t$ or $t'$ if $x \in FV(t)$ or $y \in FV(t')$.  Otherwise the
+terms are left unaltered.  Bellin conjectured that adopting this rule
+results in FILL regaining cut-elimination.  However, no proof has been
+given.  
+
+\textbf{Contributions.} In this paper our main contribution is to
+confirm Bellin's conjecture by adopting his proposed rule and prove
+cut-elimination (Section~\ref{sec:cut-elimination}).  In addition, we
+show that this new formalization can be modeled by a new form of
+dialectica category called order-enriched dialectica category
+\cite{dePaiva:2015}.
+
+\textbf{Related Work.}
+% section introduction (end)
 
 \cite{dePaiva:2005}
-In \cite{Hyland:1993} Martin Hyland and Veleria de Paiva give a term
-formalization of Full Intuitionistic Linear Logic (FILL), but later
-Bierman was able to give a counterexample to cut-elimination
-\cite{Bierman:1996}.  As Bierman explains the problem was that the
-left rule for par introduced a fresh variable into to many terms on
-the right-side of the conclusion.  This resulted in a counterexample
-where this fresh variable became bound in one term, but is left free
-in another. This resulted from first doing a commuting conversion on
-cut, and then $\lambda$-binding the fresh variable.  Thus,
-cut-elmination failed.  In the conclusion of Bierman's paper he gives
-an alternate left-par rule which he attributes to Bellin, and states
-that this alternate rule should fix the problem with cut-elimination
-\cite{Bierman:1996}.  In this note we adopt Bellin's rule, and then
-show cut-elimination in Section~\ref{sec:cut-elimination}.
-% section introduction (end)
 
 \section{Full Intuitionistic Linear Logic (FILL)}
 \label{sec:full_intuitionistic_linear_logic_(fill)}
