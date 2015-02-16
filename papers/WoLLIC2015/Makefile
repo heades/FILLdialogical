@@ -15,6 +15,8 @@ pdf : main.pdf
 
 pdf-report : report.pdf
 
+quick : fast
+
 # This preprocesses the main source file (main.tex), and
 # produces a new file called main-output.tex with all of the
 # Ott commands translated into LaTex.
@@ -46,6 +48,14 @@ report.pdf : report.tex main-src-output.tex Makefile
 # It should not run unless "skim_revert.sh" is in your PATH.
 ifeq ($(SKIM), skim_revert.sh)
 	$(SKIM) $(CURDIR)/report.pdf
+endif
+
+fast : main.tex main-src-output.tex Makefile
+	$(PDFLATEX) -jobname=main main.tex
+# This is for my private machine.  It forces my PDF reader to reload.
+# It should not run unless "skim_revert.sh" is in your PATH.
+ifeq ($(SKIM), skim_revert.sh)
+	$(SKIM) $(CURDIR)/main.pdf
 endif
 
 clean :
