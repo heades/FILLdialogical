@@ -20,7 +20,7 @@ quick : fast
 # This preprocesses the main source file (main.tex), and
 # produces a new file called main-output.tex with all of the
 # Ott commands translated into LaTex.
-main-src-output.tex : main-src.tex FILL.ott
+main-src-output.tex : main-src.tex FILL.ott ref.bib
 	$(OTT) $(OTT_FLAGS) -i FILL.ott -o FILL-ott.tex -tex_name_prefix FILL \
 		-tex_filter main-src.tex main-src-output.tex
 
