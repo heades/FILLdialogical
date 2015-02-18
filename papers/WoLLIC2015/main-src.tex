@@ -65,20 +65,36 @@ A commonly held belief during the early history of linear logic was
 that the linear-connective par could not be incorporated into an
 intuitionistic linear logic.  This belief was challenged when de Paiva
 gave a categorical understanding of G\"odel's Dialectica
-interpretation in terms of dialectica categories \cite{dePaiva:1987}.
-Upon setting out on her investigation she initially believed that
-dialectica categories would end up being a model of intuitionistic
-logic, but to her surprise they are actually models of intuitionistic
-linear logic, containing the linear connectives: tensor, par,
-implication, and their units.  Furthermore, unlike other models at
-that time the units did not collapse into a single object.
+interpretation in terms of dialectica categories
+\cite{dePaiva:1987,dePaiva:1988}.  Upon setting out on her
+investigation she initially believed that dialectica categories would
+end up being a model of intuitionistic logic, but to her surprise they
+are actually models of intuitionistic linear logic, containing the
+linear connectives: tensor, par, implication, and their units.
+Furthermore, unlike other models at that time the units did not
+collapse into a single object.
 
 Armed with this semantic insight de Paiva gave the first formalization
-of Full Intuitionistic Linear Logic (FILL) \cite{??}.  FILL is a
-sequent calculus with multiple conclusion in addition to multiple
-hypotheses.  Intuitionism was enforced by using the well-known
-Dragalin restriction.  The classical implication right rule has the
-form:
+of Full Intuitionistic Linear Logic (FILL) \cite{dePaiva:1988}.  FILL
+is a sequent calculus with multiple conclusions in addition to
+multiple hypotheses.  Logics of this type go back to Gentzen's work on
+the sequent calculi LK and LJ, and Maehara's work on LJ'
+\cite{Maehara:1954,Takeuti:1975}.  The sequents in these types of
+logics usually have the form $\Gamma \vdash \Delta$ where $\Gamma$ and
+$\Delta$ are multisets of formulas.  Sequents of this form are read as
+``the conjunction of the formulas in $\Gamma$ imply the disjunction of
+the formulas in $\Delta$''.  For a brief, but more complete history of
+logics with multiple conclusions see the introduction to
+\cite{dePaiva:2005}.
+
+Gentzen showed that to obtain intuitionistic logic one could start
+with the logic LK and then place a cardinality restriction on the
+righthand side of sequents, however, this is not the only means of
+enforcing intuitionism.  Maehara showed that one could simply place
+the cardinality restriction on the premise of the implication right
+rule, and leave all of the other rules of LK unrestricted.  This
+restriction is sometimes called the Dragalin restriction.  The
+classical implication right rule has the form:
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -87,9 +103,7 @@ form:
     }{[[G]] \vdash [[A -o B]], [[L]]}
   \end{math}
 \end{center}
-The Dragalin restriction is placed on the premise of the
-implication right rule enforcing that there is only a single
-conclusion in the premise resulting in the rule:
+By placing the Dragalin restriction on the previous rule we obtain:
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -98,9 +112,10 @@ conclusion in the premise resulting in the rule:
     }{[[G]] \vdash [[A -o B]]}
   \end{math}
 \end{center}
-All the other rules are left unrestricted.  The unfortunate
-consequence of this restriction is that it breaks cut-elimination
-\cite{Schellinx:1991}.  
+de Paiva's first formalization of FILL used the Dragalin restriction,
+see \cite{dePaiva:1988} p. 58, but Schellinx showed that this restriction has
+the unfortunate consequence of breaking cut-elimination
+\cite{Schellinx:1991}.
 
 Later, Hyland and de Paiva gave an alternate formalization of FILL in
 the hopes to regain cut-elimination \cite{Hyland:1993}.  This new
@@ -120,7 +135,7 @@ implication right rule:
   \end{math}
 \end{center}
 Intuitionism is enforced in this rule by requiring that the variable
-begin dischanged, $x$,
+being dischanged, $x$,
 is potentially free in only one term annotating a conclusion.
 Unfortunately, this formalization did not enjoy cut-elimination
 either.
@@ -146,8 +161,8 @@ cut-elimination step that commutes cut with the left rule for par.
 The main idea behind the counterexample is that in the derivation
 before commuting the cut it is possible to discharge $z$ using
 implication right, but after the cut is commuted past the left rule
-for par the variable $z$ becomes free in more than one conclusion, and
-thus, can no longer be discharged.
+for par, the variable $z$ becomes free in more than one conclusion,
+and thus, can no longer be discharged.
 
 In the conclusion of Bierman's note he gives an alternate left rule
 for par that he attributes to Bellin.  This new left-rule is as
@@ -164,13 +179,43 @@ results in FILL regaining cut-elimination.  However, no proof has been
 given.  
 
 \textbf{Contributions.} In this paper our main contribution is to
-confirm Bellin's conjecture by adopting his proposed rule and prove
+confirm Bellin's conjecture by adopting his proposed rule
+(Section~\ref{sec:full_intuitionistic_linear_logic_(fill)}) and prove
 cut-elimination (Section~\ref{sec:cut-elimination}).  In addition, we
 show that this new formalization can be modeled by a new form of
 dialectica category called order-enriched dialectica category
-\cite{dePaiva:2015}.
+(Section~\ref{sec:order-enriched_dialectica_categories}).
 
-\textbf{Related Work.} \cite{dePaiva:2005}
+\textbf{Related Work.} The first formalization of FILL with
+cut-elimination was due to Brauner and de Paiva \cite{Brauner:1998}.
+Their formalization can be seen as a linear version of LK with a
+sophisticated meta-level dependency tracking system.  A proof of a
+FILL sequent in their formalization amounts to a classical derivation,
+$\pi$, invariant in a what they call the FILL property:
+\begin{center}
+  \begin{itemize}
+  \item The hypothesis discharged by an application of the implication
+    right rule in $\pi$ is a dependency of only the conclusion of the
+    implication being introduced.
+  \end{itemize}
+\end{center}
+They were able to show that their formalization is sound, complete,
+and enjoys cut-elimination.  The one point in favor of the term
+assignment formalization given here over Brauner and de Paiva's
+formalization is that the dependency tracking system complicates both
+the definition of the logic and its use.  However, we do not wish to
+detract from the importance of their work.
+
+de Paiva and Pereira used annotations on the sequents of LK to arrive
+at full intuitionistic logic (FIL) with multiple conclusion that
+enjoys cut-elimination \cite{dePaiva:2005}. They annotate hypothesis
+with natural number indices, and conclusions with finite sets of
+indices.  The sets on conclusions correspond to the collection of the
+hypotheses that the conclusion depends on.  Then they have a similar
+property to that of the FILL property from Brauner and de Paiva's
+formalization.  In fact, the dependency tracking system is very
+similar to this formalization, but the dependency tracking has been
+collapsed into the object language instead of being at the meta-level.
 % section introduction (end)
 
 \section{Full Intuitionistic Linear Logic (FILL)}
@@ -2437,6 +2482,17 @@ Clearly, all terms are equivalent.
 \end{report}
 % subsection secondary_hypothesis (end)
 % section cut-elimination (end)
+
+\section{Order-Enriched Dialectica Categories}
+\label{sec:order-enriched_dialectica_categories}
+\cite{dePaiva:2015}
+% section order-enriched_dialectica_categories (end)
+
+
+\section{Conclusion and Future Work}
+\label{sec:conclusion_and_future_work}
+
+% section conclusion_and_future_work (end)
 
 
 \bibliographystyle{plain}
