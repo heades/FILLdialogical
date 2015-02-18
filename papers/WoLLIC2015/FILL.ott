@@ -6,7 +6,7 @@ grammar
 % Object-level Formulas.
 form, A, B, C, D, E :: 'Type_' ::=
   | I       ::    :: TUnit
-  {{tex I }}
+  {{tex \top }}
   | _|_     ::    :: PUnit
   {{tex \perp }}
   | A -o B  ::    :: Imp
@@ -123,7 +123,7 @@ defns
   -------------- :: Ax
   x : A |- x : A
 
-  G |- t : A | L && y : A, G' |- L'
+  G |- t : A | L && G',y : A |- L'
   ------------------------------------------ :: Cut
   G, G' |- L | [t/y]L'
 

@@ -222,12 +222,10 @@ collapsed into the object language instead of being at the meta-level.
 \label{sec:full_intuitionistic_linear_logic_(fill)}
 
 In this section we give a brief description of Full Intuitionistic
-Linear Logic (FILL) in the style found in \cite{Hyland:1993}.
-However, we use a slightly different presentation that we feel
-provides a more elegant description of the logic.  We first give the
-syntax of formulas, patterns, terms, and contexts.  Following the syntax we
-define several meta-functions that will be used when defining the
-inference rules of the logic.
+Linear Logic (FILL).  We first give the syntax of formulas, patterns,
+terms, and contexts.  Following the syntax we define several
+meta-functions that will be used when defining the inference rules of
+the logic.  
 
 \begin{definition}
   \label{def:syntax}
@@ -248,14 +246,31 @@ inference rules of the logic.
   \end{center}
 \end{definition}
 
-At this point we introduce some basic syntax and definitions to
-facilitate readability, and presentation of the inference rules.
-First, we will often write $[[L1 | L2]]$ as syntactic sugar for
-$[[L1,L2]]$.  The former syntax should be read as ``$[[L1]]$ or
-$[[L2]]$.'' This will help readability of the sequent we will
-introduce below.  We denote the usual capture-avoiding substitution by
-$[[ [t/x]t']]$, and its extension to right contexts as $[[ [t/x]L]]$.
+The formulas of FILL are standard where we denote the unit of tensor
+as $\top$ and the unit of par as $\perp$. Patterns are used to
+distinguish between the various let-expressions for tensor, par, and
+their units.  There are three different let-expressions:
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}
+      \text{Tensor:} & [[let t be p1 (x) p2 in e]]\\
+      \text{Par:} & [[let t be p1 (+) p2 in e]]\\
+      \text{Tensor Unit:} & [[let t be stp in e]]\\
+    \end{array}
+  \end{math}
+\end{center}
+In addition, each of these will have their own equational rules, see
+Definition~\ref{def:FILL-eq}.  The role each term plays in the overall
+logic will become clear after we introduce the inference rules.
 
+Left contexts are multisets of formulas labeled with a variable, and
+right contexts are multisets of formulas labeled with a term.  We will
+often write $[[L1 | L2]]$ as syntactic sugar for $[[L1,L2]]$.  The
+former should be read as ``$[[L1]]$ or $[[L2]]$.'' This will help
+readability of the sequent we will introduce below.  
+
+We denote the usual capture-avoiding substitution by $[[ [t/x]t']]$,
+and its straightforward extension to right contexts as $[[ [t/x]L]]$.
 % \begin{definition}
 %   \label{def:delta-sub}
 %   We extend the capture-avoiding substitution function to right
@@ -270,10 +285,8 @@ $[[ [t/x]t']]$, and its extension to right contexts as $[[ [t/x]L]]$.
 %     \end{math}
 %   \end{center}
 % \end{definition}
-The previous extension will make conducting substitutions across a
-sequence of terms in an inference rule easier.  Similarly, we find
-it convenient to be able to do this style of extension for the
-let-binding as well.
+Similarly, we find it convenient to be able to do this style of
+extension for the let-binding as well.
 \begin{definition}
   \label{def:delta-let}
   We extend let-binding terms to right contexts as follows:
@@ -287,9 +300,10 @@ let-binding as well.
     \end{math}
   \end{center}
 \end{definition}
-We denote the usual function that computes the set of free variables
-in a term by $\mathsf{FV}([[t]])$, and its straightforward extension to
-right contexts as $\mathsf{FV}([[L]])$.  
+\noindent
+Lastly, we denote the usual function that computes the set of free
+variables in a term by $\mathsf{FV}([[t]])$, and its straightforward
+extension to right contexts as $\mathsf{FV}([[L]])$.
 % \begin{definition}
 %   \label{def:delta-FV}
 %   We extend the free-variable function on terms to right contexts as
@@ -304,11 +318,12 @@ right contexts as $\mathsf{FV}([[L]])$.
 %     \end{math}
 %   \end{center}
 % \end{definition}
-Finally, we arrive at the inference rules of FILL.
+
+The following definition defines the inference rules of FILL.
 \begin{definition}
   \label{def:infr}
   The inference rules for derivability in FILL are as follows:
-  \vspace{-10px}
+  \vspace{-20px}
   \begin{center}
     \scriptsize
       \begin{mathpar}
@@ -329,12 +344,13 @@ Finally, we arrive at the inference rules of FILL.
     \end{mathpar}
   \end{center}
 \end{definition}
-
-The $\FILLdrulename{Parl}$ rule depends on a function $[[let-pat z p
-L]]$.  We define this function next.
+\noindent
+The $\FILLdrulename{Parl}$ rule depends on the function $[[let-pat z p
+L]]$ which we define next.
 \begin{definition}
   \label{def:let-pat-term}
   The function $[[let-pat z p t]]$ is defined as follows:
+  \vspace{-15px}
   \begin{center}
     \begin{math}
       \begin{array}{lll}      
@@ -368,14 +384,17 @@ L]]$.  We define this function next.
   % \end{center}
 \end{definition}
 The motivation behind this function is that it only binds the pattern
-variables in $[[p]]$ in a term if and only if those pattern variables
-are free in the term.  This over comes the counterexample given by
-Bierman in \cite{Bierman:1996}.  Throughout the sequel we will denote
-derivations of the previous rules by $\pi$.
+variables in $[[x (+) -]]$ and $[[- (+) y]]$ in a term if and only if
+those pattern variables are free in the term.  This over comes the
+counterexample given by Bierman in \cite{Bierman:1996}.  Throughout
+the sequel we will denote derivations of the previous rules by $\pi$.
 % section full_intuitionistic_linear_logic_(fill) (end)
 
 \section{Cut-elimination}
 \label{sec:cut-elimination}
+
+
+
 The usual proof of cut-elimination for intuitionistic and classical
 linear logic should suffice for FILL.  Thus, in this section we simply
 give the cut-elimination procedure for FILL following the development
