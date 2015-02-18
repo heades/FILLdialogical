@@ -221,11 +221,10 @@ collapsed into the object language instead of being at the meta-level.
 \section{Full Intuitionistic Linear Logic (FILL)}
 \label{sec:full_intuitionistic_linear_logic_(fill)}
 
-In this section we give a brief description of Full Intuitionistic
-Linear Logic (FILL).  We first give the syntax of formulas, patterns,
-terms, and contexts.  Following the syntax we define several
-meta-functions that will be used when defining the inference rules of
-the logic.  
+In this section we give a brief description of FILL.  We first give
+the syntax of formulas, patterns, terms, and contexts.  Following the
+syntax we define several meta-functions that will be used when
+defining the inference rules of the logic.
 
 \begin{definition}
   \label{def:syntax}
@@ -246,13 +245,13 @@ the logic.
   \end{center}
 \end{definition}
 
-The formulas of FILL are standard where we denote the unit of tensor
-as $\top$ and the unit of par as $\perp$. Patterns are used to
+The formulas of FILL are standard, but we denote the unit of tensor as
+$\top$ and the unit of par as $\perp$. Patterns are used to
 distinguish between the various let-expressions for tensor, par, and
 their units.  There are three different let-expressions:
 \begin{center}
   \begin{math}
-    \begin{array}{lll}
+    \begin{array}{rll}
       \text{Tensor:} & [[let t be p1 (x) p2 in e]]\\
       \text{Par:} & [[let t be p1 (+) p2 in e]]\\
       \text{Tensor Unit:} & [[let t be stp in e]]\\
@@ -263,14 +262,14 @@ In addition, each of these will have their own equational rules, see
 Definition~\ref{def:FILL-eq}.  The role each term plays in the overall
 logic will become clear after we introduce the inference rules.
 
-Left contexts are multisets of formulas labeled with a variable, and
-right contexts are multisets of formulas labeled with a term.  We will
-often write $[[L1 | L2]]$ as syntactic sugar for $[[L1,L2]]$.  The
-former should be read as ``$[[L1]]$ or $[[L2]]$.'' This will help
-readability of the sequent we will introduce below.  
-
-We denote the usual capture-avoiding substitution by $[[ [t/x]t']]$,
-and its straightforward extension to right contexts as $[[ [t/x]L]]$.
+At this point we introduce some syntax and mete-level functions that
+will be used in the definition of the inference rules for FILL. Left
+contexts are multisets of formulas labeled with a variable, and right
+contexts are multisets of formulas labeled with a term.  We will often
+write $[[L1 | L2]]$ as syntactic sugar for $[[L1,L2]]$.  The former
+should be read as ``$[[L1]]$ or $[[L2]]$.''  We denote the usual
+capture-avoiding substitution by $[[ [t/x]t']]$, and its
+straightforward extension to right contexts as $[[ [t/x]L]]$.
 % \begin{definition}
 %   \label{def:delta-sub}
 %   We extend the capture-avoiding substitution function to right
@@ -319,12 +318,9 @@ extension to right contexts as $\mathsf{FV}([[L]])$.
 %   \end{center}
 % \end{definition}
 
-The following definition defines the inference rules of FILL.
-\begin{definition}
-  \label{def:infr}
-  The inference rules for derivability in FILL are as follows:
-  \vspace{-20px}
-  \begin{center}
+The inference rules for FILL are defined in Figure~\ref{def:infr}.
+\begin{figure}
+    \begin{center}
     \scriptsize
       \begin{mathpar}
         \FILLdruleAx{}    \and 
@@ -343,8 +339,9 @@ The following definition defines the inference rules of FILL.
         \FILLdruleExr{}    
     \end{mathpar}
   \end{center}
-\end{definition}
-\noindent
+  \caption{Inference rules for FILL}
+  \label{def:infr}
+\end{figure}
 The $\FILLdrulename{Parl}$ rule depends on the function $[[let-pat z p
 L]]$ which we define next.
 \begin{definition}
@@ -384,30 +381,16 @@ L]]$ which we define next.
   % \end{center}
 \end{definition}
 The motivation behind this function is that it only binds the pattern
-variables in $[[x (+) -]]$ and $[[- (+) y]]$ in a term if and only if
-those pattern variables are free in the term.  This over comes the
+variables in $[[x (+) -]]$ and $[[- (+) y]]$ if and only if those
+pattern variables are free in the body of the let.  This over comes the
 counterexample given by Bierman in \cite{Bierman:1996}.  Throughout
 the sequel we will denote derivations of the previous rules by $\pi$.
-% section full_intuitionistic_linear_logic_(fill) (end)
 
-\section{Cut-elimination}
-\label{sec:cut-elimination}
-
-
-
-The usual proof of cut-elimination for intuitionistic and classical
-linear logic should suffice for FILL.  Thus, in this section we simply
-give the cut-elimination procedure for FILL following the development
-in \cite{Mellies:2009}.  However, there is one invariant that must be
-verified across each derivation transformation.  The invariant is that
-if a derivation $\pi$ is transformed into a derivation $\pi'$, then
-the terms in the conclusion of the final rule applied in $\pi$ must be
-equivalent to the terms in the conclusion of the final rule applied in
-$\pi'$, but using what notion of equivalence?
-
-\begin{definition}
-  \label{def:FILL-eq}
-  Equivalence on terms is defined as follows:
+Similarly to $\lambda$-calculi the terms of FILL are equipped with an
+equivalence relation.  This equivalence on terms is defined in
+Figure~\ref{def:FILL-eq}.
+\begin{figure}[t]
+  
   \begin{center}
     \footnotesize
     \begin{mathpar}
@@ -449,7 +432,32 @@ $\pi'$, but using what notion of equivalence?
       \end{report}
     \end{mathpar}
   \end{center}
-\end{definition}
+  \caption{Equivalence on terms}
+  \label{def:FILL-eq}
+\end{figure}
+However, these rules should not be considered as computational rules,
+but rather are only necessary for the cut-elimination procedure.  The
+rules are highly motivated by the semantic interpretation of FILL into
+symmetric monodial categories.  There are a number of $\alpha$,
+$\beta$, and $\eta$ like rules as well as several rules we call
+naturality rules.  These rules are similar to the rules presented in
+\cite{Hyland:1993}.
+% section full_intuitionistic_linear_logic_(fill) (end)
+
+\section{Cut-elimination}
+\label{sec:cut-elimination}
+
+
+
+The usual proof of cut-elimination for intuitionistic and classical
+linear logic should suffice for FILL.  Thus, in this section we simply
+give the cut-elimination procedure for FILL following the development
+in \cite{Mellies:2009}.  However, there is one invariant that must be
+verified across each derivation transformation.  The invariant is that
+if a derivation $\pi$ is transformed into a derivation $\pi'$, then
+the terms in the conclusion of the final rule applied in $\pi$ must be
+equivalent to the terms in the conclusion of the final rule applied in
+$\pi'$, but using what notion of equivalence?
 
 The cut elimination procedure requires the following two basic
 results:
