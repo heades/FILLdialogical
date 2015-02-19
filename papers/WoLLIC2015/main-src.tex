@@ -447,19 +447,83 @@ naturality rules.  These rules are similar to the rules presented in
 \section{Cut-elimination}
 \label{sec:cut-elimination}
 
+FILL can be viewed from two different angles: i. as an intuitionistic
+linear logic with par, or ii. as a restricted from classical linear
+logic.  Thus, to prove cut-elimination of FILL one only need to start
+with the cut-elimination procedure for intuitionistic linear logic,
+and then dualize all of the steps in the procedure for tensor and its
+unit to obtain the steps for par and its unit.  Similarly, one could
+just as easily start with the cut-elimination procedure for classical
+linear logic, and then apply the restriction on the implication right
+rule producing a cut-elimination procedure for FILL.
 
-
-The usual proof of cut-elimination for intuitionistic and classical
-linear logic should suffice for FILL.  Thus, in this section we simply
-give the cut-elimination procedure for FILL following the development
-in \cite{Mellies:2009}.  However, there is one invariant that must be
-verified across each derivation transformation.  The invariant is that
-if a derivation $\pi$ is transformed into a derivation $\pi'$, then
-the terms in the conclusion of the final rule applied in $\pi$ must be
+The major difference between proving cut-elimination of FILL from
+classical or intuitionistic linear logic is that we must prove an
+invariant across each step in the procedure.  The invariant is that if
+a derivation $\pi$ is transformed into a derivation $\pi'$, then the
+terms in the conclusion of the final rule applied in $\pi$ must be
 equivalent to the terms in the conclusion of the final rule applied in
-$\pi'$, but using what notion of equivalence?
+$\pi'$ using the rules from Figure~\ref{def:FILL-eq}.  For example,
+consider the following case in the cut-elimination procedure for FILL:
 
-The cut elimination procedure requires the following two basic
+\ \\
+\noindent
+The proof
+\begin{center}
+  \scriptsize
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=\tiny Cut] {
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      $$\mprset{flushleft}
+      \inferrule* [right=\tiny Parr] {
+        \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A,G2 |- h(L1 | h(t1 : B | t2 : C)) | L2]]}                  
+    }{[[G1,x : A,G2 |- h(L1 | h(t1 (+) t2 : B (+) C)) | L2]]}
+  }{[[G1,G,G2 |- L | h(h(h([t/x]L1) | h([t/x]{t1 (+) t2} : B (+) C)) | [t/x]L2)]]}
+  \end{math}
+\end{center}
+transforms into the proof
+\begin{center}
+  \scriptsize
+  \begin{math}
+    $$\mprset{flushleft}
+\inferrule* [right=\tiny Parr] {
+  $$\mprset{flushleft}
+  \inferrule* [right=\tiny Cut] {
+    \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_1}          
+      }{[[G |- t : A | L]]}      
+      \\
+      \inferrule* [right=] {
+        \inferrule* [right=,vdots=1.5em,fraction=\,] {
+          \,
+        }{\pi_2}          
+      }{[[G1,x : A,G2 |- h(L1 | h(t1 : B | t2 : C)) | L2]]}                  
+    }{[[G1,G,G2 |- L | h(h(h([t/x]L1) | h(h{[t/x]t1} : B | h{[t/x]t2} : C)) | [t/x]L2)]]}
+  }{[[G1,G,G2 |- L | h(h(h([t/x]L1) | h{[t/x]t1} (+) h{[t/x]t2} : B (+) C) | [t/x]L2)]]}
+  \end{math}
+\end{center}
+Now we must show that $[[L]] = [[L]]$, $[[ [t/x]L1]] = [[ [t/x]L1]]$,
+$[[ [t/x]{t1 (+) t2} = {[t/x]t1} (+) [t/x]t2]]$, and
+$[[ [t/x]L2]] = [[ [t/x]L2]]$, but the only non-trivial case is
+whether $[[ [t/x]{t1 (+) t2} = {[t/x]t1} (+) [t/x]t2]]$ holds, but
+this clearly holds by a simple property of capture avoiding
+substitution.  Every case of the cut-elimination procedure proceeds
+just as this example does.
+
+\begin{report}
+  The cut elimination procedure requires the following two basic
 results:
 \begin{lemma}[Substitution Distribution]
   \label{lemma:substitution_distribution}
@@ -478,20 +542,27 @@ results:
   This proof holds by case splitting over $p$, and then using the
   naturality equations for the respective pattern.
 \end{proof}
+\end{report}
 
-Throughout the remainder of this section we present a particular step
-in the cut-elimination procedure, and then give a short proof that
-equality of terms are preserved across the particular transformation
-on derivations. \begin{paper}Many of the transformations are trivial,
-  and follow directly from the traditional proof.  Thus, we only
-  present here the most interesting cases.  The full
-  proof can be found in the companion report
-  \cite{comprepo}. \end{paper}
-
-\begin{report}
-\subsection{Commuting conversion cut vs cut (first case)}
-\label{subsec:commuting_conversion_cut_vs_cut_(first_case)}
-The following proof
+We finally arrive at cut-elimination.
+\begin{theorem}
+  \label{thm:cut-pro}
+  If $[[G |- t1 : A1,...,ti : Ai]]$ steps to $[[G |- t'1 : A1,...,t'i
+  : Ai]]$ using the cut-elimination procedure, then $[[tj = t'j]]$
+  for $1 \leq j \leq i$.
+\end{theorem}
+\begin{proof}
+  The cut-elimination procedure given here is the standard
+  cut-elimination procedure for classical linear logic except the
+  cases involving the implication right rule have the FILL
+  restriction. The structure of our procedure follows the structure of
+  the procedure found in \cite{Mellies:2009}. Due to space limitations
+  we only show two of the most interesting cases, but for the entire
+  proof see the companion report \cite{Eades:2015}.
+  \begin{itemize}
+    \begin{report}      
+  \item[Case:] commuting conversion cut vs cut (first case).
+    The following proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -563,11 +634,8 @@ inspecting the first derivation we can see that $[[x nin FV(t2)]]$,
 and thus, $[[ [ [t/x] t1/y][t/x] t2 = [ [t/x] t1/y] t2]]$.  This
 argument may be repeated for any term in $[[L2']]$, and thus, we know
 $[[ [t/x][t1/y]L2 = [ [t/x]t1/y]L2]]$.
-% subsection commuting_conversion_cut_vs_cut_(first_case) (end)
 
-\subsection{Commuting conversion cut vs. cut (second case)}
-\label{subsec:commuting_conversion_cut_vs._cut_(second_case)}
-The second commuting conversion on cut begins with the proof
+\item[Case:] commuting conversion cut vs. cut (second case).  The second commuting conversion on cut begins with the proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -644,15 +712,8 @@ Lemma~\ref{lemma:substitution_distribution}, we know that $[[
 [t/x][t'/y]t1 = [ [t/x]t'/y][t/x]t1]] = [[ [t'/y][t/x]t1
 ]]$.  This argument can be repeated for any term in
 $[[L'1]]$, hence, $[[ [t/x][t'/y]L1 = [t'/y][t/x]L1]]$.
-% subsection commuting_conversion_cut_vs._cut_(second_case) (end)
-\end{report}
 
-\begin{report}
-\subsection{The $\eta$-expansion cases}
-\label{subsec:eta-expansion_cases}
-
-\subsubsection{Tensor}
-\label{subsec:tensor}
+\item[Case:] the $\eta$-expansion cases: tensor.  
 The proof
 \begin{center}
   \begin{math}
@@ -684,10 +745,8 @@ is transformed into the proof
 \end{center}
 By the rule $\FILLdrulename{EQ\_EtaTensor}$
 we know $[[let x be y (x) z in {y (x) z} = x]]$.
-% subsubsection tensor (end)
 
-\subsubsection{Par}
-\label{subsec:par}
+\item[Case:] the $\eta$-expansion cases: par.  
 The proof
 \begin{center}
   \begin{math}
@@ -719,10 +778,8 @@ is transformed into the proof
 \end{center}
 By rule $\FILLdrulename{Eq\_EtaPar}$ we know
 $[[{{let x be (y (+) -) in y} (+) {let x be (- (+) z) in z}} = x]]$.
-% subsubsection par (end)
 
-\subsubsection{Implication}
-\label{subsec:implication}
+\item[Case:] the $\eta$-expansion cases: implication.
 The proof
 \begin{center}
   \begin{math}
@@ -754,10 +811,8 @@ transforms into the proof
 \end{center}
 All terms in the two derivations are equivalent, because
 $[[{\y.h{x y}} = x]]$ by the $\FILLdrulename{Eq\_EtaFun}$ rule.
-% subsubsection implication (end)
 
-\subsubsection{Tensor unit}
-\label{subsec:tensor_unit}
+\item[Case:] the $\eta$-expansion cases: tensor unit.
 The proof
 \begin{center}
   \begin{math}
@@ -780,12 +835,10 @@ transforms into the proof
   \end{math}
 \end{center}
 We know $[[x = let x be stp in *]]$ by
-$\FILLdrulename{Eq\_EtaI}$.
-% subsubsection tensor_unit (end)
+$\FILLdrulename{Eq\_EtaI}$.  
 
-\subsubsection{Par unit}
-\label{subsec:tensor_unit}
-The proof
+\item[Case:] the $\eta$-expansion cases: par unit.
+  The proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -807,15 +860,8 @@ transforms into the proof
   \end{math}
 \end{center}
 We know $[[x = o]]$ by $\FILLdrulename{Eq\_EtaParU}$.
-% subsubsection tensor_unit (end)
-% subsection eta-expansion_cases (end)
-\end{report}
 
-\begin{report}
-\subsection{The axiom steps}
-\label{sec:the_axiom_steps}
-\subsubsection{The axiom step}
-\label{subsec:the_axiom_step}
+\item[Case:] the axiom steps: the axiom step.
 The proof 
 \begin{center}
   \begin{math}
@@ -848,12 +894,8 @@ transforms into the proof
 \end{center}
 By $\FILLdrulename{Eq\_Alpha}$, we know, for any $[[t]]$ in
 $[[L]]$, $[[t = [x/y]t]]$, and hence $[[L = [x/y]L]]$.
-% subsection the_axiom_step (end)
-\end{report}
 
-\begin{report}  
-\subsubsection{Conclusion vs. axom}
-\label{subsec:conclusion_vs._axom}
+\item[Case:] the axiom steps: conclusion vs. axiom.
 The proof 
 \begin{center}
   \begin{math}
@@ -888,15 +930,9 @@ transforms into
 \end{center}
 By the definition of the substitution function we know $[[t =
 [t/x]x]]$.
-% subsection conclusion_vs._axom (end)
-% section the_axiom_steps (end)
-\end{report}
 
-\begin{report}
-\subsection{The exchange steps}
-\label{subsec:the_exchange_steps}
-\subsubsection{Conclusion vs. left-exchange (the first case)}
-\label{subsec:conclusion_vs._exchange_(the_first_case)}
+\item[Case:] the exchange steps: conclusion vs. left-exchange (the
+  first case).
 The proof
 \begin{center}
   \begin{math}
@@ -943,12 +979,10 @@ transforms into the proof
     }{[[G1,y : B,G, G2 |- L | [t/x]L']]}
   \end{math}
 \end{center}
-Clearly, all terms are equivalent.
-% subsubsection conclusion_vs._exchange_(the_first_case) (end)
+Clearly, all terms are equivalent.  
 
-\subsubsection{Conclusion vs. left-exchange (the second case)}
-\label{subsec:conclusion_vs._exchange_(the_second_case)}
-The proof
+\item[Case:] the exchange steps: conclusion vs. left-exchange (the
+  second case). The proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -995,10 +1029,8 @@ transforms into the proof
   \end{math}
 \end{center}
 Clearly, all terms are equivalent.
-% subsubsection conclusion_vs._exchange_(the_second_case) (end)
 
-\subsubsection{Conclusion vs. right-exchange}
-\label{subsec:conclusion_vs._right-exchange}
+\item[Case:] the exchange steps: conclusion vs. right-exchange
 The proof
 \begin{center}
   \begin{math}
@@ -1045,17 +1077,9 @@ transforms into this proof
     }{[[G1,G, G2 |- h(h(h([t/x]L1) | h{[t/x]t2} : C) | h{[t/x]t1} : B) | [t/x]L']]}
   \end{math}
 \end{center}
-Clearly, all terms are equivalent.
-% subsubsection conclusion_vs._right-exchange_(the_first_case) (end)
-% subsection the_exchange_steps (end)
-\end{report}
-
-\subsection{Principle formula vs. principle formula}
-\label{subsec:principle_formula_vs._principle_formula}
-
-\begin{report} 
-\subsubsection{Tensor}
-\label{subsec:tensor}
+Clearly, all terms are equivalent.  
+  
+\item[Case:] principle formula vs. principle formula: tensor.
 The proof 
 \begin{center} 
     \begin{math}
@@ -1129,10 +1153,9 @@ first cut on $[[B]]$, and then $[[A]]$, but we could have cut on
 $[[A]]$ first, and then $[[B]]$, but this would yeild equivalent
 derivations as above by using
 Lemma~\ref{lemma:substitution_distribution}.
-% subsubsection tensor (end)
 \end{report}
-\subsubsection{Par}
-\label{subsec:par}
+  
+\item[Case:] principle formula vs. principle formula: par.
 The proof
 \begin{center}
   \scriptsize
@@ -1224,10 +1247,8 @@ $[[A]]$, and then on $[[B]]$ in the second derivation, but we would
 have arrived at the same result just with potentially more exchanges
 on the right.
 \end{report}
-% subsubsection par (end)
 
-\subsubsection{Implication}
-\label{subsubsec:implication}
+  \item[Case:] principle formula vs. principle formula: implication.
 The proof
 \begin{center}
   \scriptsize
@@ -1301,14 +1322,12 @@ First, by hypothesis we know $[[x nin FV(L)]]$, and so we know $[[L = [t1/x]L]]$
 that $[[ [\x.t/z][z t1/y]t2 = [{\x.t} t1/y]t2]] = [[ [ [t1/x]t/y]t2]]$ by using the congruence rules
 of equality and the rule $\FILLdrulename{Eq\_BetaFun}$.  This argument can be repeated for any term
 in $[[ [\x.t/z][z t1/y]L'2]]$, and so $[[ [\x.t/z][z t1/y]L2 = [ [t1/x]t/y]L2]]$.  Finally, by inspecting the previous
-derivations we can see that $[[z nin FV(L1)]]$, and thus, $[[L1 = [\x.t/z]L1]]$.  
-% subsubsection implication (end)
+derivations we can see that $[[z nin FV(L1)]]$, and thus, $[[L1 =
+[\x.t/z]L1]]$.  
 
 \begin{report}
-  
-\subsubsection{Tensors Unit}
-\label{subsubsec:ten-unit}
-The proof
+\item[Case:] principle formula vs. principle formula: tensor unit.
+    The proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -1345,11 +1364,9 @@ $[[ [*/x]{let x be stp in t} = let * be stp in t]] = [[t]]$ by the definition of
 substitution and the $\FILLdrulename{Eq\_EtaI}$ rule.  This argument can be repeated for any
 term in $[[ [*/x](let x be stp in L')]]$, and hence, $[[ [*/x](let x be
 stp in L) = L]]$.
-% subsubsection ten-unit (end)
 
-\subsubsection{Pars Unit}
-\label{subsec:pars_unit}
-The proof
+\item[Case:] principle formula vs. principle formula: par unit.
+  The proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -1381,16 +1398,8 @@ transforms into the proof
   \end{math}
 \end{center}
 Clearly, $[[ [o/x]. = .]]$.
-% subsubsection pars_unit (end)
-\end{report}
-% subsection principle_formula_vs._principle_formula (end)
-\begin{report}  
-\subsection{Secondary conclusion}
-\label{subsec:secondary_conclusion}
 
-
-\subsubsection{Left introduction of implication}
-\label{subsec:left_introduction_of_implication}
+\item[Case:] secondary conclusion: left introduction of implication.
 The proof 
 \begin{center}
   \begin{math}
@@ -1455,11 +1464,9 @@ Section~\ref{subsec:commuting_conversion_cut_vs_cut_(first_case)}.
 Thus, we can prove that $[[ [y t1/x][t2/z]L3 = [ [y t1/x]t2/z]L3]]$ by
 Lemma~\ref{lemma:substitution_distribution} and the fact that $[[x nin
 FV(L3)]]$.
-% subsubsection left_introduction_of_implication (end)
 
-\subsubsection{Left introduction of exchange}
-\label{subsec:exchange}
-The proof
+\item[Case:] secondary conclusion: left introduction of exchange.
+  The proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -1504,10 +1511,8 @@ transforms into the proof
   \end{math}
 \end{center}
 Clearly, all terms are equivalent.
-% subsubsection exchange (end)
 
-\subsubsection{Left introduction of tensor}
-\label{subsec:left-intro-tensor}
+\item[Case:] secondary conclusion: left introduction of tensor.
 The proof 
 \begin{center}
   \begin{math}
@@ -1553,12 +1558,10 @@ transforms into the proof
   \end{math}
 \end{center}
 It suffices to show that $[[let z be x (x) y in ([t/w]L2) = [h{let z
-  be x (x) y in t}/w]L2]]$.  This is a simple consequence of the rule \FILLdrulename{Eq\_NatTensor}.
-% subsubsection tensor (end)
+  be x (x) y in t}/w]L2]]$.  This is a simple consequence of the rule
+\FILLdrulename{Eq\_NatTensor}.
 
-
-\subsubsection{Left introduction of Par}
-\label{subsec:left_introduction_of_par}
+\item[Case:] secondary conclusion: left introduction of Par
 The proof 
 \begin{center}
   \scriptsize
@@ -1620,11 +1623,10 @@ is transformed into the proof
   \end{math}
 \end{center}
 It suffices to show that $[[let-pat z (- (+) y) [t'/w]L2]] = [[
-[h{let-pat z (- (+) y) t'}/w]L2]]$.  This follows from the rule $\FILLdrulename{Eq\_Nat2Par}$.
-% subsubsection left_introduction_of_par (end)
+[h{let-pat z (- (+) y) t'}/w]L2]]$.  This follows from the rule
+$\FILLdrulename{Eq\_Nat2Par}$.
 
-\subsubsection{Left introduction of tensor unit}
-\label{subsec:left_introduction_of_tensor_unit}
+\item[Case:] secondary conclusion: left introduction of tensor unit.
 The proof
 \begin{center}
   \begin{math}
@@ -1676,16 +1678,8 @@ Clearly, all terms are equivalent.  Note that we do not give a case
 for secondary conclusion of the left introduction of par's unit,
 because it can only be introduced given an empty right context, and
 thus there is no cut formula.
-% subsubsection left_introduction_of_tensor_unit (end)
-\end{report}
-% subsection secondary_conclusion (end)
 
-\begin{report}
-\subsection{Secondary hypothesis}
-\label{subsec:secondary_hypothesis}
-
-\subsubsection{Left introduction of tensor}
-\label{subsec:left_introduction_of_tensor}
+\item[Case:] secondary hypothesis: left introduction of tensor.
 The proof
 \begin{center}
   \begin{math}
@@ -1734,12 +1728,11 @@ First, we can see by inspection of the previous derivations that
 $[[x,y nin FV(L)]]$, thus, by using similar reasoning as above we can
 use the $\FILLdrulename{EtaTensor}$ rule to obtain $[[let w be x (x) y in
 L = L]]$.  It is a well-known property of substitution that 
-$[[ [t/x]{let w be x (x) y in t1}]] = [[let [t/x]w be x (x) y in [t/x]t1]] = [[let w be x (x) y in [t/x]t1]]$.
-% subsubsection left_introduction_of_tensor (end)
+$[[ [t/x]{let w be x (x) y in t1}]] = [[let [t/x]w be x (x) y in
+[t/x]t1]] = [[let w be x (x) y in [t/x]t1]]$.
 
-\subsubsection{Right introduction of tensor (first case)}
-\label{subsec:right_introduction_of_the_tensor_(first_case)}
-
+\item[Case:] secondary hypothesis: right introduction of tensor (first
+  case).
 The proof
 \begin{center}
   \begin{math}
@@ -1801,11 +1794,11 @@ transforms into the proof
 \end{center}
 By inspection of the previous derivations we can see that $[[x nin
 FV(t2)]]$ and $[[x nin FV(L2)]]$.  Thus, $[[ [t/x]L2 = L2]]$ and
-$[[ [t/x]{t1 (x) t2} = {[t/x]t1} (x) {[t/x]t2}]] = [[{[t/x]t1} (x) t2]]$.
-% subsubsection right_introduction_of_the_tensor_(first_case) (end)
+$[[ [t/x]{t1 (x) t2} = {[t/x]t1} (x) {[t/x]t2}]] = [[{[t/x]t1} (x)
+t2]]$.
 
-\subsubsection{Right introduction of tensor (second case)}
-\label{subsec:right_introduction_of_tensor_(second_case)}
+\item[Case:] secondary hypothesis: right introduction of tensor
+  (second case).
 The proof
 \begin{center}
   \begin{math}
@@ -1866,11 +1859,8 @@ transforms into the proof
   \end{math}
 \end{center}
 This case is similar to the previous case.  
-% subsubsection right_introduction_of_tensor_(second_case) (end)
 
-
-\subsubsection{Right introduction of par}
-\label{subsec:right_introduction_of_par_(first_case)}
+\item[Case:] secondary hypothesis: right introduction of par.
 The proof
 \begin{center}
   \begin{math}
@@ -1897,7 +1887,7 @@ transforms into the proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
-\inferrule* [right=Parl] {
+\inferrule* [right=Parr] {
   $$\mprset{flushleft}
   \inferrule* [right=Cut] {
     \inferrule* [right=] {
@@ -1916,10 +1906,9 @@ transforms into the proof
   \end{math}
 \end{center}
 Clearly, $[[ [t/x]{t1 (+) t2} = {[t/x]t1} (+) [t/x]t2]]$.
-% subsubsection right_introduction_of_par_(first_case) (end)
 
-\subsubsection{Left introduction of par (first case)}
-\label{subsec:left_introduction_of_par_(first_case)}
+\item[Case:] secondary hypothesis: left introduction of par (first
+  case).
 The proof
 \begin{center}
   \begin{math}
@@ -1983,12 +1972,8 @@ L2]]$. It suffices to show that $[[ [t/x](let-pat w (y (+) -) L1) =
 let-pat w (y (+) -) [t/x]L1]]$ but this easily follows from a simple
 distributing the substitution into the let-pat, and then
 simplifying using the fact that $w \neq x$.
-% subsubsection left_introduction_of_par_(first_case) (end)
-\end{report}
-\begin{report}
-  
-\subsubsection{Left introduction of par (second case)}
-\label{subsec:left_introduction_of_par_(second_case)}
+\item[Case:] secondary hypothesis: left introduction of par (second
+  case).
 The proof
 \begin{center}
   \begin{math}
@@ -2047,11 +2032,9 @@ transforms into the proof
 \end{center}
 
 Similar to the previous case.
-% subsubsection left_introduction_of_par_(second_case) (end)
-\end{report}
-\begin{report}
-\subsubsection{Left introduction of implication (first case)}
-\label{subsec:left_introduction_of_implication_(first_case)}
+
+\item[Case:] secondary hypothesis: left introduction of implication
+  (first case).
 The proof
 \begin{center}
   \begin{math}
@@ -2112,10 +2095,9 @@ By inspection of the above derivations we can see that $[[x nin
 FV(L2)]]$, and hence, by this fact and substitution distribution
 (Lemma~\ref{lemma:substitution_distribution}) we know 
 $[[ [t/x]h([z t1/y]L2) = h([{[t/x]z} {[t/x]t1}/y][t/x]L2)]] = [[h([z {[t/x]t1}/y]L2)]]$.
-% subsubsection left_introduction_of_implication_(first_case) (end)
 
-\subsubsection{Left introduction of implication (second case)}
-\label{subsec:left_introduction_of_implication_(second_case)}
+\item[Case:] secondary hypothesis: left introduction of implication
+  (second case).
 The proof
 \begin{center}
   \begin{math}
@@ -2182,10 +2164,9 @@ Finally, by inspection of the above proofs $[[x nin FV(t1)]]$ and so
 by substitution distribution
 (Lemma~\ref{lemma:substitution_distribution}) we know $[[ [t/x]h([z
 t1/y]L2) = [z t1/y][t/x]L2]]$.
-% subsubsection left_introduction_of_implication_(second_case) (end)
 
-\subsubsection{Left introduction of implication (second case)}
-\label{subsec:left_introduction_of_implication_(third_case)}
+\item[Case:] secondary hypothesis: left introduction of implication
+  (third case).
 The proof
 \begin{center}
   \begin{math}
@@ -2246,10 +2227,8 @@ transforms into the proof
   \end{math}
 \end{center}
 Similar to the previous case.
-% subsubsection left_introduction_of_implication_(third_case) (end)
 
-\subsubsection{Right introduction of implication}
-\label{subsec:right_introduction_of_implication}
+\item[Case:] secondary hypothesis: right introduction of implication.
 The proof
 \begin{center}
   \begin{math}
@@ -2297,10 +2276,8 @@ transforms into the proof
     \end{math}
   \end{center}
 Clearly, $[[ [t/x]{\y.t1} = \y.[t/x]t1]]$.
-% subsubsection right_introduction_of_implication (end)
 
-\subsubsection{Left introduction of tensor unit}
-\label{subsec:left_introduction_of_tensor_unit}
+\item[Case:] secondary hypothesis: left introduction of tensor unit.
 The proof 
 \begin{center}
   \begin{math}
@@ -2355,10 +2332,8 @@ argument can be repeated for any other term in $[[L']]$.  Thus,
 $[[L]] = [[let y be stp in L]]$.  It is easy to see that
 $[[ [t/x](let y be stp in L1)]] = [[let y be stp in [t/x]L1]]$ using
 the rule $\FILLdrulename{Eq\_NatI}$.
-% subsubsection left_introduction_of_tensor_unit (end)
 
-\subsubsection{Right introduction of par unit}
-\label{subsec:right_introduction_of_par_unit}
+\item[Case:] secondary hypothesis: right introduction of par unit.
 The proof
 \begin{center}
   \begin{math}
@@ -2407,10 +2382,8 @@ transforms into the proof
   \end{math}
 \end{center}
 Clearly, $[[ [t/x]o = o]]$.
-% subsubsection right_introduction_of_par_unit (end)
 
-\subsubsection{Left introduction of exchange}
-\label{subsec:left_introduction_of_exchange}
+\item[Case:] secondary hypothesis: left introduction of exchange.
 The proof
 \begin{center}
   \begin{math}
@@ -2456,10 +2429,8 @@ tranforms into the proof
   \end{math}
 \end{center}
 Clearly, all terms are equivalent.
-% subsubsection left_introduction_of_exchange (end)
 
-\subsubsection{Right introduction of exchange}
-\label{subsec:right_introduction_of_exchange}
+\item[Case:] secondary hypothesis: right introduction of exchange.
 The proof
 \begin{center}
   \begin{math}
@@ -2505,9 +2476,15 @@ is transformed into
   \end{math}
 \end{center}
 Clearly, all terms are equivalent.
-% subsubsection right_introduction_of_exchange (end)
 \end{report}
-% subsection secondary_hypothesis (end)
+\end{itemize}
+\end{proof}
+
+\begin{corollary}[Cut-Elimination]
+  \label{corollary:cut-elimination}
+  Cut-elimination holds for FILL.
+\end{corollary}
+
 % section cut-elimination (end)
 
 \section{Order-Enriched Dialectica Categories}

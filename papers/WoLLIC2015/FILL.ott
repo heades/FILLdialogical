@@ -87,6 +87,7 @@ L {{tex \Delta }} :: 'RContext_' ::=
   | ( L ) :: :: Parens
   | let-pat t p L  :: M :: LetPat
   {{tex \mathsf{\operatorname{let-pat} }\,[[t]]\,[[p]]\,[[L]] }}
+  | t1 : A1 , ... , ti : Ai :: M :: Vect
 
 % Meta-logical formulas.
 formula :: 'formula_' ::=
