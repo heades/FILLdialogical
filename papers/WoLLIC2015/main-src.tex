@@ -52,10 +52,10 @@
   conjectured that by adopting his rule cut-elimination is
   restored. In this note we show that adopting Bellin’s proposed rule
   one does obtain cut-elimination for FILL, as
-  suggested. Additionally, we show that this new formalization can be
-  modeled by a new form of dialectica category called order-enriched
-  dialectica category, and discuss future work giving FILL a semantics
-  in terms of Lorenzen games.
+  suggested. Additionally, we show that FILL can be modeled by a new
+  form of dialectica category called order-enriched dialectica
+  category, and discuss future work giving FILL a semantics in terms
+  of Lorenzen games.
 \end{abstract}
 
 \section{Introduction}
@@ -90,11 +90,12 @@ of logics with multiple conclusions see the introduction to
 Gentzen showed that to obtain intuitionistic logic one could start
 with the logic LK and then place a cardinality restriction on the
 righthand side of sequents, however, this is not the only means of
-enforcing intuitionism.  Maehara showed that one could simply place
-the cardinality restriction on the premise of the implication right
-rule, and leave all of the other rules of LK unrestricted.  This
-restriction is sometimes called the Dragalin restriction.  The
-classical implication right rule has the form:
+enforcing intuitionism.  Maehara showed that in the propositional case
+one could simply place the cardinality restriction on the premise of
+the implication right rule, and leave all of the other rules of LK
+unrestricted.  This restriction is sometimes called the Dragalin
+restriction, as it appeared in his AMS textbook \cite{Dragalin:1988}.
+The classical implication right rule has the form:
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -180,10 +181,10 @@ given.
 
 \textbf{Contributions.} In this paper our main contribution is to
 confirm Bellin's conjecture by adopting his proposed rule
-(Section~\ref{sec:full_intuitionistic_linear_logic_(fill)}) and prove
-cut-elimination (Section~\ref{sec:cut-elimination}).  In addition, we
-show that this new formalization can be modeled by a new form of
-dialectica category called order-enriched dialectica category
+(Section~\ref{sec:full_intuitionistic_linear_logic_(fill)}) and
+proving cut-elimination (Section~\ref{sec:cut-elimination}).  In
+addition, we show that FILL can be modeled by a new form of dialectica
+category called order-enriched dialectica category
 (Section~\ref{sec:order-enriched_dialectica_categories}).
 
 \textbf{Related Work.} The first formalization of FILL with
@@ -438,7 +439,7 @@ Figure~\ref{def:FILL-eq}.
 However, these rules should not be considered as computational rules,
 but rather are only necessary for the cut-elimination procedure.  The
 rules are highly motivated by the semantic interpretation of FILL into
-symmetric monodial categories.  There are a number of $\alpha$,
+symmetric monoidal categories.  There are a number of $\alpha$,
 $\beta$, and $\eta$ like rules as well as several rules we call
 naturality rules.  These rules are similar to the rules presented in
 \cite{Hyland:1993}.
@@ -1079,7 +1080,7 @@ transforms into this proof
 \end{center}
 Clearly, all terms are equivalent.  
   
-\item[Case:] principle formula vs. principle formula: tensor.
+\item[Case:] principal formula vs. principal formula: tensor.
 The proof 
 \begin{center} 
     \begin{math}
@@ -1155,7 +1156,7 @@ derivations as above by using
 Lemma~\ref{lemma:substitution_distribution}.
 \end{report}
   
-\item[Case:] principle formula vs. principle formula: par.
+\item[Case:] principal formula vs. principal formula: par.
 The proof
 \begin{center}
   \scriptsize
@@ -1248,7 +1249,7 @@ have arrived at the same result just with potentially more exchanges
 on the right.
 \end{report}
 
-  \item[Case:] principle formula vs. principle formula: implication.
+  \item[Case:] principal formula vs. principal formula: implication.
 The proof
 \begin{center}
   \scriptsize
@@ -1326,7 +1327,7 @@ derivations we can see that $[[z nin FV(L1)]]$, and thus, $[[L1 =
 [\x.t/z]L1]]$.  
 
 \begin{report}
-\item[Case:] principle formula vs. principle formula: tensor unit.
+\item[Case:] principal formula vs. principal formula: tensor unit.
     The proof
 \begin{center}
   \begin{math}
@@ -1365,7 +1366,7 @@ substitution and the $\FILLdrulename{Eq\_EtaI}$ rule.  This argument can be repe
 term in $[[ [*/x](let x be stp in L')]]$, and hence, $[[ [*/x](let x be
 stp in L) = L]]$.
 
-\item[Case:] principle formula vs. principle formula: par unit.
+\item[Case:] principal formula vs. principal formula: par unit.
   The proof
 \begin{center}
   \begin{math}
@@ -2496,6 +2497,37 @@ Clearly, all terms are equivalent.
 \section{Conclusion and Future Work}
 \label{sec:conclusion_and_future_work}
 
+We first gave the definition of full intuitionistic linear logic using
+the left rule for par proposed by Bellin in
+Section~\ref{sec:full_intuitionistic_linear_logic_(fill)}.  We then
+proved cut-elimination of FILL in Section~\ref{sec:cut-elimination} by
+adapting the well-known cut-elimination procedure for classical linear
+logic to FILL.  Finally, we gave a semantics of FILL interms of
+order-enriched dialectica categories in
+Section~\ref{sec:order-enriched_dialectica_categories}.
+
+\textbf{Future work.} Lorenzen games are a particular type of game
+semantics for various logics developed by Lorenz, Felscher, and Rahman
+et al. See \cite{Keiff:2011,Rahman:2005} for an introduction.
+Lorenzen games consist of a first-order language consisting of the
+logical connectives of the logic one wishes to study.  Then the
+structure of the games are defined by two types of rules: particle
+rules and structural rules.  The particle rules describe how formulas
+can be attacked or defended based on the formulas main connective.
+Then the structural rules orchestrate the particle rules as the game
+progresses.  They describe the overall organization of the game.
+
+Rahman showed that Lorenzen games could be defined for classical
+linear logic \cite{Rahman:2002}.  The main difficulty is enforcing
+linearity, but due to the flexibility inherit in the definition of
+Lorenzen games it can be enforced in the particle rules.  He was able
+to define a sound and complete semantics in Lorenzen games for
+classical linear logic, but he does mention that one could adopt a
+particular structural rule that enforces intuitionism.  We plan to
+show that by adopting this rule we actually obtain a sound and
+complete semantics in Lorenzen games for FILL.  Furthermore, we hope
+to show that these strategies of the games are also compositional, and
+thus, can be used as the morphisms of a category of Lorezen games.
 % section conclusion_and_future_work (end)
 
 
