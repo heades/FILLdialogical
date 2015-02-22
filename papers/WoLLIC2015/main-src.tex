@@ -2528,7 +2528,7 @@ of FILL where $!$ is interpreted as a cofree comonad, see page 76 of
   \end{itemize}
   Suppose $A = (U,X,\alpha)$, $B = (V,Y,\beta)$, and
   $C = (W,Z,\gamma)$.  Then identities are given by
-  $(\id_U,\pi_2) : A \to A$.  The composition of the maps
+  $(\id_U,\id_X) : A \to A$.  The composition of the maps
   $(f,F) : A \to B$ and $(g, G) : B \to C$ is defined as
   $(f;g,G;F) : A \to C$.
 \end{definition}
@@ -2600,7 +2600,8 @@ $(\mathop{!}, \epsilon : \mathop{!} \to \mathsf{Id}, \delta :
 \mathop{!} \to \mathop{!!})$
 where $! = FG$, $\epsilon$ is the counit of the adjunction and
 $\delta$ is the natural transformation $\delta_A = F(\eta_{G(A)})$,
-see page 15 of \cite{Benton:1994}.  We now have the following result:
+see page 15 of \cite{Benton:1994}.  We recall the following result
+from Benton \cite{Benton:1994}:
 \begin{theorem}[LNL Models are Linear Categories, page 16 of \cite{Benton:1994}]
   \label{thm:lnl_models_are_linear_categories}
   \begin{itemize}
@@ -2807,6 +2808,9 @@ The following is our first main result of this section.
       \end{center}
       We can see by the reasoning above that
       $!F_0;F_1 = F_0;F_1 = \id_{U \Rightarrow X^*}$.
+
+    \item The monoidal natural transformations
+      $m_{A,B} : !A \otimes !B \to !(A \otimes B)$ is defined by 
     \end{itemize}
   \end{center}
 \end{proof}
