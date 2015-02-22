@@ -4,13 +4,14 @@
 \usepackage{stmaryrd}
 \usepackage{todonotes}
 \usepackage{mathpartir}
-% \usepackage{fullpage}
 \usepackage{hyperref}
+\usepackage[barr]{xy}
 
 \include{type-theory_inc}
 
 \title{Multiple Conclusion Intuitionistic Linear Logic and Cut Elimination}
 \author{Harley Eades III and Valeria de Paiva}
+\date{}
 
 % Ott includes.
 \usepackage{color}
@@ -21,6 +22,14 @@
 % Renewing some Ott commands to shrink some of the labels.
 \renewcommand{\FILLdrulename}[1]{\scriptsize \textsc{#1}}
 
+% Cat commands.
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\limp}[0]{\multimap}
+\newcommand{\ddial}[0]{\mathsf{DDial_2}(\mathsf{Sets})}
+\newcommand{\sets}[0]{\mathsf{Sets}}
+\newcommand{\obj}[1]{\mathsf{Obj}(#1)}
+\newcommand{\mor}[1]{\mathsf{Mor(#1)}}
+\newcommand{\id}[0]{\mathsf{id}}
 
 \begin{document}
 
@@ -57,6 +66,8 @@
   category, and discuss future work giving FILL a semantics in terms
   of Lorenzen games.
 \end{abstract}
+
+\todo{Change references to Section 3 to the new semantic results.}
 
 \section{Introduction}
 \label{sec:introduction}
@@ -2488,10 +2499,314 @@ Clearly, all terms are equivalent.
 
 % section cut-elimination (end)
 
-\section{Order-Enriched Dialectica Categories}
-\label{sec:order-enriched_dialectica_categories}
-\cite{dePaiva:2015}
-% section order-enriched_dialectica_categories (end)
+\section{Full Linear Categories}
+\label{sec:full_linear_categories}
+One of the first questions considering the categorical models of
+linear logic was how to model Girard's exponential, $!$, which is read
+``of course''.  The $!$ modality can be used to translate
+intuitionistic logic into intuitionistic linear logic, and so the
+correct categorical interpretation of $!$ should involve a
+relationship between a cartesian closed category, and the model of
+intuitionistic linear logic.
+
+de Paiva gave one of the first categorical models of both classical
+and intuitionistic linear logic in her thesis \cite{dePaiva:1988}. She
+showed that a particular dialectica category called
+$\mathsf{DDial}_2(\mathsf{Sets})$ is a model of FILL where $!$ is
+interpreted as a cofree comonad, see page 30 of \cite{dePaiva:1988}.
+\begin{definition}
+  \label{def:dial2sets}
+  The category $\mathsf{DDial}_2(Sets)$ consists of 
+  \begin{itemize}
+  \item objects that are triples, $A = (U,X,\alpha)$, where $U$ and
+    $X$ are sets, and $\alpha \subseteq U \times X$ is a relation, and
+  \item maps that are pairs $(f,F) : (U,X,\alpha) \to (V,Y,\beta)$
+    where $f : U \to V$ and $F : U \times Y \to X$ such that
+    \begin{itemize}
+    \item For any $u \in U$ and $y \in Y$, $\alpha(u,F(u,y))$ implies $\beta(f(u),y)$.
+    \end{itemize}
+  \end{itemize}
+\end{definition}
+In her thesis de Paiva defines a particular class of dialectica
+categories called $GC$ over a base category $C$, see page 41 of
+\cite{dePaiva:1988}.  The category $\mathsf{DDial}_2(\mathsf{Sets})$
+defined above can be seen as an instantiation of $GC$ by setting $C$
+to be the category $\mathsf{Sets}$ of sets and functions between them.
+
+Later, Seely gave a different categorial model that also confirmed
+that the of-course exponential should be modeled by a comonad
+\cite{Seely:1989}.  However, Seely's model turned out to be unsound,
+as pointed out by Bierman \cite{Bierman:1994}.  This then prompted
+Bierman, Hyland, de Paiva, and Benton to define another categorical
+model called linear categories (Definition~\ref{def:linear-cat}) that
+are sound, and also model $!$ using a cofree comonad
+\cite{Bierman:1994}.  An unfortunate aspect of linear categories is
+that their definition is quite complex.
+\begin{definition}
+  \label{def:linear-cat}
+  A \textbf{linear category}, $\mathcal{C}$, consists of:
+  \begin{center}
+    \begin{itemize}
+    \item A symmetric monoidal closed category $\mathcal{C}$,
+    \item A symmetric monoidal comonad $(!, \epsilon, \delta, m_{A,B},
+      m_I)$ such that 
+      \begin{itemize}
+      \item For every free $!$-coalgebra $(!A,\delta_A)$ there are two
+        distinguished monoidal natural transformations $e_A : !A \to
+        I$ and $d_A : !A \to !A \otimes !A$ which form a commutative
+        comonoid and are coalgebra morphisms.
+      \item If $f : (!A,\delta_A) \to (!B,\delta_B)$ is a coalgebra
+        morphism between free coalgebras, then it is also a comonoid
+        morphism.
+      \end{itemize}
+    \end{itemize}
+  \end{center}
+  This definition is the one given by Bierman in his thesis, see page
+  140 of \cite{Bierman:1994}. Due to space constraints we omit the
+  definitions of the various algebraic notions used in this
+  definition, see \cite{Bierman:1994} for full definitions.
+\end{definition}
+\noindent
+Intuitionistic logic can now be interpreted in a linear category as a
+full subcategory of the category of $!$-coalgebras for the comonad,
+see proposition 17 of \cite{Bierman:1994}.
+
+Benton gave a more fundamental view of linear categories by defining a
+new categorical model of intuitionistic linear logic that is
+equivalent to that of linear categories, but is much more simple.
+\begin{definition}
+  \label{def:LNL-model}
+  A \textbf{linear/non-linear model (LNL model)} consists of
+  \begin{itemize}
+  \item a cartesian closed category $(\cat{C}, 1, \times,
+    \Rightarrow)$,
+  \item a SMCC $(\cat{L},I,\otimes,\limp)$, and
+  \item a pair of symmetric monoidal functors $(G,n) : \cat{L} \to
+    \cat{C}$ and $(F,m) : \cat{C} \to \cat{L}$ between them that form
+    a symmetric monoidal adjunction with $F \dashv G$.
+  \end{itemize}
+  This is the same definition given by Benton on page 12 of
+  \cite{Benton:1994}.  Due to space constraints we omit the
+  definitions of symmetric monoidal functors and adjunctions.
+\end{definition}
+A non-trivial consequence of the definition of a LNL model is that the
+$!$ modality can indeed be interpreted as a comonad.  Suppose
+$(\cat{L}, \cat{C},F,G)$ is a LNL model. Then the comonad is given by
+$(\mathop{!}, \epsilon : \mathop{!} \to \mathsf{Id}, \delta :
+\mathop{!} \to \mathop{!!})$
+where $! = FG$, $\epsilon$ is the counit of the adjunction and
+$\delta$ is the natural transformation $\delta_A = F(\eta_{G(A)})$,
+see page 15 of \cite{Benton:1994}.  We now have the following results:
+\begin{theorem}[LNL Models are Linear Categories, page 16 of \cite{Benton:1994}]
+  \label{thm:lnl_models_are_linear_categories}
+  Every LNL model is a linear category.
+\end{theorem}
+\begin{proof}
+  The proof is a matter of checking that each part of the
+  definition of a linear category can be constructed using the
+  definition of a LNL model. See lemmata 3-7 of \cite{Benton:1994}.
+\end{proof}
+
+\begin{theorem}[Linear Categories are LNL Models, page 22 of \cite{Benton:1994}]
+  \label{thm:linear_categories_are_lnl_models}
+  Every linear category is a LNL model.
+\end{theorem}
+\begin{proof}
+  Given a linear category we have a SMCC and so the difficulty of
+  proving this result is constructing the CCC and the adjunction
+  between both parts of the model.  Suppose $\cat{L}$ is a linear
+  category.  Benton constructs the CCC out of the full subcategory of
+  Eilenberg-Moore category $\cat{L}^!$ whose objects are exponentiable
+  coalgebras and is denoted $\mathsf{Exp}(\cat{L}^!)$.  He shows that
+  this subcategory is cartesian closed, and contains the (co)Kleisli
+  category, $\cat{L}_!$, Lemma~11 on page 23 of \cite{Benton:1994}.
+  As for the adjunction
+  $F : \mathsf{Exp}(\cat{L}^!) \to L : G$ can be defined using the
+  adjunct functors $F(A,h_A) = A$ and $G(A) = (!A,\delta_A)$, see
+  lemmata 13 - 16 of \cite{Benton:1994}.
+\end{proof}
+\noindent
+Finally, these two results imply that linear categories are equivalent
+to LNL models.
+
+Next we show that the category $\mathsf{DDial}_2(\mathsf{Sets})$ is a
+full version of a linear category. First, we extend the notion of a
+linear category to be equipped with the necessary categorical
+structure to model par and its unit.
+\begin{definition}
+  \label{def:linear-cat}
+  A \textbf{full linear category}, $\mathcal{C}$, consists of:
+  \begin{center}
+    \begin{itemize}
+    \item A linear category $(\mathcal{C}, \top, \otimes, \limp,e_A,d_A)$,
+    \item A symmetric monoidal category $(\mathcal{C}, \perp, \parr)$,
+    \item Distribution natural transformations $\mathsf{dist}_1 : A \otimes (B
+      \parr C) \to (A \otimes B) \parr C$ and $\mathsf{dist}_2 : (A \parr B)
+      \otimes C \to A \parr (B \otimes C)$,
+    \end{itemize}
+  \end{center}
+\end{definition}
+\noindent
+The following is our first main result of this section.
+\begin{lemma}
+  \label{lemma:ddial_is_a_linear_category}
+  The category $\mathsf{DDial_2}(\mathsf{Sets})$ is a full linear category.
+\end{lemma}
+\begin{proof}
+  We prove this by constructing each piece of a full linear category
+  using the structure of $\mathsf{DDial_2}(\mathsf{Sets})$.
+
+  First, we must construct a linear category. It is well known that
+  $\mathsf{Sets}$ is a CCC, and in fact, locally cartesian closed, and
+  so by using the results of de Paiva's thesis we can easily see that
+  $\ddial$ is symmetric monoidal closed:
+  \begin{center}
+    \begin{itemize}
+    \item (Definition 7, page 43 of \cite{dePaiva:1988}). Suppose
+      $A,B \in \obj{\ddial}$.  Then there are sets $X$, $Y$, $V$, and
+      $U$, and relations $\alpha \subseteq U \times X$ and
+      $\beta \subseteq V \times Y$, such that, $A = (U,X,\alpha)$ and
+      $B = (V,Y,\beta)$.  The tensor product of $A$ and $B$ can now be
+      defined by $A \otimes B = (U \times X, (V \Rightarrow X) \times
+      (U \Rightarrow Y),\alpha \otimes \beta)$, where $(- \Rightarrow
+      -)$ is the internal hom of $\mathsf{Sets}$.  Lastly, we define
+      $((u,v),(f,g)) \in \alpha \otimes \beta$ if and only if
+      $(u,f(v)) \in \alpha$ and $(v,g(u)) \in \beta$.  
+
+    \item (Definition 7, page 44 of \cite{dePaiva:1988}). Suppose
+      $1 \in \obj{\sets}$ is the final object, and
+      $\diamond \subseteq 1 \times 1$.  Then we can define tensors
+      unit by the object $(1,1,\diamond)$.
+
+    \item (Definition 9, page 44 of \cite{dePaiva:1988}). Suppose
+      $A,B \in \obj{\ddial}$.  Then there are sets $X$, $Y$, $V$, and
+      $U$, and relations $\alpha \subseteq U \times X$ and
+      $\beta \subseteq V \times Y$, such that, $A = (U,X,\alpha)$ and
+      $B = (V,Y,\beta)$.  Then we define the internal hom of $\ddial$
+      by $A \limp B = ((U \Rightarrow V) \times (Y \Rightarrow X),U
+      \times Y,\alpha \Rightarrow \beta)$.  We define $((f,g),(u,y))
+      \in \alpha \Rightarrow \beta$ if and only if whenever $(u,g(y))
+      \in \alpha$, then $(f(u),y) \in \beta$.  The locally cartesian 
+      closed structure of $\sets$ guarantees that for any two objects $A, B \in
+      \ddial$ the internal hom $A \limp B \in \ddial$ exists.      
+    \end{itemize}
+  \end{center}
+  Using the constructions above $\ddial$ is a SMCC by Proposition 24
+  on page 46 of \cite{dePaiva:1988}.  
+
+  Next we define the symmetric monoidal comonad
+  $(!,\epsilon,\delta,m_{A,B},m_I)$ of the linear category:
+  \begin{center}
+    \begin{itemize}
+    \item (Definition 15, on page 68 of \cite{dePaiva:1988}). The
+      endofunctor $! : \ddial \to \ddial$ is defined as follows:
+      \begin{itemize}
+      \item Objects. Suppose $A = (U,X,\alpha) \in \obj{\ddial}$.
+        Then we set $!A = (U,U \Rightarrow X, !\alpha)$, where $(u,f)
+        \in T\alpha$ if and only if $(u,f(u)) \in \alpha$. 
+
+      \item Morphisms. Suppose $A = (U,X,\alpha) \in \obj{\ddial}$,
+        $B = (V,Y,\beta) \in \obj{\ddial}$, and
+        $(f,F) : A \to B \in \mor{\ddial}$.  Then we define 
+        $!(f,F) = (f,!F) : !A \to !B$, where $!F(u,g) = \lambda
+        x.F(x,g(f(x))) : U \times (V \Rightarrow Y) \to U \Rightarrow X$.
+      \end{itemize}
+
+    \item (Proposition 39, page 68 of \cite{dePaiva:1988}). The
+      endofunctor $!$ defined above is the functor part of the comonad
+      $(!,\epsilon, \delta)$.  Suppose
+      $A = (U,X,\alpha) \in \obj{\ddial}$. Then the co-unit
+      $\epsilon : !A \to A$ is defined by $\epsilon =
+      (\mathsf{id}_U,F)$ where $F(u,x) = \lambda y.x : U \times X \to
+      U \Rightarrow X$.  Furthermore, the co-multiplication $\delta_A
+      : !A \to !!A$ is defined by $\delta_A = (\mathsf{id}_U,F')$
+      where $F'(u,f) = \lambda u'.f(u,u') : U \times (U \Rightarrow (U
+      \Rightarrow X)) \to U \Rightarrow X$.
+
+    \item The following diagrams commute:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            \bfig
+            \square[!A`!!A`!!A`!!!A;\delta_A`\delta_A`!\delta_A`\delta_{!A}]
+            \efig
+            &
+              \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,
+            &
+           \bfig
+              \Atrianglepair/=`->`=`<-`->/[!A`!A`!!A`!A;`\delta_A``\epsilon_{!A}`!\epsilon_A]
+           \efig
+          \end{array}
+        \end{math}
+      \end{center}
+      We show the left most diagram commutes first.  Suppose
+      $A = (U,X,\alpha) \in \obj{\ddial}$. Then by the definitions
+      given above we can see that $\delta_A = (\id_U,F')$, $!\delta_A = (\id_U,!F')$ and
+      $\delta_{!A} = (\id_U,F'')$ where $F'(u,f) = \lambda u'.f(u,u') : U \times (U \Rightarrow (U \Rightarrow X)) \to U \Rightarrow X$, $!F'(u,f) = \lambda
+      x.\lambda u'.g(x)(x,u')
+      : U \times (U \Rightarrow (U \Rightarrow (U \Rightarrow X))) \to U
+      \Rightarrow (U \Rightarrow X)$ and $F''(u,f) = \lambda
+      u'.f(u,u')$ with the same type as $F'$.  First, we compute $\delta_A;\delta_{!A} = (\id_U,F;F')$, where
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F';F''
+            & = & \lambda x.\lambda y.F'(x,F''(x,y))\\
+            & = & \lambda x.\lambda y.F'(x,\lambda u'.y(x,u'))\\
+            & = & \lambda x.\lambda y.\lambda u''.(\lambda u'.y(x,u'))(x,u'')\\
+            & = & \lambda x.\lambda y.\lambda u''.y(x,x,u'')\\
+          \end{array}
+        \end{math}
+      \end{center}
+      and now we compute $\delta_A;!\delta_A = (\id_U,F';!F')$, where 
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F';!F' 
+            & = & \lambda x.\lambda y.F'(x,!F'(x,y))\\
+            & = & \lambda x.\lambda y.F'(x,\lambda x'.\lambda u'.y(x')(x',u'))\\
+            & = & \lambda x.\lambda y.\lambda u''.(\lambda x'.\lambda u'.y(x')(x',u'))(x,u'')\\
+            & = & \lambda x.\lambda y.\lambda u''.y(x)(x,u'')\\
+            & = & \lambda x.\lambda y.\lambda u''.y(x,x,u'')\\
+          \end{array}
+        \end{math}
+      \end{center}
+      
+      Now we prove that the second diagram commutes, but we break it into two.
+      First, recall that $\epsilon_A = (\id_U,F)$ and $!\epsilon_A = (\id_U,!F)$ where 
+      $F(u,x) = \lambda y.x$ and $!F(u,g) = \lambda x.\lambda y.g(x)$.  Then we can 
+      define $\delta_A;!\epsilon_A = (\id_U,F';!F)$ where
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F';!F 
+            & = & \lambda x.\lambda y.F'(x,!F(x,y))\\
+            & = & \lambda x.\lambda y.\lambda u'.!F(x,y)(x,u')\\
+            & = & \lambda x.\lambda y.\lambda u'.(\lambda x'.\lambda y'.y(x'))(x,u')\\
+            & = & \lambda x.\lambda y.\lambda u'.y(x)\\
+          \end{array}
+        \end{math}
+      \end{center}
+      and we can define $\delta_A;\epsilon_{!A} = (\id_U,F';F)$ where
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F';F 
+            & = & \lambda x.\lambda y.F'(x,F(x,y))\\
+            & = & \lambda x.\lambda y.F'(x,\lambda y'.y)\\
+            & = & \lambda x.\lambda y.\lambda u'.(\lambda y'.y)(x,u')\\
+            & = & \lambda x.\lambda y.\lambda u'.y\\
+          \end{array}
+        \end{math}
+      \end{center}
+      Note that both of the above morphisms should end up being equivalent to $\pi_2$, but they clearly are not.
+      \todo{Here is the problem.}      
+    \end{itemize}
+  \end{center}
+\end{proof}
+
+% section full_linear_categories (end)
+
 
 
 \section{Conclusion and Future Work}
