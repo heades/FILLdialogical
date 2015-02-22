@@ -25,7 +25,7 @@
 % Cat commands.
 \newcommand{\cat}[1]{\mathcal{#1}}
 \newcommand{\limp}[0]{\multimap}
-\newcommand{\ddial}[0]{\mathsf{DDial_2}(\mathsf{Sets})}
+\newcommand{\dial}[0]{\mathsf{Dial_2}(\mathsf{Sets})}
 \newcommand{\sets}[0]{\mathsf{Sets}}
 \newcommand{\obj}[1]{\mathsf{Obj}(#1)}
 \newcommand{\mor}[1]{\mathsf{Mor(#1)}}
@@ -2511,27 +2511,32 @@ intuitionistic linear logic.
 
 de Paiva gave one of the first categorical models of both classical
 and intuitionistic linear logic in her thesis \cite{dePaiva:1988}. She
-showed that a particular dialectica category called
-$\mathsf{DDial}_2(\mathsf{Sets})$ is a model of FILL where $!$ is
-interpreted as a cofree comonad, see page 30 of \cite{dePaiva:1988}.
+showed that a particular dialectica category called $\dial$ is a model
+of FILL where $!$ is interpreted as a cofree comonad, see page 76 of
+\cite{dePaiva:1988}.
 \begin{definition}
   \label{def:dial2sets}
-  The category $\mathsf{DDial}_2(Sets)$ consists of 
+  The category $\dial$ consists of 
   \begin{itemize}
   \item objects that are triples, $A = (U,X,\alpha)$, where $U$ and
     $X$ are sets, and $\alpha \subseteq U \times X$ is a relation, and
   \item maps that are pairs $(f,F) : (U,X,\alpha) \to (V,Y,\beta)$
-    where $f : U \to V$ and $F : U \times Y \to X$ such that
+    where $f : U \to V$ and $F : Y \to X$ such that
     \begin{itemize}
-    \item For any $u \in U$ and $y \in Y$, $\alpha(u,F(u,y))$ implies $\beta(f(u),y)$.
+    \item For any $u \in U$ and $y \in Y$, $\alpha(u,F(y))$ implies $\beta(f(u),y)$.
     \end{itemize}
   \end{itemize}
+  Suppose $A = (U,X,\alpha)$, $B = (V,Y,\beta)$, and
+  $C = (W,Z,\gamma)$.  Then identities are given by
+  $(\id_U,\pi_2) : A \to A$.  The composition of the maps
+  $(f,F) : A \to B$ and $(g, G) : B \to C$ is defined as
+  $(f;g,G;F) : A \to C$.
 \end{definition}
 In her thesis de Paiva defines a particular class of dialectica
 categories called $GC$ over a base category $C$, see page 41 of
-\cite{dePaiva:1988}.  The category $\mathsf{DDial}_2(\mathsf{Sets})$
+\cite{dePaiva:1988}.  The category $\dial$
 defined above can be seen as an instantiation of $GC$ by setting $C$
-to be the category $\mathsf{Sets}$ of sets and functions between them.
+to be the category $\sets$ of sets and functions between them.
 
 Later, Seely gave a different categorial model that also confirmed
 that the of-course exponential should be modeled by a comonad
@@ -2571,9 +2576,8 @@ Intuitionistic logic can now be interpreted in a linear category as a
 full subcategory of the category of $!$-coalgebras for the comonad,
 see proposition 17 of \cite{Bierman:1994}.
 
-Benton gave a more fundamental view of linear categories by defining a
-new categorical model of intuitionistic linear logic that is
-equivalent to that of linear categories, but is much more simple.
+Benton gave a more fundamental view of linear categories called LNL
+models.
 \begin{definition}
   \label{def:LNL-model}
   A \textbf{linear/non-linear model (LNL model)} consists of
@@ -2596,23 +2600,21 @@ $(\mathop{!}, \epsilon : \mathop{!} \to \mathsf{Id}, \delta :
 \mathop{!} \to \mathop{!!})$
 where $! = FG$, $\epsilon$ is the counit of the adjunction and
 $\delta$ is the natural transformation $\delta_A = F(\eta_{G(A)})$,
-see page 15 of \cite{Benton:1994}.  We now have the following results:
+see page 15 of \cite{Benton:1994}.  We now have the following result:
 \begin{theorem}[LNL Models are Linear Categories, page 16 of \cite{Benton:1994}]
   \label{thm:lnl_models_are_linear_categories}
-  Every LNL model is a linear category.
+  \begin{itemize}
+  \item[]
+  \item[i.] Every LNL model is a linear category.
+  \item[ii.] Every linear category is a LNL model.
+  \end{itemize}
 \end{theorem}
 \begin{proof}
-  The proof is a matter of checking that each part of the
+  The proof of part i. is a matter of checking that each part of the
   definition of a linear category can be constructed using the
   definition of a LNL model. See lemmata 3-7 of \cite{Benton:1994}.
-\end{proof}
 
-\begin{theorem}[Linear Categories are LNL Models, page 22 of \cite{Benton:1994}]
-  \label{thm:linear_categories_are_lnl_models}
-  Every linear category is a LNL model.
-\end{theorem}
-\begin{proof}
-  Given a linear category we have a SMCC and so the difficulty of
+  As for the proof of part ii. Given a linear category we have a SMCC and so the difficulty of
   proving this result is constructing the CCC and the adjunction
   between both parts of the model.  Suppose $\cat{L}$ is a linear
   category.  Benton constructs the CCC out of the full subcategory of
@@ -2625,14 +2627,11 @@ see page 15 of \cite{Benton:1994}.  We now have the following results:
   adjunct functors $F(A,h_A) = A$ and $G(A) = (!A,\delta_A)$, see
   lemmata 13 - 16 of \cite{Benton:1994}.
 \end{proof}
-\noindent
-Finally, these two results imply that linear categories are equivalent
-to LNL models.
 
-Next we show that the category $\mathsf{DDial}_2(\mathsf{Sets})$ is a
-full version of a linear category. First, we extend the notion of a
-linear category to be equipped with the necessary categorical
-structure to model par and its unit.
+Next we show that the category $\dial$ is a full version of a linear
+category. First, we extend the notion of a linear category to be
+equipped with the necessary categorical structure to model par and its
+unit.
 \begin{definition}
   \label{def:linear-cat}
   A \textbf{full linear category}, $\mathcal{C}$, consists of:
@@ -2650,20 +2649,20 @@ structure to model par and its unit.
 The following is our first main result of this section.
 \begin{lemma}
   \label{lemma:ddial_is_a_linear_category}
-  The category $\mathsf{DDial_2}(\mathsf{Sets})$ is a full linear category.
+  The category $\dial$ is a full linear category.
 \end{lemma}
 \begin{proof}
   We prove this by constructing each piece of a full linear category
-  using the structure of $\mathsf{DDial_2}(\mathsf{Sets})$.
+  using the structure of $\dial$.
 
   First, we must construct a linear category. It is well known that
   $\mathsf{Sets}$ is a CCC, and in fact, locally cartesian closed, and
   so by using the results of de Paiva's thesis we can easily see that
-  $\ddial$ is symmetric monoidal closed:
+  $\dial$ is symmetric monoidal closed:
   \begin{center}
     \begin{itemize}
     \item (Definition 7, page 43 of \cite{dePaiva:1988}). Suppose
-      $A,B \in \obj{\ddial}$.  Then there are sets $X$, $Y$, $V$, and
+      $A,B \in \obj{\dial}$.  Then there are sets $X$, $Y$, $V$, and
       $U$, and relations $\alpha \subseteq U \times X$ and
       $\beta \subseteq V \times Y$, such that, $A = (U,X,\alpha)$ and
       $B = (V,Y,\beta)$.  The tensor product of $A$ and $B$ can now be
@@ -2679,49 +2678,50 @@ The following is our first main result of this section.
       unit by the object $(1,1,\diamond)$.
 
     \item (Definition 9, page 44 of \cite{dePaiva:1988}). Suppose
-      $A,B \in \obj{\ddial}$.  Then there are sets $X$, $Y$, $V$, and
+      $A,B \in \obj{\dial}$.  Then there are sets $X$, $Y$, $V$, and
       $U$, and relations $\alpha \subseteq U \times X$ and
       $\beta \subseteq V \times Y$, such that, $A = (U,X,\alpha)$ and
-      $B = (V,Y,\beta)$.  Then we define the internal hom of $\ddial$
+      $B = (V,Y,\beta)$.  Then we define the internal hom of $\dial$
       by $A \limp B = ((U \Rightarrow V) \times (Y \Rightarrow X),U
       \times Y,\alpha \Rightarrow \beta)$.  We define $((f,g),(u,y))
       \in \alpha \Rightarrow \beta$ if and only if whenever $(u,g(y))
       \in \alpha$, then $(f(u),y) \in \beta$.  The locally cartesian 
       closed structure of $\sets$ guarantees that for any two objects $A, B \in
-      \ddial$ the internal hom $A \limp B \in \ddial$ exists.      
+      \dial$ the internal hom $A \limp B \in \dial$ exists.      
     \end{itemize}
   \end{center}
-  Using the constructions above $\ddial$ is a SMCC by Proposition 24
+  Using the constructions above $\dial$ is a SMCC by Proposition 24
   on page 46 of \cite{dePaiva:1988}.  
 
   Next we define the symmetric monoidal comonad
   $(!,\epsilon,\delta,m_{A,B},m_I)$ of the linear category:
   \begin{center}
     \begin{itemize}
-    \item (Definition 15, on page 68 of \cite{dePaiva:1988}). The
-      endofunctor $! : \ddial \to \ddial$ is defined as follows:
+    \item (Section 4.5, on page 76 of \cite{dePaiva:1988}). The
+      endofunctor $! : \dial \to \dial$ is defined as follows:
       \begin{itemize}
-      \item Objects. Suppose $A = (U,X,\alpha) \in \obj{\ddial}$.
-        Then we set $!A = (U,U \Rightarrow X, !\alpha)$, where $(u,f)
-        \in T\alpha$ if and only if $(u,f(u)) \in \alpha$. 
+      \item Objects. Suppose $A = (U,X,\alpha) \in \obj{\dial}$.
+        Then we set $!A = (U,U \Rightarrow X^*, !\alpha)$, where $(u,f)
+        \in !\alpha$ if and only if $(u,f(u)) \in \alpha$. 
 
-      \item Morphisms. Suppose $A = (U,X,\alpha) \in \obj{\ddial}$,
-        $B = (V,Y,\beta) \in \obj{\ddial}$, and
-        $(f,F) : A \to B \in \mor{\ddial}$.  Then we define 
-        $!(f,F) = (f,!F) : !A \to !B$, where $!F(u,g) = \lambda
-        x.F(x,g(f(x))) : U \times (V \Rightarrow Y) \to U \Rightarrow X$.
+      \item Morphisms. Suppose $A = (U,X,\alpha) \in \obj{\dial}$,
+        $B = (V,Y,\beta) \in \obj{\dial}$, and
+        $(f,F) : A \to B \in \mor{\dial}$.  Then we define 
+        $!(f,F) = (f,!F) : !A \to !B$, where $!F(g) = \lambda
+        x.F^*(g(f(x))) : V \Rightarrow Y^* \to U \Rightarrow X^*$.
       \end{itemize}
 
-    \item (Proposition 39, page 68 of \cite{dePaiva:1988}). The
+    \item (Section 4.5, page 77 of \cite{dePaiva:1988}). The
       endofunctor $!$ defined above is the functor part of the comonad
       $(!,\epsilon, \delta)$.  Suppose
-      $A = (U,X,\alpha) \in \obj{\ddial}$. Then the co-unit
+      $A = (U,X,\alpha) \in \obj{\dial}$. Then the co-unit
       $\epsilon : !A \to A$ is defined by $\epsilon =
-      (\mathsf{id}_U,F)$ where $F(u,x) = \lambda y.x : U \times X \to
-      U \Rightarrow X$.  Furthermore, the co-multiplication $\delta_A
-      : !A \to !!A$ is defined by $\delta_A = (\mathsf{id}_U,F')$
-      where $F'(u,f) = \lambda u'.f(u,u') : U \times (U \Rightarrow (U
-      \Rightarrow X)) \to U \Rightarrow X$.
+      (\mathsf{id}_U,F_0)$ where $F_0(x) = \lambda y.(x) : X \to U
+      \Rightarrow X^*$.  
+      Furthermore, the co-multiplication $\delta_A
+      : !A \to !!A$ is defined by $\delta_A = (\mathsf{id}_U,F_1)$
+      where $F_1(g) = \lambda u.(f_1(u) \circ \cdots \circ f_i(u)) : U \Rightarrow (U
+      \Rightarrow X^*)^* \to U \Rightarrow X^*$ where $g(u) = (f_1,\ldots,f_i)$.
 
     \item The following diagrams commute:
       \begin{center}
@@ -2739,68 +2739,74 @@ The following is our first main result of this section.
           \end{array}
         \end{math}
       \end{center}
-      We show the left most diagram commutes first.  Suppose
-      $A = (U,X,\alpha) \in \obj{\ddial}$. Then by the definitions
-      given above we can see that $\delta_A = (\id_U,F')$, $!\delta_A = (\id_U,!F')$ and
-      $\delta_{!A} = (\id_U,F'')$ where $F'(u,f) = \lambda u'.f(u,u') : U \times (U \Rightarrow (U \Rightarrow X)) \to U \Rightarrow X$, $!F'(u,f) = \lambda
-      x.\lambda u'.g(x)(x,u')
-      : U \times (U \Rightarrow (U \Rightarrow (U \Rightarrow X))) \to U
-      \Rightarrow (U \Rightarrow X)$ and $F''(u,f) = \lambda
-      u'.f(u,u')$ with the same type as $F'$.  First, we compute $\delta_A;\delta_{!A} = (\id_U,F;F')$, where
+      We show the left most diagram commutes first.  It suffices to
+      show that
+      $\delta_a;!\delta_A = (\id_U,!F_1;F_1) = (\id_U,F_1;F_1)$.  
+      Suppose $g \in U \Rightarrow (U \Rightarrow X^*)^*$.  Then 
+      \vspace{-15px}
       \begin{center}
+        \small
         \begin{math}
           \begin{array}{lll}
-            F';F''
-            & = & \lambda x.\lambda y.F'(x,F''(x,y))\\
-            & = & \lambda x.\lambda y.F'(x,\lambda u'.y(x,u'))\\
-            & = & \lambda x.\lambda y.\lambda u''.(\lambda u'.y(x,u'))(x,u'')\\
-            & = & \lambda x.\lambda y.\lambda u''.y(x,x,u'')\\
+            F_1(F_1(g)) \\
+            \,\,= F_1(\lambda u.g(u)_1(u) \circ \cdots \circ g(u)_i(u))\\
+            \,\,= \lambda u.g(u)_1(u)_1(u) \circ \cdots \circ g(u)_1(u)_j(u) \circ \cdots \circ g(u)_i(u)_1(u) \circ \cdots \circ g(u)_i(u)_k(u)\\
           \end{array}
         \end{math}
       \end{center}
-      and now we compute $\delta_A;!\delta_A = (\id_U,F';!F')$, where 
+      Consider the other direction in the diagram.  
       \begin{center}
         \begin{math}
           \begin{array}{lll}
-            F';!F' 
-            & = & \lambda x.\lambda y.F'(x,!F'(x,y))\\
-            & = & \lambda x.\lambda y.F'(x,\lambda x'.\lambda u'.y(x')(x',u'))\\
-            & = & \lambda x.\lambda y.\lambda u''.(\lambda x'.\lambda u'.y(x')(x',u'))(x,u'')\\
-            & = & \lambda x.\lambda y.\lambda u''.y(x)(x,u'')\\
-            & = & \lambda x.\lambda y.\lambda u''.y(x,x,u'')\\
+            F_1(!F_1(g)) 
+            & = & F_1(\lambda x.F^*_1(g(x))\\
+            & = & \lambda u.F_1(g(u)_1)(u) \circ \cdots \circ F_1(g(u)_i)(u)\\            
           \end{array}
         \end{math}
       \end{center}
-      
-      Now we prove that the second diagram commutes, but we break it into two.
-      First, recall that $\epsilon_A = (\id_U,F)$ and $!\epsilon_A = (\id_U,!F)$ where 
-      $F(u,x) = \lambda y.x$ and $!F(u,g) = \lambda x.\lambda y.g(x)$.  Then we can 
-      define $\delta_A;!\epsilon_A = (\id_U,F';!F)$ where
+      Note that we have the following:
       \begin{center}
         \begin{math}
           \begin{array}{lll}
-            F';!F 
-            & = & \lambda x.\lambda y.F'(x,!F(x,y))\\
-            & = & \lambda x.\lambda y.\lambda u'.!F(x,y)(x,u')\\
-            & = & \lambda x.\lambda y.\lambda u'.(\lambda x'.\lambda y'.y(x'))(x,u')\\
-            & = & \lambda x.\lambda y.\lambda u'.y(x)\\
+            F_1(g(u)_1)(u) & = & g(u)_1(u)_1(u) \circ \cdots \circ g(u)_1(u)_k(u)\\
+            & \vdots & \\
+            F_1(g(u)_i)(u) & = & g(u)_i(u)_1(u) \circ \cdots \circ g(u)_i(u)_k(u)\\
           \end{array}
         \end{math}
       \end{center}
-      and we can define $\delta_A;\epsilon_{!A} = (\id_U,F';F)$ where
+      Clearly, the above reasoning implies that $F_1;F_1 = !F_1;F_1$.
+
+      Now we prove that the second diagram commutes, but we break it
+      into two.  
+      We define $\delta_A;!\epsilon_A = (\id_U,!F_0;F_1)$ where for
+      any $g \in U \Rightarrow X^*$,
       \begin{center}
         \begin{math}
           \begin{array}{lll}
-            F';F 
-            & = & \lambda x.\lambda y.F'(x,F(x,y))\\
-            & = & \lambda x.\lambda y.F'(x,\lambda y'.y)\\
-            & = & \lambda x.\lambda y.\lambda u'.(\lambda y'.y)(x,u')\\
-            & = & \lambda x.\lambda y.\lambda u'.y\\
+            (!F_0;F_1)(g) 
+            & = & F_1(!F_0(g))\\
+            & = & F_1(\lambda u'.F_0^*(g(u')))\\
+            & = & F_1(\lambda u'.(\lambda y.(g(u')_1),\ldots,(\lambda y.g(u')_i)))\\
+            & = & \lambda u.(g(u)_1) \circ \cdots \circ (g(u)_i)\\
+            & = & g\\
           \end{array}
         \end{math}
       \end{center}
-      Note that both of the above morphisms should end up being equivalent to $\pi_2$, but they clearly are not.
-      \todo{Here is the problem.}      
+      and we can define $\delta_A;\epsilon_{!A} = (\id_U,F_0;F_1)$ where for
+      any $g \in U \Rightarrow X^*$,
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            (F_0;F_1)(g) 
+            & = & F_1(F_0(g))\\
+            & = & F_1(\lambda y.(g))\\
+            & = & \lambda u.g(u)\\
+            & = & g\\
+          \end{array}
+        \end{math}
+      \end{center}
+      We can see by the reasoning above that
+      $!F_0;F_1 = F_0;F_1 = \id_{U \Rightarrow X^*}$.
     \end{itemize}
   \end{center}
 \end{proof}
