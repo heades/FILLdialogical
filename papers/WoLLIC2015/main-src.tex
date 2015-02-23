@@ -2667,11 +2667,28 @@ The following is our first main result of this section.
       $U$, and relations $\alpha \subseteq U \times X$ and
       $\beta \subseteq V \times Y$, such that, $A = (U,X,\alpha)$ and
       $B = (V,Y,\beta)$.  The tensor product of $A$ and $B$ can now be
-      defined by $A \otimes B = (U \times X, (V \Rightarrow X) \times
+      defined by $A \otimes B = (U \times V, (V \Rightarrow X) \times
       (U \Rightarrow Y),\alpha \otimes \beta)$, where $(- \Rightarrow
-      -)$ is the internal hom of $\mathsf{Sets}$.  Lastly, we define
+      -)$ is the internal hom of $\mathsf{Sets}$.  We define
       $((u,v),(f,g)) \in \alpha \otimes \beta$ if and only if
       $(u,f(v)) \in \alpha$ and $(v,g(u)) \in \beta$.  
+
+      Suppose $A = (U,X,\alpha)$, $B = (V,Y,\beta)$,
+      $C = (W,Z,\gamma)$, and $D = (S,T,\delta)$ objects of $\dial$,
+      and $m_1 = (f, F) : A \to C$ and $m_2 = (g,G) : B \to D$ are
+      maps of $\dial$.  Then the map $m_1 \otimes m_2 : A \otimes B
+      \to C \otimes D$ is defined by $(f \times g, F \otimes G)$ where
+      $f \times g$ is the ordinary cartesian product functor in
+      $\sets$, and we define $F \otimes G$ as follows:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F \otimes G : (S \Rightarrow Z) \times (W \Rightarrow T) \to (V \Rightarrow X) \times (U \Rightarrow Y)\\
+            (F \otimes G)(h_1,h_2) = (\lambda v.F(h_1(g(v))),\lambda u.G(h_2(f(u)))
+          \end{array}
+        \end{math}
+      \end{center}
+      
 
     \item (Definition 7, page 44 of \cite{dePaiva:1988}). Suppose
       $1 \in \obj{\sets}$ is the final object, and
@@ -2867,6 +2884,16 @@ The following is our first main result of this section.
       $((u,v),F(g)) \in !\alpha \otimes !\beta$ implies
       $((u,v),g) \in !(\alpha \otimes \beta)$.  Thus, $m_{A,B}$ is a map in $\dial$.
       
+      At this point we show that the following diagrams commute:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            \bfig
+            \square[!\top \otimes !A`!(\top \otimes A)`\top \otimes !A`!A;m_{\top,A}``!\delta_A`\delta_{!A}]
+            \efig
+          \end{array}
+        \end{math}
+      \end{center}
       
 
     \item The monoidal natural transformation $m_{\top} : \top \to !\top$
