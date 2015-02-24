@@ -2973,7 +2973,60 @@ The following is our first main result of this section.
           \end{mathpar}          
       \end{center}
       We first prove that diagram A commutes, and then diagrams B will
-      commute using similar reasoning.
+      commute using similar reasoning.  It suffices to show that
+      \[(m_\top \otimes id_{!A});m_{\top,A};!\lambda_A = 
+      (\hat{\lambda}_U,\lambda g.F_\otimes(F_2(F_{!\lambda_A}(g)))) = (\hat{\lambda}_U,\lambda g.(\diamond,\lambda t.\lambda u.g(u))).\]
+      Suppose
+      $g \in U \Rightarrow X^*$, $(\star,u) \in 1 \times U$, and
+      $g(u) = (x_1,\ldots,x_i)$. Then 
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F_{!\lambda_A}(g)(\star,u) 
+            & = & (\lambda x'.(\diamond,\lambda y.x'))^*(g(\hat{\lambda}_U(\star,u)))\\
+            & = & (\lambda x'.(\diamond,\lambda y.x'))^*(g(u))\\
+            & = & (\lambda x'.(\diamond,\lambda y.x'))^*(x_1,\ldots,x_i)\\
+            & = & ((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i))\\
+          \end{array}
+        \end{math}
+      \end{center}
+      This implies that 
+      \[ F_{!\lambda_A}(g) = \lambda (\star,u).\mathsf{let}\,(x_1,\ldots,x_i) = g(u)\,\mathsf{in}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)).\]
+      Using this reasoning we can see the following:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F_2(F_{!\lambda_A}(g))
+            & = & (\lambda u.\lambda t.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_{!\lambda_A}(g)(t,u)\,\mathsf{in}\,\\
+                  & & (\diamond(u),\ldots,\diamond(u)),\\            
+            & & \lambda t.\lambda u.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_{!\lambda_A}(g)(t,u)
+                \,\mathsf{in}\, \\
+            & & ((\lambda y.x_1)(t),\ldots,(\lambda y.x_1)(t)))\\
+            & = & (\lambda u.\lambda t.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_{!\lambda_A}(g)(t,u)\,\mathsf{in}\,\\
+            & & (\star,\ldots,\star),\\            
+            & & \lambda t.\lambda u.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_{!\lambda_A}(g)(t,u)
+                \,\mathsf{in}\, \\
+            & & (x_1,\ldots,x_1))\\
+            & = & (\lambda u.\lambda t.(\star,\ldots,\star),\\            
+            & & \lambda t.\lambda u.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_{!\lambda_A}(g)(t,u)
+                \,\mathsf{in}\, \\
+            & & (x_1,\ldots,x_1))\\
+            & = & (\lambda u.\lambda t.(\star,\ldots,\star), \lambda t.\lambda u.g(u))
+          \end{array}
+        \end{math}
+      \end{center}
+      Finally, the previous allows us to infer the following:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F_\otimes(F_2(F_{!\lambda_A}(g)))
+            & = & (\diamond, \lambda t.\lambda u.g(u))\\
+          \end{array}
+        \end{math}
+      \end{center}
+      Thus, we obtained our desired result.
+
+      
     \end{itemize}    
   \end{center}
   
