@@ -2677,14 +2677,14 @@ The following is our first main result of this section.
       $C = (W,Z,\gamma)$, and $D = (S,T,\delta)$ objects of $\dial$,
       and $m_1 = (f, F) : A \to C$ and $m_2 = (g,G) : B \to D$ are
       maps of $\dial$.  Then the map $m_1 \otimes m_2 : A \otimes B
-      \to C \otimes D$ is defined by $(f \times g, F \otimes G)$ where
+      \to C \otimes D$ is defined by $(f \times g, F_\otimes)$ where
       $f \times g$ is the ordinary cartesian product functor in
       $\sets$, and we define $F \otimes G$ as follows:
       \begin{center}
         \begin{math}
           \begin{array}{lll}
-            F \otimes G : (S \Rightarrow Z) \times (W \Rightarrow T) \to (V \Rightarrow X) \times (U \Rightarrow Y)\\
-            (F \otimes G)(h_1,h_2) = (\lambda v.F(h_1(g(v))),\lambda u.G(h_2(f(u))))
+            F_\otimes : (S \Rightarrow Z) \times (W \Rightarrow T) \to (V \Rightarrow X) \times (U \Rightarrow Y)\\
+            F_\otimes(h_1,h_2) = (\lambda v.F(h_1(g(v))),\lambda u.G(h_2(f(u))))
           \end{array}
         \end{math}
       \end{center}
@@ -2975,14 +2975,14 @@ The following is our first main result of this section.
       We first prove that diagram A commutes, and then diagrams B will
       commute using similar reasoning.  It suffices to show that
       \[(m_\top \otimes id_{!A});m_{\top,A};!\lambda_A = 
-      (\hat{\lambda}_U,\lambda g.F_\otimes(F_2(F_{!\lambda_A}(g)))) = (\hat{\lambda}_U,\lambda g.(\diamond,\lambda t.\lambda u.g(u))).\]
+      (\hat{\lambda}_U,\lambda g.F_\otimes(F_2(F_\lambda(g)))) = (\hat{\lambda}_U,\lambda g.(\diamond,\lambda t.\lambda u.g(u))).\]
       Suppose
       $g \in U \Rightarrow X^*$, $(\star,u) \in 1 \times U$, and
       $g(u) = (x_1,\ldots,x_i)$. Then 
       \begin{center}
         \begin{math}
           \begin{array}{lll}
-            F_{!\lambda_A}(g)(\star,u) 
+            F_\lambda(g)(\star,u) 
             & = & (\lambda x'.(\diamond,\lambda y.x'))^*(g(\hat{\lambda}_U(\star,u)))\\
             & = & (\lambda x'.(\diamond,\lambda y.x'))^*(g(u))\\
             & = & (\lambda x'.(\diamond,\lambda y.x'))^*(x_1,\ldots,x_i)\\
@@ -2991,24 +2991,24 @@ The following is our first main result of this section.
         \end{math}
       \end{center}
       This implies that 
-      \[ F_{!\lambda_A}(g) = \lambda (\star,u).\mathsf{let}\,(x_1,\ldots,x_i) = g(u)\,\mathsf{in}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)).\]
+      \[ F_\lambda(g) = \lambda (\star,u).\mathsf{let}\,(x_1,\ldots,x_i) = g(u)\,\mathsf{in}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)).\]
       Using this reasoning we can see the following:
       \begin{center}
         \begin{math}
           \begin{array}{lll}
-            F_2(F_{!\lambda_A}(g))
-            & = & (\lambda u.\lambda t.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_{!\lambda_A}(g)(t,u)\,\mathsf{in}\,\\
+            F_2(F_\lambda(g))
+            & = & (\lambda u.\lambda t.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_\lambda(g)(t,u)\,\mathsf{in}\,\\
                   & & (\diamond(u),\ldots,\diamond(u)),\\            
-            & & \lambda t.\lambda u.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_{!\lambda_A}(g)(t,u)
+            & & \lambda t.\lambda u.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_\lambda(g)(t,u)
                 \,\mathsf{in}\, \\
             & & ((\lambda y.x_1)(t),\ldots,(\lambda y.x_1)(t)))\\
-            & = & (\lambda u.\lambda t.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_{!\lambda_A}(g)(t,u)\,\mathsf{in}\,\\
+            & = & (\lambda u.\lambda t.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_\lambda(g)(t,u)\,\mathsf{in}\,\\
             & & (\star,\ldots,\star),\\            
-            & & \lambda t.\lambda u.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_{!\lambda_A}(g)(t,u)
+            & & \lambda t.\lambda u.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_\lambda(g)(t,u)
                 \,\mathsf{in}\, \\
             & & (x_1,\ldots,x_1))\\
             & = & (\lambda u.\lambda t.(\star,\ldots,\star),\\            
-            & & \lambda t.\lambda u.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_{!\lambda_A}(g)(t,u)
+            & & \lambda t.\lambda u.\mathsf{let}\,((\diamond,\lambda y.x_1),\ldots,(\diamond,\lambda y.x_i)) = F_\lambda(g)(t,u)
                 \,\mathsf{in}\, \\
             & & (x_1,\ldots,x_1))\\
             & = & (\lambda u.\lambda t.(\star,\ldots,\star), \lambda t.\lambda u.g(u))
@@ -3019,7 +3019,7 @@ The following is our first main result of this section.
       \begin{center}
         \begin{math}
           \begin{array}{lll}
-            F_\otimes(F_2(F_{!\lambda_A}(g)))
+            F_\otimes(F_2(F_\lambda(g)))
             & = & (\diamond, \lambda t.\lambda u.g(u))\\
           \end{array}
         \end{math}
