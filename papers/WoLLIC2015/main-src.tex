@@ -2688,12 +2688,37 @@ The following is our first main result of this section.
           \end{array}
         \end{math}
       \end{center}
-      
+      It is straightforward to confirm the relation condition on maps
+      for $m_1 \otimes m_2$.
 
     \item (Definition 7, page 44 of \cite{dePaiva:1988}). Suppose
       $1 \in \obj{\sets}$ is the final object, and
-      $\diamond \subseteq 1 \times 1$.  Then we can define tensors
-      unit by the object $\top = (1,1,\diamond)$.
+      $\id_1 \subseteq 1 \times 1$.  Then we can define tensors
+      unit by the object $\top = (1,1,\id_1)$.
+
+    \item Suppose $A = (U,X,\alpha)$ is an object of $\dial$.  Then
+      the map $\lambda_A : \top \otimes A \to A$ is defined by
+      $(\hat{\lambda}_U,F_\lambda)$ where
+      $\hat{\lambda}_U$ is the left unitor for the cartesian product in $\sets$,
+      $F_\lambda(x) = (\lambda y.x,\diamond) : X \to (1 \Rightarrow X)
+      \times (U \Rightarrow 1)$, and $\diamond$ is the terminal arrow in $\sets$.
+      It is easy to see that both
+      $\hat{\lambda}_U$ and $F_\lambda$ have
+      inverses, and thus, $\lambda_A$ has an inverse. It is straightforward to confirm the relation condition on maps
+      for $\lambda_A$ and its inverse.
+
+    \item Suppose $A = (U,X,\alpha)$ is an object of $\dial$.  Then
+      the map $\rho_A : A \otimes \top \to A$ is defined similarly to
+      $\lambda_A$ given above.
+
+    \item Suppose $A = (U,X,\alpha) \in \obj{\dial}$ and
+      $B = (V,Y,\beta) \in \obj{\dial}$.  Then we define the map
+      $\beta_{A,B} : A \otimes B \to B \otimes A$ by
+      $(\hat{\beta}_{U,V}, \hat{\beta}_{V \Rightarrow X,U \Rightarrow
+        Y})$
+      where $\hat{\beta}$ is the symmetry of the cartesian product in
+      $\sets$.  Again, it is straightforward to see that $\beta$ has
+      an inverse, and the relation condition on maps is satisfied.
 
     \item (Definition 9, page 44 of \cite{dePaiva:1988}). Suppose
       $A,B \in \obj{\dial}$.  Then there are sets $X$, $Y$, $V$, and
