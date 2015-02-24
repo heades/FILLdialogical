@@ -2684,7 +2684,7 @@ The following is our first main result of this section.
         \begin{math}
           \begin{array}{lll}
             F \otimes G : (S \Rightarrow Z) \times (W \Rightarrow T) \to (V \Rightarrow X) \times (U \Rightarrow Y)\\
-            (F \otimes G)(h_1,h_2) = (\lambda v.F(h_1(g(v))),\lambda u.G(h_2(f(u)))
+            (F \otimes G)(h_1,h_2) = (\lambda v.F(h_1(g(v))),\lambda u.G(h_2(f(u))))
           \end{array}
         \end{math}
       \end{center}
@@ -2719,6 +2719,27 @@ The following is our first main result of this section.
       where $\hat{\beta}$ is the symmetry of the cartesian product in
       $\sets$.  Again, it is straightforward to see that $\beta$ has
       an inverse, and the relation condition on maps is satisfied.
+
+    \item Suppose $A = (U,X,\alpha) \in \obj{\dial}$,
+      $B = (V,Y,\beta) \in \obj{\dial}$, and
+      $C = (W,Z,\gamma) \in \obj{\dial}$.  Then we define
+      $\alpha_{A,B,C} : A \otimes (B \otimes C) \to (A \otimes B)
+      \otimes C$
+      by $(\hat{\alpha}_{U,V,W}, F_\alpha)$ where
+      $\hat{\alpha}_{U,V,W}$ is the associator for the cartesian
+      product in $\sets$ and $F_\alpha$ is defined as follows:
+      \begin{center}
+        \scriptsize
+        \begin{math}
+          \begin{array}{lll}
+            F_\alpha : (W \Rightarrow ((V \Rightarrow X) \times (U \Rightarrow Y))) \times ((U \times V) \Rightarrow Z) \to 
+            ((V \times W) \Rightarrow X) \times (U \Rightarrow ((W \Rightarrow Y) \times (V \Rightarrow Z)))\\
+            F_\alpha(h_1,h_2) = (\lambda (v,w).h_1(w)_1(v),\lambda u.(\lambda w.h_1(w)_2(u),\lambda v.h_2(u,v)))
+          \end{array}
+        \end{math}
+      \end{center}
+      The inverse of $\alpha_{A,B,C}$ is similarly, and it is
+      straightforward to confirm the relation condition on maps.
 
     \item (Definition 9, page 44 of \cite{dePaiva:1988}). Suppose
       $A,B \in \obj{\dial}$.  Then there are sets $X$, $Y$, $V$, and
