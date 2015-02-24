@@ -2700,8 +2700,8 @@ The following is our first main result of this section.
       the map $\lambda_A : \top \otimes A \to A$ is defined by
       $(\hat{\lambda}_U,F_\lambda)$ where
       $\hat{\lambda}_U$ is the left unitor for the cartesian product in $\sets$,
-      $F_\lambda(x) = (\lambda y.x,\diamond) : X \to (1 \Rightarrow X)
-      \times (U \Rightarrow 1)$, and $\diamond$ is the terminal arrow in $\sets$.
+      $F_\lambda(x) = (\diamond,\lambda y.x) : X \to (U \Rightarrow 1) \times (1 \Rightarrow X)$, 
+      and $\diamond$ is the terminal arrow in $\sets$.
       It is easy to see that both
       $\hat{\lambda}_U$ and $F_\lambda$ have
       inverses, and thus, $\lambda_A$ has an inverse. It is straightforward to confirm the relation condition on maps
@@ -2824,7 +2824,7 @@ The following is our first main result of this section.
         \begin{math}
           \begin{array}{lll}
             F_1(!F_1(g)) 
-            & = & F_1(\lambda x.F^*_1(g(x))\\
+            & = & F_1(\lambda x.F^*_1(g(x)))\\
             & = & \lambda u.F_1(g(u)_1)(u) \circ \cdots \circ F_1(g(u)_i)(u)\\            
           \end{array}
         \end{math}
@@ -2905,16 +2905,16 @@ The following is our first main result of this section.
         \begin{math}
           \begin{array}{lll}
             \begin{array}{lll}
-              h_1 : (U \times B) \Rightarrow ((V \Rightarrow X) \times (U \Rightarrow Y))^* \to 
-                    (V \Rightarrow (U \Rightarrow X^*)\\
+              h_1 : (U \times V) \Rightarrow ((V \Rightarrow X) \times (U \Rightarrow Y))^* \to 
+                    (V \Rightarrow (U \Rightarrow X^*))\\
               h_1(g,v,u) = (f_1(v),\ldots,f_i(v))
               \text{ where } g(u,v) = ((f_1,g_1),\ldots,(f_i,g_i))
             \end{array}
             \\
             &  \\
             \begin{array}{lll}
-              h_2 : (U \times B) \Rightarrow ((V \Rightarrow X) \times (U \Rightarrow Y))^* \to 
-                    (U \Rightarrow (V \Rightarrow Y^*)\\
+              h_2 : (U \times V) \Rightarrow ((V \Rightarrow X) \times (U \Rightarrow Y))^* \to 
+                    (U \Rightarrow (V \Rightarrow Y^*))\\
               h_2(g,u,v) = (g_1(u),\ldots,g_i(u))
               \text{ where } g(u,v) = ((f_1,g_1),\ldots,(f_i,g_i))
             \end{array}
@@ -2957,12 +2957,12 @@ The following is our first main result of this section.
       \begin{center}
           \begin{mathpar}
             \bfig
-            \square<700,700>[!\top \otimes !A`!(\top \otimes A)`\top \otimes !A`!A;m_{\top,A}`m_\top \otimes \id_{!A}`!\lambda_A`\lambda_{!A}]
+            \square/->`<-`->`->/<700,700>[!\top \otimes !A`!(\top \otimes A)`\top \otimes !A`!A;m_{\top,A}`m_\top \otimes \id_{!A}`!\lambda_A`\lambda_{!A}]
             \place(350,350)[\text{A}]
             \efig
             \and
             \bfig
-            \square<700,700>[!A \otimes !\top`!(A \otimes \top)`!A \otimes \top`!A;m_{A,\top}`\id_{!A} \otimes m_\top`!\rho_A`\rho_{!A}]
+            \square/->`<-`->`->/<700,700>[!A \otimes !\top`!(A \otimes \top)`!A \otimes \top`!A;m_{A,\top}`\id_{!A} \otimes m_\top`!\rho_A`\rho_{!A}]
             \place(350,350)[\text{B}]
             \efig
             \and
@@ -2972,7 +2972,8 @@ The following is our first main result of this section.
             \efig
           \end{mathpar}          
       \end{center}
-      
+      We first prove that diagram A commutes, and then diagrams B will
+      commute using similar reasoning.
     \end{itemize}    
   \end{center}
   
