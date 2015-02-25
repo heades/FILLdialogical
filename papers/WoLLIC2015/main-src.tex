@@ -2653,6 +2653,7 @@ The following is our first main result of this section.
   The category $\dial$ is a full linear category.
 \end{lemma}
 \begin{proof}
+  \todo{Explain the set notions used in the proof, like let, and projecting the result of a function.}
   We prove this by constructing each piece of a full linear category
   using the structure of $\dial$.
 
@@ -2799,7 +2800,7 @@ The following is our first main result of this section.
               \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,
             &
               \bfig
-              \Atrianglepair/=`->`=`<-`->/[!A`!A`!!A`!A;`\delta_A``\epsilon_{!A}`!\epsilon_A]
+             \Atrianglepair/=`->`=`<-`->/[!A`!A`!!A`!A;`\delta_A``\epsilon_{!A}`!\epsilon_A]
            \efig
           \end{array}
         \end{math}
@@ -2967,12 +2968,12 @@ The following is our first main result of this section.
             \efig
             \and
             \bfig
-            \hSquares/->`->`->``->`->`->/[(!A \otimes !B) \otimes !C`!(A \otimes B) \otimes !C`!((A \otimes B) \otimes C)`!A \otimes (!B \otimes !C)`!A \otimes !(B \otimes C)`!(A \otimes (B \otimes C));m_{A,B} \otimes \id_{!C}`m_{A \otimes B,C}`\alpha_{!A,!B,!C}``\id_{!A} \otimes m_{B,C}`!\alpha_{A,B,C}`m_{A,B \otimes C}]
+            \hSquares/->`->`->``->`->`->/[(!A \otimes !B) \otimes !C`!(A \otimes B) \otimes !C`!((A \otimes B) \otimes C)`!A \otimes (!B \otimes !C)`!A \otimes !(B \otimes C)`!(A \otimes (B \otimes C));m_{A,B} \otimes \id_{!C}`m_{A \otimes B,C}`\alpha_{!A,!B,!C}``!\alpha_{A,B,C}`\id_{!A} \otimes m_{B,C}`m_{A,B \otimes C}]
             \place(1300,250)[\text{C}]
             \efig
           \end{mathpar}          
       \end{center}
-      We first prove that diagram A commutes, and then diagrams B will
+      We first prove that diagram A commutes, and then diagram B will
       commute using similar reasoning.  It suffices to show that
       \[(m_\top \otimes id_{!A});m_{\top,A};!\lambda_A = 
       (\hat{\lambda}_U,\lambda g.F_\otimes(F_2(F_\lambda(g)))) = (\hat{\lambda}_U,\lambda g.(\diamond,\lambda t.\lambda u.g(u))).\]
