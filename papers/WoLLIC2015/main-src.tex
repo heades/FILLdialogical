@@ -3027,10 +3027,141 @@ The following is our first main result of this section.
       \end{center}
       Thus, we obtained our desired result.
 
-      
+      \noindent
+      We show that diagram C commutes by observing that
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            (m_{A,B} \otimes !\id_{!C});m_{A\otimes B,C};!\alpha_{A,B,C}
+            & = & (\id,F_\otimes);(\id,F_2);(\hat{\alpha},!F_\alpha)\\
+            & = & (\hat{\alpha},!F_\alpha;F_2;F_\otimes)\\
+            & = & (\hat{\alpha},F_2;F_\otimes;F_\alpha)\\
+            & = & (\hat{\alpha},F_\alpha);(\id,F_\otimes);(\id,F_2)\\
+          \end{array}
+        \end{math}
+      \end{center}
+      It suffices to show that $!F_\alpha;F_2;F_\otimes = F_2;F_\otimes;F_\alpha$:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            (!F_\alpha;F_2;F_\otimes)(g)
+            & = & F_\otimes(F_2(!F_\alpha(g)))\\
+            & = & F_\otimes(F_2(\lambda x.F^*_\alpha(g(x))))\\
+          \end{array}
+        \end{math}
+      \end{center}
+      Suppose
+      \begin{center}
+        \vspace{-20px}
+        \begin{math}
+          \begin{array}{lll}
+            h_1 = \lambda v.\lambda u.\mathsf{let}\,((f_1,g_1),\ldots,(f_i,g_i)) = F^*_\alpha(g(u,v))\,\mathsf{in}\,
+            (f_1(v),\ldots,f_i(v)),\\
+            \\
+            h_2 = \lambda u.\lambda v.\mathsf{let}\,((f_1,g_1),\ldots,(f_i,g_i)) = F^*_\alpha(g(u,v)) \,\mathsf{in}\,
+           (g_1(u),\ldots,g_i(u)), \text{ and }\\
+           \\
+           F^*_\alpha(g(u,v)) = \mathsf{let}\, ((f'_1,g'_1),\ldots,(f'_j,g'_j)) = g(u,v) \,\mathsf{in}\,\\
+      \,\,\,\,\,\,\,\,\,\,(\lambda w.(\lambda v'.f_1'(v',w),\lambda u.g'_1(u)_1(w)),\lambda (u,v').g'_1(u)_2(v')),\ldots,\\
+      \,\,\,\,\,\,\,\,\,\,\,(\lambda w.(\lambda v'.f_j'(v',w),\lambda u.g'_j(u)_1(w)),\lambda (u,v').g'_j(u)_2(v'))).
+          \end{array}
+        \end{math}
+      \end{center}
+      Then we can simplify $h_1$ and $h_2$ as follows:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            \begin{array}{lll}
+              h_1 = \lambda v.\lambda u.\mathsf{let}\,((f'_1,g'_1),\ldots,(f'_j,g'_j)) = g(u,v)\,\mathsf{in}\,\\
+              \,\,\,\,\,\,\,\,\,((\lambda v'.f_1'(v',v),\lambda u'.g'_1(u')_1(v)),\ldots,(\lambda v'.f_j'(v',v),\lambda u'.g'_j(u')_1(v))) \\
+            \end{array}\\
+            \text{ and }\\
+            \begin{array}{lll}
+              h_2 = \lambda u.\lambda v.\mathsf{let}\,(u_1,u_2) = u\,\mathsf{in}\, \\
+              \,\,\,\,\,\,\,\mathsf{let}\,((f'_1,g'_1),\ldots,(f'_j,g'_j)) = g((u_1,u_2),v) \,\mathsf{in}\,\\
+              \,\,\,\,\,\,\,\,\,\,\,(g'_1(u_1)_2(u_2),\ldots,g'_j(u_1)_2(u_2))
+            \end{array}
+          \end{array}
+        \end{math}
+      \end{center}
+      By the definition of $F_2$ the previous reasoning implies:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F_\otimes(F_2(\lambda x.F^*_\alpha(g(x))))
+            & = & F_\otimes(h_1,h_2)\\
+            & = & (\lambda v.F_2(h_1(v)),h_2)\\
+          \end{array}
+        \end{math}
+      \end{center}
+      Expanding the definition of $F_2(h_1(v))$ in the above definitions yields:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F_2(h_1(v))
+            & = & (h'_1,h'_2)\\
+          \end{array}
+        \end{math}
+      \end{center}
+      where
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            h'_1 = \lambda v''.\lambda u''.(f'_1(v'',v),\ldots,f'_j(v'',v))\\
+            h'_2 = \lambda u''.\lambda v''.(g'_1(u')_1(v),\ldots,g'_j(u')_1(v))\\
+          \end{array}
+        \end{math}
+      \end{center}
+      At this point we can see that
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            (\lambda v.F_2(h_1(v)),h_2) & = & (\lambda v.(h'_1,h'_2),h_2)\\
+          \end{array}
+        \end{math}
+      \end{center}
+      We now simplify $F_2;F_\otimes;F_\alpha$.  We know by definition:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F_2(g) & = & (h''_1,h''_2)
+          \end{array}
+        \end{math}
+      \end{center}
+      where
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            \begin{array}{lll}
+              h''_1 & = & \lambda v.\lambda u.\mathsf{let}\,((f'_1,g'_1),\ldots,(f'_j,g'_j)) = g(u,v)\,\mathsf{in}\\
+              & & \,\,\,\,\,\,\,\,\,\mathsf{let}\,(v',v'') = v\,\mathsf{in}\,(f'_1(v',v''),\ldots,f'_k(v',v''))
+              
+            \end{array}\\
+            \text{ and }\\
+            \begin{array}{lll}
+              h''_2 & = & \lambda u.\lambda v.\mathsf{let}\,((f'_1,g'_1),\ldots,(f'_j,g'_j)) = g(u,v)\,\mathsf{in}\\
+              & & \,\,\,\,\,\,\,\,\,(g'_1(u),\ldots,g'_k(u))\\
+            \end{array}
+          \end{array}
+        \end{math}
+      \end{center}
+      This implies that
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            F_\alpha(F_\otimes(F_2(g)))
+            & = & F_\alpha(F_\otimes(h''_1,h''_2))\\
+            & = & F_\alpha(h''_1,\lambda u_4.F_2(h''_2(u_4)))\\
+            & = & (\lambda w.(\lambda v.h''_1(v,w),\lambda u.F_2(h''_2(u))_1(w)),\lambda (u,v).F_2(h''_2(u))_2(v))
+          \end{array}
+        \end{math}
+      \end{center}
+      Finally, by expanding the definition of $F_2$ in the last line
+      of the above reasoning we can see that
+      \[ (\lambda v.(h'_1,h'_2),h_2) = (\lambda w.(\lambda v.h''_1(v,w),\lambda u.F_2(h''_2(u))_1(w)),\lambda (u,v).F_2(h''_2(u))_2(v)) \]
+      modulo currying of set-theoretic functions.
     \end{itemize}    
-  \end{center}
-  
+  \end{center}  
 \end{proof}
 
 % section full_linear_categories (end)
