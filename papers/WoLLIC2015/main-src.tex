@@ -30,6 +30,8 @@
 \newcommand{\obj}[1]{\mathsf{Obj}(#1)}
 \newcommand{\mor}[1]{\mathsf{Mor(#1)}}
 \newcommand{\id}[0]{\mathsf{id}}
+\newcommand{\lett}[0]{\mathsf{let}\,}
+\newcommand{\inn}[0]{\,\mathsf{in}\,}
 
 \begin{document}
 
@@ -3168,6 +3170,83 @@ The following is our first main result of this section.
       of the above reasoning we can see that
       \[ (\lambda v.(h'_1,h'_2),h_2) = (\lambda w.(\lambda v.h''_1(v,w),\lambda u.F_2(h''_2(u))_1(w)),\lambda (u,v).F_2(h''_2(u))_2(v)) \]
       modulo currying of set-theoretic functions.
+
+    \item There are two coherence diagrams that $m_{A,B}$ and $\delta$
+      must ad hear to.  They are listed as follows:
+      \begin{center}
+        \begin{mathpar}
+          \bfig
+          \square/->`->`->`=/<700,700>[!A \otimes !B`!(A \otimes B)`A \otimes B`A \otimes B;m_{A,B}`\epsilon_A \otimes \epsilon_B`\epsilon_{A \otimes B}`]
+            \place(350,350)[\text{E}]
+            \efig            
+            \and
+          \bfig
+            \morphism(150,500)<1615,0>[`;m_{A,B}]
+            \hSquares/``->``->`->`->/[!A \otimes !B``!(A \otimes B)`!!A \otimes !!B`!(!A \otimes !B)`!!(A \otimes B);``\delta_A \otimes \delta_B``\delta_{A \otimes B}`m_{!A,!B}`!m_{A,B}]
+            \place(980,250)[\text{F}]
+            \efig
+        \end{mathpar}
+      \end{center}
+      Diagram E holds by simply expanding the definitions using an
+      arbitrary input of a pair of functions.  We now show diagram F
+      commutes.
+
+      It suffices to show the following:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            m_{A,B};\delta_{A \otimes B}
+            & = & (\id_{U \times V},F_1;F_2)\\
+            & = & (id_{u \times V},!F_2;F_2;F_\otimes)\\
+            & = & (\delta_A \otimes \delta_B);m_{!A,!B};!m_{A,B}
+          \end{array}
+        \end{math}
+      \end{center}
+      Suppose $g \in (U \times V) \Rightarrow ((U \times V)
+      \Rightarrow ((V \Rightarrow X) \times (U \Rightarrow Y))^*)^*$.
+      Then we know by the type of $g$ and the definition of $F_1$ it
+      must be the case that $F_1(g)$ first extracts all of the
+      functions $(f_1,\ldots,f_i)$ returned by $g(u,v)$ for arbitrary
+      $u \in U$ and $v \in V$ -- note that each $f_i$ returns a
+      sequence of pairs of functions,
+      $((f'_i,g'_i),\ldots,(f'_j,g'_j))$ -- then $F_1(g)$ returns the
+      concatenation of all of these sequences.  Finally, $F_2(F_1(g))$
+      returns two functions $h_1(v,u)$ and $h_2(u,v)$, where $h_1$
+      returns the sequence $(f'_i(v),\ldots,f'_j(v))$, and $h_2$
+      returns the sequence $(g'_i(u),\ldots,g'_j(u))$ from the
+      sequence returned by $F_1(g)$.  Note that each $f'_i$ and $g'_i$
+      returns a pair of functions.
+
+      Now consider applying $!F_2;F_2;F_\otimes$ to $g$.  The function
+      $!F_2$ will construct the function $\lambda x.F^*_2(g(x))$ by
+      definition, and $F^*_2(g(x))$ will construct a sequence of pairs
+      of functions $((h'_1,h''_1),\ldots,(h'_k,h''_k))$. The function
+      $g$ as we saw above returns a sequence of functions,
+      $(f_1,\ldots,f_i)$, where each $f_i$ returns a sequence of pairs
+      of functions, $((f'_i,g'_i),\ldots,(f'_j,g'_j))$.  This tells us
+      that by definition $h'_k(v,u)$ will return the sequence
+      $(f'_i(v),\ldots,f'_j(v))$ and $h''_k(u,v)$ will construct the
+      sequence $(g'_1(u),\ldots,g'_j(u))$.  Applying $F_2$ to $\lambda
+      x.F^*_2(g(x))$ will construct two more functions $t_1(v,u)$ and
+      $t_2(u,v)$ where the first returns the sequence of functions
+      $(h'_1(v),\ldots,h'_k(v))$, and the second returns
+      $(h''_1(u),\ldots,h''_k(u))$.  Finally, applying the function
+      $F_\otimes$ to the pair $(t_1,t_2)$ will result in a pair of
+      functions
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            (\lambda v.F_1(t_1(v)),\lambda u.F_1(t_2(u)))
+            & = & (\lambda v.\lambda u.h'_1(v)(u) \circ \cdots \circ h'_k(v)(u),\\
+            &   & \,\,\,\lambda u.\lambda v.h''_1(u)(v) \circ \cdots \circ h''_k(u)(v))\\
+            & = & (\lambda v.\lambda u.(f'_i(v),\ldots,f'_j(v)),\\
+            &   & \,\,\,\lambda u.\lambda v.(g'_i(u), \ldots, g'_k(u)))\\
+          \end{array}
+        \end{math}
+      \end{center} 
+      We can now see that the pair
+      $(\lambda v.\lambda u.(f'_i(v),\ldots,f'_j(v)),\lambda u.\lambda v.(g'_i(u), \ldots, g'_k(u)))$ is indeed
+      equivalent to the pair $(h_1,h_2)$ given above, and thus, the diagram commutes.                  
     \end{itemize}    
   \end{center}  
 \end{proof}
