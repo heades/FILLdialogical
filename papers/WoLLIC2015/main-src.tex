@@ -2976,15 +2976,20 @@ The following is our first main result of this section.
             \square/->`->`->`->/<700,700>[!A \otimes !\top`!(A \otimes \top)`!A \otimes \top`!A;m_{A,\top}`\id_{!A} \otimes m_\top`!\rho_A`\rho_{!A}]
             \place(350,350)[\text{C}]
             \efig
+            \and
+            \bfig
+            \square/->`->`->`->/<700,700>[!A \otimes !B`!(A \otimes !B)`!B \otimes !A`!(B \otimes A);m_{A,B}`\beta`!\beta`m_{B,A}]
+            \place(350,350)[\text{D}]
+            \efig
             \and 
             \bfig
             \hSquares/->`->`->``->`->`->/[(!A \otimes !B) \otimes !C`!(A \otimes B) \otimes !C`!((A \otimes B) \otimes C)`!A \otimes (!B \otimes !C)`!A \otimes !(B \otimes C)`!(A \otimes (B \otimes C));m_{A,B} \otimes \id_{!C}`m_{A \otimes B,C}`\alpha_{!A,!B,!C}``!\alpha_{A,B,C}`\id_{!A} \otimes m_{B,C}`m_{A,B \otimes C}]
-            \place(1300,250)[\text{D}]
+            \place(1300,250)[\text{E}]
             \efig
           \end{mathpar}          
       \end{center}
-      We first prove that diagram A commutes, and then diagrams B and C will
-      commute using similar reasoning. Following this we show that diagram D commutes. It suffices to show that
+      We first prove that diagram A commutes, and then diagrams B, C and D will
+      commute using similar reasoning. Following this we show that diagram E commutes. It suffices to show that
       \[(m_\top \otimes id_{!A});m_{\top,A};!\lambda_A = 
       (\hat{\lambda}_U,\lambda g.F_\otimes(F_2(F_\lambda(g)))) = (\hat{\lambda}_U,\lambda g.(\diamond,\lambda t.\lambda u.g(u))).\]
       Suppose
@@ -3177,18 +3182,18 @@ The following is our first main result of this section.
         \begin{mathpar}
           \bfig
           \square/->`->`->`=/<700,700>[!A \otimes !B`!(A \otimes B)`A \otimes B`A \otimes B;m_{A,B}`\epsilon_A \otimes \epsilon_B`\epsilon_{A \otimes B}`]
-            \place(350,350)[\text{E}]
+            \place(350,350)[\text{F}]
             \efig            
             \and
           \bfig
             \morphism(150,500)<1615,0>[`;m_{A,B}]
             \hSquares/``->``->`->`->/[!A \otimes !B``!(A \otimes B)`!!A \otimes !!B`!(!A \otimes !B)`!!(A \otimes B);``\delta_A \otimes \delta_B``\delta_{A \otimes B}`m_{!A,!B}`!m_{A,B}]
-            \place(980,250)[\text{F}]
+            \place(980,250)[\text{G}]
             \efig
         \end{mathpar}
       \end{center}
-      Diagram E holds by simply expanding the definitions using an
-      arbitrary input of a pair of functions.  We now show diagram F
+      Diagram F holds by simply expanding the definitions using an
+      arbitrary input of a pair of functions.  We now show diagram G
       commutes.
 
       It suffices to show the following:
@@ -3246,9 +3251,78 @@ The following is our first main result of this section.
       \end{center} 
       We can now see that the pair
       $(\lambda v.\lambda u.(f'_i(v),\ldots,f'_j(v)),\lambda u.\lambda v.(g'_i(u), \ldots, g'_k(u)))$ is indeed
-      equivalent to the pair $(h_1,h_2)$ given above, and thus, the diagram commutes.                  
-    \end{itemize}    
-  \end{center}  
+      equivalent to the pair $(h_1,h_2)$ given above, and thus, the diagram commutes.      
+    \end{itemize}
+  \end{center}
+  Next we must show that whenever $(!A,\delta)$ is a free comonoid, we
+  have the distinguished natural transformations $e_A : !A \to \top$
+  and $d_A : !A \to !A \otimes !A$.  Suppose $!A = (U, U \Rightarrow
+  X^*)$ and $(!A,\delta)$ is a free comonoid.  Then we have the
+  following definitions:
+  \begin{itemize}
+  \item (Proposition 53, page 77 of \cite{dePaiva:1988}).  We define
+    $e_A : !A \to \top$ has the pair $(\diamond,\lambda x.\lambda
+    u.())$, where $\diamond$ is the terminal map on $U$ and $()$ is
+    the empty sequence.
+    
+  \item (Proposition 53, page 77 of \cite{dePaiva:1988}).  We define
+    $d_A : !A \to !A \otimes !A$ has the pair $(\Delta, \theta)$
+    where $\Delta : U \to U \times U$ is the diagonal map in
+    $\sets$, and
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          \theta : ((U \times U) \Rightarrow X^*) \times ((U \times U) \Rightarrow X^*) \to U \Rightarrow X^*\\
+          \theta(f,g) = \lambda u.f(u,u) \circ g(u,u).
+        \end{array}
+      \end{math}
+    \end{center}
+  \end{itemize}
+  The maps $e_A$ and $d_A$ must satisfy several coherence diagrams.
+  \begin{itemize}
+  \item We must show that the map $e_A$ is a monoidal natural
+    transformation.  This requires that the following diagrams hold
+    (for any arbitrary map $f$):
+    \begin{center}
+      \begin{mathpar}
+        \bfig
+        \square/->`->`=`->/<700,700>[!A`\top`!B`\top;e_A`!f``e_B]
+        \place(350,350)[\text{H}]
+        \efig
+        \and
+        \bfig
+        \btriangle/->`=`->/<700,700>[\top`!\top`\top;m_I``e_\top]
+        \place(230,250)[\text{I}]
+        \efig            
+        \and
+        \bfig
+        \square/->`->`->`->/<700,700>[!A \otimes !B`\top \otimes \top`!(A \otimes B)`\top;e_A \otimes e_B`m_{A,B}`\lambda`e_{A \otimes B}]
+        \place(350,350)[\text{J}]
+        \efig        
+      \end{mathpar}
+    \end{center}
+    Diagrams H and I follow easily by the definition of $e_A$ and
+    $m_I$.  We now show that diagram J commutes.  It suffices to show
+    the following:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          (e_A \otimes e_B);\lambda
+          & = & (\diamond_U \times \diamond_V,F_\otimes);(\hat{\lambda}_\top,F_\lambda) \\
+          & = & ((\diamond_U \times \diamond_V);\hat{\lambda}_\top,F_\lambda;F_\otimes)\\
+          & = & (\diamond_{U \times V},F_\lambda;F_\otimes)\\
+          & = & (\diamond_{U \times V},F_2(\lambda u.()))\\
+          & = & (\diamond_{U \times V},(\lambda x.\lambda u.());F_2)\\          
+          & = & (\id_{U \times V};\diamond_{U \times V},(\lambda x.\lambda u.());F_2)\\
+          & = & (\id_{U \times V},F_2);(\diamond_{U \times V},\lambda x.\lambda u.())\\
+          & = & m_{A,B};e_{A \otimes B}
+        \end{array}
+      \end{math}
+    \end{center}
+    It suffices to show $F_\lambda;F_\otimes = F_2(\lambda u.())$, but
+    this easily follows by definition.
+    
+  \end{itemize}
 \end{proof}
 
 % section full_linear_categories (end)
