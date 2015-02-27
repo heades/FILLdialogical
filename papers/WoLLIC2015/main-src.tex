@@ -2655,7 +2655,30 @@ The following is our first main result of this section.
   The category $\dial$ is a full linear category.
 \end{lemma}
 \begin{proof}
-  \todo{Explain the set notions used in the proof, like let, and projecting the result of a function.}
+  \begin{paper}
+    We only give a sketch of the proof here, but for the full details
+    see that companion report \cite{Eades:2015}.  First, we must show
+    that $\dial$ is a linear category.  The majority of the linear
+    structure of $\dial$ can be extracted from de Paiva's thesis
+    \cite{dePaiva:1988}.  However, we had to extend her definitions to
+    show that the free comonad $(!A,\delta,\epsilon)$ is monoidal,
+    however, this is straightforward.
+
+    After showing that $\dial$ is a linear category one must show that
+    $\dial$ is a model of par and its unit.  This easily follows from
+    de Paiva's thesis.  The bifunctor which models par is given by de
+    Paiva in Definition 10 on page 47 of \cite{dePaiva:1988}.
+
+    Finally, $\dial$ must be distributive.  The natural
+    transformations $dist_1$ and $dist_2$ can be defined in terms of
+    the maps $k : (A \otimes A') \otimes (B \parr C) \to (A \otimes B)
+    \parr (A' \otimes C)$ and $k' : (A \parr B) \otimes (C \otimes C')
+    \to (A \otimes C) \parr (B \otimes C')$ given on page 52 of
+    \cite{dePaiva:1988}.  Set $A' = \top$ in $k$ and $C = \top$ in
+    $k'$ to obtain $dist_1$ and $dist_2$ respectively.
+  \end{paper}
+\begin{report}
+    \todo{Explain the set notions used in the proof, like let, and projecting the result of a function.}
   We prove this by constructing each piece of a full linear category
   using the structure of $\dial$.
 
@@ -3185,7 +3208,7 @@ The following is our first main result of this section.
             \place(350,350)[\text{F}]
             \efig            
             \and
-          \bfig
+            \bfig
             \morphism(150,500)<1615,0>[`;m_{A,B}]
             \hSquares/``->``->`->`->/[!A \otimes !B``!(A \otimes B)`!!A \otimes !!B`!(!A \otimes !B)`!!(A \otimes B);``\delta_A \otimes \delta_B``\delta_{A \otimes B}`m_{!A,!B}`!m_{A,B}]
             \place(980,250)[\text{G}]
@@ -3321,8 +3344,85 @@ The following is our first main result of this section.
     \end{center}
     It suffices to show $F_\lambda;F_\otimes = F_2(\lambda u.())$, but
     this easily follows by definition.
+
+  \item The map $d_A$ must be a monoidal natural transformation.  This
+    requires the following diagrams to commute:
+    \begin{center}
+      \begin{mathpar}
+        \bfig
+        \square/->`->`->`->/<700,700>[!A`!A \otimes !A`!B`!B \otimes !B;d_A`!f`!f \otimes !f`d_B]
+        \place(350,350)[\text{K}]
+        \efig
+        \and
+        \bfig
+        \square/->`->`->`->/<700,700>[\top`\top \otimes \top`!\top`!\top \otimes !\top;\lambda^{-1}`m_\top`m_\top \otimes m_\top`d_\top]
+        \place(350,350)[\text{L}]
+        \efig
+        \and
+        \bfig
+        \morphism(190,0)<1880,0>[`;d_{A \otimes B}]
+        \hSquares/->`->`->``->``/[!A \otimes !B`(!A \otimes !A) \otimes (!B \otimes !B)`(!A \otimes !B) \otimes (!A \otimes !B)`!(A \otimes B)``!(A \otimes B) \otimes !(A \otimes B);d_A \otimes d_B`iso`m_{A,B}``m_{A,B} \otimes m_{A,B}``]
+        \place(1150,250)[\text{M}]
+        \efig
+      \end{mathpar}
+    \end{center}
+    Diagrams K and L follow easily from unfolding their
+    definitions. We show that diagram M next.  The morphism $iso$ in
+    $\dial$ is a isomorphism that can be built out of the SMCC
+    structure.  For its definition in terms of the SMCC maps see
+    footnote 9 on page 141 of \cite{Bierman:1994}, but we give a
+    direct definition instead.  The second coordinate of the
+    definition of the map $iso$ is defined as follows:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          \begin{array}{rll}
+            \hat{iso}((u,u'),(v,v')) & = & ((u,v),(u',v'))
+          \end{array}\\\\        
+          \begin{array}{rll}            
+            F_{iso}(f,g) & = & (\lambda (v',v'').(\lambda u'.\lambda u''.f(u',v')_1(v'',u''),\lambda u'.\lambda u''.g(u',v')_1(v'',u'')),\\
+            && \,\,\lambda (u',u'').(\lambda v'.\lambda v''.f(u',v')_2(u'',v''),\lambda v'.\lambda v''.g(u',v')_1(u'',v'')))\\
+          \end{array}\\\\
+          \begin{array}{rll}
+            F_{iso}^{-1}(h_1,h_2) & = & (\lambda (u,v).(\lambda v'.\lambda u'.h_1(v,v')_1(u,u'),\lambda u'.\lambda v'.h_2(u,u')_2(v,v')),\\
+            && \,\,\lambda (u,v).(\lambda v'.\lambda u'.h_1(v,v')_2(u,u'),\lambda u'.\lambda v'.h_2(u,u')_2(v,v')))\\
+          \end{array}
+        \end{array}
+      \end{math}
+    \end{center}
+    We omit the proof that $F_{iso}$ is an isomorphism, but it is
+    straightforward.  Now $iso = (\hat{iso},F_{iso})$.
+
+    It suffices to show the following:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          (d_A \otimes d_B);iso;(m_{A,B} \otimes m_{A,B})
+          & = & (\Delta_U \times \Delta_V,F_\otimes);(\hat{iso},F_{iso});(\id_{(U \times V) \times (U \times V)},F_\otimes)\\
+          & = & ((\Delta_U \times \Delta_V);\hat{iso};\id_{(U \times V) \times (U \times V)},F_\otimes;F_{iso};F_\otimes)\\
+          & = & ((\Delta_U \times \Delta_V);\hat{iso};,F_\otimes;F_{iso};F_\otimes)\\
+          & = & (\Delta_{U \times V},\Theta;F_2)\\
+          & = & (\id_{U \times V};\Delta_{U \times V},\Theta;F_2)\\
+          & = & (\id_{U \times V},F_2);(\Delta_{U \times V},\Theta)\\
+          & = & m_{A,B};d_{A,B}\\
+        \end{array}
+      \end{math}
+    \end{center}
+    At this point it suffices to show that
+    $F_\otimes;F_{iso};F_\otimes = \Theta;F_2$:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          F_\otimes(F_{iso}(F_\otimes(g_1,g_2)))
+          & = & F_\otimes(F_{iso}(\lambda v.F_2(g_1(v)),\lambda u.F_2(g_2(u)))\\
+          & = & (\lambda v.\Theta(F_2(g_1(\Delta_V(v)))),\lambda u.\Theta(F_2(g_2(\Delta_U(u)))))\\
+        \end{array}
+      \end{math}
+    \end{center}
+    \todo{Finish this proof.}
     
   \end{itemize}
+\end{report}
 \end{proof}
 
 % section full_linear_categories (end)
