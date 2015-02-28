@@ -6,8 +6,7 @@
 \usepackage{mathpartir}
 \usepackage{hyperref}
 \usepackage[barr]{xy}
-\usepackage{anyfontsize}
-
+\usepackage{fullpage}
 \include{type-theory_inc}
 
 \title{Multiple Conclusion Intuitionistic Linear Logic and Cut Elimination}
@@ -375,7 +374,6 @@ L]]$ which we define next.
 \begin{definition}
   \label{def:let-pat-term}
   The function $[[let-pat z p t]]$ is defined as follows:
-  \vspace{-15px}
   \begin{center}
     \begin{math}
       \begin{array}{lll}      
@@ -1937,7 +1935,6 @@ Clearly, $[[ [t/x]{t1 (+) t2} = {[t/x]t1} (+) [t/x]t2]]$.
   case).
 The proof
 \begin{center}
-  \fontsize{6.6}{7.92}\selectfont
   \begin{math}
     $$\mprset{flushleft}
     \inferrule* [leftskip=10px,right=\tiny Cut] {
@@ -1967,7 +1964,6 @@ The proof
 \noindent
 transforms into the proof
 \begin{center}
-  \fontsize{6.6}{7.92}\selectfont
   \begin{math}
     $$\mprset{flushleft}
     \inferrule* [right=\tiny ParL] {
@@ -2693,8 +2689,8 @@ We can now show our main result of this section.
     see that companion report \cite{Eades:2015}.  First, we must show
     that $\dial$ is a linear category.  The majority of the linear
     structure of $\dial$ is in de Paiva's thesis \cite{dePaiva:1988}.
-    However, we had to extend her definitions to show that the free
-    comonad $(!A,\delta,\epsilon)$ is monoidal, however, this is
+    However, we had to extend her definitions to show that the comonad
+    $(!A,\delta,\epsilon)$ is monoidal, however, this is
     straightforward.
 
     After showing that $\dial$ is a linear category one must show that
@@ -2711,10 +2707,16 @@ We can now show our main result of this section.
     $k'$ to obtain $dist_1$ and $dist_2$ respectively.
   \end{paper}
 \begin{report}
-    \todo{Explain the set notions used in the proof, like let, and projecting the result of a function.}
-  We prove this by constructing each piece of a full linear category
-  using the structure of $\dial$.
-
+  This proof holds by constructing each piece of a full linear
+  category using the structure of $\dial$.  We use some notation to
+  make it easier to define and use functions over sequences.  Given a
+  function $g : A \to X^*$ we will denote taking the $i$th projection
+  of the sequence returned by $g(a)$ for some $a \in A$ by $g(a)_i$.
+  To construct set-theoretic anonymous functions we use
+  $\lambda$-notation.  Lastly, we often use let-expressions to pattern
+  match on sequences.  For example, $\lett (x_1,\ldots,x_i) = g(a)
+  \inn (f(x_1),\cdots,f(x_i))$.
+    
   First, we must construct a linear category. It is well known that
   $\mathsf{Sets}$ is a CCC, and in fact, locally cartesian closed, and
   so by using the results of de Paiva's thesis we can easily see that
@@ -2866,8 +2868,7 @@ We can now show our main result of this section.
       We show the left most diagram commutes first.  It suffices to
       show that
       $\delta_a;!\delta_A = (\id_U,!F_1;F_1) = (\id_U,F_1;F_1)$.  
-      Suppose $g \in U \Rightarrow (U \Rightarrow X^*)^*$.  Then 
-      \vspace{-15px}
+      Suppose $g \in U \Rightarrow (U \Rightarrow X^*)^*$.  Then       
       \begin{center}
         \small
         \begin{math}
@@ -3442,17 +3443,30 @@ We can now show our main result of this section.
       \end{math}
     \end{center}
     At this point it suffices to show that
-    $F_\otimes;F_{iso};F_\otimes = \Theta;F_2$:
-    \begin{center}
-      \begin{math}
-        \begin{array}{lll}
-          F_\otimes(F_{iso}(F_\otimes(g_1,g_2)))
-          & = & F_\otimes(F_{iso}(\lambda v.F_2(g_1(v)),\lambda u.F_2(g_2(u)))\\
-          & = & (\lambda v.\Theta(F_2(g_1(\Delta_V(v)))),\lambda u.\Theta(F_2(g_2(\Delta_U(u)))))\\
-        \end{array}
-      \end{math}
-    \end{center}
-    \todo{Finish this proof.}
+    $F_\otimes;F_{iso};F_\otimes = \Theta;F_2$, but this follows using
+    similar reasoning as above, because $F_{iso};F_\otimes$ will
+    reorganize the streams obtained by applying $g_1$ and $g_2$, and
+    then the final $F_\otimes$ combines these sequences using $\Theta$.
+    However, $F_2$ does the same reorganization, and then the streams
+    are combined using $\Theta$.
+    %% \begin{center}
+    %%   \begin{math}
+    %%     \begin{array}{lll}
+    %%       F_\otimes(F_{iso}(F_\otimes(g_1,g_2)))
+    %%       & = & F_\otimes(F_{iso}(\lambda v.F_2(g_1(v)),\lambda u.F_2(g_2(u)))\\
+    %%       & = & (\lambda v.\Theta(F_2(g_1(\Delta_V(v)))),\lambda u.\Theta(F_2(g_2(\Delta_U(u)))))\\
+    %%     \end{array}
+    %%   \end{math}
+    %% \end{center}
+
+    %% \begin{center}
+    %%   \begin{math}
+    %%     \begin{array}{lll}
+    %%       F_2(\Theta(g_1,g_2))
+    %%       & = & F_2(\lambda u.g_1(u,u) \circ g_2(u,u))\\
+    %%     \end{array}
+    %%   \end{math}
+    %% \end{center}
   \end{itemize}
 \end{report}
 \end{proof}
@@ -3518,14 +3532,14 @@ FILL.
 \bibliographystyle{plain}
 \bibliography{ref}
 
-\appendix
+%% \appendix
 
-\begin{report}
-  \section{The full specification of FILL}
-\label{sec:fill_specification}
-\FILLall{}
-% section the_full_fill_specification (end)
-\end{report}
+%% \begin{report}
+%%   \section{The full specification of FILL}
+%% \label{sec:fill_specification}
+%% \FILLall{}
+%% % section the_full_fill_specification (end)
+%% \end{report}
 
 %%% Local Variables: 
 %%% mode: latex
