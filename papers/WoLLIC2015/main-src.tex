@@ -6,6 +6,7 @@
 \usepackage{mathpartir}
 \usepackage{hyperref}
 \usepackage[barr]{xy}
+\usepackage{anyfontsize}
 
 \include{type-theory_inc}
 
@@ -57,14 +58,14 @@
   Then when introducing an implication on the right enforcing that the
   variable annotating the hypothesis being discharged is only free in
   the term annotating the conclusion of the implication. Bierman
-  showed in a short note that this formalization of FILL still did not
+  showed potentially that this formalization of FILL still did not
   enjoy cut-elimination, because of a flaw in the left rule for
   par. However, Bellin proposed an alternate left rule for par and
   conjectured that by adopting his rule cut-elimination is
   restored. In this note we show that adopting Bellin’s proposed rule
   one does obtain cut-elimination for FILL, as
-  suggested. Additionally, we show that the categorical model of FILL
-  in a free dialectica category is also a LNL model of Benton.
+  suggested. Additionally, we show that a categorical model of FILL
+  in the basic dialectica category is also a LNL model of Benton.
 \end{abstract}
 
 \section{Introduction}
@@ -79,7 +80,8 @@ interpretation in terms of dialectica categories
 investigation she initially believed that dialectica categories would
 end up being a model of intuitionistic logic, but to her surprise they
 are actually models of intuitionistic linear logic, containing the
-linear connectives: tensor, par, implication, and their units.
+linear connectives: tensor, implication,additives, and exponentials.
+She then improved her models to capture both FILL and CLL.
 Furthermore, unlike other models at that time the units did not
 collapse into a single object.
 
@@ -98,7 +100,7 @@ of logics with multiple conclusions see the introduction to
 
 Gentzen showed that to obtain intuitionistic logic one could start
 with the logic LK and then place a cardinality restriction on the
-righthand side of sequents, however, this is not the only means of
+right-hand side of sequents, however, this is not the only means of
 enforcing intuitionism.  Maehara showed that in the propositional case
 one could simply place the cardinality restriction on the premise of
 the implication right rule, and leave all of the other rules of LK
@@ -127,8 +129,8 @@ see \cite{dePaiva:1988} p. 58, but Schellinx showed that this restriction has
 the unfortunate consequence of breaking cut-elimination
 \cite{Schellinx:1991}.
 
-Later, Hyland and de Paiva gave an alternate formalization of FILL in
-the hopes to regain cut-elimination \cite{Hyland:1993}.  This new
+Later, Hyland and de Paiva gave an alternative formalization of FILL
+in to regain cut-elimination \cite{Hyland:1993}.  This new
 formalization lifted the Dragalin restriction by decorating sequents
 with a term assignment.  Hypotheses were assigned variables, and the
 conclusions were assigned terms.  Then using these terms one can track
@@ -164,15 +166,15 @@ left rule for par.  The original rule was as follows:
   \end{math}
 \end{center}
 In this rule the pattern variables $x$ and $y$ are bound in each term
-of $L$ and $L'$ respectively. Notice that the variable $z$ becomes
-free in every term in $L$ and $L'$. Bierman showed that this rule
-mixed with the restriction on implication right prevents the usual
-cut-elimination step that commutes cut with the left rule for par.
-The main idea behind the counterexample is that in the derivation
-before commuting the cut it is possible to discharge $z$ using
-implication right, but after the cut is commuted past the left rule
-for par, the variable $z$ becomes free in more than one conclusion,
-and thus, can no longer be discharged.
+of $[[L]]$ and $[[L']]$ respectively. Notice that the variable $z$
+becomes free in every term in $[[L]]$ and $[[L']]$. Bierman showed
+that this rule mixed with the restriction on implication right
+prevents the usual cut-elimination step that commutes cut with the
+left rule for par.  The main idea behind the counterexample is that in
+the derivation before commuting the cut it is possible to discharge
+$z$ using implication right, but after the cut is commuted past the
+left rule for par, the variable $z$ becomes free in more than one
+conclusion, and thus, can no longer be discharged.
 
 In the conclusion of Bierman's note he gives an alternate left rule
 for par that he attributes to Bellin.  This new left-rule is as
@@ -193,11 +195,11 @@ confirm Bellin's conjecture by adopting his proposed rule
 (Section~\ref{sec:full_intuitionistic_linear_logic_(fill)}) and
 proving cut-elimination (Section~\ref{sec:cut-elimination}).  In
 addition, we show that the categorical model of FILL called $\dial$, a
-free dialectica category, is also a LNL model of Benton
-(Section~\ref{sec:full_lnl_models}).
+the basic dialectica category, is also a linear/non-linear model of
+Benton (Section~\ref{sec:full_lnl_models}).
 
 \textbf{Related Work.} The first formalization of FILL with
-cut-elimination was due to Brauner and de Paiva \cite{Brauner:1998}.
+cut-elimination was due to Bra\"uner and de Paiva \cite{Brauner:1998}.
 Their formalization can be seen as a linear version of LK with a
 sophisticated meta-level dependency tracking system.  A proof of a
 FILL sequent in their formalization amounts to a classical derivation,
@@ -205,24 +207,24 @@ $\pi$, invariant in a what they call the FILL property:
 \begin{center}
   \begin{itemize}
   \item The hypothesis discharged by an application of the implication
-    right rule in $\pi$ is a dependency of only the conclusion of the
+    right rule in $\pi$ is a dependency of the conclusion of the
     implication being introduced.
   \end{itemize}
 \end{center}
 They were able to show that their formalization is sound, complete,
-and enjoys cut-elimination.  The one point in favor of the term
-assignment formalization given here over Brauner and de Paiva's
-formalization is that the dependency tracking system complicates both
-the definition of the logic and its use.  However, we do not wish to
-detract from the importance of their work.
+and enjoys cut-elimination.  In favor of the term assignment
+formalization given here over Brauner and de Paiva's formalization is
+that the dependency tracking system complicates both the definition of
+the logic and its use.  However, one might conjecture that their
+system is more fundamental and hence more generalizable.
 
 de Paiva and Pereira used annotations on the sequents of LK to arrive
 at full intuitionistic logic (FIL) with multiple conclusion that
 enjoys cut-elimination \cite{dePaiva:2005}. They annotate hypothesis
 with natural number indices, and conclusions with finite sets of
-indices.  The sets on conclusions correspond to the collection of the
-hypotheses that the conclusion depends on.  Then they have a similar
-property to that of the FILL property from Brauner and de Paiva's
+indices.  The sets of indices on conclusions correspond to the
+collection of the hypotheses that the conclusion depends on.  Then
+they have a similar property to that of Bra\"uner and de Paiva's
 formalization.  In fact, the dependency tracking system is very
 similar to this formalization, but the dependency tracking has been
 collapsed into the object language instead of being at the meta-level.
@@ -288,7 +290,7 @@ In addition, each of these will have their own equational rules, see
 Figure~\ref{def:FILL-eq}.  The role each term plays in the overall
 logic will become clear after we introduce the inference rules.
 
-At this point we introduce some syntax and mete-level functions that
+At this point we introduce some syntax and meta-level functions that
 will be used in the definition of the inference rules for FILL. Left
 contexts are multisets of formulas labeled with a variable, and right
 contexts are multisets of formulas labeled with a term.  We will often
@@ -409,11 +411,9 @@ L]]$ which we define next.
 The motivation behind this function is that it only binds the pattern
 variables in $[[x (+) -]]$ and $[[- (+) y]]$ if and only if those
 pattern variables are free in the body of the let.  This over comes the
-counterexample given by Bierman in \cite{Bierman:1996}.  Throughout
-the sequel we will denote derivations of the previous rules by $\pi$.
+counterexample given by Bierman in \cite{Bierman:1996}.  
 
-Similarly to $\lambda$-calculi the terms of FILL are equipped with an
-equivalence relation.  This equivalence on terms is defined in
+The terms of FILL are equipped with an equivalence relation defined in
 Figure~\ref{def:FILL-eq}.
 \begin{figure}[t]
   \begin{center}
@@ -460,13 +460,9 @@ Figure~\ref{def:FILL-eq}.
   \caption{Equivalence on terms}
   \label{def:FILL-eq}
 \end{figure}
-However, these rules should not be considered as computational rules,
-but rather are only necessary for the cut-elimination procedure.  The
-rules are highly motivated by the semantic interpretation of FILL into
-symmetric monoidal categories.  There are a number of $\alpha$,
-$\beta$, and $\eta$ like rules as well as several rules we call
-naturality rules.  These rules are similar to the rules presented in
-\cite{Hyland:1993}.
+There are a number of $\alpha$, $\beta$, and $\eta$ like rules as well
+as several rules we call naturality rules.  These rules are similar to
+the rules presented in \cite{Hyland:1993}.
 % section full_intuitionistic_linear_logic_(fill) (end)
 
 \section{Cut-elimination}
@@ -1183,7 +1179,7 @@ first cut on $[[B]]$, and then $[[A]]$, but we could have cut on
 $[[A]]$ first, and then $[[B]]$, but this would yeild equivalent
 derivations as above by using
 Lemma~\ref{lemma:substitution_distribution}.
-\end{report}
+
   
 \item[Case:] principal formula vs. principal formula: par.
 The proof
@@ -1266,7 +1262,7 @@ We can apply a similar argument for\\
 $[[ [t1 (+) t2/z]{let-pat z (- (+) y) t4}]]$ and
 $[[ [t1 (+) t2/z](let-pat z (- (+) y) L4)]]$.
 
-\begin{report}
+
   Note that we could have first cut on $[[A]]$, and then on $[[B]]$ in
   the second derivation, but we would have arrived at the same result
   just with potentially more exchanges on the right.
@@ -1935,14 +1931,16 @@ transforms into the proof
   \end{math}
 \end{center}
 Clearly, $[[ [t/x]{t1 (+) t2} = {[t/x]t1} (+) [t/x]t2]]$.
+\end{report}
 
 \item[Case:] secondary hypothesis: left introduction of par (first
   case).
 The proof
 \begin{center}
+  \fontsize{6.6}{7.92}\selectfont
   \begin{math}
     $$\mprset{flushleft}
-    \inferrule* [right=Cut] {
+    \inferrule* [leftskip=10px,right=\tiny Cut] {
       \inferrule* [right=] {
         \inferrule* [right=,vdots=1.5em,fraction=\,] {
           \,
@@ -1950,7 +1948,7 @@ The proof
       }{[[G |- t : A | L]]}      
       \\
       $$\mprset{flushleft}
-      \inferrule* [right=Parl] {
+      \inferrule* [right=\tiny Parl] {
         \inferrule* [right=] {
         \inferrule* [right=,vdots=1.5em,fraction=\,] {
           \,
@@ -1966,13 +1964,15 @@ The proof
     }{[[G1,G,G2,G3,w : B (+) C |- L | h(h([t/x](let-pat w (y (+) -) L1)) | h([t/x](let-pat w (- (+) z) L2)))]]}
   \end{math}
 \end{center}
+\noindent
 transforms into the proof
 \begin{center}
+  \fontsize{6.6}{7.92}\selectfont
   \begin{math}
     $$\mprset{flushleft}
-    \inferrule* [right=ParL] {
+    \inferrule* [right=\tiny ParL] {
       $$\mprset{flushleft}
-      \inferrule* [right=Cut] {
+      \inferrule* [right=\tiny Cut] {
         \inferrule* [right=] {
         \inferrule* [right=,vdots=1.5em,fraction=\,] {
           \,
@@ -1994,13 +1994,15 @@ transforms into the proof
     }{[[G1,G,G2,G3,w : B (+) C |- h(h(let-pat w (y (+) -) L) | h(let-pat w (y (+) -) [t/x]L1)) | let-pat w (- (+) z) L2]]}
   \end{math}
 \end{center}
-First, by inspection of the previous proofs we can see that $[[x nin
-FV(L)]]$ and $[[x nin FV(L2)]]$.  Thus, $[[let-pat w (y (+) -) L =
-L]]$, and $[[ [t/x](let-pat w (- (+) z) L2) = let-pat w (- (+) z)
-L2]]$. It suffices to show that $[[ [t/x](let-pat w (y (+) -) L1) =
-let-pat w (y (+) -) [t/x]L1]]$ but this easily follows from a simple
-distributing the substitution into the let-pat, and then
-simplifying using the fact that $w \neq x$.
+First, by inspection of the previous proofs we can see that $[[y nin
+    FV(L)]]$ and $[[x nin FV(L2)]]$.  Thus, $[[let-pat w (y (+) -) L =
+    L]]$, and $[[ [t/x](let-pat w (- (+) z) L2) = let-pat w (- (+) z)
+    L2]]$. It suffices to show that $[[ [t/x](let-pat w (y (+) -) L1)
+    = let-pat w (y (+) -) [t/x]L1]]$ but this follows by distributing
+the substitution into the let-pat, and then simplifying using the fact
+that $w \neq x$.
+
+\begin{report}
 \item[Case:] secondary hypothesis: left introduction of par (second
   case).
 The proof
@@ -2517,7 +2519,7 @@ Clearly, all terms are equivalent.
 
 \section{Full LNL Models}
 \label{sec:full_lnl_models}
-One of the first questions considering the categorical models of
+One of the difficult questions considering the categorical models of
 linear logic was how to model Girard's exponential, $!$, which is read
 ``of course''.  The $!$ modality can be used to translate
 intuitionistic logic into intuitionistic linear logic, and so the
@@ -2528,8 +2530,8 @@ intuitionistic linear logic.
 de Paiva gave some of the first categorical models of both classical
 and intuitionistic linear logic in her thesis \cite{dePaiva:1988}. She
 showed that a particular dialectica category called $\dial$ is a model
-of FILL where $!$ is interpreted as a cofree comonad, see page 76 of
-\cite{dePaiva:1988}.
+of FILL where $!$ is interpreted as a comonad which produces natural
+comonoids, see page 76 of \cite{dePaiva:1988}.
 \begin{definition}
   \label{def:dial2sets}
   The category $\dial$ consists of 
@@ -2560,15 +2562,14 @@ that the of-course exponential should be modeled by a comonad
 as pointed out by Bierman \cite{Bierman:1994}.  This then prompted
 Bierman, Hyland, de Paiva, and Benton to define another categorical
 model called linear categories (Definition~\ref{def:linear-cat}) that
-are sound, and also model $!$ using a cofree comonad
-\cite{Bierman:1994}.  An unfortunate aspect of linear categories is
-that their definition is quite complex.
+are sound, and also model $!$ using a monoidal comonad
+\cite{Bierman:1994}.  
 \begin{definition}
   \label{def:linear-cat}
-  A \textbf{linear category}, $\mathcal{C}$, consists of:
+  A \textbf{linear category}, $\mathcal{L}$, consists of:
   \begin{center}
     \begin{itemize}
-    \item A symmetric monoidal closed category $\mathcal{C}$,
+    \item A symmetric monoidal closed category $\mathcal{L}$,
     \item A symmetric monoidal comonad $(!, \epsilon, \delta, m_{A,B},
       m_I)$ such that 
       \begin{itemize}
@@ -2582,17 +2583,15 @@ that their definition is quite complex.
       \end{itemize}
     \end{itemize}
   \end{center}
-  This definition is the one given by Bierman in his thesis, see page
-  140 of \cite{Bierman:1994}. Due to space constraints we omit the
-  definitions of the various algebraic notions used in this
-  definition, see \cite{Bierman:1994} for full definitions.
+  This definition is the one given by Bierman in his thesis, see
+  \cite{Bierman:1994} for full definitions.
 \end{definition}
 \noindent
-Intuitionistic logic can now be interpreted in a linear category as a
+Intuitionistic logic can be interpreted in a linear category as a
 full subcategory of the category of $!$-coalgebras for the comonad,
 see proposition 17 of \cite{Bierman:1994}.
 
-Benton gave a more well balanced view of linear categories called LNL
+Benton gave a more balanced view of linear categories called LNL
 models.
 \begin{definition}
   \label{def:LNL-model}
@@ -2605,12 +2604,11 @@ models.
     \cat{C}$ and $(F,m) : \cat{C} \to \cat{L}$ between them that form
     a symmetric monoidal adjunction with $F \dashv G$.
   \end{itemize}
-  This is the same definition given by Benton on page 12 of
-  \cite{Benton:1994}.  Due to space constraints we omit the
-  definitions of symmetric monoidal functors and adjunctions.
+  See Benton, \cite{Benton:1994}, for the definitions of symmetric
+  monoidal functors and adjunctions.
 \end{definition}
 A non-trivial consequence of the definition of a LNL model is that the
-$!$ modality can indeed be interpreted as a comonad.  Suppose
+$!$ modality can indeed be interpreted as a monoidal comonad.  Suppose
 $(\cat{L}, \cat{C},F,G)$ is a LNL model. Then the comonad is given by
 $(\mathop{!}, \epsilon : \mathop{!} \to \mathsf{Id}, \delta :
 \mathop{!} \to \mathop{!!})$
@@ -2636,7 +2634,7 @@ from Benton \cite{Benton:1994}:
   between both parts of the model.  Suppose $\cat{L}$ is a linear
   category.  Benton constructs the CCC out of the full subcategory of
   Eilenberg-Moore category $\cat{L}^!$ whose objects are exponentiable
-  coalgebras and is denoted $\mathsf{Exp}(\cat{L}^!)$.  He shows that
+  coalgebras denoted $\mathsf{Exp}(\cat{L}^!)$.  He shows that
   this subcategory is cartesian closed, and contains the (co)Kleisli
   category, $\cat{L}_!$, Lemma~11 on page 23 of \cite{Benton:1994}.
   As for the adjunction
@@ -2651,40 +2649,40 @@ LNL models to be equipped with the necessary categorical structure to
 model par and its unit.
 \begin{definition}
   \label{def:full-linear-cat}
-  A \textbf{full linear category}, $\mathcal{L}$, consists of:
-  \begin{center}
-    \begin{itemize}
-    \item A linear category $(\mathcal{L}, \top, \otimes, \limp,e_A,d_A)$,
-    \item a symmetric monoidal category $(\mathcal{L}, \perp, \parr)$, and
-    \item distribution natural transformations $\mathsf{dist}_1 : A \otimes (B
-      \parr C) \to (A \otimes B) \parr C$ and $\mathsf{dist}_2 : (A \parr B)
-      \otimes C \to A \parr (B \otimes C)$.
-    \end{itemize}
-  \end{center}
+  A \textbf{full linear category}, $\mathcal{L}$, consists of a linear
+  category \\$(\mathcal{L}, \top, \otimes, \limp,e_A,d_A)$, a symmetric
+  monoidal structure on $L$, $(\perp, \parr)$, and distribution
+  natural transformations $\mathsf{dist}_1 : A \otimes (B \parr C) \to
+  (A \otimes B) \parr C$ and $\mathsf{dist}_2 : (A \parr B) \otimes C
+  \to A \parr (B \otimes C)$.
 \end{definition}
 \begin{definition}
   \label{def:full-lnl-model}
-  A \textbf{full linear/non-linear model (full LNL model)} consists of:
-  \begin{itemize}
-  \item A LNL model $(\cat{L}, \cat{C},F,G)$,
-  \item a symmetric monoidal category $(\mathcal{L}, \perp, \parr)$, and
-  \item distribution natural transformations $\mathsf{dist}_1 : A \otimes (B
-      \parr C) \to (A \otimes B) \parr C$ and $\mathsf{dist}_2 : (A \parr B)
-      \otimes C \to A \parr (B \otimes C)$ in $\cat{L}$.
-  \end{itemize}
+  A \textbf{full linear/non-linear model (full LNL model)} consists of
+  a LNL model $(\cat{L}, \cat{C},F,G)$, a symmetric monoidal structure
+  on $L$, $(\perp, \parr)$, as above.
 \end{definition}
 
 \noindent
-Our main result is to first prove that $\dial$ is a full linear
-category, and then using the proof by Benton that linear categories
-are LNL models we obtain that $\dial$ is a full LNL model, but in
-order for this to work we need to know that $\dial$ has a symmetric
-monoidal comonad $(!, \epsilon, \delta, m_{A,B}, m_I)$.  However, at
-the time of de Paiva's thesis it was not known that the comonad
-modeling the of-course exponential needed to be symmetric monoidal.
-We were able to show that the maps $m_{A,B}$ and $m_I$ exist in the
-more general setting of dialectica categories, and thus, such maps
-exist in $\dial$. We can now show our main result of this section.
+Our result is to first prove that $\dial$ is a full linear category,
+and then using the proof by Benton that linear categories are LNL
+models we obtain that $\dial$ is a full LNL model, but in order for
+this to work we need to know that $\dial$ has a symmetric monoidal
+comonad $(!, \epsilon, \delta, m_{A,B}, m_I)$.  However, at the time
+of de Paiva's thesis it was not known that the comonad modeling the
+of-course exponential needed to be monoidal.  We were able to show
+that the maps $m_{A,B}$ and $m_I$ exist in the more general setting of
+dialectica categories, and thus, these maps exist in
+$\dial$. Intuitively, given two objects $A = (X,U,\alpha)$ and $B =
+(V,Y,\beta)$ of $\dial$ the map $m_{A,B}$ is defined as the pair
+$(\id_{U \times V},F)$, where $F = (F_1,F_2)$, $F_1 : (U \times V)
+\Rightarrow (V \Rightarrow X)^* \to V \Rightarrow (U \Rightarrow X^*)$
+and $F_2 : (U \times V) \Rightarrow (U \Rightarrow Y)^* \to U
+\Rightarrow (V \Rightarrow Y^*)$.  The maps $F_1$ and $F_2$ build the
+sequence of all the results of applying each function in the input
+sequence to the input coordinate.
+
+We can now show our main result of this section.
 \begin{lemma}
   \label{lemma:ddial_is_a_linear_category}
   The category $\dial$ is a full linear category.
@@ -2694,10 +2692,10 @@ exist in $\dial$. We can now show our main result of this section.
     We only give a sketch of the proof here, but for the full details
     see that companion report \cite{Eades:2015}.  First, we must show
     that $\dial$ is a linear category.  The majority of the linear
-    structure of $\dial$ can be extracted from de Paiva's thesis
-    \cite{dePaiva:1988}.  However, we had to extend her definitions to
-    show that the free comonad $(!A,\delta,\epsilon)$ is monoidal,
-    however, this is straightforward.
+    structure of $\dial$ is in de Paiva's thesis \cite{dePaiva:1988}.
+    However, we had to extend her definitions to show that the free
+    comonad $(!A,\delta,\epsilon)$ is monoidal, however, this is
+    straightforward.
 
     After showing that $\dial$ is a linear category one must show that
     $\dial$ is a model of par and its unit.  This easily follows from
@@ -3455,7 +3453,6 @@ exist in $\dial$. We can now show our main result of this section.
       \end{math}
     \end{center}
     \todo{Finish this proof.}
-    
   \end{itemize}
 \end{report}
 \end{proof}
@@ -3473,16 +3470,15 @@ exist in $\dial$. We can now show our main result of this section.
 \textbf{Remark:} It would appear, from the fact that tensorial logic
 \cite{Mellies:2008} is a relaxing of linear logic where instead of an
 involutive negation we have a natural transformation $\eta_A\colon A
-\to \neg\neg A$ that is a refinement of the isomorphism of Linear
-Logic, that $\dial$ would be a model of tensorial logic. After all in
-$\dial$ we do have a natural transformation of the shape described,
-taking an object $(U,X, \alpha)$ to $(X, U, \neg \alpha)$ and then to
-$(U, X, \neg\neg \alpha)$ which is "almost" an isomorphism: we use
-identities in U and X, but unless the predicate $\alpha$ itself is
-double-negated, we have a morphism $\alpha \to \neg\neg \alpha$, but
-not a converse one. But we have not had the time to check whether the
-other structure of tensorial logic is present and hence we leave this
-to future work.
+\to \neg\neg A$ that $\dial$ would be a model of tensorial
+logic. After all in $\dial$ we do have a natural transformation of the
+shape described, taking an object $(U,X, \alpha)$ to $(X, U, \neg
+\alpha)$ and then to $(U, X, \neg\neg \alpha)$ which is "almost" an
+isomorphism: we use identities in U and X, but unless the predicate
+$\alpha$ itself is double-negated, we have a morphism $\alpha \to
+\neg\neg \alpha$, but not a converse one. But we have not had the time
+to check whether the other structure of tensorial logic is present and
+hence we leave this to future work.
 % section full_linear_categories (end)
 
 \section{Conclusion and Future Work}
@@ -3500,26 +3496,22 @@ proof that linear categories are LNL models by Benon.
 
 \textbf{Future work.} Lorenzen games are a particular type of game
 semantics for various logics developed by Lorenz, Felscher, and Rahman
-et al. See \cite{Keiff:2011,Rahman:2005} for an introduction.
-Lorenzen games consist of a first-order language consisting of the
-logical connectives of the logic one wishes to study.  Then the
-structure of the games are defined by two types of rules: particle
-rules and structural rules.  The particle rules describe how formulas
-can be attacked or defended based on the formulas main connective.
-Then the structural rules orchestrate the particle rules as the game
-progresses.  They describe the overall organization of the game.
+et al. \cite{Keiff:2011,Rahman:2005}. %% for an introduction.
+%% Lorenzen games consist of a first-order language consisting of the
+%% logical connectives of the logic one wishes to study.  Then the
+%% structure of the games are defined by two types of rules: particle
+%% rules and structural rules.  The particle rules describe how formulas
+%% can be attacked or defended based on the formulas main connective.
+%% Then the structural rules orchestrate the particle rules as the game
+%% progresses.  They describe the overall organization of the game.
 
 Rahman showed that Lorenzen games could be defined for classical
-linear logic \cite{Rahman:2002}.  The main difficulty is enforcing
-linearity, but due to the flexibility inherit in the definition of
-Lorenzen games it can be enforced in the particle rules.  He was able
-to define a sound and complete semantics in Lorenzen games for
-classical linear logic, but he does mention that one could adopt a
-particular structural rule that enforces intuitionism.  We plan to
-show that by adopting this rule we actually obtain a sound and
-complete semantics in Lorenzen games for FILL.  Furthermore, we hope
-to show that these strategies of the games are also compositional, and
-thus, can be used as the morphisms of a category of Lorezen games.
+linear logic \cite{Rahman:2002}.  He was able to define a sound and
+complete semantics in Lorenzen games for classical linear logic, but
+he does mention that one could adopt a particular structural rule that
+enforces intuitionism.  We plan to show that by adopting this rule we
+actually obtain a sound and complete semantics in Lorenzen games for
+FILL.
 % section conclusion_and_future_work (end)
 
 
