@@ -63,13 +63,9 @@
   conjectured that by adopting his rule cut-elimination is
   restored. In this note we show that adopting Bellin’s proposed rule
   one does obtain cut-elimination for FILL, as
-  suggested. Additionally, we show that FILL can be modeled by a new
-  form of dialectica category called order-enriched dialectica
-  category, and discuss future work giving FILL a semantics in terms
-  of Lorenzen games.
+  suggested. Additionally, we show that the categorical model of FILL
+  in a free dialectica category is also a LNL model of Benton.
 \end{abstract}
-
-\todo{Change references to Section 3 to the new semantic results.}
 
 \section{Introduction}
 \label{sec:introduction}
@@ -196,9 +192,9 @@ given.
 confirm Bellin's conjecture by adopting his proposed rule
 (Section~\ref{sec:full_intuitionistic_linear_logic_(fill)}) and
 proving cut-elimination (Section~\ref{sec:cut-elimination}).  In
-addition, we show that FILL can be modeled by a new form of dialectica
-category called order-enriched dialectica category
-(Section~\ref{sec:order-enriched_dialectica_categories}).
+addition, we show that the categorical model of FILL called $\dial$, a
+free dialectica category, is also a LNL model of Benton
+(Section~\ref{sec:full_lnl_models}).
 
 \textbf{Related Work.} The first formalization of FILL with
 cut-elimination was due to Brauner and de Paiva \cite{Brauner:1998}.
@@ -265,11 +261,27 @@ distinguish between the various let-expressions for tensor, par, and
 their units.  There are three different let-expressions:
 \begin{center}
   \begin{math}
-    \begin{array}{rll}
-      \text{Tensor:} & [[let t be p1 (x) p2 in e]]\\
-      \text{Par:} & [[let t be p1 (+) p2 in e]]\\
-      \text{Tensor Unit:} & [[let t be stp in e]]\\
+    \begin{array}{lll}
+      \begin{array}{lll}
+        \text{Tensor:}\\
+        \,\,\,\,[[let t be p1 (x) p2 in e]]
+      \end{array}
+      &
+      \begin{array}{lll}
+        \text{Par:}\\
+        \,\,\,\,[[let t be p1 (+) p2 in e]]
+      \end{array}
+      &
+      \begin{array}{lll}
+        \text{Tensor Unit:}\\
+        \,\,\,\,[[let t be stp in e]]
+      \end{array}
     \end{array}
+    %% \begin{array}{rll}
+    %%   \text{Tensor:} & [[let t be p1 (x) p2 in e]]\\
+    %%   \text{Par:} & [[let t be p1 (+) p2 in e]]\\
+    %%   \text{Tensor Unit:} & [[let t be stp in e]]\\
+    %% \end{array}
   \end{math}
 \end{center}
 In addition, each of these will have their own equational rules, see
@@ -404,7 +416,6 @@ Similarly to $\lambda$-calculi the terms of FILL are equipped with an
 equivalence relation.  This equivalence on terms is defined in
 Figure~\ref{def:FILL-eq}.
 \begin{figure}[t]
-  
   \begin{center}
     \footnotesize
     \begin{mathpar}
@@ -477,7 +488,12 @@ invariant across each step in the procedure.  The invariant is that if
 a derivation $\pi$ is transformed into a derivation $\pi'$, then the
 terms in the conclusion of the final rule applied in $\pi$ must be
 equivalent to the terms in the conclusion of the final rule applied in
-$\pi'$ using the rules from Figure~\ref{def:FILL-eq}.  For example,
+$\pi'$ using the rules from Figure~\ref{def:FILL-eq}.
+
+
+\begin{comment}
+  
+For example,
 consider the following case in the cut-elimination procedure for FILL:
 
 \ \\
@@ -535,7 +551,7 @@ whether $[[ [t/x]{t1 (+) t2} = {[t/x]t1} (+) [t/x]t2]]$ holds, but
 this clearly holds by a simple property of capture avoiding
 substitution.  Every case of the cut-elimination procedure proceeds
 just as this example does.
-
+\end{comment}
 \begin{report}
   The cut elimination procedure requires the following two basic
 results:
@@ -571,7 +587,7 @@ We finally arrive at cut-elimination.
   cases involving the implication right rule have the FILL
   restriction. The structure of our procedure follows the structure of
   the procedure found in \cite{Mellies:2009}. Due to space limitations
-  we only show two of the most interesting cases, but for the entire
+  we only show one of the most interesting cases, but for the entire
   proof see the companion report \cite{Eades:2015}.
   \begin{itemize}
     \begin{report}      
@@ -1246,21 +1262,21 @@ $[[let-pat {t1 (+) t2} (x (+) -) t3 = [t1/x]t3]]$.  This argument can
 be repeated for any terms in $[[L'3]]$, and hence
 $[[ [t1 (+) t2/z](let-pat z (x (+) -) L3)]] = [[let-pat {t1 (+) t2} (x
 (+) -) L3 = [t1/x]L3]]$.
-We can apply a similar argument for
+We can apply a similar argument for\\
 $[[ [t1 (+) t2/z]{let-pat z (- (+) y) t4}]]$ and
 $[[ [t1 (+) t2/z](let-pat z (- (+) y) L4)]]$.
 
-\begin{paper}
+\begin{report}
   Note that we could have first cut on $[[A]]$, and then on $[[B]]$ in
   the second derivation, but we would have arrived at the same result
   just with potentially more exchanges on the right.
-\end{paper}
+\end{report}
 \begin{report}
   Note that just as we mentioned about tensor we could have first cut on
 $[[A]]$, and then on $[[B]]$ in the second derivation, but we would
 have arrived at the same result just with potentially more exchanges
 on the right.
-\end{report}
+
 
   \item[Case:] principal formula vs. principal formula: implication.
 The proof
@@ -1339,7 +1355,6 @@ in $[[ [\x.t/z][z t1/y]L'2]]$, and so $[[ [\x.t/z][z t1/y]L2 = [ [t1/x]t/y]L2]]$
 derivations we can see that $[[z nin FV(L1)]]$, and thus, $[[L1 =
 [\x.t/z]L1]]$.  
 
-\begin{report}
 \item[Case:] principal formula vs. principal formula: tensor unit.
     The proof
 \begin{center}
@@ -2498,11 +2513,10 @@ Clearly, all terms are equivalent.
   \label{corollary:cut-elimination}
   Cut-elimination holds for FILL.
 \end{corollary}
-
 % section cut-elimination (end)
 
-\section{Full Linear Categories}
-\label{sec:full_linear_categories}
+\section{Full LNL Models}
+\label{sec:full_lnl_models}
 One of the first questions considering the categorical models of
 linear logic was how to model Girard's exponential, $!$, which is read
 ``of course''.  The $!$ modality can be used to translate
@@ -2511,7 +2525,7 @@ correct categorical interpretation of $!$ should involve a
 relationship between a cartesian closed category, and the model of
 intuitionistic linear logic.
 
-de Paiva gave one of the first categorical models of both classical
+de Paiva gave some of the first categorical models of both classical
 and intuitionistic linear logic in her thesis \cite{dePaiva:1988}. She
 showed that a particular dialectica category called $\dial$ is a model
 of FILL where $!$ is interpreted as a cofree comonad, see page 76 of
@@ -2540,7 +2554,7 @@ categories called $GC$ over a base category $C$, see page 41 of
 defined above can be seen as an instantiation of $GC$ by setting $C$
 to be the category $\sets$ of sets and functions between them.
 
-Later, Seely gave a different categorial model that also confirmed
+Seely gave a different, syntactic categorical model that confirmed
 that the of-course exponential should be modeled by a comonad
 \cite{Seely:1989}.  However, Seely's model turned out to be unsound,
 as pointed out by Bierman \cite{Bierman:1994}.  This then prompted
@@ -2578,7 +2592,7 @@ Intuitionistic logic can now be interpreted in a linear category as a
 full subcategory of the category of $!$-coalgebras for the comonad,
 see proposition 17 of \cite{Bierman:1994}.
 
-Benton gave a more fundamental view of linear categories called LNL
+Benton gave a more well balanced view of linear categories called LNL
 models.
 \begin{definition}
   \label{def:LNL-model}
@@ -2604,7 +2618,7 @@ where $! = FG$, $\epsilon$ is the counit of the adjunction and
 $\delta$ is the natural transformation $\delta_A = F(\eta_{G(A)})$,
 see page 15 of \cite{Benton:1994}.  We recall the following result
 from Benton \cite{Benton:1994}:
-\begin{theorem}[LNL Models are Linear Categories, page 16 of \cite{Benton:1994}]
+\begin{theorem}[LNL Models and Linear Categories, page 16 of \cite{Benton:1994}]
   \label{thm:lnl_models_are_linear_categories}
   \begin{itemize}
   \item[]
@@ -2632,24 +2646,45 @@ from Benton \cite{Benton:1994}:
 \end{proof}
 
 Next we show that the category $\dial$ is a full version of a linear
-category. First, we extend the notion of a linear category to be
-equipped with the necessary categorical structure to model par and its
-unit.
+category. First, we extend the definitions of linear categories and
+LNL models to be equipped with the necessary categorical structure to
+model par and its unit.
 \begin{definition}
-  \label{def:linear-cat}
-  A \textbf{full linear category}, $\mathcal{C}$, consists of:
+  \label{def:full-linear-cat}
+  A \textbf{full linear category}, $\mathcal{L}$, consists of:
   \begin{center}
     \begin{itemize}
-    \item A linear category $(\mathcal{C}, \top, \otimes, \limp,e_A,d_A)$,
-    \item A symmetric monoidal category $(\mathcal{C}, \perp, \parr)$,
-    \item Distribution natural transformations $\mathsf{dist}_1 : A \otimes (B
+    \item A linear category $(\mathcal{L}, \top, \otimes, \limp,e_A,d_A)$,
+    \item a symmetric monoidal category $(\mathcal{L}, \perp, \parr)$, and
+    \item distribution natural transformations $\mathsf{dist}_1 : A \otimes (B
       \parr C) \to (A \otimes B) \parr C$ and $\mathsf{dist}_2 : (A \parr B)
-      \otimes C \to A \parr (B \otimes C)$,
+      \otimes C \to A \parr (B \otimes C)$.
     \end{itemize}
   \end{center}
 \end{definition}
+\begin{definition}
+  \label{def:full-lnl-model}
+  A \textbf{full linear/non-linear model (full LNL model)} consists of:
+  \begin{itemize}
+  \item A LNL model $(\cat{L}, \cat{C},F,G)$,
+  \item a symmetric monoidal category $(\mathcal{L}, \perp, \parr)$, and
+  \item distribution natural transformations $\mathsf{dist}_1 : A \otimes (B
+      \parr C) \to (A \otimes B) \parr C$ and $\mathsf{dist}_2 : (A \parr B)
+      \otimes C \to A \parr (B \otimes C)$ in $\cat{L}$.
+  \end{itemize}
+\end{definition}
+
 \noindent
-The following is our first main result of this section.
+Our main result is to first prove that $\dial$ is a full linear
+category, and then using the proof by Benton that linear categories
+are LNL models we obtain that $\dial$ is a full LNL model, but in
+order for this to work we need to know that $\dial$ has a symmetric
+monoidal comonad $(!, \epsilon, \delta, m_{A,B}, m_I)$.  However, at
+the time of de Paiva's thesis it was not known that the comonad
+modeling the of-course exponential needed to be symmetric monoidal.
+We were able to show that the maps $m_{A,B}$ and $m_I$ exist in the
+more general setting of dialectica categories, and thus, such maps
+exist in $\dial$. We can now show our main result of this section.
 \begin{lemma}
   \label{lemma:ddial_is_a_linear_category}
   The category $\dial$ is a full linear category.
@@ -3425,9 +3460,30 @@ The following is our first main result of this section.
 \end{report}
 \end{proof}
 
+\begin{corollary}
+  \label{corollary:dial-FLNL}
+  The category $\dial$ is a full LNL model.
+\end{corollary}
+\begin{proof}
+  This follows directly from the previous lemma and
+  Theorem~\ref{thm:lnl_models_are_linear_categories} which shows that
+  linear categories are LNL models.
+\end{proof}
+
+\textbf{Remark:} It would appear, from the fact that tensorial logic
+\cite{Mellies:2008} is a relaxing of linear logic where instead of an
+involutive negation we have a natural transformation $\eta_A\colon A
+\to \neg\neg A$ that is a refinement of the isomorphism of Linear
+Logic, that $\dial$ would be a model of tensorial logic. After all in
+$\dial$ we do have a natural transformation of the shape described,
+taking an object $(U,X, \alpha)$ to $(X, U, \neg \alpha)$ and then to
+$(U, X, \neg\neg \alpha)$ which is "almost" an isomorphism: we use
+identities in U and X, but unless the predicate $\alpha$ itself is
+double-negated, we have a morphism $\alpha \to \neg\neg \alpha$, but
+not a converse one. But we have not had the time to check whether the
+other structure of tensorial logic is present and hence we leave this
+to future work.
 % section full_linear_categories (end)
-
-
 
 \section{Conclusion and Future Work}
 \label{sec:conclusion_and_future_work}
@@ -3437,9 +3493,10 @@ the left rule for par proposed by Bellin in
 Section~\ref{sec:full_intuitionistic_linear_logic_(fill)}.  We then
 proved cut-elimination of FILL in Section~\ref{sec:cut-elimination} by
 adapting the well-known cut-elimination procedure for classical linear
-logic to FILL.  Finally, we gave a semantics of FILL interms of
-order-enriched dialectica categories in
-Section~\ref{sec:order-enriched_dialectica_categories}.
+logic to FILL.  Finally, in Section~\ref{sec:full_lnl_models} we
+showed that the category $\dial$, a model of FILL, is a full LNL model
+by showing that it is a full linear category, and then replaying the
+proof that linear categories are LNL models by Benon.
 
 \textbf{Future work.} Lorenzen games are a particular type of game
 semantics for various logics developed by Lorenz, Felscher, and Rahman
