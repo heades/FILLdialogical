@@ -3318,12 +3318,12 @@ We can now show our main result of this section.
   following definitions:
   \begin{itemize}
   \item (Proposition 53, page 77 of \cite{dePaiva:1988}).  We define
-    $e_A : !A \to \top$ has the pair $(\diamond,\lambda x.\lambda
+    $e_A : !A \to \top$ as the pair $(\diamond,\lambda x.\lambda
     u.())$, where $\diamond$ is the terminal map on $U$ and $()$ is
     the empty sequence.
     
   \item (Proposition 53, page 77 of \cite{dePaiva:1988}).  We define
-    $d_A : !A \to !A \otimes !A$ has the pair $(\Delta, \theta)$
+    $d_A : !A \to !A \otimes !A$ as the pair $(\Delta, \theta)$
     where $\Delta : U \to U \times U$ is the diagonal map in
     $\sets$, and
     \begin{center}
@@ -3545,37 +3545,97 @@ We can now show our main result of this section.
     \begin{center}
       \begin{math}
         \bfig
-        \square/->`=`->`->/[!A`\top`!!A`!\top;e_A`\delta_A`m_\top`!e_A]
+        \square/->`->`->`->/[!A`\top`!!A`!\top;e_A`\delta_A`m_\top`!e_A]
         \place(240,250)[\text{R}]        
         \efig
       \end{math}
     \end{center}
+    Diagram R commutes by unfolding definitions, and the fact that the
+    second coordinate of $e_A$ is a constant function.
 
   \item The map $d_A$ must also be a coalgebra morphism, and hence,
     the following diagram must commute:
     \begin{center}
       \begin{math}
         \bfig
-        \morphism(40,500)<1780,0>[`;d_{A}]
+        \morphism(40,500)<1780,0>[`;\delta_{A}]
         \hSquares/``->``->`->`->/[!A``!!A`!A \otimes !A`!!A \otimes !!A`!(!A \otimes !A);``d_A``!d_A`\delta_A \otimes \delta_A`m_{!A,!A}]
         \place(980,250)[\text{S}]        
         \efig                
       \end{math}
     \end{center}
+    It suffices to show that the following holds:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          \delta_A;!d_A
+          & = & (\id_U,F_1);(\Delta,!\Theta)\\
+          & = & (\Delta,!\Theta;F_1)\\
+          & = & (\Delta;\id_{U \times U};\id_{U \times U},!\Theta;F_1)\\
+          & = & (\Delta;(\id_{U} \times \id_{U});\id_{U \times U},!\Theta;F_1)\\
+          & = & (\Delta;(\id_{U} \times \id_{U});\id_{U \times U},F_2;F_\otimes;\Theta)\\
+          & = & (\Delta,\Theta);(\id_{U} \times \id_{U},F_\otimes);(\id_{U \times U},F_2)\\
+          & = & d_A;(\delta_A \otimes \delta_A);m_{!A,!A}\\
+        \end{array}
+      \end{math}
+    \end{center}
+    Now consider the following:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          !(\Theta;F_1)(g)
+          & = & F_1(!\Theta(g))\\
+          & = & F_!(\lambda x.\Theta^*(g(x)))\\
+          & = & \lambda p.\lett (f_1,\cdots,f_i) = \Theta^*(g(p)) \inn f_1(p) \circ \cdots \circ f_i(p)\\          
+        \end{array}
+      \end{math}
+    \end{center}
+    Furthermore, consider the following:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          (F_2;F_\otimes;\Theta)(g)
+          & = & \Theta(F_\otimes(h_1,h_2))\\
+          & = & \Theta(\lambda x.F_1(h_1(x)), \lambda y.F_1(h_2(y)))\\
+          & = & \lambda u.F_1(h_1(u,u)) \circ F_1(h_2(u,u))\\
+        \end{array}
+      \end{math}
+    \end{center}
+    where
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          h_1(u,u') & = & \lett (f_1,\ldots,f_i) = g(u,u') \inn (f_1(u),\ldots,f_i(u))\\
+          h_2(u,u') & = & \lett (f_1,\ldots,f_i) = g(u,u') \inn (f_1(u'),\ldots,f_i(u'))\\
+        \end{array}        
+      \end{math}
+    \end{center}
+    At this point we can see that $\Theta;F_1 = F_2;F_\otimes;\Theta$
+    by the previous reasoning and the definition of $F_1$.
 
-  \item Given a coalgebra morphism, $f$, between free coalgebras
-    $(!A,\delta_A)$ and $(!B,\delta_B)$ it must be the case that $f$ is
-    also a comonoid morphism, i.e. the following diagram must commute:
+  \item Finally, we show that when given a coalgebra morphism, $f$,
+    between free coalgebras $(!A,\delta_A)$ and $(!B,\delta_B)$,
+    i.e. making the following diagram commute:
+    \begin{center}
+    \begin{math}
+      \bfig
+      \square/->`->`->`->/[!A`!B`!!A`!!B;f`\delta_A`\delta_B`!f]
+      \place(240,250)[\text{T}]        
+      \efig
+    \end{math}
+    \end{center}
+    Then it must be the case that the following commutes:
     \begin{center}
       \begin{math}
         \bfig
-        \square/->`->`->`->/[!A`!B`!!A`!!B;f`\delta_A`\delta_B`!f]
-        \place(240,250)[\text{T}]        
-        \efig
+        \hSquares/<-`->`=`->`->`<-`->/[\top`!A`!A \otimes !A`\top`!B`!B \otimes !B;e_A`d_A``f`f \otimes f`e_B`d_B]
+        \efig                
       \end{math}
     \end{center}
-    
-  \end{itemize}
+    It is straightforward to show that the previous diagram commutes
+    using the definitions of the respective morphisms and the 
+    assumption that $f$ is a coalgebras morphism.
+  \end{itemize}   
 \end{report}
 \end{proof}
 
