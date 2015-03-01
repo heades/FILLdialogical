@@ -3489,6 +3489,56 @@ We can now show our main result of this section.
         \efig                
       \end{mathpar}
     \end{center}
+    We prove that diagram O commutes, and then diagrams N and P will
+    commute by similar reasoning.  Following this we prove that
+    diagram Q commutes.
+
+    It suffices to show the following:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          d_A;(e_A \otimes \id_{!A})
+          & = & (\Delta,\Theta);(\diamond \times \id_U,F_\otimes)\\
+          & = & (\Delta;(\diamond \times \id_U),F_\otimes;\Theta)\\
+          & = & (\lambda u.(\diamond(u),u),F_\otimes;\Theta)\\
+          & = & (\hat{\lambda}^{-1}_U,F_\otimes;\Theta)\\
+          & = & (\hat{\lambda}^{-1},F_{\lambda^{-1}})\\
+          & = & \lambda^{-1}\\
+        \end{array}
+      \end{math}
+    \end{center}
+    We can easily see that the following holds by definition:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          (F_\otimes;\Theta)(g_1,g_2)
+          & = & \Theta(F_\otimes(g_1,g_2))\\
+          & = & \Theta(\lambda v.\lambda u.(),\lambda u.g_2(\diamond(u)))\\
+          & = & \lambda u.() \circ g_2(\diamond(u,u))\\
+          & = & \lambda u.g_2(\diamond(u,u))\\
+          & = & \lambda^{-1}(g_1,g_2)\\
+        \end{array}
+      \end{math}
+    \end{center}
+
+    Now we show that diagram Q commutes. However, it is
+    straightforward to show that the following holds:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          d_A;(\id_{!A} \otimes d_A)
+          & = & (\Delta,\Theta);(\id_U \times \Delta,F_\otimes)\\
+          & = & (\Delta;(\id_U \times \Delta),F_\otimes;\Theta)\\
+          & = & (\Delta;(\id_U \times \Delta),F_\alpha;F_\otimes;\Theta)\\
+          & = & (\Delta;(\Delta \times \id_U);\hat{\alpha},F_\alpha;F_\otimes;\Theta)\\
+          & = & (\Delta,\Theta);(\Delta \times \id_U,F_\otimes);(\hat{\alpha},F_\alpha)\\
+          & = & d_A;(d_A \otimes \id_{!A});\alpha\\
+        \end{array}
+      \end{math}
+    \end{center}
+    We can see that $F_\otimes;\Theta = F_\alpha;F_\otimes;\Theta$,
+    because the right-hand side does the same as the left-hand side,
+    but first reorganizes and does it on the opposite association.
 
   \item The map $e_A$ must be a coalgebra morphism which amounts to
     requiring that the following diagram commute:
