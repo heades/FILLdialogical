@@ -78,7 +78,7 @@ interpretation in terms of dialectica categories
 investigation she initially believed that dialectica categories would
 end up being a model of intuitionistic logic, but to her surprise they
 are actually models of intuitionistic linear logic, containing the
-linear connectives: tensor, implication,additives, and exponentials.
+linear connectives: tensor, implication, additives, and exponentials.
 She then improved her models to capture both FILL and CLL.
 Furthermore, unlike other models at that time the units did not
 collapse into a single object.
@@ -128,12 +128,12 @@ the unfortunate consequence of breaking cut-elimination
 \cite{Schellinx:1991}.
 
 Later, Hyland and de Paiva gave an alternative formalization of FILL
-in to regain cut-elimination \cite{Hyland:1993}.  This new
-formalization lifted the Dragalin restriction by decorating sequents
-with a term assignment.  Hypotheses were assigned variables, and the
-conclusions were assigned terms.  Then using these terms one can track
-the use of hypotheses throughout a derivation.  They proposed a new
-implication right rule:
+with the intention of regaining cut-elimination \cite{Hyland:1993}.  This
+new formalization lifted the Dragalin restriction by decorating
+sequents with a term assignment.  Hypotheses were assigned variables,
+and the conclusions were assigned terms.  Then using these terms one
+can track the use of hypotheses throughout a derivation.  They
+proposed a new implication right rule:
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -182,19 +182,20 @@ follows:
     \FILLdruleParl{}
   \end{math}
 \end{center}
-In this rule $[[let-pat z (x (+) -) t]]$ and $[[let-pat z (- (+) y) t']]$ only let-bind
-$z$ in $t$ or $t'$ if $x \in FV(t)$ or $y \in FV(t')$.  Otherwise the
-terms are left unaltered.  Bellin conjectured that adopting this rule
-results in FILL regaining cut-elimination.  However, no proof has been
-given.  
+In this rule $[[let-pat z (x (+) -) t]]$ and $[[let-pat z (- (+) y)
+    t']]$ only let-bind $z$ in $t$ or $t'$ if $x \in FV(t)$ or $y \in
+FV(t')$.  Otherwise the terms are left unaltered.  Bellin showed that
+by adopting this rule cut-elimination can be proven by reduction to
+the cut-elimination procedure for proof nets for multiplicative linear
+logic with the mix rule \cite{Bellin:1997}.  However, this is an
+indirect proof that requires the adoption of proof nets.
 
-\textbf{Contributions.} In this paper our main contribution is to
-confirm Bellin's conjecture by adopting his proposed rule
-(Section~\ref{sec:full_intuitionistic_linear_logic_(fill)}) and
-proving cut-elimination (Section~\ref{sec:cut-elimination}).  In
-addition, we show that the categorical model of FILL called $\dial$, a
-the basic dialectica category, is also a linear/non-linear model of
-Benton (Section~\ref{sec:full_lnl_models}).
+\textbf{Contributions.} In this paper our main contribution is to give
+a direct proof of cut-elimination for FILL with Bellin's proposed
+par-left rule (Section~\ref{sec:cut-elimination}).  In addition, we
+show that the categorical model of FILL called $\dial$, the basic
+dialectica category, is also a linear/non-linear model of Benton
+(Section~\ref{sec:full_lnl_models}).
 
 \textbf{Related Work.} The first formalization of FILL with
 cut-elimination was due to Bra\"uner and de Paiva \cite{Brauner:1998}.
@@ -3668,12 +3669,13 @@ hence we leave this to future work.
 We first gave the definition of full intuitionistic linear logic using
 the left rule for par proposed by Bellin in
 Section~\ref{sec:full_intuitionistic_linear_logic_(fill)}.  We then
-proved cut-elimination of FILL in Section~\ref{sec:cut-elimination} by
-adapting the well-known cut-elimination procedure for classical linear
-logic to FILL.  Finally, in Section~\ref{sec:full_lnl_models} we
-showed that the category $\dial$, a model of FILL, is a full LNL model
-by showing that it is a full linear category, and then replaying the
-proof that linear categories are LNL models by Benon.
+directly proved cut-elimination of FILL in
+Section~\ref{sec:cut-elimination} by adapting the well-known
+cut-elimination procedure for classical linear logic to FILL.
+Finally, in Section~\ref{sec:full_lnl_models} we showed that the
+category $\dial$, a model of FILL, is a full LNL model by showing that
+it is a full linear category, and then replaying the proof that linear
+categories are LNL models by Benton.
 
 \textbf{Future work.} Lorenzen games are a particular type of game
 semantics for various logics developed by Lorenz, Felscher, and Rahman
