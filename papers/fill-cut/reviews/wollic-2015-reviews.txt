@@ -70,7 +70,7 @@
 >
 >Gianluigi
 
-I modified the draft to account for this correction.  We now
+HE: I modified the draft to account for this correction.  We now
 acknowledge his paper and his proof.
 
 **********************************************************************
@@ -158,21 +158,28 @@ acknowledge his paper and his proof.
 >to Bra¸ner and de Paiva [4]": I'm not sure what 'formalization' means
 >here; the first published cut-elimination theorem for FILL is in
 >Bierman [3].
->
+HE: No! Bierman did ILL, not FILL.
+
 >Definition 3: the third case should contain the word 'otherwise' to
 >distinguish it from the first two.
 >
 >Figure 1: 'IL' and 'IR' should be 'TL' and 'TR'.
->
+HE: I have plans to fix this, but I need to patch Ott first.
+
 >Page 5: "over come" should be "overcome".
->
+HE: Fixed.
+
 >Theorem 9: the 16th page of a 15 page long paper is cited!
->
+HE: Fixed.  We were citing Benton's CSL extended abstract, but we
+should have been citing his tech. report.
+
 >Section 4 generally: this section appears to be heavily padded with
 >well-known material. Why is it necessary to give full details of two
 >different notions of categorical model of intuitionistic linear logic
 >if they are known to be equivalent? Why is the proof of Theorem 9
 >given if it is already published in [9]?
+HE: This is to make the paper self contained.  All of the references
+are acknowledged.  I am not convienced this is a bad thing.  Furthermore, these proofs are short sketches and are far from complete.
 
 * Review 2 * 
 
@@ -181,14 +188,24 @@ acknowledge his paper and his proof.
 >that gives new insight. Yet, it is quite nice to read how the ideas
 >have evolved, and how a coherent whole picture can be built by
 >incremental contributions - therefore a nice "meta" level paper on
->research. However, it is also difficult to tease out the contributions
+>research.
+
+HE:  This is nice, and I think this is what we were going for.
+
+>However, it is also difficult to tease out the contributions
 >as they are emershed in the tutorial exposition.
->
+
+HE: I am not sure how to fix this.  Maybe a comment at each new
+contribution with *this is new*?  We do have a *contributions*
+section, is this not doing the job?
+
 >I question any wide interest in this programme of work, but putting
 >this aside, I still feel it should be presented because it brings
 >together many srteams of interest to WOLLIC: Dialectica (By the way,
->is Dialectica capitalized or not? Keep consistent use), linear logic,
->and category theory.
+>is Dialectica capitalized or not? Keep consistent use),
+HE: Fixed this.
+
+> linear logic, and category theory.
 >
 >Overall well written, though some comments on writing below. By the
 >way, it is premature of the authors to include detailed report in the
@@ -206,25 +223,25 @@ acknowledge his paper and his proof.
 >Typos, etc:
 >
 >page 1: add comma before additives, last line
-Fixed.
+HE: Fixed.
 
 >page 2: remove "in" from "FILL in to regain"
-Fixed.
+HE: Fixed.
 
 >page 3: remove "a" from "a the base dialectica"
-Fixed.
+HE: Fixed.
 
 >remove "a" from "in a what they call"
-Fixed.
+HE: Fixed.
 
 >page 5: "over comes" is actually one word
-Fixed.
+HE: Fixed.
 
 >"one only need to start" should be "needs"
-Fixed.
+HE: Fixed.
 
 >page 11: Dragalin reference: correct "Mathemaitcal"
-Fixed.
+HE: Fixed.
 
 * Review 3 * 
 
@@ -249,5 +266,5 @@ Fixed.
 >not clear why to adopt an intuitionistic setting with par, since it
 >complicates a lot the system.
 
-Nothing really to change with respect to this review.  Perhaps we can
-think about motivating the par in the future.
+HE: Nothing really to change with respect to this review.  Perhaps we
+can think about motivating the par in the future.

@@ -227,6 +227,23 @@ they have a similar property to that of Bra\"uner and de Paiva's
 formalization.  In fact, the dependency tracking system is very
 similar to this formalization, but the dependency tracking has been
 collapsed into the object language instead of being at the meta-level.
+
+Clouston et al. give both a deep inference calculus and a display
+calculus for FILL that admits cut-elimination \cite{Clouston:2013}.
+Both of these systems are refinements of a larger one called
+bi-intuitionistic linear logic (BiLL).  This logic contains every
+logical connective of FILL with the addition of the exclusion (or
+subtraction) connective.  This connective can be defined categorically
+as the left-adjoint to par.  Thus, exclusion is the dual to
+implication.  A positive aspect to this work is that the resulting
+systems are annotation free, but at a price of obscurity.  Deep
+inference and display calculi are harder to understand, and their
+system requires FILL to be defined as a refinement of a system with
+additional connectives.  We show in this paper that such a refinement
+is unnecessary.  In addition, a term assignment system is closer to
+traditional logic than deep inference and display calculi, and it is
+closer, through the lens of the Curry-Howard-Lambek correspondence, to
+a type theoretic understanding of FILL.
 % section introduction (end)
 
 \section{Full Intuitionistic Linear Logic (FILL)}
@@ -352,10 +369,10 @@ The inference rules for FILL are defined in Figure~\ref{def:infr}.
       \begin{mathpar}
         \FILLdruleAx{}    \and 
         \FILLdruleCut{}     \and 
-        \FILLdruleIl{}            \and 
-        \FILLdruleIr{}    \and 
-        \FILLdruleTl{}    \and 
+        \FILLdruleTl{}            \and 
         \FILLdruleTr{}    \and 
+        \FILLdruleTenl{}    \and 
+        \FILLdruleTenr{}    \and 
         \FILLdrulePl{}    \and 
         \FILLdrulePr{}    \and 
         \FILLdruleParl{}    \and 
@@ -2612,12 +2629,12 @@ where $! = FG$, $\epsilon$ is the counit of the adjunction and
 $\delta$ is the natural transformation $\delta_A = F(\eta_{G(A)})$,
 see page 15 of \cite{Benton:1994}.  We recall the following result
 from Benton \cite{Benton:1994}:
-\begin{theorem}[LNL Models and Linear Categories, page 16 of \cite{Benton:1994}]
+\begin{theorem}[LNL Models and Linear Categories]
   \label{thm:lnl_models_are_linear_categories}
   \begin{itemize}
   \item[]
-  \item[i.] Every LNL model is a linear category.
-  \item[ii.] Every linear category is a LNL model.
+  \item[i.] (Section~2.2.1 of \cite{Benton:1994}) Every LNL model is a linear category.
+  \item[ii.] (Section~2.2.2 of \cite{Benton:1994}) Every linear category is a LNL model.
   \end{itemize}
 \end{theorem}
 \begin{proof}
