@@ -1,243 +1,253 @@
 **********************************************************************
 * Email from Bellin on Mar 30                                        *
 **********************************************************************
-Dear Valeria,
+>Dear Valeria,
+>
+>I have seen at a paper of yours with Harvey Eades III on
+>cut-elimination for FILL submitted to WoLLIC.
+>
+>I forward to you a slightly expanded version of what I sent to the
+>referees.
+>
+>-----------
+>My paper Subnets of proof-nets in MLL with Mix, MSCS vol 7, 1997,
+>pp.663-699 has Section 4 dedicated to FILL + Mix.  The par-left rule
+>is at page 690-1, and the general method of proof is to decorate
+>classical proof-nets with polarizations (called then I-O-orientations)
+>that represent an intuitionistic proof.
+>
+>Cut-elimination is proved by reduction to the cut-elimination
+>procedure for proof-nets for MLL with Mix.
+>
+>The main theorem (Theorem 4, p.695) has the familiar form of
+>sequentialization theorems; the proof of cut-elimination for FILL+ Mix
+>is parts (c) and (d)
+>
+>Theorem: There is a context forgetting map ( )- from sequent
+>derivations to proof nets with polarization such that
+>
+>(a) sequent derivations D decorated with terms are mapped to
+>proof-nets N with polarization;
+>
+>(b) sequentialization for proof nets with polarization: if N is a
+>polarized proof-net for FILL + Mix then there is a proof with term
+>assignment D in FILL + Mix such that (D)- = N;
+>
+>(c) if D reduces to D' then (D)- reduces to (D')-
+>
+>(d) if (D)- = N and N reduces to N' then there exists D' such that D
+>reduces to D' and (D')- N'.
+>
+>-------
+>There may be a question whether there are gaps in the proof.
+>
+>In the case of FILL, a challenge was to find a graph theoretic
+>condition for the correct representation of intuitionistic
+>implication: an implication link that satisfies the proposed condition
+>is called "functional" (the ideas were not too far from F.Lamarche's
+>essential nets).
+>
+>Now the last paragraph of the paper checks precisely that
+>cut-elimination of nets preserves functionality of implications.  So
+>the proof is quite careful.
+>
+>-----
+>Finally, the results hold with a simpler proof if we consider FILL
+>without Mix and proof net for MLL with units without Mix.  The
+>(strong) cut-elimination theorem for MLL proof nets with units is
+>immediate, as every reduction step reduces the size of the net.
+>
+>Thus cut-elimination for FILL + Mix was proved, not
+>conjectured, by Bellin and the MSCS paper should be
+>acknowledged.
+>
+>What you have done now is to give a direct proof.
+>
+>----
+>If you need more explanations please ask.
+>
+>yours
+>
+>Gianluigi
 
-I have seen at a paper of yours with Harvey Eades III on
-cut-elimination for FILL submitted to WoLLIC.
-
-I forward to you a slightly expanded version of what I sent to the
-referees.
-
------------
-My paper Subnets of proof-nets in MLL with Mix, MSCS vol 7, 1997,
-pp.663-699 has Section 4 dedicated to FILL + Mix.  The par-left rule
-is at page 690-1, and the general method of proof is to decorate
-classical proof-nets with polarizations (called then I-O-orientations)
-that represent an intuitionistic proof.
-
-Cut-elimination is proved by reduction to the cut-elimination
-procedure for proof-nets for MLL with Mix.
-
-The main theorem (Theorem 4, p.695) has the familiar form of
-sequentialization theorems; the proof of cut-elimination for FILL+ Mix
-is parts (c) and (d)
-
-Theorem: There is a context forgetting map ( )- from sequent
-derivations to proof nets with polarization such that
-
-(a) sequent derivations D decorated with terms are mapped to
-proof-nets N with polarization;
-
-(b) sequentialization for proof nets with polarization: if N is a
-polarized proof-net for FILL + Mix then there is a proof with term
-assignment D in FILL + Mix such that (D)- = N;
-
-(c) if D reduces to D' then (D)- reduces to (D')-
-
-(d) if (D)- = N and N reduces to N' then there exists D' such that D
-reduces to D' and (D')- N'.
-
--------
-There may be a question whether there are gaps in the proof.
-
-In the case of FILL, a challenge was to find a graph theoretic
-condition for the correct representation of intuitionistic
-implication: an implication link that satisfies the proposed condition
-is called "functional" (the ideas were not too far from F.Lamarche's
-essential nets).
-
-Now the last paragraph of the paper checks precisely that
-cut-elimination of nets preserves functionality of implications.  So
-the proof is quite careful.
-
------
-Finally, the results hold with a simpler proof if we consider FILL
-without Mix and proof net for MLL with units without Mix.  The
-(strong) cut-elimination theorem for MLL proof nets with units is
-immediate, as every reduction step reduces the size of the net.
-
-Thus cut-elimination for FILL + Mix was proved, not
-conjectured, by Bellin and the MSCS paper should be
-acknowledged.
-
-What you have done now is to give a direct proof.
-
-----
-If you need more explanations please ask.
-
-yours
-
-Gianluigi
+I modified the draft to account for this correction.  We now
+acknowledge his paper and his proof.
 
 **********************************************************************
 * Wollic'15 Reivews: Received Mar 31                                 *   
 **********************************************************************
 
-Review 1
+* Review 1 * 
 
-In "Multiple Conclusion Intuitionistic Linear Logic and Cut
-Elimination" the authors give a cut-elimination proof for a sequent
-calculus for Full Intuitionistic Linear Logic (FILL) originally
-suggested by Bellin (communicated in a 1996 paper by Bierman
-[3]). They also show that a particular model of FILL, Dial_2(Sets), is
-an linear/non-linear model in the sense of Benton [1].
+>In "Multiple Conclusion Intuitionistic Linear Logic and Cut
+>Elimination" the authors give a cut-elimination proof for a sequent
+>calculus for Full Intuitionistic Linear Logic (FILL) originally
+>suggested by Bellin (communicated in a 1996 paper by Bierman
+>[3]). They also show that a particular model of FILL, Dial_2(Sets), is
+>an linear/non-linear model in the sense of Benton [1].
+>
+>This paper has a number of serious flaws and my recommendation is that
+>it should it be rejected.
+>
+>First, sequent calculi with cut-elimination for FILL are now
+>well-established - the authors cite [3,4], but there is also Clouston
+>et al's 2013 'Annotation-Free Sequent Calculi for Full Intuitionistic
+>Linear Logic', which is not cited. If yet another such calculus is to
+>be added to the literature there needs to be some justification -
+>i.e. that it is a better or interestingly different approach to the
+>now-solved problem. No such justification is offered.
+>
+>Second, the authors frame their contribution as a proof of a
+>'conjecture' by Bellin that his alternative par-left rule yields
+>cut-elimination, but this is not my reading of the Bierman paper that
+>introduced it. In that paper Bierman states as a fact, rather than a
+>conjecture, that Bellin's rule "leads to a system which is also closed
+>under the process of cut elimination". This suggests the existence of
+>a proof; admittedly the proof was never published, but this is
+>explicable because Bierman had his own calculus which solved the
+>problem - he discusses in section 3 of his paper why he prefers his
+>pattern-based solution. So it seems likely that the bulk of this paper
+>is, at best, recreating an already known proof.
+>
+>Third, the term assignment system in this paper is used entirely to
+>track a binary relation between premises and conclusions, in order to
+>block illegitimate uses of the IMPR rule. This is the viewpoint made
+>explicit by Bra¸ner and de Paiva in their 1998 paper [4]. If you strip
+>away the terms from the calculus in this paper, leaving only the
+>information of which variables appear free in which terms, then it
+>seems to me that you get exactly the Bra¸ner-de Paiva
+>calculus. Certainly the PARL rule, which is the focus of this paper,
+>is the same (see Definition 3 and Figure 1 of [4]). So the
+>cut-elimination result in this paper should be derivable immediately
+>from the result of [4].
+>
+>Fourth, the cut-elimination proof in this paper (and in the extended
+>version online) has a gap: it is not explained how Theorem 4 yields
+>Corollary 5, and indeed the theorem does not seem to be strong
+>enough. For example (\lambda x.e)e' = [e'/x]e by BETAFUN, but if x is
+>not free in e and e' has some free variables, then the left hand side
+>has more free variables than the right. Therefore the left could block
+>IMPR rules that the right would not, so mere equality is not
+>sufficient to ensure that the cut-elimination transformations preserve
+>the validity of derivations. This can probably be fixed, but it is a
+>gap as stands.
+>
+>Fifth, Section 4 (which is entirely unrelated to the earlier sections)
+>also makes a very modest contribution. Dial_2(Sets) is known from de
+>Paiva's thesis [6] and the paper with Hyland [9] to be a categorical
+>model of FILL. If one ignores par and its unit it is not greatly
+>surprising that it also conforms to a certain categorical model of
+>intuitionistic logic. The technical step required to make this small
+>jump (the proof that a certain comonad is monoidal) is omitted from
+>this paper but described as "straightforward". In fact the situation
+>is even more straightforward than suggested, because Dial_2(Sets) is
+>also a model of classical linear logic, and so only a model of FILL in
+>a degenerate sense, as par can be defined via de Morgan
+>duality. Briefly, if \alpha is as in the paper, \alpha lollipop \bot
+>is (isomorphic to) the relation from X to U that holds for (x,u) iff
+>(not u\alpha x). That double negation is an isomorphism is then
+>obvious. Note that the 'G' construction when applied to an arbitrary
+>cartesian closed category always yields a FILL model, but does not
+>always yield a classical linear logic model, and so from the FILL
+>perspective Dial_2(Sets) is not such an interesting example of the 'G'
+>construction.
+>
+>The remaining comments are more minor.
+>
+>Page 3, "The first formalization of FILL with cut-elimination was due
+>to Bra¸ner and de Paiva [4]": I'm not sure what 'formalization' means
+>here; the first published cut-elimination theorem for FILL is in
+>Bierman [3].
+>
+>Definition 3: the third case should contain the word 'otherwise' to
+>distinguish it from the first two.
+>
+>Figure 1: 'IL' and 'IR' should be 'TL' and 'TR'.
+>
+>Page 5: "over come" should be "overcome".
+>
+>Theorem 9: the 16th page of a 15 page long paper is cited!
+>
+>Section 4 generally: this section appears to be heavily padded with
+>well-known material. Why is it necessary to give full details of two
+>different notions of categorical model of intuitionistic linear logic
+>if they are known to be equivalent? Why is the proof of Theorem 9
+>given if it is already published in [9]?
 
-This paper has a number of serious flaws and my recommendation is that
-it should it be rejected.
+* Review 2 * 
 
-First, sequent calculi with cut-elimination for FILL are now
-well-established - the authors cite [3,4], but there is also Clouston
-et al's 2013 'Annotation-Free Sequent Calculi for Full Intuitionistic
-Linear Logic', which is not cited. If yet another such calculus is to
-be added to the literature there needs to be some justification -
-i.e. that it is a better or interestingly different approach to the
-now-solved problem. No such justification is offered.
+>A well-written paper but reads more like a review of a whole logical
+>development with a small increase in knowledge than a complete result
+>that gives new insight. Yet, it is quite nice to read how the ideas
+>have evolved, and how a coherent whole picture can be built by
+>incremental contributions - therefore a nice "meta" level paper on
+>research. However, it is also difficult to tease out the contributions
+>as they are emershed in the tutorial exposition.
+>
+>I question any wide interest in this programme of work, but putting
+>this aside, I still feel it should be presented because it brings
+>together many srteams of interest to WOLLIC: Dialectica (By the way,
+>is Dialectica capitalized or not? Keep consistent use), linear logic,
+>and category theory.
+>
+>Overall well written, though some comments on writing below. By the
+>way, it is premature of the authors to include detailed report in the
+>references and call it wollic15.pdf. Maybe give it a different name,
+>as at the moment both this submission and that report have same name,
+>which made me think it was a self-reference.
+>
+>I found the Case of the second hypothesis at the bottom of 6 / top of
+>7 to be confusing, made worse by being split over pages. Could you not
+>have a more schematic representation?
+>
+>Also, maybe explain more clearly what let-par is; kind of explained on
+>page 4 but not really.
+>
+>Typos, etc:
+>
+>page 1: add comma before additives, last line
+Fixed.
 
-Second, the authors frame their contribution as a proof of a
-'conjecture' by Bellin that his alternative par-left rule yields
-cut-elimination, but this is not my reading of the Bierman paper that
-introduced it. In that paper Bierman states as a fact, rather than a
-conjecture, that Bellin's rule "leads to a system which is also closed
-under the process of cut elimination". This suggests the existence of
-a proof; admittedly the proof was never published, but this is
-explicable because Bierman had his own calculus which solved the
-problem - he discusses in section 3 of his paper why he prefers his
-pattern-based solution. So it seems likely that the bulk of this paper
-is, at best, recreating an already known proof.
+>page 2: remove "in" from "FILL in to regain"
+Fixed.
 
-Third, the term assignment system in this paper is used entirely to
-track a binary relation between premises and conclusions, in order to
-block illegitimate uses of the IMPR rule. This is the viewpoint made
-explicit by Bra¸ner and de Paiva in their 1998 paper [4]. If you strip
-away the terms from the calculus in this paper, leaving only the
-information of which variables appear free in which terms, then it
-seems to me that you get exactly the Bra¸ner-de Paiva
-calculus. Certainly the PARL rule, which is the focus of this paper,
-is the same (see Definition 3 and Figure 1 of [4]). So the
-cut-elimination result in this paper should be derivable immediately
-from the result of [4].
+>page 3: remove "a" from "a the base dialectica"
+Fixed.
 
-Fourth, the cut-elimination proof in this paper (and in the extended
-version online) has a gap: it is not explained how Theorem 4 yields
-Corollary 5, and indeed the theorem does not seem to be strong
-enough. For example (\lambda x.e)e' = [e'/x]e by BETAFUN, but if x is
-not free in e and e' has some free variables, then the left hand side
-has more free variables than the right. Therefore the left could block
-IMPR rules that the right would not, so mere equality is not
-sufficient to ensure that the cut-elimination transformations preserve
-the validity of derivations. This can probably be fixed, but it is a
-gap as stands.
+>remove "a" from "in a what they call"
+Fixed.
 
-Fifth, Section 4 (which is entirely unrelated to the earlier sections)
-also makes a very modest contribution. Dial_2(Sets) is known from de
-Paiva's thesis [6] and the paper with Hyland [9] to be a categorical
-model of FILL. If one ignores par and its unit it is not greatly
-surprising that it also conforms to a certain categorical model of
-intuitionistic logic. The technical step required to make this small
-jump (the proof that a certain comonad is monoidal) is omitted from
-this paper but described as "straightforward". In fact the situation
-is even more straightforward than suggested, because Dial_2(Sets) is
-also a model of classical linear logic, and so only a model of FILL in
-a degenerate sense, as par can be defined via de Morgan
-duality. Briefly, if \alpha is as in the paper, \alpha lollipop \bot
-is (isomorphic to) the relation from X to U that holds for (x,u) iff
-(not u\alpha x). That double negation is an isomorphism is then
-obvious. Note that the 'G' construction when applied to an arbitrary
-cartesian closed category always yields a FILL model, but does not
-always yield a classical linear logic model, and so from the FILL
-perspective Dial_2(Sets) is not such an interesting example of the 'G'
-construction.
+>page 5: "over comes" is actually one word
+Fixed.
 
-The remaining comments are more minor.
+>"one only need to start" should be "needs"
+Fixed.
 
-Page 3, "The first formalization of FILL with cut-elimination was due
-to Bra¸ner and de Paiva [4]": I'm not sure what 'formalization' means
-here; the first published cut-elimination theorem for FILL is in
-Bierman [3].
+>page 11: Dragalin reference: correct "Mathemaitcal"
+Fixed.
 
-Definition 3: the third case should contain the word 'otherwise' to
-distinguish it from the first two.
+* Review 3 * 
 
-Figure 1: 'IL' and 'IR' should be 'TL' and 'TR'.
+>This paper fills in a gap existing since the proposal of FILL: cut
+>elimination for the system.
+>
+>It turns out that the original system lacks cut-elimination and all
+>other attempts, typing the system etc, failed.
+>
+>The problem is that, on allowing the par on an intuitionistic linear
+>system, one loses control of resources. The immediate solution of
+>restricting the implication right rule does not work as in the
+>intuitionistic logic, exactly because the par has this
+>"conjunction-disjusnction" flavour, not existing in intuitionistic
+>logic.
+>
+>The solution adopted was mentioned by Bellin and implemented in this
+>paper.
+>
+>It is this referee opinion that the work is interesting enough for a
+>workshop like Wollic. But other than a historical importance, it is
+>not clear why to adopt an intuitionistic setting with par, since it
+>complicates a lot the system.
 
-Page 5: "over come" should be "overcome".
-
-Theorem 9: the 16th page of a 15 page long paper is cited!
-
-Section 4 generally: this section appears to be heavily padded with
-well-known material. Why is it necessary to give full details of two
-different notions of categorical model of intuitionistic linear logic
-if they are known to be equivalent? Why is the proof of Theorem 9
-given if it is already published in [9]?
-
-
-
-Review 2
-
-A well-written paper but reads more like a review of a whole logical
-development with a small increase in knowledge than a complete result
-that gives new insight. Yet, it is quite nice to read how the ideas
-have evolved, and how a coherent whole picture can be built by
-incremental contributions - therefore a nice "meta" level paper on
-research. However, it is also difficult to tease out the contributions
-as they are emershed in the tutorial exposition.
-
-I question any wide interest in this programme of work, but putting
-this aside, I still feel it should be presented because it brings
-together many srteams of interest to WOLLIC: Dialectica (By the way,
-is Dialectica capitalized or not? Keep consistent use), linear logic,
-and category theory.
-
-Overall well written, though some comments on writing below. By the
-way, it is premature of the authors to include detailed report in the
-references and call it wollic15.pdf. Maybe give it a different name,
-as at the moment both this submission and that report have same name,
-which made me think it was a self-reference.
-
-I found the Case of the second hypothesis at the bottom of 6 / top of
-7 to be confusing, made worse by being split over pages. Could you not
-have a more schematic representation?
-
-Also, maybe explain more clearly what let-par is; kind of explained on
-page 4 but not really.
-
-Typos, etc:
-
-page 1: add comma before additives, last line
-
-page 2: remove "in" from "FILL in to regain"
-
-page 3: remove "a" from "a the base dialectica"
-
-remove "a" from "in a what they call"
-
-page 5: "over comes" is actually one word
-
-"one only need to start" should be "needs"
-
-page 11: Dragalin reference: correct "Mathemaitcal"
-
-
-Review 3
-
-This paper fills in a gap existing since the proposal of FILL: cut
-elimination for the system.
-
-It turns out that the original system lacks cut-elimination and all
-other attempts, typing the system etc, failed.
-
-The problem is that, on allowing the par on an intuitionistic linear
-system, one loses control of resources. The immediate solution of
-restricting the implication right rule does not work as in the
-intuitionistic logic, exactly because the par has this
-"conjunction-disjusnction" flavour, not existing in intuitionistic
-logic.
-
-The solution adopted was mentioned by Bellin and implemented in this
-paper.
-
-It is this referee opinion that the work is interesting enough for a
-workshop like Wollic. But other than a historical importance, it is
-not clear why to adopt an intuitionistic setting with par, since it
-complicates a lot the system.
+Nothing really to change with respect to this review.  Perhaps we can
+think about motivating the par in the future.
