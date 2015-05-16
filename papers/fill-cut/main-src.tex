@@ -192,10 +192,14 @@ indirect proof that requires the adoption of proof nets.
 
 \textbf{Contributions.} In this paper our main contribution is to give
 a direct proof of cut-elimination for FILL with Bellin's proposed
-par-left rule (Section~\ref{sec:cut-elimination}).  In addition, we
-show that the categorical model of FILL called $\dial$, the basic
-dialectica category, is also a linear/non-linear model of Benton
-(Section~\ref{sec:full_lnl_models}).
+par-left rule (Section~\ref{sec:cut-elimination}).  A direct proof
+accomplishes two goals: the first is to complete the picture of FILL
+Hyland and de Paiva started, and the second is to view a direct proof
+of cut-elimination as a means of checking the correctness of the
+formulation of FILL given here.  The latter point is important for
+future work.  Lastly, we show that the categorical model of FILL
+called $\dial$, the basic dialectica category, is also a
+linear/non-linear model of Benton (Section~\ref{sec:full_lnl_models}).
 
 \textbf{Related Work.} The first formalization of FILL with
 cut-elimination was due to Bra\"uner and de Paiva \cite{Brauner:1998}.
@@ -212,10 +216,15 @@ $\pi$, invariant in what they call the FILL property:
 \end{center}
 They were able to show that their formalization is sound, complete,
 and enjoys cut-elimination.  In favor of the term assignment
-formalization given here over Brauner and de Paiva's formalization is
-that the dependency tracking system complicates both the definition of
-the logic and its use.  However, one might conjecture that their
-system is more fundamental and hence more generalizable.
+formalization given here over Bra\"uner and de Paiva's formalization
+is that the dependency tracking system complicates both the definition
+of the logic and its use.  However, one might conjecture that their
+system is more fundamental and hence more generalizable.  It might be
+possible prove cut-elimination of the term assignment formalization of
+FILL relative to Bra\"uner and de Paiva's dependency tracking system
+by erasing the terms on conclusions and then tracking which variable
+is free in which conclusion.  However, as we stated above a direct
+proof is more desirable than a relative one.
 
 de Paiva and Pereira used annotations on the sequents of LK to arrive
 at full intuitionistic logic (FIL) with multiple conclusion that
@@ -2565,9 +2574,11 @@ comonoids, see page 76 of \cite{dePaiva:1988}.
 \end{definition}
 In her thesis de Paiva defines a particular class of dialectica
 categories called $GC$ over a base category $C$, see page 41 of
-\cite{dePaiva:1988}.  The category $\dial$
-defined above can be seen as an instantiation of $GC$ by setting $C$
-to be the category $\sets$ of sets and functions between them.
+\cite{dePaiva:1988}.  The category $\dial$ defined above can be seen
+as an instantiation of $GC$ by setting $C$ to be the category $\sets$
+of sets and functions between them.  This model is a non-trivial
+model, and does not model classical logic; see \cite{dePaiva:1988}
+page 58.
 
 Seely gave a different, syntactic categorical model that confirmed
 that the of-course exponential should be modeled by a comonad

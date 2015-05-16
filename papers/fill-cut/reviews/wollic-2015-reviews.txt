@@ -96,7 +96,8 @@ acknowledge his paper and his proof.
 >be added to the literature there needs to be some justification -
 >i.e. that it is a better or interestingly different approach to the
 >now-solved problem. No such justification is offered.
->
+HE: Fixed, added this to the related work section.
+
 >Second, the authors frame their contribution as a proof of a
 >'conjecture' by Bellin that his alternative par-left rule yields
 >cut-elimination, but this is not my reading of the Bierman paper that
@@ -108,7 +109,9 @@ acknowledge his paper and his proof.
 >problem - he discusses in section 3 of his paper why he prefers his
 >pattern-based solution. So it seems likely that the bulk of this paper
 >is, at best, recreating an already known proof.
->
+HE: This has been fixed.  We now attribute Bellin with a proof, but
+ours is direct.
+
 >Third, the term assignment system in this paper is used entirely to
 >track a binary relation between premises and conclusions, in order to
 >block illegitimate uses of the IMPR rule. This is the viewpoint made
@@ -120,7 +123,16 @@ acknowledge his paper and his proof.
 >is the same (see Definition 3 and Figure 1 of [4]). So the
 >cut-elimination result in this paper should be derivable immediately
 >from the result of [4].
->
+
+HE: This seems to me to require additional relations just as it does
+in the paper the reviewer cites.  Also, this would be a relative
+cut-elimination proof.  It is obvious that there would be a
+relationship between the different flavors of FILL.  The direct proof
+given here can also be seen as a means of checking the correctness of
+our system.  Stripping things away could lead to a false result by
+stripping away the problems.  This latter point is important for
+future work.
+
 >Fourth, the cut-elimination proof in this paper (and in the extended
 >version online) has a gap: it is not explained how Theorem 4 yields
 >Corollary 5, and indeed the theorem does not seem to be strong
@@ -131,13 +143,20 @@ acknowledge his paper and his proof.
 >sufficient to ensure that the cut-elimination transformations preserve
 >the validity of derivations. This can probably be fixed, but it is a
 >gap as stands.
->
+HE: This is only a problem when moving from right-to-left accross an
+equality t = t'.  However, cut-elimination still goes through when
+the equality rules are taken to be left-to-right rewrite rules.  So,
+the problem outlined by the reviewer does not affect cut-elimination.
+
 >Fifth, Section 4 (which is entirely unrelated to the earlier sections)
 >also makes a very modest contribution. Dial_2(Sets) is known from de
 >Paiva's thesis [6] and the paper with Hyland [9] to be a categorical
 >model of FILL. If one ignores par and its unit it is not greatly
 >surprising that it also conforms to a certain categorical model of
->intuitionistic logic. The technical step required to make this small
+>intuitionistic logic.
+HE: It would still be linear, and would be a model of ILL.
+
+> The technical step required to make this small
 >jump (the proof that a certain comonad is monoidal) is omitted from
 >this paper but described as "straightforward". In fact the situation
 >is even more straightforward than suggested, because Dial_2(Sets) is
@@ -151,7 +170,10 @@ acknowledge his paper and his proof.
 >always yield a classical linear logic model, and so from the FILL
 >perspective Dial_2(Sets) is not such an interesting example of the 'G'
 >construction.
->
+
+HE: The reviewer is mistaken. I will add some remarks in the paper
+clarifying that Dial2(Sets) is a non-trivial model of FILL.
+
 >The remaining comments are more minor.
 >
 >Page 3, "The first formalization of FILL with cut-elimination was due
