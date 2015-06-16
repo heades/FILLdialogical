@@ -8,8 +8,7 @@ open import eq
 open import empty
 open import product
 open import product-thms
-open import compose renaming (id to id-set)
-open import functions
+open import functions renaming (id to id-set)
 
 open import Dial2Sets
 
