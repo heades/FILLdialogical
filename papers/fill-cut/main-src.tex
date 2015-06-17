@@ -3271,18 +3271,18 @@ We can now show our main result of this section.
         \begin{mathpar}
           \bfig
           \square/->`->`->`=/<700,700>[!A \otimes !B`!(A \otimes B)`A \otimes B`A \otimes B;m_{A,B}`\epsilon_A \otimes \epsilon_B`\epsilon_{A \otimes B}`]
-            \place(350,350)[\text{F}]
+            \place(350,350)[\text{E}]
             \efig            
             \and
             \bfig
             \morphism(150,500)<1615,0>[`;m_{A,B}]
             \hSquares/``->``->`->`->/[!A \otimes !B``!(A \otimes B)`!!A \otimes !!B`!(!A \otimes !B)`!!(A \otimes B);``\delta_A \otimes \delta_B``\delta_{A \otimes B}`m_{!A,!B}`!m_{A,B}]
-            \place(980,250)[\text{G}]
+            \place(980,250)[\text{F}]
             \efig
         \end{mathpar}
       \end{center}
-      Diagram F holds by simply expanding the definitions using an
-      arbitrary input of a pair of functions.  We now show diagram G
+      Diagram E holds by simply expanding the definitions using an
+      arbitrary input of a pair of functions.  We now show diagram F
       commutes.
 
       It suffices to show the following:
@@ -3376,22 +3376,22 @@ We can now show our main result of this section.
       \begin{mathpar}
         \bfig
         \square/->`->`=`->/<700,700>[!A`\top`!B`\top;e_A`!f``e_B]
-        \place(350,350)[\text{H}]
+        \place(350,350)[\text{G}]
         \efig
         \and
         \bfig
         \btriangle/->`=`->/<700,700>[\top`!\top`\top;m_I``e_\top]
-        \place(230,250)[\text{I}]
+        \place(230,250)[\text{H}]
         \efig            
         \and
         \bfig
         \square/->`->`->`->/<700,700>[!A \otimes !B`\top \otimes \top`!(A \otimes B)`\top;e_A \otimes e_B`m_{A,B}`\lambda`e_{A \otimes B}]
-        \place(350,350)[\text{J}]
+        \place(350,350)[\text{I}]
         \efig        
       \end{mathpar}
     \end{center}
-    Diagrams H and I follow easily by the definition of $e_A$ and
-    $m_I$.  We now show that diagram J commutes.  It suffices to show
+    Diagrams G and H follow easily by the definition of $e_A$ and
+    $m_I$.  We now show that diagram I commutes.  It suffices to show
     the following:
     \begin{center}
       \begin{math}
@@ -3417,23 +3417,23 @@ We can now show our main result of this section.
       \begin{mathpar}
         \bfig
         \square/->`->`->`->/<700,700>[!A`!A \otimes !A`!B`!B \otimes !B;d_A`!f`!f \otimes !f`d_B]
-        \place(350,350)[\text{K}]
+        \place(350,350)[\text{J}]
         \efig
         \and
         \bfig
         \square/->`->`->`->/<700,700>[\top`\top \otimes \top`!\top`!\top \otimes !\top;\lambda^{-1}`m_\top`m_\top \otimes m_\top`d_\top]
-        \place(350,350)[\text{L}]
+        \place(350,350)[\text{K}]
         \efig
         \and
         \bfig
         \morphism(190,0)<1880,0>[`;d_{A \otimes B}]
         \hSquares/->`->`->``->``/[!A \otimes !B`(!A \otimes !A) \otimes (!B \otimes !B)`(!A \otimes !B) \otimes (!A \otimes !B)`!(A \otimes B)``!(A \otimes B) \otimes !(A \otimes B);d_A \otimes d_B`iso`m_{A,B}``m_{A,B} \otimes m_{A,B}``]
-        \place(1150,250)[\text{M}]
+        \place(1150,250)[\text{L}]
         \efig
       \end{mathpar}
     \end{center}
-    Diagrams K and L follow easily from unfolding their
-    definitions. We show that diagram M next.  The morphism $iso$ in
+    Diagrams J and K follow easily from unfolding their
+    definitions. We show that diagram L next.  The morphism $iso$ in
     $\dial$ is a isomorphism that can be built out of the SMCC
     structure.  For its definition in terms of the SMCC maps see
     footnote 9 on page 141 of \cite{Bierman:1994}, but we give a
@@ -3501,29 +3501,29 @@ We can now show our main result of this section.
     %% \end{center}
 
   \item Suppose $A \in \obj{\dial}$.  Then we must show that
-    $(!A,d_A,\epsilon_A)$ is a commutative comonoid, but this follows
+    $(!A,d_A,e_A)$ is a commutative comonoid, but this follows
     from the following diagrams:
     \begin{center}
       \begin{mathpar}
         \bfig
         \Atrianglepair/->`->`->`<-`->/<700,500>[!A`!A \otimes \top`!A \otimes !A`\top \otimes !A;\rho^{-1}`d_A`\lambda^{-1}`\id_{!A} \otimes e_A`e_A \otimes \id_{!A}]
-        \place(450,150)[\text{N}]
-        \place(950,150)[\text{O}]
+        \place(450,150)[\text{M}]
+        \place(950,150)[\text{N}]
         \efig \and
         \bfig
         \square/->`=`->`->/[!A`!A \otimes !A`!A`!A \otimes !A;d_A``\beta_{!A,!A}`d_A]
-        \place(240,250)[\text{P}]        
+        \place(240,250)[\text{O}]        
         \efig \and
         \bfig
         \morphism(40,500)<1855,0>[`;d_{A}]
         \hSquares/``->``->`->`->/[!A``!A \otimes !A`!A \otimes !A`(!A \otimes !A) \otimes !A`!A \otimes (!A \otimes !A);``d_A``\id_{!A} \otimes d_A`d_A \otimes \id_{!A}`\alpha]
-        \place(980,250)[\text{Q}]        
+        \place(980,250)[\text{P}]        
         \efig                
       \end{mathpar}
     \end{center}
-    We prove that diagram O commutes, and then diagrams N and P will
+    We prove that diagram N commutes, and then diagrams M and O will
     commute by similar reasoning.  Following this we prove that
-    diagram Q commutes.
+    diagram P commutes.
 
     It suffices to show the following:
     \begin{center}
@@ -3553,7 +3553,7 @@ We can now show our main result of this section.
       \end{math}
     \end{center}
 
-    Now we show that diagram Q commutes. However, it is
+    Now we show that diagram P commutes. However, it is
     straightforward to show that the following holds:
     \begin{center}
       \begin{math}
@@ -3578,11 +3578,11 @@ We can now show our main result of this section.
       \begin{math}
         \bfig
         \square/->`->`->`->/[!A`\top`!!A`!\top;e_A`\delta_A`m_\top`!e_A]
-        \place(240,250)[\text{R}]        
+        \place(240,250)[\text{Q}]        
         \efig
       \end{math}
     \end{center}
-    Diagram R commutes by unfolding definitions, and the fact that the
+    Diagram Q commutes by unfolding definitions, and the fact that the
     second coordinate of $e_A$ is a constant function.
 
   \item The map $d_A$ must also be a coalgebra morphism, and hence,
@@ -3592,7 +3592,7 @@ We can now show our main result of this section.
         \bfig
         \morphism(40,500)<1780,0>[`;\delta_{A}]
         \hSquares/``->``->`->`->/[!A``!!A`!A \otimes !A`!!A \otimes !!A`!(!A \otimes !A);``d_A``!d_A`\delta_A \otimes \delta_A`m_{!A,!A}]
-        \place(980,250)[\text{S}]        
+        \place(980,250)[\text{R}]        
         \efig                
       \end{math}
     \end{center}
@@ -3652,7 +3652,7 @@ We can now show our main result of this section.
     \begin{math}
       \bfig
       \square/->`->`->`->/[!A`!B`!!A`!!B;f`\delta_A`\delta_B`!f]
-      \place(240,250)[\text{T}]        
+      \place(240,250)[\text{S}]        
       \efig
     \end{math}
     \end{center}
