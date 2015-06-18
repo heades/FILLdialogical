@@ -8,7 +8,7 @@ open import eq
 
 open import Dial2Sets
 
--- The following defines a commutative comonoid as lists:
+-- The following defines a commutative monoid as lists:
 _* = 𝕃
 postulate *-comm : ∀{A : Set}{l₁ l₂ : A *} → l₁ ++ l₂ ≡ l₂ ++ l₁
 
@@ -59,11 +59,17 @@ postulate *-comm : ∀{A : Set}{l₁ l₂ : A *} → l₁ ++ l₂ ≡ l₂ ++ l�
      → all-pred (α u) (f u)) l
    δ-cond {l = []} _ = triv
    δ-cond {u}{l = x :: l'} p with
-     all-pred-append {X}{α u}{x u}{foldr (λ f → _++_ (f u)) [] l'} ∧-unit ∧-assoc
+     all-pred-append {X}{α u}
+                     {x u}
+                     {foldr (λ f → _++_ (f u)) [] l'}
+                     ∧-unit ∧-assoc
    ... | p' rewrite p' = fst p , δ-cond {u} {l'} (snd p)
- 
-comonand-diag₁ : ∀{A} → (δ {A}) ○ (!ₐ (δ {A})) ≡h (δ {A}) ○ (δ { !ₒ A})
-comonand-diag₁ {U , X , α} = refl , ext-set (λ {a} → ext-set (λ {a₁} → aux {a₁}{a a₁}))
+
+-- These diagrams can be found on page 22 of the report.
+comonand-diag₁ : ∀{A}
+  → (δ {A}) ○ (!ₐ (δ {A})) ≡h (δ {A}) ○ (δ { !ₒ A})
+comonand-diag₁ {U , X , α} =
+  refl , ext-set (λ {a} → ext-set (λ {a₁} → aux {a₁}{a a₁}))
  where
    aux : ∀{a₁ : U}{l : 𝕃 (U → 𝕃 (U → 𝕃 X))} →
       foldr (λ f → _++_ (f a₁)) []
@@ -78,15 +84,19 @@ comonand-diag₁ {U , X , α} = refl , ext-set (λ {a} → ext-set (λ {a₁} �
              refl
              (aux {a}{l})
 
-comonand-diag₂ : ∀{A} → (δ {A}) ○ (ε { !ₒ A}) ≡h (δ {A}) ○ (!ₐ (ε {A}))
-comonand-diag₂ {U , X , α} = refl , ext-set (λ {f} → ext-set (λ {a} → aux {a}{f a}))
+comonand-diag₂ : ∀{A}
+  → (δ {A}) ○ (ε { !ₒ A}) ≡h (δ {A}) ○ (!ₐ (ε {A}))
+comonand-diag₂ {U , X , α} =
+  refl , ext-set (λ {f} → ext-set (λ {a} → aux {a}{f a}))
  where
-  aux : ∀{a : U}{l : X *} → l ++ [] ≡ foldr (λ f₁ → _++_ (f₁ a)) [] (map (λ x y → x :: []) l)
+  aux : ∀{a : U}{l : X *}
+    → l ++ [] ≡ foldr (λ f₁ → _++_ (f₁ a)) [] (map (λ x y → x :: []) l)
   aux {a}{[]} = refl
   aux {a}{x :: l} with aux {a}{l}
-  ... | IH rewrite ++[] l = cong2 {a = x} {x} {l}
-                      {foldr (λ f₁ → _++_ (f₁ a)) [] (map (λ x₁ y → x₁ :: []) l)} _::_ refl
-                      IH
+  ... | IH rewrite ++[] l =
+    cong2 {a = x} {x} {l}
+          {foldr (λ f₁ → _++_ (f₁ a)) [] (map (λ x₁ y → x₁ :: []) l)} _::_ refl
+          IH
 
 -- Monoidal nat. trans. m⊤ : ⊤ → !⊤:
 m⊤ : Hom I (!ₒ I)
@@ -95,7 +105,8 @@ m⊤ = id-set , (λ f → triv) , m⊤-cond
   m⊤-cond : {u : ⊤} {l : 𝕃 ⊤} → ι u triv → all-pred (ι u) l
   m⊤-cond {triv}{[]} triv = triv
   m⊤-cond {triv}{triv :: l} triv = triv , m⊤-cond {triv}{l} triv
-  
+
+-- These diagrams can be found on page 23 of the report.
 m⊤-diag₁ : _≡h_ {I}{ !ₒ (!ₒ I)}
   (comp {I} { !ₒ I} { !ₒ (!ₒ I)} m⊤ (!ₐ {I}{ !ₒ I} m⊤))
   (comp {I} { !ₒ I} { !ₒ (!ₒ I)} m⊤ (δ {I}))
@@ -112,26 +123,39 @@ h'₁ : {U V X Y : Set} → (((V → X) × (U → Y)) *) → (V → U → (X *))
 h'₁ [] v u = []
 h'₁ ((j₁ , j₂) :: js) v u = (j₁ v) :: h'₁ js v u
 
-h'₁-append : ∀{U V X Y : Set}{l₁ l₂ : ((V → X) × (U → Y)) *}{v u} → (h'₁ l₁ v u) ++ (h'₁ l₂ v u) ≡ h'₁ (l₁ ++ l₂) v u
+h'₁-append : ∀{U V X Y : Set}{l₁ l₂ : ((V → X) × (U → Y)) *}{v u}
+  → (h'₁ l₁ v u) ++ (h'₁ l₂ v u) ≡ h'₁ (l₁ ++ l₂) v u
 h'₁-append {l₁ = []} = refl
-h'₁-append {l₁ = (j₁ , j₂) :: js}{l₂}{v}{u} rewrite h'₁-append {l₁ = js}{l₂}{v}{u} = refl
+h'₁-append {l₁ = (j₁ , j₂) :: js}{l₂}{v}{u}
+  rewrite h'₁-append {l₁ = js}{l₂}{v}{u} = refl
 
-h₁ : {U V X Y : Set} → ((U × V) → (((V → X) × (U → Y)) *)) → (V → U → (X *))
+h₁ : {U V X Y : Set}
+  → ((U × V)
+  → (((V → X) × (U → Y)) *))
+  → (V → U → (X *))
 h₁ g v u = h'₁ (g (u , v)) v u
 
-h'₂ : {U V X Y : Set} → (((V → X) × (U → Y)) *) → (U → V → (Y *))
+h'₂ : {U V X Y : Set}
+  → (((V → X) × (U → Y)) *)
+  → (U → V → (Y *))
 h'₂ [] u v = []
 h'₂ ((j₁ , j₂) :: js) u v = (j₂ u) :: h'₂ js u v
 
-h'₂-append : ∀{U V X Y : Set}{l₁ l₂ : ((V → X) × (U → Y)) *}{v u} → (h'₂ l₁ v u) ++ (h'₂ l₂ v u) ≡ h'₂ (l₁ ++ l₂) v u
+h'₂-append : ∀{U V X Y : Set}{l₁ l₂ : ((V → X) × (U → Y)) *}{v u}
+  → (h'₂ l₁ v u) ++ (h'₂ l₂ v u) ≡ h'₂ (l₁ ++ l₂) v u
 h'₂-append {l₁ = []} = refl
-h'₂-append {l₁ = (j₁ , j₂) :: js}{l₂}{v}{u} rewrite h'₂-append {l₁ = js}{l₂}{v}{u} = refl
+h'₂-append {l₁ = (j₁ , j₂) :: js}{l₂}{v}{u}
+  rewrite h'₂-append {l₁ = js}{l₂}{v}{u} = refl
 
-h₂ : {U V X Y : Set} → ((U × V) → (((V → X) × (U → Y)) *)) → (U → V → (Y *))
+h₂ : {U V X Y : Set}
+  → ((U × V)
+  → (((V → X) × (U → Y)) *))
+  → (U → V → (Y *))
 h₂ g u v = h'₂ (g (u , v)) u v
 
 m⊗ : {A B : Obj} → Hom ((!ₒ A) ⊗ₒ (!ₒ B)) (!ₒ (A ⊗ₒ B))
-m⊗ {U , X , α} {V , Y , β} = id-set , (λ g → h₁ g , h₂ g) , (λ {u}{y} x → m⊗-cond {u}{y} x)
+m⊗ {U , X , α} {V , Y , β} =
+  id-set , (λ g → h₁ g , h₂ g) , (λ {u}{y} x → m⊗-cond {u}{y} x)
  where
   m⊗-cond : {u : Σ U (λ x → V)}
       {y : Σ U (λ x → V) → 𝕃 (Σ (V → X) (λ x → U → Y))} →
@@ -151,41 +175,54 @@ m⊗ {U , X , α} {V , Y , β} = id-set , (λ g → h₁ g , h₂ g) , (λ {u}{y
     aux {(j₁ , j₂) :: js} (p₁ , p₂) (p₃ , p₄) = (p₁ , p₃) , aux {js} p₂ p₄
 
 -- The following diagrams can be found on page 24 of the report.
-m⊗-diag-A : ∀{A} → (m⊤ ⊗ₐ (id { !ₒ A})) ○ (m⊗ {I} {A} ○ !ₐ (λ⊗ {A})) ≡h λ⊗ { !ₒ A}
+m⊗-diag-A : ∀{A}
+  → (m⊤ ⊗ₐ (id { !ₒ A})) ○ (m⊗ {I} {A} ○ !ₐ (λ⊗ {A})) ≡h λ⊗ { !ₒ A}
 m⊗-diag-A {U , X , α} = ext-set (λ {a} → aux {a}) ,
                         ext-set (λ {g} → cong2 _,_ refl (ext-set (aux' {g})))
  where
-  aux : {a : Σ ⊤ (λ x → U)} → snd (⟨ (λ x → x) , (λ x → x) ⟩ a) ≡ snd a
+  aux : {a : Σ ⊤ (λ x → U)}
+    → snd (⟨ (λ x → x) , (λ x → x) ⟩ a) ≡ snd a
   aux {triv , u} = refl
-  aux' : {g : U → X *} → {a : ⊤} → (λ v → h'₂ (map (λ x → (λ _ → triv) , (λ _ → x)) (g v)) a v) ≡ g
+  aux' : {g : U → X *} → {a : ⊤}
+    → (λ v → h'₂ (map (λ x → (λ _ → triv) , (λ _ → x)) (g v)) a v) ≡ g
   aux' {g}{triv} = ext-set (λ {a} → aux'' {a}{g a})
    where
-    aux'' : {a : U}{l : X *} → h'₂ (map (λ x → (λ _ → triv) , (λ _ → x)) l) triv a ≡ l
+    aux'' : {a : U}{l : X *}
+      → h'₂ (map (λ x → (λ _ → triv) , (λ _ → x)) l) triv a ≡ l
     aux'' {u}{[]} = refl
     aux'' {u}{x :: xs} rewrite aux'' {u}{xs} = refl
 
-m⊗-diag-B : ∀{A} → ((id { !ₒ A}) ⊗ₐ m⊤) ○ (m⊗ {A} {I} ○ !ₐ (ρ⊗ {A})) ≡h ρ⊗ { !ₒ A}
-m⊗-diag-B {U , X , α} = (ext-set (λ {a} → aux {a})) , ext-set (λ {g} → cong2 _,_ (ext-set aux') refl)
+m⊗-diag-B : ∀{A}
+  → ((id { !ₒ A}) ⊗ₐ m⊤) ○ (m⊗ {A} {I} ○ !ₐ (ρ⊗ {A})) ≡h ρ⊗ { !ₒ A}
+m⊗-diag-B {U , X , α} =
+  (ext-set (λ {a} → aux {a})) , ext-set (λ {g} → cong2 _,_ (ext-set aux') refl)
  where
-   aux : {a : Σ U (λ x → ⊤)} → fst (⟨ (λ x → x) , (λ x → x) ⟩ a) ≡ fst a
+   aux : {a : Σ U (λ x → ⊤)}
+     → fst (⟨ (λ x → x) , (λ x → x) ⟩ a) ≡ fst a
    aux {u , triv} = refl
-   aux' : {g : U → X *} → {a : ⊤} → (λ u → h'₁ (map (λ x → (λ x₁ → x) , (λ x₁ → triv)) (g u)) a u) ≡ g
+   aux' : {g : U → X *} → {a : ⊤}
+     → (λ u → h'₁ (map (λ x → (λ x₁ → x) , (λ x₁ → triv)) (g u)) a u) ≡ g
    aux' {g}{triv} = ext-set (λ {u} →  aux'' {g u}{u})
     where
-      aux'' : ∀{l : X *}{u : U} → h'₁ (map (λ x → (λ x₁ → x) , (λ x₁ → triv)) l) triv u ≡ l
+      aux'' : ∀{l : X *}{u : U}
+        → h'₁ (map (λ x → (λ x₁ → x) , (λ x₁ → triv)) l) triv u ≡ l
       aux'' {[]}{u}  = refl
       aux'' {x :: xs}{u} rewrite aux'' {xs}{u} = refl
 
-m⊗-diag-C : ∀{A B} → β⊗ { !ₒ A} { !ₒ B} ○ m⊗ {B} {A} ≡h (m⊗ {A}{B}) ○ (!ₐ (β⊗ {A}{B}))
+m⊗-diag-C : ∀{A B}
+  → β⊗ { !ₒ A} { !ₒ B} ○ m⊗ {B} {A} ≡h (m⊗ {A}{B}) ○ (!ₐ (β⊗ {A}{B}))
 m⊗-diag-C {U , X , α}{V , Y , β} =
           refl ,
-          ext-set (λ {g} → cong2 _,_ (ext-set (λ {v} → ext-set (λ {u} → aux {g (v , u)}{u}{v})))
-                                     (ext-set (λ {u} → ext-set (λ {v} → aux' {g (v , u)}{u}{v}))))
+          ext-set (λ {g} →
+               cong2 _,_ (ext-set (λ {v} → ext-set (λ {u} → aux {g (v , u)}{u}{v})))
+                         (ext-set (λ {u} → ext-set (λ {v} → aux' {g (v , u)}{u}{v}))))
  where
-   aux : ∀{l : 𝕃 (Σ (U → Y) (λ x → V → X))}{u v} → h'₂ l v u ≡  h'₁ (map twist-× l) v u
+   aux : ∀{l : 𝕃 (Σ (U → Y) (λ x → V → X))}{u v}
+     → h'₂ l v u ≡  h'₁ (map twist-× l) v u
    aux {[]} = refl
    aux {(j₁ , j₂) :: js} {u}{v} rewrite aux {js}{u}{v} = refl
-   aux' : ∀{l : 𝕃 (Σ (U → Y) (λ x → V → X))}{u v} → h'₁ l u v ≡  h'₂ (map twist-× l) u v
+   aux' : ∀{l : 𝕃 (Σ (U → Y) (λ x → V → X))}{u v}
+     → h'₁ l u v ≡  h'₂ (map twist-× l) u v
    aux' {[]} = refl
    aux' {(j₁ , j₂) :: js} {u}{v} rewrite aux' {js}{u}{v} = refl
 
@@ -194,14 +231,15 @@ m⊗-diag-D : ∀{A B C : Obj}
   ≡h ((m⊗ {A}{B}) ⊗ₐ (id { !ₒ C})) ○ (m⊗ {A ⊗ₒ B}{C}) ○ (!ₐ (α⊗ {A}{B}{C})) 
 m⊗-diag-D {U , X , α}{V , Y , β}{W , Z , γ} =
   ext-set aux  ,
-  ext-set (λ {g} → cong2 _,_
-                         (ext-set
-                           (λ {w} → cong2 _,_
-                                          (ext-set
-                                            (λ {v} → ext-set
-                                                      (λ {u} → aux' {g (u , v , w)}{u}{v}{w})))
-                                          (ext-set (λ {u} → ext-set (λ {v} → aux'' {g (u , v , w)}{u}{v}{w})))))
-                         (ext-set (λ {a} → aux''' {a}{g})))
+  ext-set (λ {g} →
+    cong2 _,_
+          (ext-set
+             (λ {w} → cong2 _,_
+                            (ext-set
+                               (λ {v} → ext-set
+                                          (λ {u} → aux' {g (u , v , w)}{u}{v}{w})))
+                            (ext-set (λ {u} → ext-set (λ {v} → aux'' {g (u , v , w)}{u}{v}{w})))))
+          (ext-set (λ {a} → aux''' {a}{g})))
  where
   aux : {a : Σ (Σ U (λ x → V)) (λ x → W)}
     → ⟨ (λ x → x) , (λ x → x) ⟩ (lr-assoc-× a) ≡ lr-assoc-× (⟨ (λ x → x) , (λ x → x) ⟩ a)
@@ -239,7 +277,8 @@ m⊗-diag-E {U , X , α}{V , Y , β} = ext-set aux , ext-set aux'
       ≡ ((λ v u → h'₁ (a :: []) v u) , (λ u v → h'₂ (a :: []) u v))
   aux' {j₁ , j₂} = refl  
 
-m⊗-diag-F : ∀{A B : Obj} → δ {A} ⊗ₐ δ {B} ○ m⊗ { !ₒ A} { !ₒ B} ○ !ₐ (m⊗ {A} {B}) ≡h (m⊗ {A}{B}) ○ (δ {A ⊗ₒ B})
+m⊗-diag-F : ∀{A B : Obj}
+  → δ {A} ⊗ₐ δ {B} ○ m⊗ { !ₒ A} { !ₒ B} ○ !ₐ (m⊗ {A} {B}) ≡h (m⊗ {A}{B}) ○ (δ {A ⊗ₒ B})
 m⊗-diag-F {U , X , α}{V , Y , β} =
   ext-set aux , ext-set (λ {g} →
     cong2 _,_ (ext-set (λ {v} → ext-set (λ {u} → aux' {g (u , v)}{v}{u})))
@@ -247,7 +286,9 @@ m⊗-diag-F {U , X , α}{V , Y , β} =
  where
    aux : {a : Σ U (λ x → V)} → ⟨ (λ x → x) , (λ x → x) ⟩ a ≡ a
    aux {u , v} = refl
-   aux' : ∀{l : 𝕃 (Σ U (λ x → V) → 𝕃 (Σ (V → X) (λ x → U → Y)))}{v u} → foldr (λ f → _++_ (f u)) []
+   aux' : ∀{l : 𝕃 (Σ U (λ x → V)
+     → 𝕃 (Σ (V → X) (λ x → U → Y)))}{v u}
+     → foldr (λ f → _++_ (f u)) []
       (h'₁
        (map
         (λ g₁ →
@@ -259,7 +300,8 @@ m⊗-diag-F {U , X , α}{V , Y , β} =
    aux' {[]} = refl
    aux' {j :: js}{v}{u} with j (u , v)
    ... | [] rewrite aux' {js}{v}{u} = refl
-   ... | (j₁ , j₂) :: js'  rewrite aux' {js}{v}{u} = cong2 {a = j₁ v} _::_ refl (h'₁-append {l₁ = js'})
+   ... | (j₁ , j₂) :: js' rewrite aux' {js}{v}{u}
+     = cong2 {a = j₁ v} _::_ refl (h'₁-append {l₁ = js'})
 
    aux'' : ∀{l : 𝕃 (Σ U (λ x → V) → 𝕃 (Σ (V → X) (λ x → U → Y)))}{v u}
      → foldr (λ f → _++_ (f v)) []
@@ -274,7 +316,8 @@ m⊗-diag-F {U , X , α}{V , Y , β} =
    aux'' {[]} = refl
    aux'' {j :: js}{v}{u} with j (u , v)
    ... | [] = aux'' {js}
-   ... | (j₁ , j₂) :: js' rewrite aux'' {js}{v}{u} = cong2 {a = j₂ u} _::_ refl (h'₂-append {l₁ = js'})
+   ... | (j₁ , j₂) :: js' rewrite aux'' {js}{v}{u}
+     = cong2 {a = j₂ u} _::_ refl (h'₂-append {l₁ = js'})
 
 -- Now we show that whenever (!A , δ) is a free comonoid, then we have
 -- distinguished nat. trans. e : !A → ⊤ and d : !A → !A ⊗ !A.  These
@@ -300,7 +343,9 @@ d {U , X , α} = (λ x → (x , x)) , θ , d-cond
       (u , u) y
    d-cond {u}{f , g} = aux
     where
-      aux : ∀{l₁ l₂ : X *} → all-pred (α u) (l₁ ++ l₂) → ((all-pred (α u) l₁) × (all-pred (α u) l₂))
+      aux : ∀{l₁ l₂ : X *}
+        → all-pred (α u) (l₁ ++ l₂)
+        → ((all-pred (α u) l₁) × (all-pred (α u) l₂))
       aux {[]} p = triv , p
       aux {x :: xs} (p₁ , p₂) = (p₁ , fst (aux {xs} p₂)) , snd (aux {xs} p₂)
 
@@ -352,7 +397,8 @@ iso {A}{B} =
   ○ (id {(!ₒ A)} ⊗ₐ α⊗ {(!ₒ B)} {(!ₒ A)} {(!ₒ B)}
   ○ α⊗-inv {(!ₒ A)} {(!ₒ B)} {(!ₒ A) ⊗ₒ (!ₒ B)})))
 
-d-diag-L : ∀{A B : Obj} → m⊗ {A} {B} ○ d {A ⊗ₒ B} ≡h ((d {A}) ⊗ₐ (d {B})) ○ (iso ○ ((m⊗ {A}{B}) ⊗ₐ (m⊗ {A}{B}))) 
+d-diag-L : ∀{A B : Obj}
+  → m⊗ {A} {B} ○ d {A ⊗ₒ B} ≡h ((d {A}) ⊗ₐ (d {B})) ○ (iso ○ ((m⊗ {A}{B}) ⊗ₐ (m⊗ {A}{B}))) 
 d-diag-L {U , X , α}{V , Y , β} = ext-set aux , ext-set (λ {a} → aux' {a})
  where
    aux : {a : U × V}
@@ -577,14 +623,19 @@ d-diag-L {U , X , α}{V , Y , β} = ext-set aux , ext-set (λ {a} → aux' {a})
       {a = λ v u → h'₁ (j₁ (u , v) (u , v) ++ j₂ (u , v) (u , v)) v u}
       _,_ (ext-set
               (λ {v} → ext-set
-                          (λ {u} → sym (h'₁-append {l₁ = j₁ (u , v) (u , v)}{l₂ = j₂ (u , v) (u , v)}{v}{u}))))
+                          (λ {u} → sym (h'₁-append
+                                          {l₁ = j₁ (u , v) (u , v)}
+                                          {l₂ = j₂ (u , v) (u , v)}{v}{u}))))
           (ext-set
               (λ {u} → (ext-set
-                           (λ {v} → sym (h'₂-append {l₁ = j₁ (u , v) (u , v)}{l₂ = j₂ (u , v) (u , v)}{u}{v})))))
+                           (λ {v} → sym (h'₂-append
+                                          {l₁ = j₁ (u , v) (u , v)}
+                                          {l₂ = j₂ (u , v) (u , v)}{u}{v})))))
 
 -- Show that (!A, d, e) is a commutative comonoid.  The following
 -- diagrams can be found on page 29 of the report.
-de-diag-M : ∀{A : Obj} → ρ⊗-inv {(!ₒ A)} ≡h (d {A}) ○ ((id {(!ₒ A)}) ⊗ₐ (e {A}))
+de-diag-M : ∀{A : Obj}
+  → ρ⊗-inv {(!ₒ A)} ≡h (d {A}) ○ ((id {(!ₒ A)}) ⊗ₐ (e {A}))
 de-diag-M {U , X , α} = refl , ext-set (λ {a} → aux {a})
  where
    aux : {a : Σ (⊤ → U → 𝕃 X) (λ x → U → ⊤)}
@@ -592,25 +643,35 @@ de-diag-M {U , X , α} = refl , ext-set (λ {a} → aux {a})
          ≡ (θ (F⊗ {f = λ x → x} {λ x → x} {λ x → triv} {λ x u → []} a))
    aux {j₁ , j₂} = ext-set (λ {u} → sym (++[] (j₁ triv u)))
 
-de-diag-N : ∀{A : Obj} → λ⁻¹⊗ {(!ₒ A)} ≡h (d {A}) ○ ((e {A}) ⊗ₐ (id {(!ₒ A)}))
+de-diag-N : ∀{A : Obj}
+  → λ⁻¹⊗ {(!ₒ A)} ≡h (d {A}) ○ ((e {A}) ⊗ₐ (id {(!ₒ A)}))
 de-diag-N {U , X , α} = refl , ext-set (λ {a} → aux {a})
  where
    aux : {a : Σ (U → ⊤) (λ x → ⊤ → U → 𝕃 X)} →
-       _≡_ (snd a triv) (θ (F⊗ {f = λ x → triv} {λ x u → []} {λ x → x} {λ x → x} a))
+       _≡_ (snd a triv) (θ (F⊗ {f = λ x → triv}
+                               {λ x u → []}
+                               {λ x → x}
+                               {λ x → x} a))
    aux {j₁ , j₂} = refl
 
-de-diag-O : ∀{A : Obj} → d {A} ≡h (d {A}) ○ (β⊗ {(!ₒ A)}{(!ₒ A)})
+de-diag-O : ∀{A : Obj}
+  → d {A} ≡h (d {A}) ○ (β⊗ {(!ₒ A)}{(!ₒ A)})
 de-diag-O {U , X , α} = refl , ext-set (λ {a} → aux {a})
  where
-   aux : {a : Σ (U → U → 𝕃 X) (λ x → U → U → 𝕃 X)} → θ a ≡ θ (twist-× a)
+   aux : {a : Σ (U → U → 𝕃 X) (λ x → U → U → 𝕃 X)}
+     → θ a ≡ θ (twist-× a)
    aux {j₁ , j₂} = ext-set (λ {u} → *-comm {l₁ = j₁ u u}{j₂ u u})
 
 de-diag-P : ∀{A : Obj}
-  →    (d {A}) ○ (((d {A}) ⊗ₐ (id {(!ₒ A)})) ○ (α⊗ {(!ₒ A)}{(!ₒ A)}{(!ₒ A)}))
+  →      (d {A})
+       ○ (((d {A}) ⊗ₐ (id {(!ₒ A)}))
+       ○ (α⊗ {(!ₒ A)}{(!ₒ A)}{(!ₒ A)}))
     ≡h (d {A}) ○ ((id {(!ₒ A)}) ⊗ₐ (d {A}))
 de-diag-P {U , X , α} = refl , ext-set ((λ {a} → aux {a}))
  where
-   aux : {a : Σ (Σ U (λ x → U) → U → 𝕃 X) (λ x → U → Σ (U → U → 𝕃 X) (λ x₁ → U → U → 𝕃 X))}
+   aux : {a : Σ (Σ U (λ x → U) → U → 𝕃 X)
+                    (λ x → U → Σ (U → U → 𝕃 X)
+                (λ x₁ → U → U → 𝕃 X))}
      →   (θ (F⊗ {f = λ x → x , x} {θ {U} {X}} {λ x → x} {λ x → x}
                 (Fα {U} {U} {U → 𝕃 X} {U → 𝕃 X} {U} {U} {U → 𝕃 X} a)))
        ≡ (θ (F⊗ {Σ U (λ x → U)} {U → 𝕃 X} {U}
@@ -627,8 +688,10 @@ de-diag-P {U , X , α} = refl , ext-set ((λ {a} → aux {a}))
 
 -- The morphism e and d must be a coalgebra morphisms.  The following
 -- diagram can be found on page 30 of the report.
-e-diag-Q : ∀{A : Obj} → δ {A} ○ !ₐ (e {A}) ≡h (e {A}) ○ m⊤
-e-diag-Q {U , X , α} = refl , ext-set (λ {a} → ext-set (λ {u} → aux {a triv}))
+e-diag-Q : ∀{A : Obj}
+  → δ {A} ○ !ₐ (e {A}) ≡h (e {A}) ○ m⊤
+e-diag-Q {U , X , α} =
+  refl , ext-set (λ {a} → ext-set (λ {u} → aux {a triv}))
  where
    aux : ∀{l : ⊤ *}{u : U} → _≡_ {_} {𝕃 {_} X}
       (foldr {_} {_}
