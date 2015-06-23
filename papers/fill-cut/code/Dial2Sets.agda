@@ -3,20 +3,7 @@
 -----------------------------------------------------------------------
 module Dial2Sets where
 
-open import level
-open import product public
-open import empty
-open import unit
-open import functions renaming (id to id-set)
-open import eq
-
--- Extensionality will be used when proving equivalences of morphisms.
-postulate ext-set : ∀{l1 l2 : level} → extensionality {l1} {l2}
--- These are isomorphisms, but Agda has no way to prove these as
--- equivalences.  They are consistent to adopt as equivalences by
--- univalence:
-postulate ∧-unit : ∀{ℓ}{A : Set ℓ} → A ≡ (⊤ ∧ A)
-postulate ∧-assoc : ∀{ℓ}{A B C : Set ℓ} →  (A ∧ (B ∧ C)) ≡ ((A ∧ B) ∧ C)
+open import prelude
 
 -- The objects:
 Obj : Set₁
@@ -158,3 +145,89 @@ _⊸ₐ_ {(U , X , α)}{(V , Y , β)}{(W , Z , γ)}{(S , T , δ)} (f , F , p₁)
    H (w , t) = f w , G t
    p₃ : {u : Σ (U → V) (λ x → Y → X)} {y : Σ W (λ x → T)} → ⊸-cond α β u (H y) → ⊸-cond γ δ (h u) y
    p₃ {h₁ , h₂}{w , t} c c' = p₂ (c (p₁ c'))
+
+-- The of-course exponential:
+!ₒ-cond : ∀{U X : Set}
+  → (U → X → Set)
+  → U
+  → (U → X *)
+  → Set
+!ₒ-cond α u f = all-pred (α u) (f u)
+   
+!ₒ : Obj → Obj
+!ₒ (U , X , α) = U , (U → X *) , !ₒ-cond α
+
+!-cta : {V Y U X : Set}
+  → (Y → X)
+  → (U → V)
+  → (V → Y *)
+  → (U → X *)
+!-cta F f g = λ u → list-funct F (g (f u))
+
+!ₐ-cond : ∀{U V Y X : Set}{F : Y → X}{f : U → V}
+  → (α : U → X → Set)
+  → (β : V → Y → Set)
+  → (p : {u : U} {y : Y} → α u (F y) → β (f u) y)
+    {u : U}{l : Y *}
+  → all-pred (α u) (list-funct F l)
+  → all-pred (β (f u)) l
+!ₐ-cond _ _ _ {l = []} _ = triv
+!ₐ-cond α β p {u}{x :: xs} (p' , p'') = p p' , !ₐ-cond α β p p''     
+      
+!ₐ : {A B : Obj} → Hom A B → Hom (!ₒ A) (!ₒ B)
+!ₐ {U , X , α}{V , Y , β} (f , F , p) = f , !-cta F f , !ₐ-cond α β p
+
+-- Of-course is a comonad:
+ε : ∀{A} → Hom (!ₒ A) A
+ε {U , X , α} = id-set , (λ x y → [ x ]) , fst
+
+δ-cta : {U X : Set} → (U → 𝕃 (U → 𝕃 X)) → U → 𝕃 X
+δ-cta g u = foldr (λ f rest → (f u) ++ rest) [] (g u)
+  
+δ : ∀{A} → Hom (!ₒ A) (!ₒ (!ₒ A))
+δ {U , X , α} = id-set , δ-cta , δ-cond
+  where
+   δ-cond : {u : U} {l : 𝕃 (U → 𝕃 X)}
+     → all-pred (α u) (foldr (λ f → _++_ (f u)) [] l)
+     → all-pred (λ f
+     → all-pred (α u) (f u)) l
+   δ-cond {l = []} _ = triv
+   δ-cond {u}{l = x :: l'} p with
+     all-pred-append {X}{α u}
+                     {x u}
+                     {foldr (λ f → _++_ (f u)) [] l'}
+                     ∧-unit ∧-assoc
+   ... | p' rewrite p' = fst p , δ-cond {u} {l'} (snd p)
+
+-- These diagrams can be found on page 22 of the report.
+comonand-diag₁ : ∀{A}
+  → (δ {A}) ○ (!ₐ (δ {A})) ≡h (δ {A}) ○ (δ { !ₒ A})
+comonand-diag₁ {U , X , α} =
+  refl , ext-set (λ {a} → ext-set (λ {a₁} → aux {a₁}{a a₁}))
+ where
+   aux : ∀{a₁ : U}{l : 𝕃 (U → 𝕃 (U → 𝕃 X))} →
+      foldr (λ f → _++_ (f a₁)) []
+      (map (λ g u → foldr (λ f → _++_ (f u)) [] (g u)) l)
+      ≡
+      foldr (λ f → _++_ (f a₁)) [] (foldr (λ f → _++_ (f a₁)) [] l)
+   aux {a}{[]} = refl  
+   aux {a}{x :: l} rewrite
+     sym (foldr-append {l₁ = x a}{foldr (λ f → _++_ (f a)) [] l}{a})
+     = cong2 {a = foldr (λ f → _++_ (f a)) [] (x a)}
+             _++_
+             refl
+             (aux {a}{l})
+
+comonand-diag₂ : ∀{A}
+  → (δ {A}) ○ (ε { !ₒ A}) ≡h (δ {A}) ○ (!ₐ (ε {A}))
+comonand-diag₂ {U , X , α} =
+  refl , ext-set (λ {f} → ext-set (λ {a} → aux {a}{f a}))
+ where
+  aux : ∀{a : U}{l : X *}
+    → l ++ [] ≡ foldr (λ f₁ → _++_ (f₁ a)) [] (map (λ x y → x :: []) l)
+  aux {a}{[]} = refl
+  aux {a}{x :: l} with aux {a}{l}
+  ... | IH rewrite ++[] l =
+    cong2 {a = x} {x} {l}
+          {foldr (λ f₁ → _++_ (f₁ a)) [] (map (λ x₁ y → x₁ :: []) l)} _::_ refl
+          IH

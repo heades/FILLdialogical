@@ -4,11 +4,9 @@
 -----------------------------------------------------------------------
 module Tensorial where
 
-open import eq
-open import empty
+open import prelude
 open import product
 open import product-thms
-open import functions renaming (id to id-set)
 
 open import Dial2Sets
 
@@ -103,28 +101,28 @@ open import Dial2Sets
 -- Finally, φ must adhere to a coherence diagrams.  See Definition ??
 -- on page ?? of the paper for the diagram.
 φ-coh : ∀{A B C D}{m : Hom (A ⊗ₒ (B ⊗ₒ C)) (¬ₒ D)}
-  →    φ (φ (Homₐ (α⊗-inv {A} {B} {C}) (id {¬ₒ D}) m))
-    ≡h Homₐ (id {A}) (¬ₐ (α⊗ {B} {C} {D})) (φ m)
+  →    φ (φ (Homₐ (α⊗ {A} {B} {C}) (id {¬ₒ D}) m))
+    ≡h Homₐ (id {A}) (¬ₐ (α⊗-inv {B} {C} {D})) (φ m)
 φ-coh {(U , X , α)} {(V , Y , β)} {(W , Z , γ)} {(S , T , δ)} {(m , M , pm)}
   = ext-set (λ {u} → eq-× aux (ext-set (λ {v} → eq-× aux'' refl))) , ext-set (λ {a} → aux'''' {a})
  where
-   aux : ∀{u} → (λ w → snd (fst (Fα-inv {V} (M (snd w))) (fst w)) u) ≡
+   aux : ∀{u} → (λ w → snd (fst (Fα {V} (M (snd w))) (fst w)) u) ≡
       (λ p' → fst (snd (M (snd p')) u) (fst p'))
    aux {u} = ext-set (λ {a} → aux' {a})
     where
-     aux' : {a : Σ W (λ x → S)} → snd (fst (Fα-inv {V} (M (snd a))) (fst a)) u ≡ fst (snd (M (snd a)) u) (fst a)
+     aux' : {a : Σ W (λ x → S)} → snd (fst (Fα {V} (M (snd a))) (fst a)) u ≡ fst (snd (M (snd a)) u) (fst a)
      aux' {w , s} with M s
      ... | (h₁ , h₂) = refl
 
-   aux'' : ∀{u v} → (λ w → snd (Fα-inv {V} (M w)) (u , v)) ≡ (λ w → snd (snd (M w) u) v)
+   aux'' : ∀{u v} → (λ w → snd (Fα {V} (M w)) (u , v)) ≡ (λ w → snd (snd (M w) u) v)
    aux'' {u}{v} = ext-set aux'''
     where
-      aux''' : {a : S} → snd (Fα-inv {V} (M a)) (u , v) ≡ snd (snd (M a) u) v
+      aux''' : {a : S} → snd (Fα {V} (M a)) (u , v) ≡ snd (snd (M a) u) v
       aux''' {s} with M s
       ... | (h₁ , h₂) = refl
 
    aux'''' : ∀{a}
-     →   fst (fst (Fα-inv {V} (M (snd (snd a)))) (fst (snd a))) (fst a)
+     →   fst (fst (Fα {V} (M (snd (snd a)))) (fst (snd a))) (fst a)
        ≡ fst (M (snd (rl-assoc-× a))) (fst (rl-assoc-× a))
    aux'''' {v , w , s} with M s
    ... | (h₁ , h₂) = refl
@@ -137,7 +135,5 @@ open import Dial2Sets
 --                                                                   --
 -- The battle still left to be faught is showing that Dial₂(Sets) is --
 -- a model of full tensor logic.  Thus, we must show that there is   --
--- an affine resource modality,                                      --
--- a relevant resource modality, and an                              --
--- exponential resource modality.                                    --
+-- an exponential resource modality.                                 --
 -----------------------------------------------------------------------
