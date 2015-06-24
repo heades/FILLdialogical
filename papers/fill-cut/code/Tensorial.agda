@@ -24,16 +24,27 @@ open import Dial2Sets
 
 -- Next we must define a family of bijections.
 φ : {A B C : Obj} → Hom (A ⊗ₒ B) (¬ₒ C) → Hom A (¬ₒ (B ⊗ₒ C))
-φ {(U , X , α)} {(V , Y , β)} {(W , Z , γ)} (f , F , p₁) = (λ u → (λ w → (snd (F w)) u) , (λ v → f (u , v))) , (λ c → fst (F (snd c)) (fst c)) , c
+φ {(U , X , α)} {(V , Y , β)} {(W , Z , γ)} (f , F , p₁) =
+  (λ u → (λ w → (snd (F w)) u) ,
+  (λ v → f (u , v))) ,
+  (λ c → fst (F (snd c)) (fst c)) ,
+  c
  where
    G : V × W → X
    G = λ c → fst (F (snd c)) (fst c)
-   c : ∀{u : U} {y : V × W} → α u (G y) → (β ⊗ᵣ γ) y ((λ w → snd (F w) u) , (λ v → f (u , v))) → ⊥
+   c : ∀{u : U} {y : V × W}
+     → α u (G y)
+     → (β ⊗ᵣ γ) y ((λ w → snd (F w) u) , (λ v → f (u , v)))
+     → ⊥
    c {u}{(v , w)} p' (p'' , p''') with F w | p₁ {u , v}{w}
    ... | (h1 , h2) | p₂ = p₂ (p' , p'') p'''
 
 φ-inv : {A B C : Obj} → Hom A (¬ₒ (B ⊗ₒ C)) → Hom (A ⊗ₒ B) (¬ₒ C)
-φ-inv {(U , X , α)} {(V , Y , β)} {(W , Z , γ)} (h , H , p₁) = (λ c → (snd (h (fst c))) (snd c)) , (λ w → (λ v → H (v , w)) , (λ u → (fst (h u)) w)) , p₂
+φ-inv {(U , X , α)} {(V , Y , β)} {(W , Z , γ)} (h , H , p₁) =
+  (λ c → (snd (h (fst c))) (snd c)) ,
+         (λ w → (λ v → H (v , w)) ,
+         (λ u → (fst (h u)) w)) ,
+         p₂
  where
   j : U × V → Z
   j = λ c → (snd (h (fst c))) (snd c)
@@ -45,15 +56,18 @@ open import Dial2Sets
 
 -- The following proves that φ and φ-inv are mutual inverse, and thus
 -- define a bijection.
-φ-bij-1 : ∀{A B C}{m : Hom (A ⊗ₒ B) (¬ₒ C)} → φ-inv (φ m) ≡h id-set m
-φ-bij-1 {(U , X , α)} {(V , Y , β)} {(W , Z , γ)}{(h , H , p₁)} = eta-× ext-set , ext-set aux
+φ-bij-1 : ∀{A B C}{m : Hom (A ⊗ₒ B) (¬ₒ C)}
+  → φ-inv (φ m) ≡h id-set m
+φ-bij-1 {(U , X , α)} {(V , Y , β)} {(W , Z , γ)}{(h , H , p₁)}
+  = eta-× ext-set , ext-set aux
  where
    aux : {a : W} → ((λ v → fst (H a) v) , (λ u → snd (H a) u)) ≡ H a
    aux {w} with H w
    ... | (h₁ , h₂) = refl
 
 φ-bij-2 : ∀{A B C}{m : Hom A (¬ₒ (B ⊗ₒ C))} → φ (φ-inv m) ≡h id-set m
-φ-bij-2 {(U , X , α)} {(V , Y , β)} {(W , Z , γ)}{(h , H , p₁)} = ext-set aux , eta-× ext-set
+φ-bij-2 {(U , X , α)} {(V , Y , β)} {(W , Z , γ)}{(h , H , p₁)}
+  = ext-set aux , eta-× ext-set
  where
    aux : {a : U} → ((λ w → fst (h a) w) , (λ v → snd (h a) v)) ≡ h a
    aux {u} with h u
@@ -61,7 +75,8 @@ open import Dial2Sets
 
 -- The following shows that φ {A}{B}{C} is natural in A, B, and C.
 φ-nat-1 : ∀{A A' B C}{n : Hom A' A}{m : Hom (A ⊗ₒ B) (¬ₒ C)}
-        → Homₐ n (id {¬ₒ (B ⊗ₒ C)}) (φ {A}{B}{C} m) ≡h φ {A'} {B} {C} (Homₐ (n ⊗ₐ (id {B})) (id {¬ₒ C}) m)
+        →    Homₐ n (id {¬ₒ (B ⊗ₒ C)}) (φ {A}{B}{C} m)
+          ≡h φ {A'} {B} {C} (Homₐ (n ⊗ₐ (id {B})) (id {¬ₒ C}) m)
 φ-nat-1 {(U , X , α)} {(V , Y , β)} {(V' , Y' , β')} {(W , Z , γ)} {(n , N , pn)} {(m , M , pm)} =
  ext-set (λ {v} → eq-× (ext-set (λ {w} → aux {w})) (ext-set refl)) , ext-set (λ {a} → aux' {a})
  where
@@ -74,7 +89,8 @@ open import Dial2Sets
    ... | (h₁ , h₂) = refl
    
 φ-nat-2 : ∀{A B B' C}{n : Hom B' B}{m : Hom (A ⊗ₒ B) (¬ₒ C)}
-  → Homₐ (id {A}) (¬ₐ (n ⊗ₐ id {C})) (φ {A} {B} {C} m) ≡h φ {A} {B'} {C} (Homₐ ((id {A} ⊗ₐ n)) (id {¬ₒ C}) m)
+  →    Homₐ (id {A}) (¬ₐ (n ⊗ₐ id {C})) (φ {A} {B} {C} m)
+    ≡h φ {A} {B'} {C} (Homₐ ((id {A} ⊗ₐ n)) (id {¬ₒ C}) m)
 φ-nat-2 {(U , X , α)} {(V , Y , β)} {(V' , Y' , β')} {(W , Z , γ)} {(n , N , pn)} {(m , M , pm)} =
   let f = λ x → fst (M (snd (⟨ n , (λ x₁ → x₁) ⟩ x))) (fst (⟨ n , (λ x₁ → x₁) ⟩ x))
       g = λ c → fst (F⊗ (M (snd c))) (fst c)
