@@ -3942,79 +3942,77 @@ We can now show our main result of this section.
   It suffices to show that there is an adjunction between $\dial$ and
   a cartesian category.  Define the category $\dial_!$ as follows:
   \begin{itemize}
-  \item Take as objects $(U , (U \Rightarrow X^*), \alpha_!)$ when $(U
-    , X , \alpha)$ is an object of $\dial$.  Define $(u,f) \in \alpha_!$
-    iff $(u,x_1) \in \alpha \land \cdots \land (u,x_n) \in \alpha$ where
-    $f(u) = (x_1,\ldots,x_n)$.
-
-  \item Take as morphisms
-    $(f , \lambda g.F^*(g(f(u)))) : (U , (U \Rightarrow X^*), \alpha_!) \to (V , (V \Rightarrow Y^*), \beta_!)$
-    when $(f , F) : (U , X , \alpha) \to (V , Y , \beta)$ is a morphism in $\dial$.
+  \item Take as objects $(U , (U \Rightarrow X^*), \alpha_!)$
+    where $U$ and $X$ are sets, and $\alpha \subseteq U \times (U \Rightarrow X^*)$.
+    
+  \item Take as morphisms $(f , F) : (U , (U \Rightarrow X^*),
+    \alpha_!) \to (V , (V \Rightarrow Y^*), \beta_!)$ where $f : U \to
+    V$ and $F : (V \Rightarrow Y^*) \to (U \Rightarrow X^*)$ subject
+    to the same condition on morphisms as $\dial$.  Composition and
+    identities are defined similarly to $\dial$.
   \end{itemize}
-  Now we show that $\dial_!$ is cartesian.
+  
+  Now we show that $\dial_!$ is cartesian.  Notice that $\dial_!$ is a
+  subcategory of $\dial$, and there is a functor $J : \dial \to
+  \dial_!$ which is defined equivalently to the endofunctor $!$ from
+  the proof of Lemma~\ref{lemma:ddial_is_a_linear_category}.  In fact,
+  $\dial_!$ is the co-Kleisli category with objects free !-coalgebras
+  and is cartesian closed \cite{dePaiva:1987}.  However, we only need
+  the fact that it is cartesian.
+
+  To show that $\dial_!$ is cartesian it suffices to show that $J$
+  preserves the cartesian structure of $\dial$ -- the proof that
+  $\dial$ is cartesian can be found on page 48 of \cite{dePaiva:1988}.
   \begin{itemize}
-  \item Suppose $A = (U , U \Rightarrow X^* , \alpha_!)$ and $B = (V ,
-    V \Rightarrow Y^* , \beta_!)$ are objects of $\dial_!$. Then we
-    define $A \times B = (U \times V, (V \Rightarrow (U \Rightarrow X^*)) \times (U \Rightarrow (V \Rightarrow Y^*)), \alpha_! \otimes \beta_!)$,
-    where $\alpha_! \otimes \beta_!$ is defined as it is
-    for the tensor product in the proof of
-    Lemma~\ref{lemma:ddial_is_a_linear_category}.  Now notice that
-    $(U \times V) \to (X \times Y)^*$ is isomorphic to
-    $(V \Rightarrow (U \Rightarrow X^*)) \times (U \Rightarrow (V \Rightarrow Y^*))$
-    and thus we have an object in $\dial_!$.
+  \item Suppose $A = (U , X , \alpha)$ and $B = (V , Y , \beta)$ are
+    objects of $\dial$. Then we define $A \times B = (U \times V, (X +
+    Y), \alpha \times \beta)$, where $((u , v), i) \in \alpha \times
+    \beta$ iff when $i \in X$, then $(u , i) \in \alpha$, otherwise
+    when $i \in Y$, then $(v , i) \in \beta$.  Now the cartesian
+    product in $\dial_!$ is defined as $J(A \times B)$.
 
-  \item Suppose $A = (U , U \Rightarrow X^* , \alpha_!)$, $B = (V , V
-    \Rightarrow Y^* , \beta_!)$, and $C = (W , W \Rightarrow Z^* ,
-    \gamma_!)$ are objects of $\dial_!$.  Then the we define the following
-    morphisms:
+  \item The terminal object in $\dial$ is defined by $(\top, \perp,
+    \alpha_\top)$ where $\top$ and $\perp$ are the terminal and final
+    objects in $\sets$ respectively, and $(x , y) \in \alpha_\top$ iff
+    true. The proof that this is terminal, and is the unit to the
+    cartesian product can be found in the formal development.
+    
+  \item Suppose $A = (U , X , \alpha)$, $B = (V , Y , \beta)$, and $C
+    = (W , Z , \gamma)$ are objects of $\dial$.  Then the we define
+    the following morphisms -- the proofs of the morphism conditions
+    have been omitted, but the details can be found in the formal
+    development:
     \begin{itemize}
-    \item Define the first projection by $(\pi_1, \lambda f.(\lambda
-      v.\lambda u.f(u), \lambda u.\lambda v.())) : A \times B \to A$,
-      where $\pi_1$ is the first projection in $\sets$.  The condition
-      on morphisms easily follows from knowing $\alpha_!  \otimes
-      \beta_!$.  See the formalization for the details.
+    \item Define the first projection by $(\pi_1, F_{\pi_1}) : J(A
+      \times B) \to J(A)$, where $\pi_1$ is the first projection in
+      $\sets$, and $F_{\pi_1}$ takes a function $f : U \to X^*$ and a
+      pair $(u , v) \in U \times V$, and returns the sequence $(X +
+      Y)^*$ by mapping the first coproduct injection over $f(u ,v)$.
 
-    \item Similarly to the first projection we define the second
-      projection by $(\pi_2, \lambda f.(\lambda v.\lambda u.(),
-      \lambda u.\lambda v.f(v))) : A \times B \to B$, where $\pi_2$ is
-      the first projection in $\sets$.
+    \item The second projection is defined similar to the first,
+      $(\pi_2, F_{\pi_2}) : J(A \times B) \to J(B)$, but $F_{\pi_2}$ maps
+      the second projection instead of the first.
 
-    \item Suppose $j_1 = (f , F) : C \to A$ and $j_2 = (g , G) : C \to
-      B$ are morphisms in $\dial_!$.  Then we define the morphism
-      $(j_1, j_2) = ((f,g), \lambda (j_1,j_2).\lambda w.(F(j_1(g(w)))\circ G(j_2(f(w)))))
-      : C \to A \times B$, where $(f,g) = \lambda w.(f(w),g(w))$ is the unique morphism
-      from the cartesian structure of $\sets$, and thus, $(j_1, j_2)$ is unique.
-      The condition on morphisms is also satisfied; see the formalization for the details.
+    \item Suppose $j_1 = (f , F) : J(C) \to J(A)$ and $j_2 = (g , G) : J(C) \to
+      J(B)$ are morphisms in $\dial_!$.  Then we define the morphism
+      $(j_1, j_2) = ((f,g),\lambda j.\lambda w.F(h_1(j),w) \circ F(h_2(j),w))
+      : J(C) \to J(A \times B)$, where $(f,g) = \lambda w.(f(w),g(w))$ is the unique morphism
+      from the cartesian structure of $\sets$, and
+      $h_1(j) = \lambda u.\iota_1(j(u,g(w)))$ and
+      $h_2(j) = \lambda u.\iota_2(j(u,f(w)))$.
+      Notice that $F$ is defined in terms of unique morphisms, and thus,
+      $(j_1,j_2)$ is unique.
     \end{itemize}
     All of the previous morphisms satisfy the usual diagram for
     cartesian products.    
   \end{itemize}
-  Now we must define two functors $F : \dial \to \dial_!$ and $G :
-  \dial_! \to \dial$ such that $G \dashv F$.  Take $F = !$ which was
-  defined in the proof of
-  Lemma~\ref{lemma:ddial_is_a_linear_category}.  Then define $G$ as
-  follows:
-  \begin{center}
-    \begin{math}
-      \begin{array}{rll}
-        G(U, U \Rightarrow X^*, \alpha_!) & = & (U , X , \alpha)\\
-        G((f , \lambda g.F^*(g(f(u)))) : (U , (U \Rightarrow X^*), \alpha_!) \to (V , (V \Rightarrow Y^*), \beta_!)) & = & (f, F) : (U , X, \alpha) \to (V , Y, \beta)\\
-      \end{array}
-    \end{math}
-  \end{center}
-  Here $F$ is obtained by the following reasoning:
-  \[
-  \begin{array}{llllll}
-    \lambda v.(\lambda g.F^*(g(f(u))))(\lambda x.(v))
-    & = & \lambda v.(\lambda g.F^*((\lambda x.(v))((f(u))))\\
-    & = & \lambda v.(\lambda g.F^*((v)))\\
-    & = & \lambda v.F(v)\\
-    & = & F\\
-  \end{array}
-  \]
-  Suppose $A = (U , X , \alpha)$ is an object of $\dial$. Then the
-  natural transformation $\eta : \mathsf{Id}_{\dial} \to F;G$ is
-  defined by $eta_{(U,X,\alpha)} : (U , X , \alpha) \to G(F(U , X , \alpha))$.
+
+  By Lemma~\ref{corollary:dial-FLNL} we know $\dial$ is a full LNL
+  model, and thus, there is an adjunction between $\dial$ and
+  $\dial_!$ where the left-adjoint is the forgetful functor $G :
+  \dial_! \to \dial$, and the right adjoint is the free functor $J :
+  \dial \to \dial_!$.  Therefore, $\dial$ is a model of full tensor
+  logic.
 \end{proof}
 % section tensorial_logic (end)
 

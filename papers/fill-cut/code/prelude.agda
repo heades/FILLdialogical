@@ -2,6 +2,7 @@ module prelude where
 
 open import level public
 open import product public
+open import product-thms public
 open import sum public
 open import empty public
 open import unit public

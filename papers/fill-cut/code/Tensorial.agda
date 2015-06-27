@@ -5,9 +5,6 @@
 module Tensorial where
 
 open import prelude
-open import product
-open import product-thms
-
 open import Dial2Sets
 
 -----------------------------------------------------------------------
@@ -149,15 +146,14 @@ open import Dial2Sets
 -- logic, because we know Dial₂(Sets) has coproducts that distribute --
 -- over tensor; Proposition 28 on page 52 of Valeria's thesis.       --
 --                                                                   --
--- The battle still left to be faught is showing that Dial₂(Sets) is --
--- a model of full tensor logic.  Thus, we must show that there is   --
--- an exponential resource modality.                                 --
 -----------------------------------------------------------------------
 
 -- The following shows that Dial₂(Sets)! is cartesian.
 
+Jₒ = !ₒ
+
 -- First, we define the cartesian product in Dial₂(Sets), and then use
--- !ₒ to put us inside of Dial₂(Sets)!.
+-- Jₒ to put us inside of Dial₂(Sets)!.
 _&ᵣ_ : {U X V Y : Set}
   → (α : U → X → Set)
   → (β : V → Y → Set)
@@ -170,15 +166,12 @@ _&ᵣ_ α β (u , v) (inj₂ y) = β v y
 _&ₒ_ : (A B : Obj) → Obj
 (U , X , α) &ₒ (V , Y , β) = (U × V) , (X ⊎ Y) , α &ᵣ β
 
--- The remainder of this file will work under the !ₒ functor which
+-- The remainder of this file will work under the Jₒ functor which
 -- will put us inside of Dial₂(Sets)!.
 
--- This defines the projection morphism: π₁ : A & B → A.
-π₁ : {U X V Y : Set}
-  → {α : U → X → Set}
-  → {β : V → Y → Set}
-  → Hom (!ₒ ((U , X , α) &ₒ (V , Y , β))) (!ₒ (U , X , α))
-π₁ {U}{X}{V}{Y}{α}{β} =
+-- This defines the projection morphism: π₁ : F(A & B) → F(A).
+π₁ : {A B : Obj} → Hom (Jₒ (A &ₒ B)) (Jₒ A)
+π₁ {U , X , α}{V , Y , β} =
   fst ,
   (λ (f : U → (X *)) (p : U × V) → map inj₁ (f (fst p))) ,
   λ {u}{y} p → π₁-cond {u}{y} p
@@ -194,11 +187,8 @@ _&ₒ_ : (A B : Obj) → Obj
      aux {x :: l} (j₁ , j₂) = j₁ , aux j₂
 
 -- This defines the projection morphism: π₂ : A & B → B.
-π₂ : {U X V Y : Set}
-  → {α : U → X → Set}
-  → {β : V → Y → Set}
-  → Hom (!ₒ ((U , X , α) &ₒ (V , Y , β))) (!ₒ (V , Y , β))
-π₂ {U}{X}{V}{Y}{α}{β} =
+π₂ : {A B : Obj} → Hom (Jₒ (A &ₒ B)) (Jₒ B)
+π₂ {U , X , α}{V , Y , β} =
   snd , (λ f p → map inj₂ (f (snd p))) , λ {u}{y} p → π₂-cond {u}{y} p
  where
   π₂-cond : {u : Σ U (λ x → V)} {y : V → 𝕃 Y} →
@@ -215,8 +205,8 @@ cart-ar-crt : {U X V Y W Z : Set}
   → {α : U → X → Set}
   → {β : V → Y → Set}
   → {γ : W → Z → Set}
-  → Hom (!ₒ (W , Z , γ)) (!ₒ (U , X , α))
-  → Hom (!ₒ (W , Z , γ)) (!ₒ (V , Y , β))
+  → Hom (Jₒ (W , Z , γ)) (Jₒ (U , X , α))
+  → Hom (Jₒ (W , Z , γ)) (Jₒ (V , Y , β))
   → (Σ U (λ x → V) → 𝕃 (X ⊎ Y)) → W → 𝕃 Z
 cart-ar-crt  (f , F , p₁) (g , G , p₂) j w
   with (λ u → (proj-⊎₁ (j (u , g w)))) | (λ v → (proj-⊎₂ (j (f w , v))))
@@ -224,14 +214,11 @@ cart-ar-crt  (f , F , p₁) (g , G , p₂) j w
 
 -- This takes two morphisms f : C → A and g : C → B, and constructs
 -- a morphism (f,g) : C → A & B.
-cart-ar : {U X V Y W Z : Set}
-  → {α : U → X → Set}
-  → {β : V → Y → Set}
-  → {γ : W → Z → Set}
-  → Hom (!ₒ (W , Z , γ)) (!ₒ (U , X , α))
-  → Hom (!ₒ (W , Z , γ)) (!ₒ (V , Y , β))
-  → Hom (!ₒ (W , Z , γ)) (!ₒ ((U , X , α) &ₒ (V , Y , β)))
-cart-ar {U}{X}{V}{Y}{W}{Z}{α}{β}{γ} (f , F , p₁) (g , G , p₂)
+cart-ar : {C A B : Obj}
+  → Hom (Jₒ C) (Jₒ A)
+  → Hom (Jₒ C) (Jₒ B)
+  → Hom (Jₒ C) (Jₒ (A &ₒ B))
+cart-ar {W , Z , γ}{U , X , α}{V , Y , β} (f , F , p₁) (g , G , p₂)
   = (λ w → (f w , g w)) ,
     cart-ar-crt {α = α}{β}{γ} (f , F , p₁) (g , G , p₂) ,
     (λ {u}{y} p → cart-ar-cond {u}{y} p)
@@ -260,21 +247,18 @@ cart-ar {U}{X}{V}{Y}{W}{Z}{α}{β}{γ} (f , F , p₁) (g , G , p₂)
        aux {inj₂ y :: l} x₁ (s₁ , s₂) = s₁ , aux {l} x₁ s₂
 
 -- This shows that f ≡ (f,g);π₁.
-cart-diag₁ : {U X V Y W Z : Set}
-  → {α : U → X → Set}
-  → {β : V → Y → Set}
-  → {γ : W → Z → Set}
-  → {f : Hom (W , Z , γ) (U , X , α)}
-  → {g : Hom (W , Z , γ) (V , Y , β)}
-  → _≡h_ { !ₒ (W , Z , γ)}{ !ₒ (U , X , α)}
-    (!ₐ {W , Z , γ}{U , X , α} f)
-    (comp { !ₒ (W , Z , γ)}
-          {(!ₒ ((U , X , α) &ₒ (V , Y , β)))}
-          { !ₒ (U , X , α)}
-          (cart-ar {α = α}{β}
-            (!ₐ {W , Z , γ}{U , X , α} f) (!ₐ {W , Z , γ}{V , Y , β} g))
+cart-diag₁ : {A B C : Obj}
+  → {f : Hom C A}
+  → {g : Hom C B}
+  → _≡h_ { Jₒ C}{ Jₒ A}
+    (!ₐ {C}{A} f)
+    (comp { Jₒ C}
+          {(Jₒ (A &ₒ B))}
+          { Jₒ A}
+          (cart-ar
+            (!ₐ {C}{A} f) (!ₐ {C}{B} g))
           π₁)
-cart-diag₁ {X = X}{Y = Y}{f = f , F , p₁}{g , G , p₂}
+cart-diag₁ {U , X , α}{V , Y , β}{W , Z , γ}{f = f , F , p₁}{g , G , p₂}
   = refl , ext-set (λ {j₁} → ext-set (λ {w} → aux))
   where
     aux : ∀{l : X *} →
@@ -286,21 +270,18 @@ cart-diag₁ {X = X}{Y = Y}{f = f , F , p₁}{g , G , p₂}
       map-proj-⊎₂-[] {_}{_}{X}{Y} l = sym (++[] (map F l))
 
 -- This shows that g ≡ (f,g);π₂.
-cart-diag₂ : {U X V Y W Z : Set}
-  → {α : U → X → Set}
-  → {β : V → Y → Set}
-  → {γ : W → Z → Set}
-  → {f : Hom (W , Z , γ) (U , X , α)}
-  → {g : Hom (W , Z , γ) (V , Y , β)}
-  → _≡h_ { !ₒ (W , Z , γ)}{ !ₒ (V , Y , β)}
-    (!ₐ {W , Z , γ}{V , Y , β} g)
-    (comp { !ₒ (W , Z , γ)}
-          {(!ₒ ((U , X , α) &ₒ (V , Y , β)))}
-          { !ₒ (V , Y , β)}
-          (cart-ar {α = α}{β}
-            (!ₐ {W , Z , γ}{U , X , α} f) (!ₐ {W , Z , γ}{V , Y , β} g))
+cart-diag₂ : {A B C : Obj}
+  → {f : Hom C A}
+  → {g : Hom C B}
+  → _≡h_ { Jₒ C}{ Jₒ B}
+    (!ₐ {C}{B} g)
+    (comp { Jₒ C}
+          {(Jₒ (A &ₒ B))}
+          { Jₒ B}
+          (cart-ar
+            (!ₐ {C}{A} f) (!ₐ {C}{B} g))
           π₂)
-cart-diag₂ {X = X}{Y = Y}{f = f , F , p₁}{g , G , p₂}
+cart-diag₂ {U , X , α}{V , Y , β}{W , Z , γ}{f = f , F , p₁}{g , G , p₂}
   = refl , ext-set (λ {j₁} → ext-set (λ {w} → aux))
   where
     aux : ∀{l : Y *} →
@@ -309,3 +290,58 @@ cart-diag₂ {X = X}{Y = Y}{f = f , F , p₁}{g , G , p₂}
       map G (proj-⊎₂ {_}{_}{X}{Y} (map inj₂ l))
     aux {l} rewrite map-proj-⊎₂ {_}{_}{X}{Y} l |
                     map-proj-⊎₁-[] {_}{_}{X}{Y} l = refl
+
+term-diag : ∀{A : Obj} → Hom (Jₒ A) (Jₒ (⊤ , ⊥ , λ x y → ⊤))
+term-diag {U , X , α} = (λ x → triv) , (λ f u → aux (f triv) u) , (λ {u}{y} → aux' {u}{y triv})
+ where
+   aux : 𝕃 ⊥ → U → 𝕃 X
+   aux [] u = []
+   aux (x :: l) u = ⊥-elim x :: aux l u
+
+   aux' : {u : U} {l : 𝕃 ⊥} → all-pred (α u) (aux l u) → all-pred (λ y₁ → ⊤) l
+   aux' {u}{l = []} p = p
+   aux' {u}{l = x :: l} (p , p') = triv , aux' {u}{l} p' 
+
+term-cart-crt₁ : {X : Set} → 𝕃 (X ⊎ ⊥) → 𝕃 X
+term-cart-crt₁ [] = []
+term-cart-crt₁ (inj₁ x :: l) = x :: term-cart-crt₁ l
+term-cart-crt₁ (inj₂ y :: l) = ⊥-elim y :: term-cart-crt₁ l
+   
+term-cart₁ : ∀{A : Obj} → Hom (Jₒ A) (Jₒ (A &ₒ (⊤ , ⊥ , λ x y → ⊤)))
+term-cart₁ {U , X , α} = (λ x → x , triv) , (λ f u → term-cart-crt₁ (f (u , triv))) , cond
+ where   
+   cond : {u : U} {l : 𝕃 (X ⊎ ⊥)} →
+      all-pred (α u) (term-cart-crt₁ l) →
+      all-pred ((α &ᵣ (λ x y₁ → ⊤)) (u , triv)) l
+   cond {u}{[]} p = triv
+   cond {u}{inj₁ x :: l} (p , p') = p , cond p'
+   cond {u}{inj₂ y :: l} (p , p') = triv , cond p'
+
+term-cart₂ : ∀{A : Obj} → Hom (Jₒ (A &ₒ (⊤ , ⊥ , λ x y → ⊤))) (Jₒ A)
+term-cart₂ {U , X , α} = π₁
+
+term-cart-iso₁ : ∀{A : Obj} → _≡h_ {Jₒ A} {Jₒ A} (comp {Jₒ A}{Jₒ (A &ₒ (⊤ , ⊥ , λ x y → ⊤))}{Jₒ A} term-cart₁ term-cart₂) id
+term-cart-iso₁ {U , X , α} = refl , ext-set (λ {f} → ext-set (λ {u} → aux))
+ where
+   aux : ∀{l : X *} → term-cart-crt₁ (map inj₁ l) ≡ l
+   aux {[]} = refl
+   aux {x :: l} rewrite aux {l} = refl
+
+term-cart-iso₂ : ∀{A : Obj} → _≡h_ {Jₒ (A &ₒ (⊤ , ⊥ , λ x y → ⊤))} {Jₒ (A &ₒ (⊤ , ⊥ , λ x y → ⊤))}
+  (comp {Jₒ (A &ₒ (⊤ , ⊥ , λ x y → ⊤))}{Jₒ A}{Jₒ (A &ₒ (⊤ , ⊥ , λ x y → ⊤))} term-cart₂ term-cart₁) id
+term-cart-iso₂ {U , X , α} = ext-set aux , ext-set (λ {f} → ext-set (aux' {f}))
+ where
+   aux : {a : Σ U (λ x → ⊤)} → (fst a , triv) ≡ a
+   aux {u , triv} = refl
+
+   aux' : {f : Σ U (λ x → ⊤) → 𝕃 (X ⊎ ⊥)}{a : Σ U (λ x → ⊤)} → map inj₁ (term-cart-crt₁ (f (fst a , triv))) ≡ f a
+   aux' {f}{u , triv} = aux''
+    where
+      aux'' : ∀{l : (X ⊎ ⊥) *} → map inj₁ (term-cart-crt₁ l) ≡ l
+      aux'' {[]} = refl
+      aux'' {inj₁ x :: l} rewrite aux'' {l} = refl
+      aux'' {inj₂ y :: l} = ⊥-elim y
+
+twist-cart : ∀{A B : Obj} → Hom (Jₒ (A &ₒ B)) (Jₒ (B &ₒ A)) 
+twist-cart {A}{B} = cart-ar {A &ₒ B} {B} {A} π₂ π₁
+
