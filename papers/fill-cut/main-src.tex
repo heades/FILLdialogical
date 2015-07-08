@@ -70,7 +70,8 @@
   gave an indirect proof showing that cut-elimination is restored. In
   this note we adopt Bellin’s proposed rule and give a direct proof of
   cut-elimination.  Additionally, we show that a categorical model of
-  FILL in the basic dialectica category is also a LNL model of Benton.
+  FILL in the basic dialectica category is also a LNL model of Benton
+  and a full tensor model of Melli\'es' and Tabareau's tensor logic.
 \end{abstract}
 
 \section{Introduction}
@@ -206,8 +207,14 @@ of cut-elimination as a means of checking the correctness of the
 formulation of FILL given here.  The latter point is important for
 future work.  Lastly, we show that the categorical model of FILL
 called $\dial$, the basic dialectica category, is also a
-linear/non-linear model of Benton (Section~\ref{sec:full_lnl_models}).
-\todo{Mention Agda development.}
+linear/non-linear model of Benton (Section~\ref{sec:full_lnl_models})
+and a full tensor model of Melli\'es' and Tabareau's tensor logic
+(Section~\ref{sec:tensorial_logic}). Lastly, due to the complexities
+of working in $\dial$ we have formalized all of the constructions and
+proofs used in Section~\ref{sec:full_lnl_models} and
+Section~\ref{sec:tensorial_logic} in the Agda proof
+assistant\footnote{The Agda development can be found at
+  \url{https://github.com/heades/cut-fill-agda}.}.
 
 \textbf{Related Work.} The first formalization of FILL with
 cut-elimination was due to Bra\"uner and de Paiva \cite{Brauner:1998}.
@@ -514,9 +521,10 @@ The major difference between proving cut-elimination of FILL from
 classical or intuitionistic linear logic is that we must prove an
 invariant across each step in the procedure.  The invariant is that if
 a derivation $\pi$ is transformed into a derivation $\pi'$, then the
-terms in the conclusion of the final rule applied in $\pi$ must be
-equivalent to the terms in the conclusion of the final rule applied in
-$\pi'$ using the rules from Figure~\ref{def:FILL-eq}.
+terms in the conclusion of the final rule applied in $\pi$ must be be
+transformable, when the equivalences defined in
+Figure~\ref{def:FILL-eq} are taken as left-to-right rewrite rules,
+into the terms in the conclusion of the final rule applied in $\pi'$.
 
 
 \begin{comment}
@@ -614,9 +622,11 @@ We finally arrive at cut-elimination.
   cut-elimination procedure for classical linear logic except the
   cases involving the implication right rule have the FILL
   restriction. The structure of our procedure follows the structure of
-  the procedure found in \cite{Mellies:2009}. Due to space limitations
-  we only show one of the most interesting cases, but for the entire
-  proof see the companion report \cite{Eades:2015}.
+  the procedure found in \cite{Mellies:2009}. Throughout this proof we
+  treat the equivalences defined in Figure~\ref{def:FILL-eq} as
+  left-to-right rewrite rules. Due to space limitations we only show
+  one of the most interesting cases, but for the entire proof see the
+  companion report \cite{Eades:2015}.
   \begin{itemize}
     \begin{report}      
   \item[Case:] commuting conversion cut vs cut (first case).
