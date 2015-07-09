@@ -71,7 +71,7 @@
   this note we adopt Bellin’s proposed rule and give a direct proof of
   cut-elimination.  Additionally, we show that a categorical model of
   FILL in the basic dialectica category is also a LNL model of Benton
-  and a full tensor model of Melli\'es' and Tabareau's tensor logic.
+  and a full tensor model of Melli\`es' and Tabareau's tensor logic.
 \end{abstract}
 
 \section{Introduction}
@@ -208,11 +208,11 @@ formulation of FILL given here.  The latter point is important for
 future work.  Lastly, we show that the categorical model of FILL
 called $\dial$, the basic dialectica category, is also a
 linear/non-linear model of Benton (Section~\ref{sec:full_lnl_models})
-and a full tensor model of Melli\'es' and Tabareau's tensor logic
-(Section~\ref{sec:tensorial_logic}). Lastly, due to the complexities
+and a full tensor model of Melli\`es' and Tabareau's tensor logic
+(Section~\ref{sec:tensor_logic}). Lastly, due to the complexities
 of working in $\dial$ we have formalized all of the constructions and
 proofs used in Section~\ref{sec:full_lnl_models} and
-Section~\ref{sec:tensorial_logic} in the Agda proof
+Section~\ref{sec:tensor_logic} in the Agda proof
 assistant\footnote{The Agda development can be found at
   \url{https://github.com/heades/cut-fill-agda}.}.
 
@@ -1526,11 +1526,9 @@ transforms into the proof
   }{[[G3, G,y : A -o B,G1,G2,G4 |- h(L | h([y t1/x]L2)) | [y t1/x][t2/z]L3]]}
   \end{math}
 \end{center}
-This case is similar to
-Section~\ref{subsec:commuting_conversion_cut_vs_cut_(first_case)}.
-Thus, we can prove that $[[ [y t1/x][t2/z]L3 = [ [y t1/x]t2/z]L3]]$ by
-Lemma~\ref{lemma:substitution_distribution} and the fact that $[[x nin
-FV(L3)]]$.
+This case holds because we can prove that $[[ [y t1/x][t2/z]L3 = [ [y
+        t1/x]t2/z]L3]]$ by Lemma~\ref{lemma:substitution_distribution}
+and the fact that $[[x nin FV(L3)]]$.
 
 \item[Case:] secondary conclusion: left introduction of exchange.
   The proof
@@ -1626,7 +1624,7 @@ transforms into the proof
 \end{center}
 It suffices to show that $[[let z be x (x) y in ([t/w]L2) = [h{let z
   be x (x) y in t}/w]L2]]$.  This is a simple consequence of the rule
-\FILLdrulename{Eq\_NatTensor}.
+$\FILLdrulename{Eq\_NatTensor}$.
 
 \item[Case:] secondary conclusion: left introduction of Par
 The proof 
@@ -2701,8 +2699,8 @@ model par and its unit.
 \begin{definition}
   \label{def:full-lnl-model}
   A \textbf{full linear/non-linear model (full LNL model)} consists of
-  a LNL model $(\cat{L}, \cat{C},F,G)$, a symmetric monoidal structure
-  on $L$, $(\perp, \parr)$, as above.
+  a LNL model $(\cat{L}, \cat{C},F,G)$, and a symmetric monoidal
+  structure on $L$, $(\perp, \parr)$, as above.
 \end{definition}
 
 \noindent
@@ -2734,7 +2732,7 @@ We can now show our main result of this section.
     We only give a sketch of the proof here, but for the full details
     see that companion report \cite{Eades:2015}\footnote{This proof
       was formalized in the Agda proof assistant see the file
-      \url{https://github.com/heades/cut-fill-agda/blob/master/Dial2Sets.agda}}. First,
+      \url{https://github.com/heades/cut-fill-agda/blob/master/FullLinCat.agda}}. First,
     we must show that $\dial$ is a linear category.  The majority of
     the linear structure of $\dial$ is in de Paiva's thesis
     \cite{dePaiva:1988}.  However, we had to extend her definitions to
@@ -2756,14 +2754,16 @@ We can now show our main result of this section.
   \end{paper}
 \begin{report}
   This proof holds by constructing each piece of a full linear
-  category using the structure of $\dial$.  We use some notation to
-  make it easier to define and use functions over sequences.  Given a
-  function $g : A \to X^*$ we will denote taking the $i$th projection
-  of the sequence returned by $g(a)$ for some $a \in A$ by $g(a)_i$.
-  To construct set-theoretic anonymous functions we use
-  $\lambda$-notation.  Lastly, we often use let-expressions to pattern
-  match on sequences.  For example, $\lett (x_1,\ldots,x_i) = g(a)
-  \inn (f(x_1),\cdots,f(x_i))$.
+  category using the structure of $\dial$\footnote{This proof was
+    formalized in the Agda proof assistant see the file
+    \url{https://github.com/heades/cut-fill-agda/blob/master/FullLinCat.agda}}.
+  We use some notation to make it easier to define and use functions
+  over sequences.  Given a function $g : A \to X^*$ we will denote
+  taking the $i$th projection of the sequence returned by $g(a)$ for
+  some $a \in A$ by $g(a)_i$.  To construct set-theoretic anonymous
+  functions we use $\lambda$-notation.  Lastly, we often use
+  let-expressions to pattern match on sequences.  For example, $\lett
+  (x_1,\ldots,x_i) = g(a) \inn (f(x_1),\cdots,f(x_i))$.
     
   First, we must construct a linear category. It is well known that
   $\mathsf{Sets}$ is a CCC, and in fact, locally cartesian closed, and
@@ -3707,11 +3707,34 @@ We can now show our main result of this section.
 %% hence we leave this to future work.
 % section full_linear_categories (end)
 
-\section{Tensorial Logic}
-\label{sec:tensorial_logic}
+\section{Tensor Logic}
+\label{sec:tensor_logic}
 
+Game semantics has many applications in computer science particularly
+in the study of the algebraic foundations of programming languages
+with effects (e.g. states and continuations).  Blass gave a model of
+linear logic \cite{Blass:1992} in game semantics, commonly known as
+the Blass model, but Abramsky showed that this model does not define a
+category, because associativity fails.  This was a major concern,
+because both category theory and linear logic are highly used tools by
+the game semanticist. After all the notion of a resource plays a
+fundamental role in both theories. Melli\`es and Tabareau show that the
+situation can be rectified by decomposing the modalities of linear
+logic into what they call ``resource modalities'' resulting in a new
+logic they call tensor logic \cite{Mellies:2010}.  They argue that
+tensor logic is not merely a restriction of linear logic, but a
+generalization due to the fact that linear logic can be embedded into
+tensor logic in the same way that intuitionistic logic can be embedded
+into linear logic.  Thus, they see tensor logic as being more
+fundamental than linear logic. In this section we show that $\dial$
+can be seen as a model of tensor logic.
 
-
+Tensor logic can be seen as linear logic where the involutive negation
+has been broken up into a what Melli\`es and Tabareau call a tensorial
+negation (Definition~\ref{def:tensorial-negation}) and a resource
+modality (Definition~\ref{def:resource-modality}).  Then using these
+two notions the usual notion of polarities can be defined
+\cite{Mellies:2010}.
 \begin{definition}
   \label{def:tensorial-negation}
   A \textbf{tensorial negation} on a symmetric monoidal category
@@ -3736,218 +3759,250 @@ We can now show our main result of this section.
   \efig
   \]
 \end{definition}
-
+The most basic form of tensor logic is called multiplicative tensor
+logic and only consists of tensor and a tensorial negation.  The model
+of multiplicative tensor logic is called a dialogue category.
 \begin{definition}
   \label{def:dialogue-cat}
   A \textbf{dialogue category} is a symmetric monoidal category
   equipped with a tensorial negation.
 \end{definition}
-
+We have already seen that $\dial$ is a symmetric monoidal category,
+because it is a model of full intuitionistic linear logic, and thus,
+if we can define a tensorial negation on $\dial$ then it can be seen
+as a model of multiplicative tensor logic.
 \begin{lemma}
   \label{lemma:dial-tensorial-model}
   The category $\dial$ is a model of multiplicative tensor logic.
 \end{lemma}
-\begin{proof}
-  We must show that $\dial$ is a dialogue category.
-  \begin{itemize}
-  \item It is clear that $\dial$ is a SMC, thus we must define a
-    tensorial negation.  We do this as follows:
-    \begin{center}
-      \begin{math}
-        \begin{array}{rcl}
-          \lnot : \dial & \to & \catop{\dial}\\
-          \lnot (U,X,\alpha) & = & (X,U,\lnot \alpha)\\
-          \lnot ((f,F) : (U,X,\alpha) \to (V,Y,\beta)) & = & (F,f) : (Y,V,\lnot \beta) \to (X,U,\lnot \alpha)\\
-        \end{array}
-      \end{math}
-    \end{center}
-    Note that $(x,u) \in \lnot \alpha$ iff it is not the case that
-    $(u,x) \in \alpha$.  In addition, it is worth noting that the
-    condition on morphisms in $\catop{\dial}$ is as follows:
-    \begin{center}
-      For any $u \in U$ and $y \in Y$, $\lnot \beta(y,f(u))$ implies $\lnot \alpha(F(y),u)$.
-    \end{center}
-    This condition is simply the converse of the condition on
-    morphisms in $\dial$, and hence, if a morphism exists in $\dial$,
-    then a dual morphism exists in $\catop{\dial}$.
+\begin{proof}  
+    We must show that $\dial$ is a dialogue category\footnote{This proof
+      was formalized in the Agda proof assistant see the file
+      \url{https://github.com/heades/cut-fill-agda/blob/master/Tensorial.agda}}.
+    \begin{itemize}
+    \item It is clear that $\dial$ is a SMC, thus we must define a
+      tensorial negation.  We do this as follows:
+      \begin{center}
+        \begin{math}
+          \begin{array}{rcl}
+            \lnot : \dial & \to & \catop{\dial}\\
+            \lnot (U,X,\alpha) & = & (X,U,\lnot \alpha)\\
+            \lnot ((f,F) : (U,X,\alpha) \to (V,Y,\beta)) & = & (F,f) : (Y,V,\lnot \beta) \to (X,U,\lnot \alpha)\\
+          \end{array}
+        \end{math}
+      \end{center}
+      Note that $(x,u) \in \lnot \alpha$ iff it is not the case that
+      $(u,x) \in \alpha$.  In addition, it is worth noting that the
+      condition on morphisms in $\catop{\dial}$ is as follows:
+      \begin{center}
+        For any $u \in U$ and $y \in Y$, $\lnot \beta(y,f(u))$ implies $\lnot \alpha(F(y),u)$.
+      \end{center}
+      This condition is simply the converse of the condition on
+      morphisms in $\dial$, and hence, if a morphism exists in $\dial$,
+      then a dual morphism exists in $\catop{\dial}$.
 
-  \item Now we must define a family of bijections \[\phi_{A,B,C} :
-    \homs{}{A \otimes B}{\lnot C} \cong \homs{}{A}{\lnot (B \otimes
-      C)}\] natural in $A$, $B$, and $C$.
+    \item Now we must define a family of bijections \[\phi_{A,B,C} :
+      \homs{}{A \otimes B}{\lnot C} \cong \homs{}{A}{\lnot (B \otimes
+        C)}\] natural in $A$, $B$, and $C$.
 
-    Suppose $A = (U,X,\alpha)$, $B = (V,Y,\beta)$, and $C =
-    (W,Z,\gamma)$.  Then following the constructions from the proof of
-    Lemma~\ref{lemma:ddial_is_a_linear_category} we define the
-    following:
-    \begin{center}
-      \begin{math}
+      Suppose $A = (U,X,\alpha)$, $B = (V,Y,\beta)$, and $C =
+      (W,Z,\gamma)$.  Then following the constructions from the proof of
+      Lemma~\ref{lemma:ddial_is_a_linear_category} we define the
+      following:
+      \begin{center}
+        \begin{math}
+          \begin{array}{lll}
+            A \otimes B & = & (U \times V, (V \Rightarrow X) \times (U \Rightarrow Y), \alpha \otimes \beta)\\
+            B \otimes C & = & (V \times W, (W \Rightarrow Y) \times (V \Rightarrow Z), \beta \otimes \gamma)\\
+          \end{array}
+        \end{math}
+      \end{center}
+      Using the definition of tensorial negation from above we define the following:
+      \[
+      \begin{array}{lll}
+        \lnot C & = & (Z,W,\lnot \gamma)\\
+        \lnot (B \otimes C) & = & ((W \Rightarrow Y) \times (V \Rightarrow Z), V \times W, \lnot (\beta \otimes \gamma))\\
+      \end{array}
+      \]
+
+      First, we define $\phi_{A,B,C} : \homs{}{A \otimes B}{\lnot C} \to
+      \homs{}{A}{\lnot (B \otimes C)}$.  Suppose $(f,F) : A \otimes B
+      \to \lnot C$ which is equivalent to the following morphism by
+      definition:
+      \[
+      \begin{array}{lll}
+        (f,F) : (U \times V, (V \Rightarrow X) \times (U \Rightarrow Y), \alpha \otimes \beta) \to (Z,W,\lnot \gamma)\\
+        \text{ where }\\
         \begin{array}{lll}
-          A \otimes B & = & (U \times V, (V \Rightarrow X) \times (U \Rightarrow Y), \alpha \otimes \beta)\\
-          B \otimes C & = & (V \times W, (W \Rightarrow Y) \times (V \Rightarrow Z), \beta \otimes \gamma)\\
+          f : U \times V \to Z\\
+          F : W \to (V \Rightarrow X) \times (U \Rightarrow Y)\\        
         \end{array}
-      \end{math}
-    \end{center}
-    Using the definition of tensorial negation from above we define the following:
-    \[
-    \begin{array}{lll}
-      \lnot C & = & (Z,W,\lnot \gamma)\\
-      \lnot (B \otimes C) & = & ((W \Rightarrow Y) \times (V \Rightarrow Z), V \times W, \lnot (\beta \otimes \gamma))\\
-    \end{array}
-    \]
-
-    First, we define $\phi_{A,B,C} : \homs{}{A \otimes B}{\lnot C} \to
-    \homs{}{A}{\lnot (B \otimes C)}$.  Suppose $(f,F) : A \otimes B
-    \to \lnot C$ which is equivalent to the following morphism by
-    definition:
-    \[
-    \begin{array}{lll}
-      (f,F) : (U \times V, (V \Rightarrow X) \times (U \Rightarrow Y), \alpha \otimes \beta) \to (Z,W,\lnot \gamma)\\
-      \text{ where }\\
-      \begin{array}{lll}
-        f : U \times V \to Z\\
-        F : W \to (V \Rightarrow X) \times (U \Rightarrow Y)\\        
       \end{array}
-    \end{array}
-    \]
-    We also know that the previous morphism must satisfy the following
-    condition:
-    \begin{equation}
-      \label{cond:1}
-      \forall (u,v) \in U \times V,w \in W.((u,v),F(w)) \in \alpha \otimes \beta \text{ implies } (f(u,v),w) \in \lnot \gamma
-    \end{equation}
-    Now We must define $(g,G) : A \to \lnot (B \otimes C)$ which is
-    equivalent to the following morphism:
-    \[
-    \begin{array}{lll}
-      (g,G) : (U,X,\alpha) \to ((W \Rightarrow Y) \times (V \Rightarrow Z), V \times W, \lnot (\beta \otimes \gamma))\\
-      \text{ where }\\
+      \]
+      We also know that the previous morphism must satisfy the following
+      condition:
+      \begin{equation}
+        \label{cond:1}
+        \forall (u,v) \in U \times V,w \in W.((u,v),F(w)) \in \alpha \otimes \beta \text{ implies } (f(u,v),w) \in \lnot \gamma
+      \end{equation}
+      Now we must define $(g,G) : A \to \lnot (B \otimes C)$ which is
+      equivalent to the following morphism:
+      \[
       \begin{array}{lll}
-        g : U \to (W \Rightarrow Y) \times (V \Rightarrow Z)\\
-        G : V \times W \to X\\        
+        (g,G) : (U,X,\alpha) \to ((W \Rightarrow Y) \times (V \Rightarrow Z), V \times W, \lnot (\beta \otimes \gamma))\\
+        \text{ where }\\
+        \begin{array}{lll}
+          g : U \to (W \Rightarrow Y) \times (V \Rightarrow Z)\\
+          G : V \times W \to X\\        
+        \end{array}
       \end{array}
-    \end{array}
-    \]
-    In addition, the previous morphism must satisfy the following condition:
-    \begin{equation}
-      \label{cond:2}
-      \forall u \in U,(v,w) \in V \times W.(u,G(v,w)) \in \alpha \text{ implies } (g(u),(v,w)) \in \lnot (\beta \otimes \gamma)
-    \end{equation}
-    Define $g(u) = (\lambda w.F(w)_2(u),\lambda v.f(u,v))$ and $G(v,w)
-    = F(w)_1(v)$.
+      \]
+      In addition, the previous morphism must satisfy the following condition:
+      \begin{equation}
+        \label{cond:2}
+        \forall u \in U,(v,w) \in V \times W.(u,G(v,w)) \in \alpha \text{ implies } (g(u),(v,w)) \in \lnot (\beta \otimes \gamma)
+      \end{equation}
+      Define $g(u) = (\lambda w.F(w)_2(u),\lambda v.f(u,v))$ and $G(v,w)
+      = F(w)_1(v)$.
 
-    Now we must prove condition (\ref{cond:2}) holds.  Suppose $u
-    \in U$, $(v,w) \in V \times W$, and $(u,G(v,w)) = (u,F(w)_1(v))
-    \in \alpha$.  It suffices to show:
-    \[
-    \begin{array}{lll}
-      (g(u),(v,w)) = ((\lambda w.F(w)_2(u),\lambda v.f(u,v)),(v,w)) \in \lnot (\beta \otimes \gamma)\\
-      \text{iff } ((v,w),(\lambda w.F(w)_2(u),\lambda v.f(u,v))) \not\in \beta \otimes \gamma\\
-      \text{iff } (v,F(w)_2(u)) \not\in \beta \text { or } (w,f(u,v)) \not\in \gamma
-    \end{array}
-    \]
-    If it is the case that $(v,F(w)_2(u)) \not\in \beta$, then we
-    obtain our result, so suppose $(v,F(w)_2(u)) \in \beta$.  Then by
-    definition of tensor, the previous fact, and the assumption that
-    $(u,F(w)_1(v)) \in \alpha$ we know that $((u,v),F(w)) \in \alpha
-    \otimes \beta$.  Therefore, by condition \ref{cond:1}, $(f(u,v),w)
-    \in \lnot \gamma$ which implies that $(w,f(u,v)) \not\in \gamma$
-    by definition.
-    
-    Next we define $\phi^{-1}_{A,B,C} : \homs{}{A}{\lnot (B \otimes
-      C)} \to \homs{}{A \otimes B}{\lnot C}$. Suppose $(g,G) : A \to
-    \lnot (B \otimes C)$ which is equivalent to the following morphism by
-    definition:
-    \[
-    \begin{array}{lll}
-      (h,H) : (U,X,\alpha) \to ((W \Rightarrow Y) \times (V \Rightarrow Z), V \times W, \lnot (\beta \otimes \gamma))\\
-      \text{ where }\\
+      Now we must prove condition (\ref{cond:2}) holds.  Suppose $u
+      \in U$, $(v,w) \in V \times W$, and $(u,G(v,w)) = (u,F(w)_1(v))
+      \in \alpha$.  It suffices to show:
+      \[
       \begin{array}{lll}
-        h : U \to (W \Rightarrow Y) \times (V \Rightarrow Z)\\
-        H : V \times W \to X\\
+        (g(u),(v,w)) = ((\lambda w.F(w)_2(u),\lambda v.f(u,v)),(v,w)) \in \lnot (\beta \otimes \gamma)\\
+        \text{iff } ((v,w),(\lambda w.F(w)_2(u),\lambda v.f(u,v))) \not\in \beta \otimes \gamma\\
+        \text{iff } (v,F(w)_2(u)) \not\in \beta \text { or } (w,f(u,v)) \not\in \gamma
       \end{array}
-    \end{array}
-    \]
-    We also know that the previous morphism must satisfy the following
-    condition:
-    \begin{equation}
-      \label{cond:3}
-      \forall u \in U,(v,w) \in V \times W.(u,H(v,w)) \in \alpha \text{ implies } (h(u),(v,w)) \in \lnot (\beta \otimes \gamma)
-    \end{equation}
-    Now we must define $(f,F) : A \otimes B \to \lnot C$ which is
-    equivalent to the following morphism:
-    \[
-    \begin{array}{lll}
-      (i,I) : (U \times V, (V \Rightarrow X) \times (U \Rightarrow Y), \alpha \otimes \beta) \to (Z,W,\lnot \gamma)\\
-      \text{ where }\\
+      \]
+      If it is the case that $(v,F(w)_2(u)) \not\in \beta$, then we
+      obtain our result, so suppose $(v,F(w)_2(u)) \in \beta$.  Then by
+      definition of tensor, the previous fact, and the assumption that
+      $(u,F(w)_1(v)) \in \alpha$ we know that $((u,v),F(w)) \in \alpha
+      \otimes \beta$.  Therefore, by condition \ref{cond:1}, $(f(u,v),w)
+      \in \lnot \gamma$ which implies that $(w,f(u,v)) \not\in \gamma$
+      by definition.
+      
+      Next we define $\phi^{-1}_{A,B,C} : \homs{}{A}{\lnot (B \otimes
+        C)} \to \homs{}{A \otimes B}{\lnot C}$. Suppose $(g,G) : A \to
+      \lnot (B \otimes C)$ which is equivalent to the following morphism by
+      definition:
+      \[
       \begin{array}{lll}
-        i : U \times V \to Z\\
-        I : W \to (V \Rightarrow X) \times (U \Rightarrow Y)\\
+        (h,H) : (U,X,\alpha) \to ((W \Rightarrow Y) \times (V \Rightarrow Z), V \times W, \lnot (\beta \otimes \gamma))\\
+        \text{ where }\\
+        \begin{array}{lll}
+          h : U \to (W \Rightarrow Y) \times (V \Rightarrow Z)\\
+          H : V \times W \to X\\
+        \end{array}
       \end{array}
-    \end{array}
-    \]
-    In addition, the previous morphism must satisfy the following condition:
-    \begin{equation}
-      \label{cond:4}
-      \forall (u,v) \in U \times V,w \in W.((u,v),I(w)) \in \alpha \otimes \beta \text{ implies } (i(u,v),w) \in \lnot \gamma
-    \end{equation}
-    Define $i(u,v) = h(u)_2(v)$ and $I(w) = (\lambda v.H(v,w),\lambda u,h(u)_1(w))$.
+      \]
+      We also know that the previous morphism must satisfy the following
+      condition:
+      \begin{equation}
+        \label{cond:3}
+        \forall u \in U,(v,w) \in V \times W.(u,H(v,w)) \in \alpha \text{ implies } (h(u),(v,w)) \in \lnot (\beta \otimes \gamma)
+      \end{equation}
+      Now we must define $(f,F) : A \otimes B \to \lnot C$ which is
+      equivalent to the following morphism:
+      \[
+      \begin{array}{lll}
+        (i,I) : (U \times V, (V \Rightarrow X) \times (U \Rightarrow Y), \alpha \otimes \beta) \to (Z,W,\lnot \gamma)\\
+        \text{ where }\\
+        \begin{array}{lll}
+          i : U \times V \to Z\\
+          I : W \to (V \Rightarrow X) \times (U \Rightarrow Y)\\
+        \end{array}
+      \end{array}
+      \]
+      In addition, the previous morphism must satisfy the following condition:
+      \begin{equation}
+        \label{cond:4}
+        \forall (u,v) \in U \times V,w \in W.((u,v),I(w)) \in \alpha \otimes \beta \text{ implies } (i(u,v),w) \in \lnot \gamma
+      \end{equation}
+      Define $i(u,v) = h(u)_2(v)$ and $I(w) = (\lambda v.H(v,w),\lambda u,h(u)_1(w))$.
 
-    The proof that condition~\ref{cond:4} holds is similar to the
-    proof that condition~\ref{cond:2} holds.  Simplify the assumption
-    that $((u,v),I(w)) \in \alpha \otimes \beta$, then use
-    condition~\ref{cond:3} to conclude that $(i(u,v),w) \in \lnot
-    \gamma$.
+      The proof that condition~\ref{cond:4} holds is similar to the
+      proof that condition~\ref{cond:2} holds.  Simplify the assumption
+      that $((u,v),I(w)) \in \alpha \otimes \beta$, then use
+      condition~\ref{cond:3} to conclude that $(i(u,v),w) \in \lnot
+      \gamma$.
 
-    We must prove that $\phi$ and $\phi^{-1}$ are indeed
-    mutual inverses.  Consider the morphism $(f,F)$ from above.  Then
-    \[
-    \begin{array}{lll}
-      \phi^{-1}(\phi(f,F))
-      & = & \phi^{-1}(g,G)\\
-      & = & (\lambda(u,v).g(u)_2(v),\lambda w.(\lambda v.G(v,w), \lambda u.g(u)_1(w)))\\
-      & = & (\lambda(u,v).f(u,v),\lambda w.(\lambda v.F(w)_1(v), \lambda u.F(w)_2(u)))\\
-      & = & (f,F).\\
-    \end{array}
-    \]
-    Now consider the morphism $(h,H)$ from above.  Then
-    \[
-    \begin{array}{lll}
-      \phi(\phi^{-1}(h,H))
-      & = & \phi(i,I)\\
-      & = & (\lambda u.(\lambda w.I(w)_2(u),\lambda v.i(u,v)), \lambda (v,w).I(w)_1(v))\\
-      & = & (\lambda u.(\lambda w.h(u)_1(w),\lambda v.h(u)_2(v)), \lambda (v,w).H(v,w))\\
-      & = & (h,H).
-    \end{array}
-    \]
-    Thus, we may conclude that $\phi$ is a bijection.
+      We must prove that $\phi$ and $\phi^{-1}$ are indeed
+      mutual inverses.  Consider the morphism $(f,F)$ from above.  Then
+      \[
+      \begin{array}{lll}
+        \phi^{-1}(\phi(f,F))
+        & = & \phi^{-1}(g,G)\\
+        & = & (\lambda(u,v).g(u)_2(v),\lambda w.(\lambda v.G(v,w), \lambda u.g(u)_1(w)))\\
+        & = & (\lambda(u,v).f(u,v),\lambda w.(\lambda v.F(w)_1(v), \lambda u.F(w)_2(u)))\\
+        & = & (f,F).\\
+      \end{array}
+      \]
+      Now consider the morphism $(h,H)$ from above.  Then
+      \[
+      \begin{array}{lll}
+        \phi(\phi^{-1}(h,H))
+        & = & \phi(i,I)\\
+        & = & (\lambda u.(\lambda w.I(w)_2(u),\lambda v.i(u,v)), \lambda (v,w).I(w)_1(v))\\
+        & = & (\lambda u.(\lambda w.h(u)_1(w),\lambda v.h(u)_2(v)), \lambda (v,w).H(v,w))\\
+        & = & (h,H).
+      \end{array}
+      \]
+      Thus, we may conclude that $\phi$ is a bijection.
 
-    Finally, we show that $\phi$ is natural in $A$, $B$, and $C$.  We
-    elide some of the annotations on morphisms for
-    readability. Suppose $(n,N) : A' \to A$.  Then we must show that
-    the following diagram commutes:
-    \[\bfig
-    \hSquares|allrrrr|/->``->`->``->`/[\homs{}{A \otimes B}{\lnot C}`\homs{}{A}{\lnot (B \otimes C)}``\homs{}{A' \otimes B}{\lnot C}`\homs{}{A'}{\lnot (B \otimes C)}`;\phi_A``\homs{}{(n,M) \otimes \id}{\id}`\homs{}{(n,m)}{\id}``\phi_{A'}`]
-    \efig\]
-    The diagram above commutes by the following reasoning:
-    \[\begin{array}{llllllll}
-    \phi_{A'}(\homs{}{(n,M) \otimes \id}{\id}(f,F))\\
-    = (\lambda u'.(\lambda w.F(w)_2(n(u')),\lambda v.f(n(u'),v)), \lambda (v,w).N(F(w)_1(v))) & \quad & \text{(Unfolding Definitions)}\\
-    = (n;(\lambda u'.(\lambda w.F(w)_2(u'),\lambda v.f(u',v))), (\lambda (v,w).F(w)_1(v));N) & \quad & \text{(Set Composition)}\\
-    = (n,N);(\lambda u'.(\lambda w.F(w)_2(u'),\lambda v.f(u',v)), \lambda (v,w).F(w)_1(v)) & \quad & \text{(Dial Composition)}\\
-    = (n,N);\phi_A(f,F) & \quad & \text{(Definition)}\\
-    \end{array}\]
+      Finally, we show that $\phi$ is natural in $A$, $B$, and $C$.  We
+      elide some of the annotations on morphisms for
+      readability. Suppose $(n,N) : A' \to A$.  Then we must show that
+      the following diagram commutes:
+      \[\bfig
+      \hSquares|allrrrr|/->``->`->``->`/[\homs{}{A \otimes B}{\lnot C}`\homs{}{A}{\lnot (B \otimes C)}``\homs{}{A' \otimes B}{\lnot C}`\homs{}{A'}{\lnot (B \otimes C)}`;\phi_A``\homs{}{(n,M) \otimes \id}{\id}`\homs{}{(n,m)}{\id}``\phi_{A'}`]
+      \efig\]
+      The diagram above commutes by the following reasoning:
+      \[\begin{array}{llllllll}
+      \phi_{A'}(\homs{}{(n,M) \otimes \id}{\id}(f,F))\\
+      = (\lambda u'.(\lambda w.F(w)_2(n(u')),\lambda v.f(n(u'),v)), \lambda (v,w).N(F(w)_1(v))) & \quad & \text{(Unfolding Definitions)}\\
+      = (n;(\lambda u'.(\lambda w.F(w)_2(u'),\lambda v.f(u',v))), (\lambda (v,w).F(w)_1(v));N) & \quad & \text{(Set Composition)}\\
+      = (n,N);(\lambda u'.(\lambda w.F(w)_2(u'),\lambda v.f(u',v)), \lambda (v,w).F(w)_1(v)) & \quad & \text{(Dial Composition)}\\
+      = (n,N);\phi_A(f,F) & \quad & \text{(Definition)}\\
+      \end{array}\]
 
-    Showing that $\phi$ is natural in $B$ and $C$ is similar; the full
-    details of their proofs can be found in the formal development.
+      Showing that $\phi$ is natural in $B$ and $C$ is similar; the full
+      details of their proofs can be found in the formal development.
 
-  \item Finally, the coherence diagram of
-    Definition~\ref{def:tensorial-negation} commutes by
-    straightforwardly unfolding definitions while chasing a morphism
-    across both sides, and observing that they result in equivalent
-    morphisms.  The details can be found in the formal development.
-  \end{itemize}
+    \item Finally, the coherence diagram of
+      Definition~\ref{def:tensorial-negation} commutes by
+      straightforwardly unfolding definitions while chasing a morphism
+      across both sides, and observing that they result in equivalent
+      morphisms.  The details can be found in the formal development.
+    \end{itemize}
 \end{proof}
+Extending a model of multiplicative tensor logic with an exponential
+resource modality yields a model of full tensor logic.
+\begin{definition}
+  \label{def:resource-modality}
+  A \textbf{resource modality} on a symmetric monoidal category
+  $(\cat{C}, \otimes, I)$ is an adjunction with a symmetric monoidal
+  category $(\cat{M}, \otimes', I')$:
+  \[
+  \bfig
+  \morphism(0,0)|a|/{@{>}@/^1em/}/<500,0>[\cat{M}`\cat{C};F]
+  \morphism(0,0)|b|/{@{<-}@/_1em/}/<500,0>[\cat{M}`\cat{C};G]
+  \efig
+  \]
+  A resource modality is called an \textbf{exponential resource
+    modality} if $\cat{M}$ is cartesian where $\otimes'$ is the
+  product and $I'$ is the terminal object.
+\end{definition}
 
+A model of full tensor logic is defined to be a model of
+multiplicative tensor logic with an exponential resource modality. We
+now know that $\dial$ is a model of multiplicative tensor logic.  By
+constructing the co-Kleisli category which consists of the
+$!$-coalgebras as objects which is cartesian we can show that $\dial$
+is a model of full tensor logic.  The adjunction with the co-Kleisli
+category naturally arises from the proof that $\dial$ is a full LNL
+model (Corollary~\ref{corollary:dial-FLNL}).
 \begin{lemma}
   \label{lemma:full-tensorial-logic}
   The category $\dial$ is a model of full tensor logic.
@@ -4039,22 +4094,23 @@ the left rule for par proposed by Bellin in
 Section~\ref{sec:full_intuitionistic_linear_logic_(fill)}.  We then
 directly proved cut-elimination of FILL in
 Section~\ref{sec:cut-elimination} by adapting the well-known
-cut-elimination procedure for classical linear logic to FILL.
-Finally, in Section~\ref{sec:full_lnl_models} we showed that the
-category $\dial$, a model of FILL, is a full LNL model by showing that
-it is a full linear category, and then replaying the proof that linear
-categories are LNL models by Benton.
+cut-elimination procedure for classical linear logic to FILL.  In
+Section~\ref{sec:full_lnl_models} we showed that the category $\dial$,
+a model of FILL, is a full LNL model by showing that it is a full
+linear category, and then replaying the proof that linear categories
+are LNL models by Benton.  Finally, in Section~\ref{sec:tensor_logic}
+we showed that $\dial$ is a model of full tensor logic.
 
 \textbf{Future work.} Lorenzen games are a particular type of game
 semantics for various logics developed by Lorenz, Felscher, and Rahman
-et al. \cite{Keiff:2011,Rahman:2005}. %% for an introduction.
-%% Lorenzen games consist of a first-order language consisting of the
-%% logical connectives of the logic one wishes to study.  Then the
-%% structure of the games are defined by two types of rules: particle
-%% rules and structural rules.  The particle rules describe how formulas
-%% can be attacked or defended based on the formulas main connective.
-%% Then the structural rules orchestrate the particle rules as the game
-%% progresses.  They describe the overall organization of the game.
+et al. \cite{Keiff:2011,Rahman:2005}. 
+Lorenzen games consist of a first-order language consisting of the
+logical connectives of the logic one wishes to study.  Then the
+structure of the games are defined by two types of rules: particle
+rules and structural rules.  The particle rules describe how formulas
+can be attacked or defended based on the formulas main connective.
+Then the structural rules orchestrate the particle rules as the game
+progresses.  They describe the overall organization of the game.
 
 Rahman showed that Lorenzen games could be defined for classical
 linear logic \cite{Rahman:2002}.  He was able to define a sound and

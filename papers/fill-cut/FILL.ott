@@ -194,7 +194,7 @@ defns
 
   y nin FV(f)
   ---------------------- :: Eta2I
-  f = let y be stp in f 
+   let y be stp in f = f
   
   ------------------------------- :: BetaI
   let u be stp in [*/z]f = [u/z]f
