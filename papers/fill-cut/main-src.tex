@@ -73,7 +73,8 @@
   this note we adopt Bellin’s proposed rule and give a direct proof of
   cut-elimination.  Additionally, we show that a categorical model of
   FILL in the basic dialectica category is also a LNL model of Benton
-  and a full tensor model of Melli\`es' and Tabareau's tensor logic.
+  and a full tensor model of Melli\`es' and Tabareau's tensorial
+  logic.
 \end{abstract}
 
 \section{Introduction}
@@ -3712,7 +3713,7 @@ We can now show our main result of this section.
 \section{Tensorial Logic}
 \label{sec:tensor_logic}
 
-Melli\`es and Tabareau introduced tensor logic as a means of
+Melli\`es and Tabareau introduced tensorial logic as a means of
 generalizing linear logic to a theory of tensor and a non-involutive
 negation called tensorial negation.  That is, instead of an
 isomorphism $A = \lnot\lnot A$ we have only a natural transformation
@@ -3756,9 +3757,9 @@ category with a tensorial negation.
   \efig
   \]
 \end{definition}
-The most basic form of tensor logic is called multiplicative tensorial
+The most basic form of tensorial logic is called multiplicative tensorial
 logic and only consists of tensor and a tensorial negation.  The model
-of multiplicative tensor logic is called a dialogue category.
+of multiplicative tensorial logic is called a dialogue category.
 \begin{definition}
   \label{def:dialogue-cat}
   A \textbf{dialogue category} is a symmetric monoidal category
@@ -3828,7 +3829,7 @@ tensorial negation using the following result.
     \end{math}
   \end{center}
 \end{proof}
-Replacing $E$ in the previous result with $\perp$ yields the
+Replacing $D$ and $E$ in the previous result with $\perp$ yields the
 definition of tensorial negation using the negation functor $\lnot A =
 A \limp \perp$.
 \begin{lemma}
@@ -3852,8 +3853,8 @@ A \limp \perp$.
   SMCC structure as well as the dual to the unit of tensor which is
   the unit of par\footnote{We give a full proof using the previous result in the formalization see the file \url{https://github.com/heades/cut-fill-agda/blob/master/FullLinCat.agda}.}.
 \end{proof}
-Extending a model of multiplicative tensor logic with an exponential
-resource modality yields a model of full tensor logic.
+Extending a model of multiplicative tensorial logic with an exponential
+resource modality yields a model of full tensorial logic.
 \begin{definition}
   \label{def:resource-modality}
   A \textbf{resource modality} on a symmetric monoidal category
@@ -3870,17 +3871,17 @@ resource modality yields a model of full tensor logic.
   product and $I'$ is the terminal object.
 \end{definition}
 
-A model of full tensor logic is defined to be a model of
-multiplicative tensor logic with an exponential resource modality. We
-now know that $\dial$ is a model of multiplicative tensor logic.  By
+A model of full tensorial logic is defined to be a model of
+multiplicative tensorial logic with an exponential resource modality. We
+now know that $\dial$ is a model of multiplicative tensorial logic.  By
 constructing the co-Kleisli category which consists of the
 $!$-coalgebras as objects which is cartesian we can show that $\dial$
-is a model of full tensor logic.  The adjunction with the co-Kleisli
+is a model of full tensorial logic.  The adjunction with the co-Kleisli
 category naturally arises from the proof that $\dial$ is a full LNL
 model (Corollary~\ref{corollary:dial-FLNL}).
 \begin{lemma}
   \label{lemma:full-tensorial-logic}
-  The category $\dial$ is a model of full tensor logic.
+  The category $\dial$ is a model of full tensorial logic.
 \end{lemma}
 \begin{proof}
   It suffices to show that there is an adjunction between $\dial$ and
@@ -3955,7 +3956,7 @@ model (Corollary~\ref{corollary:dial-FLNL}).
   model, and thus, there is an adjunction between $\dial$ and
   $\dial_!$ where the left-adjoint is the forgetful functor $G :
   \dial_! \to \dial$, and the right adjoint is the free functor $J :
-  \dial \to \dial_!$.  Therefore, $\dial$ is a model of full tensor
+  \dial \to \dial_!$.  Therefore, $\dial$ is a model of full tensorial
   logic.
 \end{proof}
 % section tensorial_logic (end)
@@ -3974,7 +3975,7 @@ Section~\ref{sec:full_lnl_models} we showed that the category $\dial$,
 a model of FILL, is a full LNL model by showing that it is a full
 linear category, and then replaying the proof that linear categories
 are LNL models by Benton.  Finally, in Section~\ref{sec:tensor_logic}
-we showed that $\dial$ is a model of full tensor logic.
+we showed that $\dial$ is a model of full tensorial logic.
 
 \textbf{Future work.} Lorenzen games are a particular type of game
 semantics for various logics developed by Lorenz, Felscher, and Rahman
