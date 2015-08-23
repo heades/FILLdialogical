@@ -16,6 +16,13 @@ form, A, B, C, D, E :: 'Type_' ::=
   | A (+) B  ::    :: Par
   {{tex [[A]] \parr [[B]] }}
   | ( A )   :: S :: Parens
+  | h( A ) :: M :: HParens
+  {{tex [[A]]}}
+  | ( A )N :: M :: NegT
+  {{tex ([[A]])^N}}
+  | 1 :: M :: One
+  | ~ A :: M :: Neg
+  {{tex \lnot [[A]] }}
 
 % Patterns used in the let-expressions.
 patterns, p :: 'Pat_' ::=
@@ -57,6 +64,7 @@ term, t, e, d, f, g, u :: 'Term_' ::=
   {{tex [[t]] }}
   | cb{ t }  :: M :: ColorTermBlue
   {{tex {\color{blue}{[[t]]} } }}
+  | ? :: M :: Q  
 
 % Left contexts (hypotheses).
 G {{ tex \Gamma }} :: 'LContext_' ::=
@@ -66,6 +74,16 @@ G {{ tex \Gamma }} :: 'LContext_' ::=
   | G , G' :: :: Extension
   | cb{ x } : A :: :: ColorElBlue
   {{tex {\color{blue}{[[x]]} } : [[A]] }}
+  | x1 : A1 , ... , xi : Ai :: M :: Vect
+  | ( LL )N :: M :: NegCtx
+  {{tex [[LL]]^N }}
+
+GL {{ tex \Gamma }} :: 'LLContext_' ::=
+  | A  :: :: Element
+  | .      :: :: Empty
+  {{tex \cdot }}
+  | GL , GL' :: :: Extension
+  | A1 , ... , Ai :: :: Dot
 
 % Right contexts (proofs or partial functions).
 L {{tex \Delta }} :: 'RContext_' ::=
@@ -88,7 +106,18 @@ L {{tex \Delta }} :: 'RContext_' ::=
   | let-pat t p L  :: M :: LetPat
   {{tex \mathsf{\operatorname{let-pat} }\,[[t]]\,[[p]]\,[[L]] }}
   | t1 : A1 , ... , ti : Ai :: M :: Vect
-
+  | ( GL )N :: M :: NegCtx
+  {{tex [[GL]]^N }}
+  
+LL {{tex \Delta }} :: 'LRContext_' ::=
+  | A  :: :: Element
+  | .      :: :: Empty
+  {{tex \cdot }}
+  | LL , LL' :: :: Extension
+  | h( LL ) :: :: HiddenParens
+  {{tex [[LL]] }}
+  | A1 , ... , Ai :: :: Dot
+    
 % Meta-logical formulas.
 formula :: 'formula_' ::=
   | judgement                ::    :: judgement
@@ -116,6 +145,64 @@ formula :: 'formula_' ::=
 
 defns
   InferRules :: '' ::=
+  defn
+  GL |- LL :: :: Ltyping :: 'LL_' 
+    {{ tex [[GL]] \vdash [[LL]] }}
+  by
+
+  -------- :: Ax
+  A |- A
+
+  GL |- A,LL && GL',A |- LL'
+  -------------------------- :: Cut
+  GL, GL' |- LL,LL'
+
+  GL |- LL
+  ------------- :: Tl
+  GL, I |- LL
+ 
+  -------- :: Tr
+  . |- I
+
+  GL, A, B |- LL
+  ------------------- :: Tenl
+  GL, A (x) B |- LL
+
+  GL |- A, LL && GL' |- B,LL'
+  --------------------------------- :: Tenr
+  GL,GL' |- h(h(A (x) B) , LL), LL'
+
+  ---------- :: Pl
+  _|_ |- .
+
+  GL |- LL
+  ---------------- :: Pr
+  GL |- _|_,LL
+
+  GL, A |- LL && GL', B |- LL'
+  -------------------------------- :: Parl
+  GL,GL', A (+) B |- LL , LL'
+
+  GL |- h( h( LL , A ) , B ) , LL'
+  ---------------------------------- :: Parr
+  GL |- h( LL , A (+) B) , LL'
+
+  GL |- A , LL && GL', B |- LL'  
+  --------------------------------- :: Impl
+  GL, A -o B, GL' |- LL , LL'
+
+  GL, A |- B , LL
+  ----------------- :: Impr
+  GL |- A -o B , LL
+
+  GL, A, B |- LL
+  ---------------- :: Exl
+  GL, B, A |- LL
+
+  GL |- h(h(LL1 , A) , B) , LL2
+  ------------------------------- :: Exr
+  GL |- h(h(LL1 , B) , A) , LL2
+
   defn
   G |- L :: :: typing :: '' 
     {{ tex [[G]] \vdash [[L]] }}

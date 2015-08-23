@@ -21,6 +21,7 @@
 
 % Renewing some Ott commands to shrink some of the labels.
 \renewcommand{\FILLdrulename}[1]{\scriptsize \textsc{#1}}
+\newcommand{\ifrName}[1]{\scriptsize \textsc{#1}}
 
 % Cat commands.
 \newcommand{\cat}[1]{\mathcal{#1}}
@@ -3961,6 +3962,314 @@ model (Corollary~\ref{corollary:dial-FLNL}).
   \dial \to \dial_!$.  Therefore, $\dial$ is a model of full tensorial
   logic.
 \end{proof}
+
+\subsection{A Negative Translation of Linear Logic into FILL using Tensorial Negation}
+\label{subsec:a_negative_translation_of_linear_logic_into_fill_using_tensorial_negation}
+
+In this section we show that we can use intuitionistic negation --
+which we showed was tensorial in the previous section -- to define a
+negative translation of linear logic into FILL where implication plays
+a central role.  Melli\`es and Tabareau give a negative translation of
+the multiplicative fragment of linear logic into tensorial logic
+\cite{Mellies:2010} using tensor as the main connective.  For example,
+they define $([[A (x) B]])^N = [[~(h(~(A)N) (x) ~(B)N)]]$, and thus,
+they simulate par using tensor and negation.  This definition would
+cause some syntactic issues with FILL, because the left-rule to par
+requires the let-pattern term defined in
+Definition~\ref{def:let-pat-term}, thus, encoding par in terms of
+tensor would require the let-pattern term to be used in the left-rule
+for tensor.  It is understandable why this definition is defined the
+way it is given that they are translating into tensorial logic.
+However, in FILL we have par, and implication, and so we extend their
+translation into one that better fits FILL.
+
+Multi-conclusion linear logic is defined in Figure~\ref{fig:LL}.
+\begin{figure}
+  \begin{center}
+    \begin{mathpar}
+      \FILLdruleLLXXAx{} \and
+      \FILLdruleLLXXCut{} \and
+      \FILLdruleLLXXTl{} \and
+      \FILLdruleLLXXTr{} \and
+      \FILLdruleLLXXTenl{} \and
+      \FILLdruleLLXXTenr{} \and
+      \FILLdruleLLXXPl{} \and
+      \FILLdruleLLXXPr{} \and
+      \FILLdruleLLXXParl{} \and
+      \FILLdruleLLXXParr{} \and
+      \FILLdruleLLXXImpl{} \and
+      \FILLdruleLLXXImpr{} \and
+      \FILLdruleLLXXExl{} \and
+      \FILLdruleLLXXExr{} \and
+    \end{mathpar}
+  \end{center}
+  \caption{Multi-Conclusion Linear Logic}
+  \label{fig:LL}
+\end{figure}
+The following is a derivation of the law-of-excluded middle, and thus
+we can see that this formulation of linear logic is indeed classical:
+\begin{center}
+  \begin{math}
+    $$\mprset{flushleft}
+    \inferrule* [right=def] {
+      $$\mprset{flushleft}
+      \inferrule* [right=Parr] {
+        $$\mprset{flushleft}
+        \inferrule* [right=Exr] {
+          $$\mprset{flushleft}
+          \inferrule* [right=Impr] {
+            $$\mprset{flushleft}
+            \inferrule* [right=Pr] {
+              [[A |- A]]
+            }{[[A |- _|_,A]]}
+          }{[[. |- (A -o _|_),A]]}
+        }{[[. |- A,(A -o _|_)]]}
+      }{[[. |- A (+) (A -o _|_)]]}      
+    }{[[. |- A (+) ~A]]}
+  \end{math}
+\end{center}
+We give a negative translation of this formulation of linear logic
+into FILL as follows:
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}
+      [[(I)N]] & = & [[_|_]]\\
+      ([[_|_]])^N & = & [[I]]\\
+      ([[A (+) B]])^N & = & [[(A)N (x) (B)N]]\\
+      ([[A (x) B]])^N & = & [[(A)N (+) (B)N]]\\
+      ([[A -o B]])^N & = & [[~(~(A)N -o ~(B)N)]]\\      
+    \end{array}
+  \end{math}
+\end{center}
+This translation can now be extended to sequents by translating a
+linear logic sequent $[[A1,...,Ai |- B1,...,Bj]]$ into a FILL sequent
+$[[x1 : (B1)N,...,xj : (Bj)N |- t1 : (A1)N,...,ti : (Ai)N]]$ for some
+unique fresh variables $[[x1]],\ldots,[[xj]]$ and some terms
+$[[t1]],\ldots,[[ti]]$.  We can view translations such as these as a
+syntactic functor taking linear logic into its opposite.  Finally, we
+have the following result:
+\begin{lemma}[Negative Translation]
+  \label{lemma:negative_translation}
+  If $[[A1,...,Ai |- B1,...,Bj]]$ is derivable, then for any
+  unique fresh variables
+  $[[x1]],\ldots,[[xj]]$,
+  there exists terms
+  $[[t1]],\ldots,[[ti]]$
+  such that
+  $[[x1 : (B1)N,...,xj : (Bj)N |- t1 : (A1)N,...,ti : (Ai)N]]$
+  is derivable.
+\end{lemma}
+\begin{proof}
+  This is a proof by induction on the form of the assumed sequent
+  $[[A1,...,Ai |- B1,...,Bj]]$.  Throughout the proof if $[[GL]] =
+  [[A1,...,Ai]]$, then $[[(GL)N]] = [[x1 : A1,...,xi : Ai]]$ for some
+  unique fresh variables $[[x1]],\ldots,[[xi]]$.  Similarly, if
+  $[[LL]] = [[B1,...,Bi]]$, then $[[(LL)N]] = [[t1 : B1,...,ti : Bi]]$
+  for some terms $[[t1]],\ldots,[[ti]]$ that are known to exist.  We
+  will use this notation when applying the inductive hypothesis to
+  make the presentation easier to read.
+
+  \begin{itemize}
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Ax}] {
+          \ 
+        }{[[A |- A]]}
+      \end{math}
+    \end{center}
+    It suffices to derive the sequent $[[x : (A)N |- t : (A)N]]$, for
+    some term $[[t]]$.  Choose $[[t]] = [[x]]$, and this sequent is
+    derivable by the axiom rule.
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Cut}] {
+          [[GL1 |- A,LL1 && GL1,A |- LL2]]
+        }{[[GL1, GL2 |- LL1,LL2]]}
+      \end{math}
+    \end{center}
+    By the induction hypothesis we know $[[x : A,(LL1)N |- (GL1)N]]$ and
+    $[[(LL2)N |- (GL2)N, t : A]]$ for some term $[[t]]$.  We can now
+    derive $[[(LL2)N,(LL1)N |- (GL2)N,[t/x](GL1)N]]$ which is a valid
+    translation of $[[GL1, GL2 |- LL1,LL2]]$.
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Tl}] {
+          [[GL |- LL]]
+        }{[[GL, I |- LL]]}
+      \end{math}
+    \end{center}
+    First, note that $[[(I)N]] = [[_|_]]$.  Then this case follows by
+    first applying the induction hypothesis, and then applying the
+    rule $\ifrName{Pr}$.
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Tr}] {
+          \ 
+        }{[[. |- I]]}
+      \end{math}
+    \end{center}
+    If suffice to derive the sequent $[[x : _|_ |- .]]$, but this
+    holds by simply applying the rule $\ifrName{Pl}$.
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Tenl}] {
+          [[GL, A, B |- LL]]
+        }{[[GL, A (x) B |- LL]]}
+      \end{math}
+    \end{center}
+    First, $[[(A (x) B)N]] = [[(A)N (+) (B)N]]$, and it suffices to
+    derive $[[(LL)N |- (GL)N,t : h((A)N (+) (B)N)]]$, for some term
+    $[[t]]$, but this follows from first applying the induction
+    hypothesis to the premise, and then applying the rule
+    $\ifrName{Parr}$.
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Tenr}] {
+          [[GL |- A, LL && GL' |- B,LL']]
+        }{[[GL,GL' |- h(h(A (x) B) , LL), LL']]}
+      \end{math}
+    \end{center}
+    This is follows the same pattern as the previous rule.  Simply
+    apply the induction hypothesis to both premises, and then the rule
+    $\ifrName{Parl}$.
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Pl}] {
+          \ 
+        }{[[_|_ |- .]]}
+      \end{math}
+    \end{center}
+    It suffices to derive $[[. |- t : _|_]]$ for some term $[[t]]$,
+    but this follows by applying the rule $\ifrName{Tr}$.
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Pr}] {
+          [[GL |- LL]]
+        }{[[GL |- _|_,LL]]}
+      \end{math}
+    \end{center}
+    This case follows by first applying the induction hypothesis to
+    the premise, and then applying the rule $\ifrName{Tl}$.
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Parl}] {
+          [[GL, A |- LL && GL', B |- LL']]
+        }{[[GL,GL', A (+) B |- LL , LL']]}
+      \end{math}
+    \end{center}
+    
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Parr}] {
+          [[GL |- h( h( LL , A ) , B ) , LL']]
+        }{[[GL |- h( LL , A (+) B) , LL']]}
+      \end{math}
+    \end{center}
+
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Impl}] {
+          [[GL1 |- A , LL1 && GL2, B |- LL2]]
+        }{[[GL1, A -o B, GL2 |- LL1 , LL2]]}
+      \end{math}
+    \end{center}
+    By the induction hypothesis we know $[[x : (A)N,(LL1)N |- (GL1)N]]$
+    and $[[(LL2)N |- (GL2)N,t : B]]$ for some term $[[t]]$.  Then it
+    suffices to derive
+    $[[(LL1)N,(LL2)N |- (GL1)N,t' : (A -o B)N,(GL2)N]]$ for some term
+    $t'$. By definition $[[(A -o B)N]] = [[~(~(A)N -o ~(B)N)]]$.
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=] {
+          $$\mprset{flushleft}
+          \inferrule* [right=] {
+            $$\mprset{flushleft}
+            \inferrule* [right=] {
+              $$\mprset{flushleft}
+              \inferrule* [right=] {
+                [[(LL1)N,x : (A)N |- (GL1)N]]
+              }{[[(LL1)N |- \x.o : ~(A)N,(GL1)N]]}
+              \\
+              $$\mprset{flushleft}
+              \inferrule* [right=] {
+                [[(LL2)N |- t : (B)N,(GL2)N]]
+              }{[[(LL2)N,y : ~(B)N |- (GL2)N]]}
+            }{[[(LL1)N,(LL2)N,z : ~(A)N -o ~(B)N |- (GL1)N,(GL2)N]]}
+          }{[[(LL1)N,(LL2)N,z : ~(A)N -o ~(B)N |- (GL1)N,o : _|_,(GL2)N]]}
+        }{[[(LL1)N,(LL2)N |- (GL1)N,\z.o : (~(A)N -o ~(B)N) -o _|_,(GL2)N]]}
+      \end{math}
+    \end{center}
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Impr}] {
+          [[GL, A |- B , LL]]
+        }{[[GL |- A -o B , LL]]}
+      \end{math}
+    \end{center}
+
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Exl}] {
+          [[GL, A, B |- LL]]
+        }{[[GL, B, A |- LL]]}
+      \end{math}
+    \end{center}
+
+
+  \item[] Case.\\ 
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Exr}] {
+          [[GL |- h(h(LL1 , A) , B) , LL2]]
+        }{[[GL |- h(h(LL1 , B) , A) , LL2]]}
+      \end{math}
+    \end{center}
+
+
+  \end{itemize}
+\end{proof}
+% subsection a_negative_translation_of_linear_logic_into_fill_using_tensorial_negation (end)
+
 % section tensorial_logic (end)
 
 
