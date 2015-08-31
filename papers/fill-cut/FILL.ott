@@ -23,6 +23,16 @@ form, A, B, C, D, E :: 'Type_' ::=
   | 1 :: M :: One
   | ~ A :: M :: Neg
   {{tex \lnot [[A]] }}
+  | lnot A :: M :: LNeg
+  {{tex [[A]]^{\perp} }}
+  | ( GL )x :: :: TensorCTX
+  {{tex \bigotimes ([[GL]]) }}
+  | ( LL )+ :: :: ParCTX
+  {{tex \bigparr ([[LL]]) }}
+  | ( LL )x :: :: TensorCTX2
+  {{tex \bigotimes ([[LL]]) }}
+  | ( GL )+ :: :: ParCTX2
+  {{tex \bigparr ([[GL]]) }}  
 
 % Patterns used in the let-expressions.
 patterns, p :: 'Pat_' ::=
@@ -74,17 +84,23 @@ G {{ tex \Gamma }} :: 'LContext_' ::=
   | G , G' :: :: Extension
   | cb{ x } : A :: :: ColorElBlue
   {{tex {\color{blue}{[[x]]} } : [[A]] }}
-  | x1 : A1 , ... , xi : Ai :: M :: Vect
-  | ( LL )N :: M :: NegCtx
-  {{tex [[LL]]^N }}
-
+  | x1 : A1 , ... , xi : Ai :: M :: Vect  
+  | ( GL )N :: M :: NegCtx
+  {{tex ([[GL]])^N }}
+  | ( LL )N :: M :: NegCtx3
+  {{tex ([[LL]])^N }}  
+  | ~{ L } :: M :: NegCtx2
+  {{tex \lnot ([[L]])}}
+  | ~{ G } :: M :: NegCtx4
+  {{tex \lnot ([[G]])}}
+  
 GL {{ tex \Gamma }} :: 'LLContext_' ::=
   | A  :: :: Element
   | .      :: :: Empty
   {{tex \cdot }}
   | GL , GL' :: :: Extension
-  | A1 , ... , Ai :: :: Dot
-
+  | A1 , ... , Ai :: :: Dot  
+  
 % Right contexts (proofs or partial functions).
 L {{tex \Delta }} :: 'RContext_' ::=
   | t : A  :: :: Element
@@ -106,8 +122,6 @@ L {{tex \Delta }} :: 'RContext_' ::=
   | let-pat t p L  :: M :: LetPat
   {{tex \mathsf{\operatorname{let-pat} }\,[[t]]\,[[p]]\,[[L]] }}
   | t1 : A1 , ... , ti : Ai :: M :: Vect
-  | ( GL )N :: M :: NegCtx
-  {{tex [[GL]]^N }}
   
 LL {{tex \Delta }} :: 'LRContext_' ::=
   | A  :: :: Element
@@ -117,7 +131,15 @@ LL {{tex \Delta }} :: 'LRContext_' ::=
   | h( LL ) :: :: HiddenParens
   {{tex [[LL]] }}
   | A1 , ... , Ai :: :: Dot
-    
+  
+terminals :: 'terminals_' ::=
+  | -o :: :: LImp
+  {{ tex \multimap }}
+  | (+) :: :: Par
+  {{tex \parr }}
+  | (x) :: :: Tensor
+  {{tex \otimes }}
+  
 % Meta-logical formulas.
 formula :: 'formula_' ::=
   | judgement                ::    :: judgement
@@ -156,6 +178,14 @@ defns
   GL |- A,LL && GL',A |- LL'
   -------------------------- :: Cut
   GL, GL' |- LL,LL'
+
+  GL, A |- LL
+  --------------- :: Negl
+  GL |- lnot A,LL
+
+  GL |- A,LL
+  --------------- :: Negr
+  GL,lnot A |- LL
 
   GL |- LL
   ------------- :: Tl
@@ -226,6 +256,10 @@ defns
   --------------------------------------- :: Tenl
   G, z : A (x) B |- let z be x (x) y in L
 
+  G, z : A (x) B |- let z be x (x) y in L
+  --------------------------------------- :: UnTenl
+  G, x : A, y : B |- L
+
   G |- e : A | L && G' |- f : B | L'
   --------------------------------------- :: Tenr
   G,G' |- h( e (x) f : A (x) B | L)  | L'
@@ -245,6 +279,10 @@ defns
   ------------------------------------- :: Parr
   G |- h( L | e (+) f : A (+) B) | L'
 
+  G |- h( L | e (+) f : A (+) B) | L'
+  ------------------------------------- :: Unparr
+  G |- h( h( L | e : A ) | f : B ) | L'
+
   G |- e : A | L && G', x : B |- L'  
   ------------------------------------- :: Impl
   G, y : A -o B, G' |- L | [ y e / x]L'
@@ -252,6 +290,19 @@ defns
   G, x : A |- e : B | L && x nin FV( L )
   -------------------------------------- :: Impr
   G |- \x.e : A -o B | L
+
+  G |- \x.e : A -o B | L
+  ---------------------- :: Uncur
+  G, x : A |- e : B | L
+  
+
+  G, x : A |- L &&  x nin FV( L )
+  ------------------------------- :: NegL
+  G |- \x.o : ~A, L
+
+  G |- t : A,L
+  -------------- :: NegR
+  G, z : ~A |- L
 
   G, x : A, y : B |- L
   -------------------- :: Exl

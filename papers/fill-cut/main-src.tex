@@ -3963,7 +3963,7 @@ model (Corollary~\ref{corollary:dial-FLNL}).
   logic.
 \end{proof}
 
-\subsection{A Negative Translation of Linear Logic into FILL using Tensorial Negation}
+\subsection{Double Negation Translation}
 \label{subsec:a_negative_translation_of_linear_logic_into_fill_using_tensorial_negation}
 
 In this section we show that we can use intuitionistic negation --
@@ -4033,41 +4033,31 @@ into FILL as follows:
 \begin{center}
   \begin{math}
     \begin{array}{lll}
-      [[(I)N]] & = & [[_|_]]\\
-      ([[_|_]])^N & = & [[I]]\\
-      ([[A (+) B]])^N & = & [[(A)N (x) (B)N]]\\
-      ([[A (x) B]])^N & = & [[(A)N (+) (B)N]]\\
-      ([[A -o B]])^N & = & [[~(~(A)N -o ~(B)N)]]\\      
+      [[(I)N]] & = & [[I]]\\
+      [[(_|_)N]] & = & [[_|_]]\\
+      [[(lnot A)N]] & = & [[~((A)N)]]\\
+      [[(A (+) B)N]] & = & [[h(~h(~((A)N))) (+) ~h(~((B)N))]]\\
+      [[(A (x) B)N]] & = & [[h(~h(~((A)N))) (x) ~h(~((B)N))]]\\
     \end{array}
   \end{math}
 \end{center}
-This translation can now be extended to sequents by translating a
-linear logic sequent $[[A1,...,Ai |- B1,...,Bj]]$ into a FILL sequent
-$[[x1 : (B1)N,...,xj : (Bj)N |- t1 : (A1)N,...,ti : (Ai)N]]$ for some
-unique fresh variables $[[x1]],\ldots,[[xj]]$ and some terms
-$[[t1]],\ldots,[[ti]]$.  We can view translations such as these as a
-syntactic functor taking linear logic into its opposite.  Finally, we
-have the following result:
+
 \begin{lemma}[Negative Translation]
   \label{lemma:negative_translation}
   If $[[A1,...,Ai |- B1,...,Bj]]$ is derivable, then for any
   unique fresh variables
-  $[[x1]],\ldots,[[xj]]$,
-  there exists terms
-  $[[t1]],\ldots,[[ti]]$
-  such that
-  $[[x1 : (B1)N,...,xj : (Bj)N |- t1 : (A1)N,...,ti : (Ai)N]]$
+  $[[x1]],\ldots,[[xi]]$, and
+  $[[y1]],\ldots,[[yj]]$, the sequent
+  $[[x1 : ~h(~((A1)N)),...,xi : ~h(~((Ai)N)), y1 : ~((B1)N),...,yj : ~((Bj)N) |- .]]$
   is derivable.
 \end{lemma}
 \begin{proof}
   This is a proof by induction on the form of the assumed sequent
   $[[A1,...,Ai |- B1,...,Bj]]$.  Throughout the proof if $[[GL]] =
-  [[A1,...,Ai]]$, then $[[(GL)N]] = [[x1 : A1,...,xi : Ai]]$ for some
-  unique fresh variables $[[x1]],\ldots,[[xi]]$.  Similarly, if
-  $[[LL]] = [[B1,...,Bi]]$, then $[[(LL)N]] = [[t1 : B1,...,ti : Bi]]$
-  for some terms $[[t1]],\ldots,[[ti]]$ that are known to exist.  We
-  will use this notation when applying the inductive hypothesis to
-  make the presentation easier to read.
+  [[A1,...,Ai]]$, then $[[~{(GL)N}]] = [[x1 : ~((A1)N),...,xi :
+      ~((Ai)N)]]$ for some unique fresh variables
+  $[[x1]],\ldots,[[xi]]$.  We will use this notation when applying the
+  inductive hypothesis to make the presentation easier to read.
 
   \begin{itemize}
   \item[] Case.\\ 
@@ -4079,23 +4069,64 @@ have the following result:
         }{[[A |- A]]}
       \end{math}
     \end{center}
-    It suffices to derive the sequent $[[x : (A)N |- t : (A)N]]$, for
-    some term $[[t]]$.  Choose $[[t]] = [[x]]$, and this sequent is
-    derivable by the axiom rule.
+    It suffices to derive the sequent
+    $[[x : ~h(~((A)N)), y : ~((A)N) |- .]]$
+    which is equivalent to the sequent
+    $[[x : h(~((A)N)) -o _|_, y : ~((A)N) |- .]]$.  The latter is
+    derivable as follows:
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=Impl] {
+          $$\mprset{flushleft}
+          \inferrule* [right=Ax] {
+            \,
+          }{[[y : ~((A)N) |- y : ~((A)N)]]}
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=Pl] {
+            \,
+          }{[[w : _|_ |- .]]}
+        }{[[x : h(~((A)N)) -o _|_, y : ~((A)N) |- .]]}
+      \end{math}
+    \end{center}
+    
 
   \item[] Case.\\ 
     \begin{center}
       \begin{math}
         $$\mprset{flushleft}
         \inferrule* [right=\ifrName{Cut}] {
-          [[GL1 |- A,LL1 && GL1,A |- LL2]]
+          [[GL1 |- A,LL1 && GL2,A |- LL2]]
         }{[[GL1, GL2 |- LL1,LL2]]}
       \end{math}
     \end{center}
-    By the induction hypothesis we know $[[x : A,(LL1)N |- (GL1)N]]$ and
-    $[[(LL2)N |- (GL2)N, t : A]]$ for some term $[[t]]$.  We can now
-    derive $[[(LL2)N,(LL1)N |- (GL2)N,[t/x](GL1)N]]$ which is a valid
-    translation of $[[GL1, GL2 |- LL1,LL2]]$.
+    By the induction hypothesis we know the following:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          [[~{~{(GL1)N}},x : ~((A)N),~{(LL1)N} |- .]]\\
+          [[~{~{(GL2)N}},y : ~(~((A)N)),~{(LL2)N} |- .]]
+        \end{array}
+      \end{math}
+    \end{center}
+    It suffices to derive the sequent $[[~{~{(GL1)N}},~{~{(GL2)N}},~{(LL1)N},~{(LL2)N} |- .]]$ which we do as follows:
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=Cut] {
+          $$\mprset{flushleft}
+        \inferrule* [right=Impr] {
+          $$\mprset{flushleft}
+        \inferrule* [right=Pr] {
+          [[~{~{(GL1)N}},x : ~((A)N),~{(LL1)N} |- .]]
+        }{[[~{~{(GL1)N}},x : ~((A)N),~{(LL1)N} |- o : _|_]]}
+        }{[[~{~{(GL1)N}},~{(LL1)N} |- \x.o : ~(~((A)N))]]}
+        \\
+        [[~{~{(GL2)N}},y : ~(~((A)N)),~{(LL2)N} |- .]]
+        }{[[~{~{(GL1)N}},~{~{(GL2)N}},~{(LL1)N},~{(LL2)N} |- .]]}
+      \end{math}
+    \end{center}
 
   \item[] Case.\\ 
     \begin{center}
@@ -4106,9 +4137,32 @@ have the following result:
         }{[[GL, I |- LL]]}
       \end{math}
     \end{center}
-    First, note that $[[(I)N]] = [[_|_]]$.  Then this case follows by
-    first applying the induction hypothesis, and then applying the
-    rule $\ifrName{Pr}$.
+    First, note that $[[(I)N]] = [[I]]$.  By the induction hypothesis
+    we know $[[~{~{(GL)N}}, ~{(LL)N} |- .]]$.  We obtain our result by
+    the following derivation:
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=Impl] {
+          $$\mprset{flushleft}
+          \inferrule* [right=Impr] {
+            $$\mprset{flushleft}
+            \inferrule* [right=Pr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=Tl] {
+                [[~{~{(GL)N}},~{(LL)N} |- .]]
+              }{[[~{~{(GL)N}},~{(LL)N}, z : I |- .]]}
+            }{[[~{~{(GL)N}},~{(LL)N}, z : I |- t : _|_]]}
+          }{[[~{~{(GL)N}},~{(LL)N} |- t : ~I]]}
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=Pl] {
+            \,
+          }{[[y : _|_ |- .]]}
+        }{[[~{~{(GL)N}}, x : ~(~I),~{(LL)N} |- .]]}
+      \end{math}
+    \end{center}
+    Note that $[[let x be stp in .]] = \cdot$ for any variable $[[x]]$.
 
   \item[] Case.\\ 
     \begin{center}
@@ -4119,8 +4173,24 @@ have the following result:
         }{[[. |- I]]}
       \end{math}
     \end{center}
-    If suffice to derive the sequent $[[x : _|_ |- .]]$, but this
-    holds by simply applying the rule $\ifrName{Pl}$.
+    If suffices to derive the sequent $[[x : ~((I)N) |- .]]$, but this is equivalent to the sequent
+    $[[x : ~I |- .]]$ which is derivable as follows:
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=Impl] {
+          $$\mprset{flushleft}
+          \inferrule* [right=Tr] {
+            \,
+          }{[[. |- * : I]]}
+          \\
+            $$\mprset{flushleft}
+          \inferrule* [right=Pl] {
+            \,
+          }{[[y : _|_ |- .]]}
+        }{[[x : ~I |- .]]}
+      \end{math}
+    \end{center}
 
   \item[] Case.\\ 
     \begin{center}
@@ -4131,11 +4201,37 @@ have the following result:
         }{[[GL, A (x) B |- LL]]}
       \end{math}
     \end{center}
-    First, $[[(A (x) B)N]] = [[(A)N (+) (B)N]]$, and it suffices to
-    derive $[[(LL)N |- (GL)N,t : h((A)N (+) (B)N)]]$, for some term
-    $[[t]]$, but this follows from first applying the induction
-    hypothesis to the premise, and then applying the rule
-    $\ifrName{Parr}$.
+    By the induction hypothesis we have the following sequent:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          [[~{~{(GL)N}},x : ~h(~((A)N)),y : ~h(~((B)N)),~{(LL)N} |- .]]
+        \end{array}
+      \end{math}
+    \end{center}
+    Our result follows from the following derivation:
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=Impl] {
+         $$\mprset{flushleft}
+          \inferrule* [right=Impr] {
+            $$\mprset{flushleft}
+            \inferrule* [right=Tenl] {
+              $$\mprset{flushleft}
+              \inferrule* [right=Pr] {
+                [[~{~{(GL)N}},w : h(~h(~((A)N))), v : ~h(~((B)N)),~{(LL)N} |- .]]
+              }{[[~{~{(GL)N}},w : h(~h(~((A)N))), v : ~h(~((B)N)),~{(LL)N} |- o : _|_]]}
+            }{[[~{~{(GL)N}},x : h(~h(~((A)N))) (x) ~h(~((B)N)),~{(LL)N} |- h{let x be (w (x) v) in o} : _|_]]}
+          }{ [[~{~{(GL)N}},~{(LL)N} |- \x.h{let x be (w (x) v) in o} : ~(h(~h(~((A)N))) (x) ~h(~((B)N)))]]}
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=Pl] {
+            \,
+          }{[[y : _|_ |- .]]}
+        }{[[~{~{(GL)N}},z : ~h(~(h(~h(~((A)N))) (x) ~h(~((B)N)))), ~{(LL)N} |- .]]}
+      \end{math}
+    \end{center}
 
   \item[] Case.\\ 
     \begin{center}
@@ -4146,9 +4242,47 @@ have the following result:
         }{[[GL,GL' |- h(h(A (x) B) , LL), LL']]}
       \end{math}
     \end{center}
-    This is follows the same pattern as the previous rule.  Simply
-    apply the induction hypothesis to both premises, and then the rule
-    $\ifrName{Parl}$.
+    By the induction hypothesis we know the following:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          [[~{~{(GL)N}},x : h(~((A)N)),~{(LL)N} |- .]]\\
+          [[~{~{(GL')N}},y : h(~((B)N)),~{(LL')N} |- .]]\\
+        \end{array}
+      \end{math}
+    \end{center}
+    We obtain our result by the following derivation:
+    \begin{center}
+      \tiny
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Impl}] {
+          $$\mprset{flushleft}
+          \inferrule* [right=\ifrName{Tenr}] {
+            $$\mprset{flushleft}
+            \inferrule* [right=\ifrName{Impr}] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\ifrName{Pr}] {
+                [[~{~{(GL)N}},x : ~((A)N),~{(LL)N} |- .]]
+              }{[[~{~{(GL)N}},x : ~((A)N),~{(LL)N} |- o : _|_]]}
+            }{[[~{~{(GL)N}},~{(LL)N} |- \x.o : h(~h(~((A)N)))]]}
+            \\
+            $$\mprset{flushleft}
+            \inferrule* [right=\ifrName{Impr}] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\ifrName{Pr}] {
+                [[~{~{(GL')N}},y : ~((B)N),~{(LL')N} |- .]]
+              }{[[~{~{(GL')N}},y : ~((B)N),~{(LL')N} |- o : _|_]]}
+            }{[[~{~{(GL')N}},~{(LL')N} |- \y.o : ~h(~((B)N))]]}
+          }{[[~{~{(GL)N}},~{~{(GL')N}},~{(LL)N},~{(LL')N} |- {\x.o} (x) {\y.o} : h(~h(~((A)N))) (x) ~h(~((B)N))]]}
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=\ifrName{Pl}] {
+            \,
+          }{[[w : _|_ |- .]]}
+        }{[[~{~{(GL)N}},~{~{(GL')N}},z : h(~(h(~h(~((A)N))) (x) ~h(~((B)N)))),~{(LL)N},~{(LL')N} |- .]]}
+      \end{math}
+    \end{center}
 
   \item[] Case.\\ 
     \begin{center}
@@ -4159,8 +4293,31 @@ have the following result:
         }{[[_|_ |- .]]}
       \end{math}
     \end{center}
-    It suffices to derive $[[. |- t : _|_]]$ for some term $[[t]]$,
-    but this follows by applying the rule $\ifrName{Tr}$.
+    It suffices to show that $[[z : ~((_|_)N) |- .]]$ is derivable, which is equivalent to showing that
+    the sequent $[[z : ~h(~(_|_)) |- .]]$ is derivable.  We obtain our result by the following derivation:
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=Impl] {
+          $$\mprset{flushleft}
+          \inferrule* [right=Impr] {
+            $$\mprset{flushleft}
+            \inferrule* [right=Pr] {
+              $$\mprset{flushleft}
+              \inferrule* [right=Pl] {
+                \,
+              }{[[x : _|_ |- .]]}
+            }{[[x : _|_ |- o : _|_]]}
+          }{[[. |- \x.o : ~(_|_)]]}
+          \\
+            $$\mprset{flushleft}
+          \inferrule* [right=Pl] {
+            \,
+          }{[[w : _|_ |- .]]}
+        }{[[z : ~h(~(_|_)) |- .]]}
+      \end{math}
+    \end{center}
+
 
   \item[] Case.\\ 
     \begin{center}
@@ -4171,8 +4328,28 @@ have the following result:
         }{[[GL |- _|_,LL]]}
       \end{math}
     \end{center}
-    This case follows by first applying the induction hypothesis to
-    the premise, and then applying the rule $\ifrName{Tl}$.
+    By the induction hypothesis we know the following sequent is derivable:
+    \[
+      [[~{~{(GL)N}},~{(LL)N} |- .]]
+    \]
+    It suffices to show that $[[~{~{(GL)N}},z : ~((_|_)N),~{(LL)N} |- .]]$ which is equivalent to
+    the sequent $[[~{~{(GL)N}},z : ~(_|_),~{(LL)N} |- .]]$.  The latter is derivable as follows:
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=Impl] {
+          $$\mprset{flushleft}
+          \inferrule* [right=Pr] {
+            [[~{~{(GL)N}},~{(LL)N} |- .]]
+          }{[[~{~{(GL)N}},~{(LL)N} |- o : _|_]]}
+          \\
+            $$\mprset{flushleft}
+          \inferrule* [right=Pl] {
+            \,
+          }{[[w : _|_ |- .]]}
+        }{[[~{~{(GL)N}},z : ~(_|_),~{(LL)N} |- .]]}
+      \end{math}
+    \end{center}
 
   \item[] Case.\\ 
     \begin{center}
@@ -4183,7 +4360,45 @@ have the following result:
         }{[[GL,GL', A (+) B |- LL , LL']]}
       \end{math}
     \end{center}
-    
+    By the induction hypothesis we know the following:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          [[~{~{(GL)N}},x : ~h(~((A)N)),~{(LL)N} |- .]]\\
+          [[~{~{(GL')N}},v : ~h(~((B)N)),~{(LL')N} |- .]]
+        \end{array}
+      \end{math}
+    \end{center}
+    It suffices to show that the sequent
+    \[ [[~{~{(GL)N}},~{~{(GL')N}},z : ~h(~((A (+) B)N)),~{(LL)N},~{(LL')N} |- .]] \]
+    is derivable which is equivalent to the sequent
+    \[ [[~{~{(GL)N}},~{~{(GL')N}},z : ~h(~(h(~h(~((A)N))) (+) ~h(~((B)N)))),~{(LL)N},~{(LL')N} |- .]]. \]
+    The latter is derivable as follows:
+    \begin{center}
+      \tiny
+      \begin{math}        
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Impl}] {
+          $$\mprset{flushleft}
+          \inferrule* [right=\ifrName{Impr}] {
+            $$\mprset{flushleft}
+            \inferrule* [right=\ifrName{Pr}] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\ifrName{Parl}] {
+                [[~{~{(GL)N}},x : ~h(~((A)N)),~{(LL)N} |- .]]
+                \\
+                [[~{~{(GL')N}},v : ~h(~((B)N)),~{(LL')N} |- .]]
+              }{[[~{~{(GL)N}},~{~{(GL')N}},y : h(~h(~((A)N))) (+) ~h(~((B)N)),~{(LL)N},~{(LL')N} |- .]]}
+            }{[[~{~{(GL)N}},~{~{(GL')N}},y : h(~h(~((A)N))) (+) ~h(~((B)N)),~{(LL)N},~{(LL')N} |- o : _|_]]}
+          }{[[~{~{(GL)N}},~{~{(GL')N}},~{(LL)N},~{(LL')N} |- \y.o : ~(h(~h(~((A)N))) (+) ~h(~((B)N)))]]}
+          \\
+            $$\mprset{flushleft}
+          \inferrule* [right=\ifrName{Pl}] {
+            \,
+          }{[[w : _|_ |- .]]}
+        }{[[~{~{(GL)N}},~{~{(GL')N}},z : ~h(~(h(~h(~((A)N))) (+) ~h(~((B)N)))),~{(LL)N},~{(LL')N} |- .]]}
+      \end{math}
+    \end{center}
 
   \item[] Case.\\ 
     \begin{center}
@@ -4194,56 +4409,91 @@ have the following result:
         }{[[GL |- h( LL , A (+) B) , LL']]}
       \end{math}
     \end{center}
+    By the induction hypothesis we know the following is derivable:
+    \[ [[~{~{(GL)N}},~{(LL)N},x : ~((A)N),y : ~((B)N), ~{(LL')N} |- .]] \]
+    It suffices to show that the sequent
+    $[[~{~{(GL)N}},~{(LL)N}, z : ~((A (+) B)N),~{(LL')N}]]$
+    is derivable, but this sequent is equivalent to the sequent
+    $[[~{~{(GL)N}},~{(LL)N}, z : ~(h(~h(~((A)N))) (+) ~h(~((B)N))),~{(LL')N}]]$.
+    We derive the latter as follows:
+    \begin{center}
+      \scriptsize
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Impl}] {
+          $$\mprset{flushleft}
+          \inferrule* [right=\ifrName{Parr}] {
+            $$\mprset{flushleft}
+            \inferrule* [right=\ifrName{Impr}] {
+              $$\mprset{flushleft}
+              \inferrule* [right=\ifrName{Pr}] {
+                $$\mprset{flushleft}
+                \inferrule* [right=\ifrName{Impr}] {
+                  $$\mprset{flushleft}
+                  \inferrule* [right=\ifrName{Pr}] {
+                    [[~{~{(GL)N}},~{(LL)N}, x : ~((A)N),y : ~((B)N),~{(LL')N} |- .]]
+                  }{[[~{~{(GL)N}},~{(LL)N}, x : ~((A)N),y : ~((B)N),~{(LL')N} |- o : _|_]]}
+                }{[[~{~{(GL)N}},~{(LL)N}, x : ~((A)N),~{(LL')N} |- {\y.o} : ~h(~((B)N))]]}
+              }{[[~{~{(GL)N}},~{(LL)N}, x : ~((A)N),~{(LL')N} |- o : _|_, {\y.o} : ~h(~((B)N))]]}
+            }{[[~{~{(GL)N}},~{(LL)N}, ~{(LL')N} |- {\x.o} : h(~h(~((A)N))), {\y.o} : ~h(~((B)N))]]}
+          }{[[~{~{(GL)N}},~{(LL)N}, ~{(LL')N} |- {\x.o} (+) {\y.o} : h(~h(~((A)N))) (+) ~h(~((B)N))]]}
+          \\
+            $$\mprset{flushleft}
+          \inferrule* [right=\ifrName{Pl}] {
+            \,
+          }{[[w : _|_ |- .]]}
+        }{[[~{~{(GL)N}},~{(LL)N}, z : ~(h(~h(~((A)N))) (+) ~h(~((B)N))),~{(LL')N}]]}
+      \end{math}
+    \end{center}
 
+  \item[] Case.\\
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Negl}] {
+          [[GL, A |- LL]]
+        }{[[GL |- lnot A,LL]]}
+      \end{math}
+    \end{center}
+    By the induction hypothesis we know the following:
+    \[ [[~{~{(GL)N}}, x : ~h(~((A)N)), ~{(LL)N} |- .]] \]
+    It suffices to show that the sequent
+    $[[~{~{(GL)N}},x : ~((lnot A)N), ~{(LL)N} |- .]]$, but this is equivalent to the
+    sequent
+    $[[~{~{(GL)N}},x : ~h(~((A)N)), ~{(LL)N} |- .]]$, but this is equivalent to the induction hypothesis.
 
-  \item[] Case.\\ 
+    \item[] Case.\\
+    \begin{center}
+      \begin{math}
+        $$\mprset{flushleft}
+        \inferrule* [right=\ifrName{Negl}] {
+          [[GL |- A,LL]]
+        }{[[GL,lnot A |- LL]]}
+      \end{math}
+    \end{center}
+    By the induction hypothesis we know the following:
+    \[ [[~{~{(GL)N}}, x : ~((A)N), ~{(LL)N} |- .]] \]
+    It suffices to show that the sequent
+    $[[~{~{(GL)N}},z : ~h(~((lnot A)N)), ~{(LL)N} |- .]]$, but this is equivalent to the
+    sequent
+    $[[~{~{(GL)N}},z : ~h(~(~((A)N))), ~{(LL)N} |- .]]$.  The latter is derived as follows:
     \begin{center}
       \begin{math}
         $$\mprset{flushleft}
         \inferrule* [right=\ifrName{Impl}] {
-          [[GL1 |- A , LL1 && GL2, B |- LL2]]
-        }{[[GL1, A -o B, GL2 |- LL1 , LL2]]}
-      \end{math}
-    \end{center}
-    By the induction hypothesis we know $[[x : (A)N,(LL1)N |- (GL1)N]]$
-    and $[[(LL2)N |- (GL2)N,t : B]]$ for some term $[[t]]$.  Then it
-    suffices to derive
-    $[[(LL1)N,(LL2)N |- (GL1)N,t' : (A -o B)N,(GL2)N]]$ for some term
-    $t'$. By definition $[[(A -o B)N]] = [[~(~(A)N -o ~(B)N)]]$.
-    \begin{center}
-      \begin{math}
-        $$\mprset{flushleft}
-        \inferrule* [right=] {
           $$\mprset{flushleft}
-          \inferrule* [right=] {
+          \inferrule* [right=\ifrName{Impr}] {
             $$\mprset{flushleft}
-            \inferrule* [right=] {
-              $$\mprset{flushleft}
-              \inferrule* [right=] {
-                [[(LL1)N,x : (A)N |- (GL1)N]]
-              }{[[(LL1)N |- \x.o : ~(A)N,(GL1)N]]}
-              \\
-              $$\mprset{flushleft}
-              \inferrule* [right=] {
-                [[(LL2)N |- t : (B)N,(GL2)N]]
-              }{[[(LL2)N,y : ~(B)N |- (GL2)N]]}
-            }{[[(LL1)N,(LL2)N,z : ~(A)N -o ~(B)N |- (GL1)N,(GL2)N]]}
-          }{[[(LL1)N,(LL2)N,z : ~(A)N -o ~(B)N |- (GL1)N,o : _|_,(GL2)N]]}
-        }{[[(LL1)N,(LL2)N |- (GL1)N,\z.o : (~(A)N -o ~(B)N) -o _|_,(GL2)N]]}
+            \inferrule* [right=\ifrName{Pr}] {
+              [[~{~{(GL)N}}, x : ~((A)N),~{(LL)N} |- .]]
+            }{[[~{~{(GL)N}}, x : ~((A)N),~{(LL)N} |- o : _|_]]}
+          }{[[~{~{(GL)N}}, ~{(LL)N} |- \x.o : ~(~((A)N))]]}
+          \\
+          [[w : _|_ |- .]]
+        }{[[~{~{(GL)N}},z : ~h(~(~((A)N))), ~{(LL)N} |- .]]}
       \end{math}
     \end{center}
-
-  \item[] Case.\\ 
-    \begin{center}
-      \begin{math}
-        $$\mprset{flushleft}
-        \inferrule* [right=\ifrName{Impr}] {
-          [[GL, A |- B , LL]]
-        }{[[GL |- A -o B , LL]]}
-      \end{math}
-    \end{center}
-
-
+    
   \item[] Case.\\ 
     \begin{center}
       \begin{math}
@@ -4253,7 +4503,8 @@ have the following result:
         }{[[GL, B, A |- LL]]}
       \end{math}
     \end{center}
-
+    This case follows by first applying the induction hypothesis and then applying
+    the rule $\ifrName{Exl}$.
 
   \item[] Case.\\ 
     \begin{center}
@@ -4264,8 +4515,8 @@ have the following result:
         }{[[GL |- h(h(LL1 , B) , A) , LL2]]}
       \end{math}
     \end{center}
-
-
+    This case follows by first applying the induction hypothesis and then applying
+    the rule $\ifrName{Exl}$.
   \end{itemize}
 \end{proof}
 % subsection a_negative_translation_of_linear_logic_into_fill_using_tensorial_negation (end)
