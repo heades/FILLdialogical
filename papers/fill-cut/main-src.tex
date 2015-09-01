@@ -3968,9 +3968,10 @@ model (Corollary~\ref{corollary:dial-FLNL}).
 
 In this section we show that we can use intuitionistic negation --
 which we showed was tensorial in the previous section -- to define a
-negative translation of linear logic into FILL where implication plays
-a central role.  Melli\`es and Tabareau give a negative translation of
-the multiplicative fragment of linear logic into tensorial logic
+negative translation of multi-conclusion linear logic
+(Figure~\ref{fig:LL}) into FILL where implication plays a central
+role.  Melli\`es and Tabareau give a negative translation of the
+multiplicative fragment of linear logic into tensorial logic
 \cite{Mellies:2010} using tensor as the main connective.  For example,
 they define $([[A (x) B]])^N = [[~(h(~(A)N) (x) ~(B)N)]]$, and thus,
 they simulate par using tensor and negation.  This definition would
@@ -3980,10 +3981,8 @@ Definition~\ref{def:let-pat-term}, thus, encoding par in terms of
 tensor would require the let-pattern term to be used in the left-rule
 for tensor.  It is understandable why this definition is defined the
 way it is given that they are translating into tensorial logic.
-However, in FILL we have par, and implication, and so we extend their
-translation into one that better fits FILL.
-
-Multi-conclusion linear logic is defined in Figure~\ref{fig:LL}.
+However, in FILL we have par, and so we modify their translation into
+one that better fits FILL.
 \begin{figure}
   \begin{center}
     \begin{mathpar}
@@ -4006,31 +4005,13 @@ Multi-conclusion linear logic is defined in Figure~\ref{fig:LL}.
   \caption{Multi-Conclusion Linear Logic}
   \label{fig:LL}
 \end{figure}
-The following is a derivation of the law-of-excluded middle, and thus
-we can see that this formulation of linear logic is indeed classical:
-\begin{center}
-  \begin{math}
-    $$\mprset{flushleft}
-    \inferrule* [right=def] {
-      $$\mprset{flushleft}
-      \inferrule* [right=Parr] {
-        $$\mprset{flushleft}
-        \inferrule* [right=Exr] {
-          $$\mprset{flushleft}
-          \inferrule* [right=Impr] {
-            $$\mprset{flushleft}
-            \inferrule* [right=Pr] {
-              [[A |- A]]
-            }{[[A |- _|_,A]]}
-          }{[[. |- (A -o _|_),A]]}
-        }{[[. |- A,(A -o _|_)]]}
-      }{[[. |- A (+) (A -o _|_)]]}      
-    }{[[. |- A (+) ~A]]}
-  \end{math}
-\end{center}
-We give a negative translation of this formulation of linear logic
-into FILL as follows:
-\begin{center}
+
+The following definition defines a translation of linear logic formulas into FILL formulas.
+\begin{definition}
+  \label{def:ll-to-fill}
+  The following is the double-negation translation of linear logic
+  into FILL:
+  \begin{center}
   \begin{math}
     \begin{array}{lll}
       [[(I)N]] & = & [[I]]\\
@@ -4041,6 +4022,31 @@ into FILL as follows:
     \end{array}
   \end{math}
 \end{center}
+\end{definition}
+\noindent
+The main point of the previous definition is that because FILL has
+intuitionistic versions of all of the operators of linear logic we can
+give a very natural translation that preserves these operators by
+double negating their arguments.  
+
+At this point we need to extend the translation of linear logic
+formulas to sequents.  However, we must be careful, because in FILL
+implication has the FILL restriction, and thus, if we choose the wrong
+translation then we will run into problems trying to satisfy the FILL
+condition.  The method we employ here is to first translate a linear
+logic sequent into a single-sided sequent, and then translate that to
+FILL using the well-known translation.  That is, it is easy to see
+that any linear logic sequent $[[A1,...,Ai |- B1,...,Bj]]$ is
+logically equivalent to the sequent $[[. |- lnot A1,...,lnot
+    Ai,B1,...,Bj]]$.  Then we translate the latter into FILL as
+$[[x1 : ~((lnot A1)N),...,xi : ~((lnot Ai)N),y1 : ~((B1)N),...,yj : ~((Bj)N) |- .]]$
+for any free variables $[[x1]],\ldots,[[xi]]$ and
+$[[y1]],\ldots,[[yj]]$, but this is equivalent to
+$[[x1 : ~h(~((A1)N)),...,xi : ~h(~((Ai)N)),y1 : ~((B1)N),...,yj :~((Bj)N) |- .]]$.
+The astute reader will realize that this is indeed the translation of
+single-sided linear logic into single-conclusion intuitionistic linear
+logic.  This translation also has the benefit that we do not have to
+worry about mentioning terms in the statement of the result.
 
 \begin{lemma}[Negative Translation]
   \label{lemma:negative_translation}
@@ -4057,9 +4063,13 @@ into FILL as follows:
   [[A1,...,Ai]]$, then $[[~{(GL)N}]] = [[x1 : ~((A1)N),...,xi :
       ~((Ai)N)]]$ for some unique fresh variables
   $[[x1]],\ldots,[[xi]]$.  We will use this notation when applying the
-  inductive hypothesis to make the presentation easier to read.
+  inductive hypothesis to make the presentation easier to
+  read.  \begin{paper} We only give a few of the cases here; for the
+    rest of proof see the companion report \cite{Eades:2015}.
+  \end{paper}
 
   \begin{itemize}
+    \begin{report}          
   \item[] Case.\\ 
     \begin{center}
       \begin{math}
@@ -4191,7 +4201,8 @@ into FILL as follows:
         }{[[x : ~I |- .]]}
       \end{math}
     \end{center}
-
+    \end{report}
+    
   \item[] Case.\\ 
     \begin{center}
       \begin{math}
@@ -4232,6 +4243,8 @@ into FILL as follows:
         }{[[~{~{(GL)N}},z : ~h(~(h(~h(~((A)N))) (x) ~h(~((B)N)))), ~{(LL)N} |- .]]}
       \end{math}
     \end{center}
+
+    \begin{report}          
 
   \item[] Case.\\ 
     \begin{center}
@@ -4350,7 +4363,8 @@ into FILL as follows:
         }{[[~{~{(GL)N}},z : ~(_|_),~{(LL)N} |- .]]}
       \end{math}
     \end{center}
-
+    \end{report}
+    
   \item[] Case.\\ 
     \begin{center}
       \begin{math}
@@ -4400,6 +4414,7 @@ into FILL as follows:
       \end{math}
     \end{center}
 
+    \begin{report}          
   \item[] Case.\\ 
     \begin{center}
       \begin{math}
@@ -4445,7 +4460,7 @@ into FILL as follows:
         }{[[~{~{(GL)N}},~{(LL)N}, z : ~(h(~h(~((A)N))) (+) ~h(~((B)N))),~{(LL')N}]]}
       \end{math}
     \end{center}
-
+\end{report}
   \item[] Case.\\
     \begin{center}
       \begin{math}
@@ -4461,7 +4476,7 @@ into FILL as follows:
     $[[~{~{(GL)N}},x : ~((lnot A)N), ~{(LL)N} |- .]]$, but this is equivalent to the
     sequent
     $[[~{~{(GL)N}},x : ~h(~((A)N)), ~{(LL)N} |- .]]$, but this is equivalent to the induction hypothesis.
-
+\begin{report}
     \item[] Case.\\
     \begin{center}
       \begin{math}
@@ -4517,6 +4532,7 @@ into FILL as follows:
     \end{center}
     This case follows by first applying the induction hypothesis and then applying
     the rule $\ifrName{Exl}$.
+    \end{report}
   \end{itemize}
 \end{proof}
 % subsection a_negative_translation_of_linear_logic_into_fill_using_tensorial_negation (end)
