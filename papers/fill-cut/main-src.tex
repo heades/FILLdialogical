@@ -9,7 +9,7 @@
 \usepackage{fullpage}
 \include{type-theory_inc}
 
-\title{Multiple Conclusion Intuitionistic Linear Logic and Cut Elimination}
+\title{Multiple Conclusion Linear Logic: Cut Elimination and more}
 \author{Harley Eades III and Valeria de Paiva}
 \date{}
 
@@ -72,10 +72,12 @@
   par. However, Bellin proposed an alternate left rule for par and
   gave an indirect proof showing that cut-elimination is restored. In
   this note we adopt Bellin’s proposed rule and give a direct proof of
-  cut-elimination.  Additionally, we show that a categorical model of
-  FILL in the basic dialectica category is also a LNL model of Benton
-  and a full tensor model of Melli\`es' and Tabareau's tensorial
-  logic.
+  cut-elimination.  Following the proof of cut-elimination we show
+  that a categorical model of FILL in the basic dialectica category is
+  also a LNL model of Benton and a full tensor model of Melli\`es' and
+  Tabareau's tensorial logic.  Lastly, we give a double-negation
+  translation of linear logic into FILL that explicitly uses par in
+  addition to tensor.
 \end{abstract}
 
 \section{Introduction}
@@ -209,16 +211,19 @@ accomplishes two goals: the first is to complete the picture of FILL
 Hyland and de Paiva started, and the second is to view a direct proof
 of cut-elimination as a means of checking the correctness of the
 formulation of FILL given here.  The latter point is important for
-future work.  Lastly, we show that the categorical model of FILL
-called $\dial$, the basic dialectica category, is also a
-linear/non-linear model of Benton (Section~\ref{sec:full_lnl_models})
-and a full tensor model of Melli\`es' and Tabareau's tensor logic
-(Section~\ref{sec:tensor_logic}). Lastly, due to the complexities
-of working in $\dial$ we have formalized all of the constructions and
-proofs used in Section~\ref{sec:full_lnl_models} and
-Section~\ref{sec:tensor_logic} in the Agda proof
-assistant\footnote{The Agda development can be found at
-  \url{https://github.com/heades/cut-fill-agda}.}.
+future work.  Following the proof of cut-elimination we show that the
+categorical model of FILL called $\dial$, the basic dialectica
+category, is also a linear/non-linear model of Benton
+(Section~\ref{sec:full_lnl_models}) and a full tensor model of
+Melli\`es' and Tabareau's tensor logic
+(Section~\ref{sec:tensor_logic}). Finally, we give a double-negation
+translation of multi-conclusion linear logic into FILL
+(Seciton~\ref{subsec:a_negative_translation_of_linear_logic_into_fill_using_tensorial_negation}).
+Due to the complexities of working in $\dial$ we have formalized all
+of the constructions and proofs used in
+Section~\ref{sec:full_lnl_models} and Section~\ref{sec:tensor_logic}
+in the Agda proof assistant\footnote{The Agda development can be found
+  at \url{https://github.com/heades/cut-fill-agda}.}.
 
 \textbf{Related Work.} The first formalization of FILL with
 cut-elimination was due to Bra\"uner and de Paiva \cite{Brauner:1998}.
@@ -239,11 +244,11 @@ formalization given here over Bra\"uner and de Paiva's formalization
 is that the dependency tracking system complicates both the definition
 of the logic and its use.  However, one might conjecture that their
 system is more fundamental and hence more generalizable.  It might be
-possible prove cut-elimination of the term assignment formalization of
-FILL relative to Bra\"uner and de Paiva's dependency tracking system
-by erasing the terms on conclusions and then tracking which variable
-is free in which conclusion.  However, as we stated above a direct
-proof is more desirable than a relative one.
+possible to prove cut-elimination of the term assignment formalization
+of FILL relative to Bra\"uner and de Paiva's dependency tracking
+system by erasing the terms on conclusions and then tracking which
+variable is free in which conclusion.  However, as we stated above a
+direct proof is more desirable than a relative one.
 
 de Paiva and Pereira used annotations on the sequents of LK to arrive
 at full intuitionistic logic (FIL) with multiple conclusion that
@@ -2681,7 +2686,7 @@ from Benton \cite{Benton:1994}:
   coalgebras denoted $\mathsf{Exp}(\cat{L}^!)$.  He shows that
   this subcategory is cartesian closed, and contains the (co)Kleisli
   category, $\cat{L}_!$, Lemma~11 on page 23 of \cite{Benton:1994}.
-  As for the adjunction
+  The required adjunction
   $F : \mathsf{Exp}(\cat{L}^!) \to L : G$ can be defined using the
   adjunct functors $F(A,h_A) = A$ and $G(A) = (!A,\delta_A)$, see
   lemmata 13 - 16 of \cite{Benton:1994}.
@@ -3875,13 +3880,14 @@ resource modality yields a model of full tensorial logic.
 \end{definition}
 
 A model of full tensorial logic is defined to be a model of
-multiplicative tensorial logic with an exponential resource modality. We
-now know that $\dial$ is a model of multiplicative tensorial logic.  By
-constructing the co-Kleisli category which consists of the
-$!$-coalgebras as objects which is cartesian we can show that $\dial$
-is a model of full tensorial logic.  The adjunction with the co-Kleisli
-category naturally arises from the proof that $\dial$ is a full LNL
-model (Corollary~\ref{corollary:dial-FLNL}).
+multiplicative tensorial logic with an exponential resource
+modality. We now know that $\dial$ is a model of multiplicative
+tensorial logic.  By constructing the co-Kleisli category which
+consists of the $!$-coalgebras as objects, and happens to be
+cartesian, we can show that $\dial$ is a model of full tensorial
+logic.  The adjunction with the co-Kleisli category naturally arises
+from the proof that $\dial$ is a full LNL model
+(Corollary~\ref{corollary:dial-FLNL}).
 \begin{lemma}
   \label{lemma:full-tensorial-logic}
   The category $\dial$ is a model of full tensorial logic.
@@ -3920,10 +3926,11 @@ model (Corollary~\ref{corollary:dial-FLNL}).
     product in $\dial_!$ is defined as $J(A \times B)$.
 
   \item The terminal object in $\dial$ is defined by $(\top, \perp,
-    \alpha_\top)$ where $\top$ and $\perp$ are the terminal and final
-    objects in $\sets$ respectively, and $(x , y) \in \alpha_\top$ iff
-    true. The proof that this is terminal, and is the unit to the
-    cartesian product can be found in the formal development.
+    \alpha_\top)$ where $\top$ and $\perp$ are the terminal and
+    initial objects in $\sets$ respectively, and $(x , y) \in
+    \alpha_\top$ iff true. The proof that this is terminal, and is the
+    unit to the cartesian product can be found in the formal
+    development.
     
   \item Suppose $A = (U , X , \alpha)$, $B = (V , Y , \beta)$, and $C
     = (W , Z , \gamma)$ are objects of $\dial$.  Then the we define
@@ -4552,8 +4559,10 @@ cut-elimination procedure for classical linear logic to FILL.  In
 Section~\ref{sec:full_lnl_models} we showed that the category $\dial$,
 a model of FILL, is a full LNL model by showing that it is a full
 linear category, and then replaying the proof that linear categories
-are LNL models by Benton.  Finally, in Section~\ref{sec:tensor_logic}
-we showed that $\dial$ is a model of full tensorial logic.
+are LNL models by Benton. In Section~\ref{sec:tensor_logic} we showed
+that $\dial$ is a model of full tensorial logic.  Finally, we gave a
+double-negation translation of multi-conclusion linear logic into FILL
+that explicitly uses both tensor and par.
 
 \textbf{Future work.} Lorenzen games are a particular type of game
 semantics for various logics developed by Lorenz, Felscher, and Rahman
