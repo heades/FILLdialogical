@@ -3774,11 +3774,6 @@ of multiplicative tensorial logic is called a dialogue category.
 
 At this point we show that any symmetric monoidal closed category with
 an object, $\perp$, dual to the unit of tensor is a dialogue category.
-\begin{definition}
-  \label{def:double-unit-monoidal-category}
-  A \textbf{dual-unit monoidal category (DU-MC)}, $(\cat{C}, \otimes, \top)$
-  is a monoidal category with an object $\perp$ dual to $\top$.
-\end{definition}
 Having the dual to $\top$ in a monoidal closed category allows one to
 define a negation functor using the internal hom as $\lnot A = A \limp
 \perp$.  We can show that this negation functor is actually a
@@ -3840,15 +3835,17 @@ definition of tensorial negation using the negation functor $\lnot A =
 A \limp \perp$.
 \begin{lemma}
   \label{lemma:dial-tensorial-model}
-  Any DU-SMCC, $(\cat{C}, \otimes, \top, \limp, \perp)$, is a model of
+  Suppose $(\cat{C}, \otimes, \top, \limp, \perp)$ is a SMCC with an
+  object $\perp$ dual to $\top$. Then $\cat{C}$ is a model of
   multiplicative tensorial logic.
 \end{lemma}
 \begin{proof}  
-  Suppose $(\cat{C}, \otimes, \top, \limp, \perp)$ is a DU-SMCC.  It
-  suffices to show that that we can define a tensorial negation.
-  Define the negation functor by $\lnot A = A \limp \perp$.  Finally,
-  by Lemma~\ref{lemma:monoidal-fact1} $\lnot A$ is a tensorial
-  negation.  Therefore, $\cat{C}$ is a dialogue category.
+  Suppose $(\cat{C}, \otimes, \top, \limp, \perp)$ is a SMCC with an
+  object $\perp$ dual to $\top$.  It suffices to show that that we can
+  define a tensorial negation.  Define the negation functor by $\lnot
+  A = A \limp \perp$.  Finally, by Lemma~\ref{lemma:monoidal-fact1}
+  $\lnot A$ is a tensorial negation.  Therefore, $\cat{C}$ is a
+  dialogue category.
 \end{proof}
 \begin{corollary}
   \label{corollary:dial-tensorial}
@@ -4396,10 +4393,24 @@ worry about mentioning terms in the statement of the result.
     \[ [[~{~{(GL)N}},~{~{(GL')N}},z : ~h(~(h(~h(~((A)N))) (+) ~h(~((B)N)))),~{(LL)N},~{(LL')N} |- .]]. \]
     The latter is derivable as follows:
     \begin{center}
-      \tiny
       \begin{math}        
         $$\mprset{flushleft}
         \inferrule* [right=\ifrName{Impl}] {
+          D
+          \\
+            $$\mprset{flushleft}
+          \inferrule* [right=\ifrName{Pl}] {
+            \,
+          }{[[w : _|_ |- .]]}
+        }{[[~{~{(GL)N}},~{~{(GL')N}},z : ~h(~(h(~h(~((A)N))) (+) ~h(~((B)N)))),~{(LL)N},~{(LL')N} |- .]]}
+      \end{math}
+    \end{center}
+    where
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          D:\\
+          \\
           $$\mprset{flushleft}
           \inferrule* [right=\ifrName{Impr}] {
             $$\mprset{flushleft}
@@ -4412,15 +4423,9 @@ worry about mentioning terms in the statement of the result.
               }{[[~{~{(GL)N}},~{~{(GL')N}},y : h(~h(~((A)N))) (+) ~h(~((B)N)),~{(LL)N},~{(LL')N} |- .]]}
             }{[[~{~{(GL)N}},~{~{(GL')N}},y : h(~h(~((A)N))) (+) ~h(~((B)N)),~{(LL)N},~{(LL')N} |- o : _|_]]}
           }{[[~{~{(GL)N}},~{~{(GL')N}},~{(LL)N},~{(LL')N} |- \y.o : ~(h(~h(~((A)N))) (+) ~h(~((B)N)))]]}
-          \\
-            $$\mprset{flushleft}
-          \inferrule* [right=\ifrName{Pl}] {
-            \,
-          }{[[w : _|_ |- .]]}
-        }{[[~{~{(GL)N}},~{~{(GL')N}},z : ~h(~(h(~h(~((A)N))) (+) ~h(~((B)N)))),~{(LL)N},~{(LL')N} |- .]]}
+        \end{array}
       \end{math}
     \end{center}
-
     \begin{report}          
   \item[] Case.\\ 
     \begin{center}
