@@ -1,5 +1,4 @@
-\usepackage[utf8]{inputenc}
-\usepackage{amssymb,amsmath,amsthm}
+\usepackage{amssymb,amsmath}
 \usepackage{cmll}
 \usepackage{stmaryrd}
 \usepackage{todonotes}
@@ -10,12 +9,14 @@
 \include{type-theory_inc}
 
 \title{Multiple Conclusion Linear Logic: Cut Elimination and more}
-\author{Harley Eades III and Valeria de Paiva}
+\author{Harley Eades III\inst{1} \and Valeria de Paiva\inst{2}}
+\institute{
+    Computer and Information Sciences\\ Georgia Regents University\\ Augusta, GA
+    \and Nuance Communications\\ Sunnyvale, CA}
 \date{}
 
 % Ott includes.
 \usepackage{color}
-\usepackage{supertabular}
 
 \input{FILL-ott}
 
@@ -2668,7 +2669,6 @@ from Benton \cite{Benton:1994}:
 \begin{theorem}[LNL Models and Linear Categories]
   \label{thm:lnl_models_are_linear_categories}
   \begin{itemize}
-  \item[]
   \item[i.] (Section~2.2.1 of \cite{Benton:1994}) Every LNL model is a linear category.
   \item[ii.] (Section~2.2.2 of \cite{Benton:1994}) Every linear category is a LNL model.
   \end{itemize}
