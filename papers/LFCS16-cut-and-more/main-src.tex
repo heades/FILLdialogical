@@ -3735,14 +3735,12 @@ claim that tensor and tensorial negation are more fundamental than
 tensor and negation defined via implication.  This is at odds with
 FILL where implication is considered to be fundamental.  In this
 section we show that multiplicative tensorial logic can be modeled by
-any symmetric monoidal closed category containing an object $\perp$
-that is dual to the unit of tensor
-(Lemma~\ref{lemma:dial-tensorial-model}).  Thus, any model of FILL,
-e.g. $\dial$, can be seen as a model of multiplicative tensorial
-logic.  In fact, we will show that tensorial negation arises as a
-simple property of implication (Lemma~\ref{lemma:monoidal-fact1}).  In
-addition, we show that $\dial$ is not only a model of multiplicative
-tensorial logic, but a model of full tensorial logic.
+$\dial$ (Lemma~\ref{lemma:dial-tensorial}) by showing that tensorial
+negation arises as a simple property of the implication in any SMCC
+(Lemma~\ref{lemma:monoidal-fact1}).  Thus, any model of FILL can be
+seen as a model of multiplicative tensorial logic.  In addition, we
+show that $\dial$ is not only a model of multiplicative tensorial
+logic, but a model of full tensorial logic.
 
 A categorical model of tensorial logic is a symmetric monoidal
 category with a tensorial negation.
@@ -3779,12 +3777,8 @@ of multiplicative tensorial logic is called a dialogue category.
   equipped with a tensorial negation.
 \end{definition}
 
-At this point we show that any symmetric monoidal closed category with
-an object, $\perp$, dual to the unit of tensor is a dialogue category.
-Having the dual to $\top$ in a monoidal closed category allows one to
-define a negation functor using the internal hom as $\lnot A = A \limp
-\perp$.  We can show that this negation functor is actually a
-tensorial negation using the following result.
+At this point we show that tensorial negation arises as a simple
+property of implication.
 \begin{lemma}
   \label{lemma:monoidal-fact1}
   In any monoidal closed category, $\cat{C}$, there is a natural bijection
@@ -3837,35 +3831,23 @@ tensorial negation using the following result.
     \end{math}
   \end{center}
 \end{proof}
-Replacing $D$ and $E$ in the previous result with $\perp$ yields the
-definition of tensorial negation using the negation functor $\lnot A =
-A \limp \perp$.
-%% \begin{lemma}
-%%   \label{lemma:dial-tensorial-model}
-%%   Suppose $(\cat{C}, \otimes, \top, \limp, \perp)$ is a SMCC with an
-%%   object $\perp$ dual to $\top$. Then $\cat{C}$ is a model of
-%%   multiplicative tensorial logic.
-%% \end{lemma}
-%% \begin{proof}  
-%%   Suppose $(\cat{C}, \otimes, \top, \limp, \perp)$ is a SMCC with an
-%%   object $\perp$ dual to $\top$.  It suffices to show that that we can
-%%   define a tensorial negation.  Define the negation functor by $\lnot
-%%   A = A \limp \perp$.  Finally, by Lemma~\ref{lemma:monoidal-fact1}
-%%   $\lnot A$ is a tensorial negation.  Therefore, $\cat{C}$ is a
-%%   dialogue category.
-%% \end{proof}
+Any model of FILL contains the unit of par, $\perp$, and thus, can be
+used to define the negation function $\lnot A := A \limp \perp$.  Now
+replacing $D$ and $E$ in the previous result with $\perp$ yields the
+definition of tensorial negation.
 \begin{lemma}
   \label{lemma:dial-tensorial}
   $\dial$ is a model of multiplicative tensorial logic.
 \end{lemma}
 \begin{proof}
   We have already shown $\dial$ to be a model of FILL, and thus, has a
-  SMCC structure as well as the dual to the unit of tensor which is
-  the unit of par, and thus, by Lemma~\ref{lemma:monoidal-fact1} has a
-  tensorial negation\footnote{We give a full proof in the
-    formalization see the file
+  SMCC structure as well as the negation functor, and thus, by
+  Lemma~\ref{lemma:monoidal-fact1} has a tensorial
+  negation\footnote{We give a full proof in the formalization see the
+    file
     \url{https://github.com/heades/cut-fill-agda/blob/master/Tensorial.agda}.}.
 \end{proof}
+
 Extending a model of multiplicative tensorial logic with an exponential
 resource modality yields a model of full tensorial logic.
 \begin{definition}
