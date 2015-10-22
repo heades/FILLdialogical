@@ -3840,29 +3840,30 @@ tensorial negation using the following result.
 Replacing $D$ and $E$ in the previous result with $\perp$ yields the
 definition of tensorial negation using the negation functor $\lnot A =
 A \limp \perp$.
+%% \begin{lemma}
+%%   \label{lemma:dial-tensorial-model}
+%%   Suppose $(\cat{C}, \otimes, \top, \limp, \perp)$ is a SMCC with an
+%%   object $\perp$ dual to $\top$. Then $\cat{C}$ is a model of
+%%   multiplicative tensorial logic.
+%% \end{lemma}
+%% \begin{proof}  
+%%   Suppose $(\cat{C}, \otimes, \top, \limp, \perp)$ is a SMCC with an
+%%   object $\perp$ dual to $\top$.  It suffices to show that that we can
+%%   define a tensorial negation.  Define the negation functor by $\lnot
+%%   A = A \limp \perp$.  Finally, by Lemma~\ref{lemma:monoidal-fact1}
+%%   $\lnot A$ is a tensorial negation.  Therefore, $\cat{C}$ is a
+%%   dialogue category.
+%% \end{proof}
 \begin{lemma}
-  \label{lemma:dial-tensorial-model}
-  Suppose $(\cat{C}, \otimes, \top, \limp, \perp)$ is a SMCC with an
-  object $\perp$ dual to $\top$. Then $\cat{C}$ is a model of
-  multiplicative tensorial logic.
-\end{lemma}
-\begin{proof}  
-  Suppose $(\cat{C}, \otimes, \top, \limp, \perp)$ is a SMCC with an
-  object $\perp$ dual to $\top$.  It suffices to show that that we can
-  define a tensorial negation.  Define the negation functor by $\lnot
-  A = A \limp \perp$.  Finally, by Lemma~\ref{lemma:monoidal-fact1}
-  $\lnot A$ is a tensorial negation.  Therefore, $\cat{C}$ is a
-  dialogue category.
-\end{proof}
-\begin{corollary}
-  \label{corollary:dial-tensorial}
+  \label{lemma:dial-tensorial}
   $\dial$ is a model of multiplicative tensorial logic.
-\end{corollary}
+\end{lemma}
 \begin{proof}
   We have already shown $\dial$ to be a model of FILL, and thus, has a
   SMCC structure as well as the dual to the unit of tensor which is
-  the unit of par\footnote{We give a full proof using the previous
-    result in the formalization see the file
+  the unit of par, and thus, by Lemma~\ref{lemma:monoidal-fact1} has a
+  tensorial negation\footnote{We give a full proof in the
+    formalization see the file
     \url{https://github.com/heades/cut-fill-agda/blob/master/Tensorial.agda}.}.
 \end{proof}
 Extending a model of multiplicative tensorial logic with an exponential
