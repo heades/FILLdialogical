@@ -2702,11 +2702,13 @@ model par and its unit.
 \begin{definition}
   \label{def:full-linear-cat}
   A \textbf{full linear category}, $\mathcal{L}$, consists of a linear
-  category \\$(\mathcal{L}, \top, \otimes, \limp,!A,e_A,d_A)$, a symmetric
-  monoidal structure on $L$, $(\perp, \parr)$, and distribution
-  natural transformations $\mathsf{dist}_1 : A \otimes (B \parr C) \to
-  (A \otimes B) \parr C$ and $\mathsf{dist}_2 : (A \parr B) \otimes C
-  \to A \parr (B \otimes C)$.
+  category \\$(\mathcal{L}, \top, \otimes, \limp,!A,e_A,d_A)$, a
+  symmetric monoidal structure on $L$, $(\perp, \parr)$, and
+  distribution natural transformations $\mathsf{dist}_1 : A \otimes (B
+  \parr C) \to (A \otimes B) \parr C$ and $\mathsf{dist}_2 : (A \parr
+  B) \otimes C \to A \parr (B \otimes C)$.  The distributors must
+  satisfy several coherence conditions which can all be found in
+  \cite{Cockett:1997}.
 \end{definition}
 \begin{definition}
   \label{def:full-lnl-model}
@@ -2762,7 +2764,9 @@ We can now show our main result of this section.
     \parr (A' \otimes C)$ and $k' : (A \parr B) \otimes (C \otimes C')
     \to (A \otimes C) \parr (B \otimes C')$ given on page 52 of
     \cite{dePaiva:1988}.  Set $A' = \top$ in $k$ and $C = \top$ in
-    $k'$ to obtain $dist_1$ and $dist_2$ respectively.
+    $k'$ to obtain $dist_1$ and $dist_2$ respectively.  They can also
+    be shown to satisfy the coherence conditions given in
+    \cite{Cockett:1997}.
   \end{paper}
 \begin{report}
   This proof holds by constructing each piece of a full linear
