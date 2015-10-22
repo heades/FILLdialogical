@@ -160,10 +160,9 @@ proposed a new implication right rule:
   \end{math}
 \end{center}
 Intuitionism is enforced in this rule by requiring that the variable
-being dischanged, $x$,
-is potentially free in only one term annotating a conclusion.
-Unfortunately, this formalization did not enjoy cut-elimination
-either.
+being discharged, $x$, is potentially free in only one term annotating
+a conclusion.  Unfortunately, this formalization did not enjoy
+cut-elimination either.
 
 Bierman was able to give a counterexample to cut-elimination
 \cite{Bierman:1996}.  As Bierman explains the problem was with the
@@ -219,7 +218,7 @@ category, is also a linear/non-linear model of Benton
 Melli\`es' and Tabareau's tensor logic
 (Section~\ref{sec:tensor_logic}). Finally, we give a double-negation
 translation of multi-conclusion linear logic into FILL
-(Seciton~\ref{subsec:a_negative_translation_of_linear_logic_into_fill_using_tensorial_negation}).
+(Section~\ref{subsec:a_negative_translation_of_linear_logic_into_fill_using_tensorial_negation}).
 Due to the complexities of working in $\dial$ we have formalized all
 of the constructions and proofs used in
 Section~\ref{sec:full_lnl_models} and Section~\ref{sec:tensor_logic}
@@ -1231,7 +1230,7 @@ in L'3))]]$, and thus, $[[ [t1 (x) t2/z](h(let z be x (x) y in L3)) =
 
 Note that in the second derivation of the above transformation we
 first cut on $[[B]]$, and then $[[A]]$, but we could have cut on
-$[[A]]$ first, and then $[[B]]$, but this would yeild equivalent
+$[[A]]$ first, and then $[[B]]$, but this would yield equivalent
 derivations as above by using
 Lemma~\ref{lemma:substitution_distribution}.
 
@@ -2488,7 +2487,7 @@ The proof
     }{[[G1,G,G2, y : C, w : B, G3 |- L | [t/x]L1]]}
   \end{math}
 \end{center}
-tranforms into the proof
+transforms into the proof
 \begin{center}
   \begin{math}
     $$\mprset{flushleft}
@@ -3920,7 +3919,7 @@ from the proof that $\dial$ is a full LNL model
     development.
     
   \item Suppose $A = (U , X , \alpha)$, $B = (V , Y , \beta)$, and $C
-    = (W , Z , \gamma)$ are objects of $\dial$.  Then the we define
+    = (W , Z , \gamma)$ are objects of $\dial$.  Then we define
     the following morphisms -- the proofs of the morphism conditions
     have been omitted, but the details can be found in the formal
     development:
