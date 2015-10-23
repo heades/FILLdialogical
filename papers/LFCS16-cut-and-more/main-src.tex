@@ -5,7 +5,6 @@
 \usepackage{mathpartir}
 \usepackage{hyperref}
 \usepackage[barr]{xy}
-\usepackage{fullpage}
 \include{type-theory_inc}
 
 \title{Multiple Conclusion Linear Logic: Cut Elimination and more}
@@ -49,36 +48,26 @@
 \maketitle
 
 \begin{abstract}
-  Full Intuitionistic Linear Logic (FILL) was first introduced by
-  Hyland and de Paiva as one of the results of their investigation
-  into a categorical understanding of G\"odel’s dialectica
-  interpretation. FILL went against current beliefs that it was not
-  possible to incorporate all of the linear connectives, e.g. tensor,
-  par, and implication, into an intuitionistic linear logic. They
-  showed that it is natural to support all of the connectives given
-  sequents that have multiple hypotheses and multiple conclusions. To
-  enforce intuitionism de Paiva’s original formalization of FILL used
-  the well-known Dragalin restriction, forcing the implication right
-  rule to have only a single conclusion in its premise, but Schellinx
-  showed that this results in a failure of cut-elimination. To
-  overcome this failure Hyland and de Paiva introduced a term
-  assignment for FILL that eliminated the need for the strong size
-  restriction. The main idea was to first relax the restriction by
-  assigning variables to each hypothesis and terms to each conclusion.
-  Then when introducing an implication on the right enforcing that the
-  variable annotating the hypothesis being discharged is only free in
-  the term annotating the conclusion of the implication. Bierman
-  showed that this formalization of FILL still did not enjoy
-  cut-elimination, because of a flaw in the left rule for
-  par. However, Bellin proposed an alternate left rule for par and
-  gave an indirect proof showing that cut-elimination is restored. In
-  this note we adopt Bellin's proposed rule and give a direct proof of
-  cut-elimination.  Following the proof of cut-elimination we show
-  that a categorical model of FILL in the basic dialectica category is
-  also a LNL model of Benton and a full tensor model of Melli\`es' and
-  Tabareau's tensorial logic.  Lastly, we give a double-negation
-  translation of linear logic into FILL that explicitly uses par in
-  addition to tensor.
+    Full Intuitionistic Linear Logic (FILL) was first introduced by
+    Hyland and de Paiva as one of the results of their investigation
+    into a categorical understanding of G\"odel’s dialectica
+    interpretation. FILL went against current beliefs that it was not
+    possible to incorporate all of the linear connectives,
+    e.g. tensor, par, and implication, into an intuitionistic linear
+    logic. They showed that it is natural to support all of the
+    connectives given sequents that have multiple hypotheses and
+    multiple conclusions. However, it was shown that their
+    formalization of FILL did not enjoy cut-elimination by Bierman,
+    but Bellin proposed a change to the definition of FILL in the hope
+    to regain cut-elimination.  Bellin then showed using proof nets
+    that his proposed change did allow cut-elimination.  In this note
+    we adopt Bellin's proposed rule and give a direct proof of
+    cut-elimination.  Following the proof of cut-elimination we show
+    that a categorical model of FILL in the basic dialectica category
+    is also a LNL model of Benton and a full tensor model of
+    Melli\`es' and Tabareau's tensorial logic.  Lastly, we give a
+    double-negation translation of linear logic into FILL that
+    explicitly uses par in addition to tensor.
 \end{abstract}
 
 \section{Introduction}
@@ -428,17 +417,17 @@ L]]$ which we define next.
   The function $[[let-pat z p t]]$ is defined as follows:
   \begin{center}
     \begin{math}
-      \begin{array}{lll}      
+      \begin{array}{lllllllll}      
         \begin{array}{lll}
           [[let-pat z (x (+) -) t]] = [[t]]\\
           \,\,\,\,\,\,\text{where } [[x]] \not\in \mathsf{FV}([[t]])\\
         \end{array}
-        & 
+        & \quad &
           \begin{array}{lll}
             [[let-pat z (- (+) y) t]] = [[t]]\\
         \,\,\,\,\,\,\text{where } [[y]] \not\in \mathsf{FV}([[t]])\\
           \end{array}
-        & 
+        & \quad &
           \begin{array}{lll}
             [[let-pat z p t]] = [[let z be p in t]]\\
             & \\
@@ -635,11 +624,10 @@ We finally arrive at cut-elimination.
   restriction. The structure of our procedure follows the structure of
   the procedure found in \cite{Mellies:2009}. Throughout this proof we
   treat the equivalences defined in Figure~\ref{def:FILL-eq} as
-  left-to-right rewrite rules. \begin{paper} Due to space limitations
-    we only show one of the most interesting cases, but for the entire
-    proof see the companion report \cite{Eades:2015}.\end{paper}
+  left-to-right rewrite rules. \begin{paper} For the entire proof see
+    the companion report \cite{Eades:2015}.\end{paper}
+   \begin{report}        
   \begin{itemize}
-    \begin{report}      
   \item[Case:] commuting conversion cut vs cut (first case).
     The following proof
 \begin{center}
@@ -1319,13 +1307,6 @@ $[[ [t1 (+) t2/z](let-pat z (- (+) y) L4)]]$.
   Note that we could have first cut on $[[A]]$, and then on $[[B]]$ in
   the second derivation, but we would have arrived at the same result
   just with potentially more exchanges on the right.
-\end{report}
-\begin{report}
-  Note that just as we mentioned about tensor we could have first cut on
-$[[A]]$, and then on $[[B]]$ in the second derivation, but we would
-have arrived at the same result just with potentially more exchanges
-on the right.
-
 
   \item[Case:] principal formula vs. principal formula: implication.
 The proof
@@ -1982,7 +1963,6 @@ transforms into the proof
   \end{math}
 \end{center}
 Clearly, $[[ [t/x]{t1 (+) t2} = {[t/x]t1} (+) [t/x]t2]]$.
-\end{report}
 
 \item[Case:] secondary hypothesis: left introduction of par (first
   case).
@@ -2051,7 +2031,6 @@ First, by inspection of the previous proofs we can see that $[[y nin
 the substitution into the let-pat, and then simplifying using the fact
 that $w \neq x$.
 
-\begin{report}
 \item[Case:] secondary hypothesis: left introduction of par (second
   case).
 The proof
@@ -2556,8 +2535,8 @@ is transformed into
   \end{math}
 \end{center}
 Clearly, all terms are equivalent.
-\end{report}
-\end{itemize}
+  \end{itemize}
+   \end{report}
 \end{proof}
 
 \begin{corollary}[Cut-Elimination]
@@ -3813,9 +3792,13 @@ property of implication, as is traditional.
   $\phi(f : A \otimes B \to C \limp D) = \cur{\alpha^{-1} ; \curi{f}}$
   and $\phi^{-1}(g : A \to (B \otimes C) \limp D) = \cur{\alpha ;
     \curi{g}}$.  Clearly, these are mutual inverses, and hence, $\phi$
-  is a bijection.  Naturality of $\phi$ easily follows.
+  is a bijection.  Naturality of $\phi$ easily follows. \begin{paper}
+    Lastly, the diagram given above also commutes.  For the complete
+    proof see the companion report \cite{Eades:2015}.
+  \end{paper}
 
-  \ \\
+  \begin{report}
+    \ \\
   \noindent
   Suppose $f : A \otimes (B \otimes C) \to D \limp E$.  The required
   diagram commutes by the following equational reasoning:
@@ -3838,6 +3821,7 @@ property of implication, as is traditional.
       \end{array}
     \end{math}
   \end{center}
+  \end{report}
 \end{proof}
 Any model of FILL contains the unit of par, $\perp$, and thus, can be
 used to define the negation function $\lnot A := A \limp \perp$.  Now
@@ -3888,7 +3872,7 @@ from the proof that $\dial$ is a full LNL model
   The category $\dial$ is a model of full tensorial logic.
 \end{lemma}
 \begin{proof}
-  It suffices to show that there is an adjunction between $\dial$ and
+    It suffices to show that there is an adjunction between $\dial$ and
   a cartesian category.  Define the category $\dial_!$ as follows:
   \begin{itemize}
   \item Take as objects $(U , (U \Rightarrow X^*), \alpha_!)$
@@ -3900,18 +3884,30 @@ from the proof that $\dial$ is a full LNL model
     to the same condition on morphisms as $\dial$.  Composition and
     identities are defined similarly to $\dial$.
   \end{itemize}
-  
-  Now we show that $\dial_!$ is cartesian.  Notice that $\dial_!$ is a
-  subcategory of $\dial$, and there is a functor $J : \dial \to
-  \dial_!$ which is defined equivalently to the endofunctor $!$ from
-  the proof of Lemma~\ref{lemma:ddial_is_a_linear_category}.  In fact,
-  $\dial_!$ is the co-Kleisli category with objects free !-coalgebras
-  and is cartesian closed \cite{dePaiva:1987}.  However, we only need
-  the fact that it is cartesian.
-
-  To show that $\dial_!$ is cartesian it suffices to show that $J$
-  preserves the cartesian structure of $\dial$ -- the proof that
-  $\dial$ is cartesian can be found on page 48 of \cite{dePaiva:1988}.
+  \begin{paper}
+    
+    Next we must show that $\dial_!$ is cartesian.  Notice that
+    $\dial_!$ is a subcategory of $\dial$, and there is a functor $J :
+    \dial \to \dial_!$ which is defined equivalently to the endofunctor
+    $!$ from the proof of Lemma~\ref{lemma:ddial_is_a_linear_category}.
+    In fact, $\dial_!$ is the co-Kleisli category with objects free
+    !-coalgebras and is cartesian closed \cite{dePaiva:1987}.  However,
+    we only need the fact that it is cartesian.
+    
+    To show that $\dial_!$ is cartesian it suffices to show that $J$
+    preserves the cartesian structure of $\dial$ -- the proof that
+    $\dial$ is cartesian can be found on page 48 of
+    \cite{dePaiva:1988}.  This follows by straightforward reasoning.
+    For the complete proof see the companion report \cite{Eades:2015}.
+  \end{paper}
+  \begin{report}
+  Now we show that show that $\dial_!$ is cartesian.  Notice that
+  $\dial_!$ is a subcategory of $\dial$, and there is a functor $J :
+  \dial \to \dial_!$ which is defined equivalently to the endofunctor
+  $!$ from the proof of Lemma~\ref{lemma:ddial_is_a_linear_category}.
+  In fact, $\dial_!$ is the co-Kleisli category with objects free
+  !-coalgebras and is cartesian closed \cite{dePaiva:1987}.  However,
+  we only need the fact that it is cartesian.
   \begin{itemize}
   \item Suppose $A = (U , X , \alpha)$ and $B = (V , Y , \beta)$ are
     objects of $\dial$. Then we define $A \times B = (U \times V, (X +
@@ -3963,6 +3959,7 @@ from the proof that $\dial$ is a full LNL model
   \dial_! \to \dial$, and the right adjoint is the free functor $J :
   \dial \to \dial_!$.  Therefore, $\dial$ is a model of full tensorial
   logic, as expected.
+  \end{report}
 \end{proof}
 
 \subsection{Double Negation Translation}
@@ -4063,18 +4060,19 @@ the statement of the result.
   is derivable.
 \end{lemma}
 \begin{proof}
-  This is a proof by induction on the form of the assumed sequent
-  $[[A1,...,Ai |- B1,...,Bj]]$.  Throughout the proof if $[[GL]] =
-  [[A1,...,Ai]]$, then $[[~{(GL)N}]] = [[x1 : ~((A1)N),...,xi :
-      ~((Ai)N)]]$ for some unique fresh variables
-  $[[x1]],\ldots,[[xi]]$.  We will use this notation when applying the
-  inductive hypothesis to make the presentation easier to
-  read.  \begin{paper} We only give a few of the cases here; for the
-    rest of proof see the companion report \cite{Eades:2015}.
+  \begin{paper}
+    This can be shown by induction on the assumed sequent.  For the
+    complete proof see the companion report \cite{Eades:2015}.
   \end{paper}
 
+  \begin{report}
+    This is a proof by induction on the form of the assumed sequent
+    $[[A1,...,Ai |- B1,...,Bj]]$.  Throughout the proof if $[[GL]] =
+    [[A1,...,Ai]]$, then $[[~{(GL)N}]] = [[x1 : ~((A1)N),...,xi :
+        ~((Ai)N)]]$ for some unique fresh variables
+    $[[x1]],\ldots,[[xi]]$.  We will use this notation when applying
+    the inductive hypothesis to make the presentation easier to read.
   \begin{itemize}
-    \begin{report}          
   \item[] Case.\\ 
     \begin{center}
       \begin{math}
@@ -4206,7 +4204,6 @@ the statement of the result.
         }{[[x : ~I |- .]]}
       \end{math}
     \end{center}
-    \end{report}
     
   \item[] Case.\\ 
     \begin{center}
@@ -4248,8 +4245,6 @@ the statement of the result.
         }{[[~{~{(GL)N}},z : ~h(~(h(~h(~((A)N))) (x) ~h(~((B)N)))), ~{(LL)N} |- .]]}
       \end{math}
     \end{center}
-
-    \begin{report}          
 
   \item[] Case.\\ 
     \begin{center}
@@ -4368,7 +4363,6 @@ the statement of the result.
         }{[[~{~{(GL)N}},z : ~(_|_),~{(LL)N} |- .]]}
       \end{math}
     \end{center}
-    \end{report}
     
   \item[] Case.\\ 
     \begin{center}
@@ -4427,7 +4421,6 @@ the statement of the result.
         \end{array}
       \end{math}
     \end{center}
-    \begin{report}          
   \item[] Case.\\ 
     \begin{center}
       \begin{math}
@@ -4473,7 +4466,7 @@ the statement of the result.
         }{[[~{~{(GL)N}},~{(LL)N}, z : ~(h(~h(~((A)N))) (+) ~h(~((B)N))),~{(LL')N}]]}
       \end{math}
     \end{center}
-\end{report}
+
   \item[] Case.\\
     \begin{center}
       \begin{math}
@@ -4489,7 +4482,7 @@ the statement of the result.
     $[[~{~{(GL)N}},x : ~((lnot A)N), ~{(LL)N} |- .]]$, but this is equivalent to the
     sequent
     $[[~{~{(GL)N}},x : ~h(~((A)N)), ~{(LL)N} |- .]]$, but this is equivalent to the induction hypothesis.
-\begin{report}
+
     \item[] Case.\\
     \begin{center}
       \begin{math}
@@ -4544,9 +4537,9 @@ the statement of the result.
       \end{math}
     \end{center}
     This case follows by first applying the induction hypothesis and then applying
-    the rule $\ifrName{Exl}$.
-    \end{report}
+    the rule $\ifrName{Exl}$.  
   \end{itemize}
+  \end{report}
 \end{proof}
 % subsection a_negative_translation_of_linear_logic_into_fill_using_tensorial_negation (end)
 
