@@ -87,4 +87,4 @@ ifeq ($(SKIM), skim_revert.sh)
 endif
 
 clean :
-	rm -f *.aux *.dvi *.ps *.pdf *.log *-ott.tex *-output.tex *.bbl *.blg *.rel 
+	rm -f *.aux *.dvi *.ps *.log *-ott.tex *-output.tex *.bbl *.blg *.rel 
