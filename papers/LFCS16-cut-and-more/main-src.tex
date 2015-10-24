@@ -7,7 +7,7 @@
 \usepackage[barr]{xy}
 \include{type-theory_inc}
 
-\title{Multiple Conclusion Linear Logic: Cut Elimination and more}
+\title{Multiple Conclusion Linear Logic: \\ Cut Elimination and more}
 \author{Harley Eades III\inst{1} \and Valeria de Paiva\inst{2}}
 \institute{
     Computer and Information Sciences\\ Georgia Regents University\\ Augusta, GA
@@ -50,7 +50,7 @@
 \begin{abstract}
     Full Intuitionistic Linear Logic (FILL) was first introduced by
     Hyland and de Paiva as one of the results of their investigation
-    into a categorical understanding of G\"odel’s dialectica
+    into a categorical understanding of G\"odel’s Dialectica
     interpretation. FILL went against current beliefs that it was not
     possible to incorporate all of the linear connectives,
     e.g. tensor, par, and implication, into an intuitionistic linear
@@ -76,7 +76,7 @@
 A commonly held belief during the early history of linear logic was
 that the linear-connective par could not be incorporated into an
 intuitionistic linear logic.  This belief was challenged when de Paiva
-gave a categorical understanding of G\"odel's dialectica
+gave a categorical understanding of G\"odel's Dialectica
 interpretation in terms of dialectica categories
 \cite{dePaiva:1987,dePaiva:1988}.  
 
@@ -84,15 +84,15 @@ Dialectica categories were initially believed to be models of
 intuitionistic logic, but they are actually models of intuitionistic
 linear logic, containing the linear connectives: tensor, implication,
 the additives, and the exponentials.  Further work improved de Paiva's
-models to capture both intuitionistic and classical linear.  Armed
-with this semantic insight de Paiva gave the first formalization of
-Full Intuitionistic Linear Logic (FILL) \cite{dePaiva:1988}.  FILL is
-a sequent calculus with multiple conclusions in addition to multiple
-hypotheses.  Logics of this type go back to Gentzen's work on the
-sequent calculus for classical logic LK and for intuitionistic logic
-LJ, and Maehara's work on LJ' \cite{Maehara:1954,Takeuti:1975}.  The
-sequents in these types of logics usually have the form $\Gamma \vdash
-\Delta$ where $\Gamma$ and $\Delta$ are multisets of formulas.
+models to capture both intuitionistic and classical linear logic.
+Armed with this semantic insight de Paiva gave the first formalization
+of Full Intuitionistic Linear Logic (FILL) \cite{dePaiva:1988}.  FILL
+is a sequent calculus with multiple conclusions in addition to
+multiple hypotheses.  Logics of this type go back to Gentzen's work on
+the sequent calculus for classical logic LK and for intuitionistic
+logic LJ, and Maehara's work on LJ' \cite{Maehara:1954,Takeuti:1975}.
+The sequents in these types of logics usually have the form $\Gamma
+\vdash \Delta$ where $\Gamma$ and $\Delta$ are multisets of formulas.
 Sequents such as these are read as ``the conjunction of the formulas
 in $\Gamma$ imply the disjunction of the formulas in $\Delta$''.  For
 a brief, but more complete history of logics with multiple conclusions
@@ -147,9 +147,9 @@ proposed a new implication right rule:
   \end{math}
 \end{center}
 Intuitionism is enforced in this rule by requiring that the variable
-being discharged, $x$, is potentially free in only one term annotating
-a conclusion.  Unfortunately, this formalization did not enjoy
-cut-elimination either.
+being discharged, $x$, is not free terms annotating other conclusions.
+Unfortunately, this formalization did not enjoy cut-elimination
+either.
 
 Bierman was able to give a counterexample to cut-elimination
 \cite{Bierman:1996}.  As Bierman explains the problem was with the
