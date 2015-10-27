@@ -1,0 +1,129 @@
+----------------------- REVIEW 1 ---------------------
+PAPER: 33
+TITLE: Multiple Conclusion Linear Logic: Cut Elimination and more
+AUTHORS: Harley Eades Iii and Valeria de Paiva
+
+OVERALL EVALUATION: 2 (accept)
+REVIEWER'S CONFIDENCE: 5 (expert)
+
+----------- REVIEW -----------
+This paper concerns the proof theory of Full Intuitionistic Linear Logic (FILL), a logic strongly motivated by a number of categorical models most notably that stemming from the Dialectica Interpretation. (Capitals are usual cf the Abstract.) The subtle issue is to present a necessarily
+multiconclusion proof system with cut elimination. The paper first presents a solution using an old (and natural in the linear logic context) suggestion of Bellin's. This solution is superior to others on offer (exactly why is a bit tricky and I don't quite agree with all the authors say), in the term assignment style is probably definitive and fills a gap in the literature. Secondly the paper presents a double negation translation of Linear Logic itself into FILL using the strange par.
+That is of interest in itself and is supported by investigations stimulated by recent work on tensorial logic.
+Here are some points for the authors.
+1. Mathematical. it surely should be the case that the distribution natural transformations (Def 10) be required to satisfy some coherence conditions as studied inter alia by Cockett-Seely. It would be
+enough to give a reference but also these have to be checked in the proof of Lemms 12.
+2. Mathematical. What if anything stops the par structure being identical with the tensor structure? That alerts one to the question what it means to see of \bot that it is dual to \top in the SMCC context. That appears in Lemma 17 out of the blue and needs to be spelt out perhaps in Def 10.
+3. Expository. How categorical is the new double negation translation i.e. does it do more than just work on the logic.
+4. Future work. I have not seen what Rahman has done but again is this just logic or is there categorical proof theory? It is odd not to see any reference to Game Semantics; so is the point that nothing like that is expected to work?
+Random Typos:
+Page 10 there is a  Then the we  from which the  *the* needs deleting towards the bottom.
+Page 14 Spelling - Companion has an extra i.
+
+
+----------------------- REVIEW 2 ---------------------
+PAPER: 33
+TITLE: Multiple Conclusion Linear Logic: Cut Elimination and more
+AUTHORS: Harley Eades Iii and Valeria de Paiva
+
+OVERALL EVALUATION: 2 (accept)
+REVIEWER'S CONFIDENCE: 3 (medium)
+
+----------- REVIEW -----------
+This paper is concerned with some rather delicate questions relating to cut elimination in full intuitionistic linear logic (FILL), originally formulated by Hyland and de Paiva.  Their formulation used multiple conclusion sequents, but Schellinx showed that cut elimination fails. They attempted to fix this using a term assignment, but Bierman showed that this fix does not work.  Bellin proposed a third fix, and gave an indirect proof of cut elimination.  The main result of this paper is a direct proof of cut elimination for FILL using Bellin's new rule for par. The paper concludes with some results on categorical models and the double negation interpretation.
+
+The paper is clearly written, and seems worthy of acceptance.
+
+
+----------------------- REVIEW 3 ---------------------
+PAPER: 33
+TITLE: Multiple Conclusion Linear Logic: Cut Elimination and more
+AUTHORS: Harley Eades Iii and Valeria de Paiva
+
+OVERALL EVALUATION: 1 (weak accept)
+REVIEWER'S CONFIDENCE: 4 (high)
+
+----------- REVIEW -----------
+The paper provides a direct proof of cut elimination for a particular formulation of Full Intuitionistic Linear Logic (FILL). It also shows that a certain "dialectica category", which provides an interesting model of FILL, can be construed as having the structure of a "linear/nonlinear model" in the sense of Benton, and a "dialogue category" in the sense of Mellies.
+
+The particular formulation of FILL considered is one suggested by Bellin, who already showed that it enjoys cut elimination using the technology of proof nets. This paper gives a proof directly using the sequent calculus. This is a modest but worthwhile contribution.
+
+The construction of linear/lonlinear structure from a dialectica category essentially amounts to giving a re-presentation of the FILL-logic structure on dialectica categories in modern (mid 1990s) terms, updating the original (late 1980s) presentation in de Paiva's thesis. This completes the original presentation by verifying the additional properties that are now known to be important (e.g., monoidality of the !-comonad).
+
+The last section on tensorial logic observes that the same model can be construed as a "dialogue category" in the sense of Mellies. I am afraid that this point is completely obvious. Lemma 17, which appears in the presentation as an original observation, was actually one of Mellies starting points in defining the notion of dialogue category. That is, he originally proposed the notion of dialogue category as a conscious generalisation of the structure of Lemma 17. From this viewpoint, it is immediate that the dialectical model forms a dialogue category. This section needs rewriting to reflect this.
+
+The paper ends by exploiting the tensorial structure of negation to translate multi-conclusioned classical linear logic into FILL. The translation is (to me) surprisingly simple - and I haven't had time to reflect properly on it. Fortunately, the details have apparently been verified in Agda. (I am a bit puzzled by the comment at the bottom of page 2 about this which implies that this has been verified, since it is part of Section 5, but also mentions the complexities of the dialectica model as the reason for doing the formalization, and the dialectica model does not enter into the result about double-negation translation.)
+
+Overall, the paper is a nicely written presentation of an assorted collection of somewhat loosely related results about FILL. The combined contribution is certainly sufficient for the LFCS conference. But the part on dialogue categories needs to be rewritten to acknowledge that the existence of this structure is a triviality.
+
+
+----------------------- REVIEW 4 ---------------------
+PAPER: 33
+TITLE: Multiple Conclusion Linear Logic: Cut Elimination and more
+AUTHORS: Harley Eades Iii and Valeria de Paiva
+
+OVERALL EVALUATION: 1 (weak accept)
+REVIEWER'S CONFIDENCE: 5 (expert)
+
+----------- REVIEW -----------
+The paper has three parts connecting early work on FILL with an 
+analysis of Melliès and Tabareau work on tensor logic.
+I can only speak with expert competence of the first part, leaving 
+to others the evaluation of the second and third. 
+
+Part 1.
+Sections 2 and 3 deal with cut-elimination for the calculus used 
+in the term assignment to multiple conclusion FILL sequents.
+They also give detailed historical information about the result.
+
+The calculus tracks relevant dependencies of succedent formulas 
+C from assumptions A by the presence of a free occurrence of x:A
+in t:C. Then intuitionistically \lambda x.t: A -o C can be inferred 
+only if C is the only succedent formula depending on A. There was 
+an oversight in the original 1993 version, so that terms resulting 
+from left par rule introduce irrelevant dependencies. Namely, 
+binding expressions of the form “let z be x par - in t : C” 
+were allowed even if x does not occur free in t, thus z signals 
+a non-existing dependency of C from z:A.
+This caused failure of cut elimination as noticed in Bierman 1996. 
+The correct formulation of the rule was found by Bellin working at 
+the time on a proof net representation of FILL sequent proofs; 
+Bellin 1997 shows that cut elimination holds for FILL proof nets. 
+
+Here the authors give a direct proof of cut-elimination in the form of 
+a rewriting process on the term calculus. Thus this is a type theoretic
+proof of a known result. It is certainly a worthy task especially 
+in view of applications.
+
+Part 2. In Section 4 the authors give models of FILL based on de Paiva's  
+dialectica category Dial_2(Sets), showing that it is a "full 
+linear/non-linear model" since it extends Benton's LNL models 
+with structure for par and its unit. Some historical notes point out 
+that the material for a categorical model of FILL was there from 
+the beginning in the notion of Dialectica categories. Some small
+additions from more recent literature (e.g. that the !A comonad is
+monoidal) are straightforward extensions.
+
+Part 3. Section 5 deals with Melliès and Tabareau "Resource modalities
+in tensor logic". Tensor logic is modelled by "dialogue categories", 
+i.e., symmetric monoidal categories and a non-involutory negation 
+functor neg : C -> C^op satisfying certain conditions. 
+An "exponential resource modality" arises from an adjunction G -| F 
+with F : M -> C and G : C -> M, where M is cartesian and C symmetric 
+monoidal. Such situation is typical of LNL models where the 
+!-exponential can be modelled. The authors show that Dial_2(Sets) is 
+a dialogue category and has an exponential resource modality. Many of the
+arguments are familiar from the second author's work on Dialectica categories.
+The paper ends with a FILL-version of Melliès and Tabareau's double-negation
+translation of MLL into tensorial logic.
+
+What do we learn from this comparison with Melliès and Tabareau's work?
+A dialogue category is just a symmetric monoidal category C with 
+tensorial negation. If C is also monoidal closed and has a \bot 
+dual of the tensorial identity, then it is not surprising that one 
+can define a tensorial negation. The authors show that Dial_2(Sets)
+is a model of full tensorial logic.  Since Dial_2(Sets) has also the 
+structure of a co-tensor, one can guess that the authors are aiming 
+at modelling richer structures presented in other works by Melliès
+and that this paper is a step in that direction. Such a project is 
+interesting; some comments by the authors would be welcome.
