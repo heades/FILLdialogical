@@ -1,0 +1,11 @@
+On page 6, definition 3, the symbol between "x" and "-" has been changed.  It now looks like a cursive "B", but it should be an up-side-down ampersand.  For example, this symbol should match the symbol in the same spot as the rule called ParL in Figure 1.  The latex for that symbol is \parr in the package cmll at http://iml.univ-mrs.fr/~beffara/soft/cmll.pdf.  This same problem is repeated in definition 7 on page 9, and definition 8 on the same page.  Again, this same problem is in Definition 12.
+
+There was an author query asking for the full citation for reference 17:
+
+@incollection{Mellies:2009,
+	Author = {Paul-Andr{\'e} Melli{\`e}s},
+	Booktitle = {Interactive models of computation and program behaviour},
+	Editor = {Pierre-Louis Curien, Hugo Herbelin, Jean-Louis Krivine, Paul-Andr{\'e} Melli{\`e}s},
+	Publisher = {Panoramas et Synth{\`e}ses 27, Soci{\'e}t{\'e} Math{\'e}matique de France},
+	Title = {Categorical Semantics of Linear Logic},
+	Year = {2009}}
